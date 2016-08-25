@@ -11,7 +11,7 @@
 	<artifactId>daily-submissions</artifactId>
 
 	<name>daily-submissions</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/himanshukandwal/algorithms-design-and-analysis/tree/master/implementation-workbook/daily-submissions</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +21,10 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.truth</groupId>
+			<artifactId>truth</artifactId>
 		</dependency>
 	</dependencies>
 
