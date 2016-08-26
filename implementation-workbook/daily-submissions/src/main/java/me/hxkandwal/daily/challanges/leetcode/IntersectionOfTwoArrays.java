@@ -1,7 +1,6 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -89,7 +88,7 @@ public class IntersectionOfTwoArrays extends AbstractCustomTestRunner {
 		
 		int[] answer = null;
 		try {
-			answer = (int[]) method.invoke(_instance, new Object[] { num1, num2});
+			answer = (int[]) method.invoke(_instance, new Object[] { num1, num2 });
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
