@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.codefights.challanges;
+package me.hxkandwal.daily.challanges.codefights;
 
 import static org.junit.Assert.assertEquals;
 

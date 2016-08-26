@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.tryouts;
+package me.hxkandwal.daily.challanges.personal;
 
 import static org.junit.Assert.assertEquals;
 

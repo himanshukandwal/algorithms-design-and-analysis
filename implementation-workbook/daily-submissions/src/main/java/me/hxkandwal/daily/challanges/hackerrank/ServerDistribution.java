@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.hackerrank.challanges;
+package me.hxkandwal.daily.challanges.hackerrank;
 
 import java.util.Arrays;
 import java.util.Collections;
