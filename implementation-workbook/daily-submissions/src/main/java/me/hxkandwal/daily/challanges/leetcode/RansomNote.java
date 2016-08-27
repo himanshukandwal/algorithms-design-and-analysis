@@ -89,12 +89,10 @@ public class RansomNote extends AbstractCustomTestRunner {
 
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
-		String ransomNote = (String) externalVariables[0];
-		String magazine = (String) externalVariables[1];
-		
 		Boolean answer = null;
+		
 		try {
-			answer = (Boolean) method.invoke(_instance, new Object[] { ransomNote, magazine });
+			answer = (Boolean) method.invoke(_instance, externalVariables);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;

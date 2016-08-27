@@ -113,11 +113,10 @@ public class ReverseVowelsOfString extends AbstractCustomTestRunner {
 
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
-		String input = (String) externalVariables[0];
-		
 		String answer = null;
+		
 		try {
-			answer = (String) method.invoke(_instance, new Object[] { input });
+			answer = (String) method.invoke(_instance, externalVariables);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;

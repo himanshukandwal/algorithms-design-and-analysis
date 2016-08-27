@@ -11,18 +11,22 @@ import java.util.List;
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
- * 349. Intersection of Two Arrays
+ * 350. Intersection of Two Arrays II
  * 
  * Given two arrays, write a function to compute their intersection.
  * 
- * Example: Given nums1 = [1, 2, 2, 1], nums2 = [2, 2] return [2].
+ * Example: Given nums1 = [1, 2, 2, 1], nums2 = [2, 2] return [2, 2].
+ * 
+ * Note :
+ * 		a) Each element in the result should appear as many times as it shows in both arrays.
+ * 		b) The result can be in any order.
  * 
  * @author Hxkandwal
  *
  */
-public class IntersectionOfTwoArrays extends AbstractCustomTestRunner {
+public class IntersectionOfTwoArrays2 extends AbstractCustomTestRunner {
 	
-	private static IntersectionOfTwoArrays _instance = new IntersectionOfTwoArrays();
+	private static IntersectionOfTwoArrays2 _instance = new IntersectionOfTwoArrays2();
 
 	public int[] _intersection(int[] nums1, int[] nums2) {
 		if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0)
@@ -42,8 +46,7 @@ public class IntersectionOfTwoArrays extends AbstractCustomTestRunner {
 				idx1 ++;
 			else {
 				// check will work as the arrays are sorted. will keep unique things in the list. 
-				if (same.isEmpty() || same.get(same.size() -1) != nums1[idx1])
-					same.add(nums1[idx1]);
+				same.add(nums1[idx1]);
 				
 				idx1 ++;
 				idx2 ++;
@@ -64,7 +67,7 @@ public class IntersectionOfTwoArrays extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] {1, 2, 2, 1}, new int[] {2, 2}, new int[] {2});
+		_instance.runTest(new int[] {1, 2, 2, 1}, new int[] {2, 2}, new int[] {2, 2});
 		_instance.runTest(new int[] {1, 2, 3, 1}, new int[] {2, 3}, new int[] {2, 3});
 		_instance.runTest(null, new int[] {2, 3}, new int[] {});
 		_instance.runTest(null, null, new int[] {});
