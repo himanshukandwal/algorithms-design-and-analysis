@@ -2,8 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -92,21 +90,6 @@ public class FirstUniqueCharacterInString extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
-	}
-
-	@Override
-	public Object coreTestRun(Method method, Object[] externalVariables) {
-		String s = (String) externalVariables[0];
-		
-		int answer;
-		try {
-			answer = (int) method.invoke(_instance, new Object[] { s });
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-		return answer;
 	}
 	
 }

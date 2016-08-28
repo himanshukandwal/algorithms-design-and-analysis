@@ -1,6 +1,6 @@
-
 package me.hxkandwal.daily.challanges;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +12,24 @@ import java.util.stream.Stream;
  * 	_methodWithImplementation
  * 	_methodWithAnotherImplementation 
  * 
- * @author hxkandwal
+ * @author Hxkandwal
  *
  */
-public abstract class AbstractCustomTestRunner {
+public class AbstractCustomTestRunner {
+	
+	public Object coreTestRun(Method method, Object[] externalVariables) {
+		Object answer = null;
 
-	public abstract Object coreTestRun(Method method, Object[] externalVariables);
+		try {
+			answer = method.invoke(this, externalVariables);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
 
+		return answer;
+	}
+	
 	public List<Object> runAll(Class<?> clazz, Object[] externalVariables) {
 		List<Object> results = new ArrayList<>();
 		

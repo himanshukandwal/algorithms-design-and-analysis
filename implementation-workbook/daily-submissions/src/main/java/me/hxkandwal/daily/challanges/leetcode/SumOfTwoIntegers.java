@@ -2,8 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -76,19 +74,5 @@ public class SumOfTwoIntegers extends AbstractCustomTestRunner {
 		for (Object answer : answers)
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
 	}
-
-	@Override
-	public Object coreTestRun(Method method, Object[] externalVariables) {
-		Integer answer = null;
-
-		try {
-			answer = (Integer) method.invoke(_instance, externalVariables);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		return answer;
-	}
-
+	
 }

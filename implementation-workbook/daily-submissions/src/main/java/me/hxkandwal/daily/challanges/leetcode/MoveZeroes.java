@@ -2,10 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
-
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -26,6 +22,8 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class MoveZeroes extends AbstractCustomTestRunner {
 
 	private static MoveZeroes _instance = new MoveZeroes();
+	
+	private MoveZeroes() {}
 	
 	// Method 1 : O(n) algorithm using O(1) space
 	public void _moveZeroes(int[] nums) {
@@ -65,15 +63,4 @@ public class MoveZeroes extends AbstractCustomTestRunner {
 		assertThat(nums).isEqualTo(expectedOutput);
 	}
 
-	@Override
-	public Object coreTestRun(Method method, Object[] externalVariables) {
-		try {
-			method.invoke(this, externalVariables);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		return null;
-	}
 }

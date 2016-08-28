@@ -2,8 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -62,6 +60,9 @@ public class RansomNote extends AbstractCustomTestRunner {
     
 	/* method 2 : using a simple and single alphabet character array. */
     public boolean _canConstructUsingNativeComponents(String ransomNote, String magazine) {
+    	if ((ransomNote == null || ransomNote.isEmpty()) && (magazine == null || magazine.isEmpty())) 
+    		return true;
+    	
         int[] cnt = new int[26];
         for (int i = 0; i < magazine.length(); i++) cnt[magazine.charAt(i) - 97]++;
 		for (int i = 0; i < ransomNote.length(); i++) if (--cnt[ransomNote.charAt(i) - 97] < 0) return false;
@@ -85,20 +86,6 @@ public class RansomNote extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Boolean) answer).isEqualTo(expectedOutput);
-	}
-
-	@Override
-	public Object coreTestRun(Method method, Object[] externalVariables) {
-		Boolean answer = null;
-		
-		try {
-			answer = (Boolean) method.invoke(_instance, externalVariables);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-		return answer;
 	}
     
 }
