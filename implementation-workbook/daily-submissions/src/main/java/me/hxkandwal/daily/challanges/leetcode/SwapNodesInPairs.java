@@ -21,11 +21,11 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  *
  */
-public class SwapNodesinPairs extends AbstractCustomTestRunner {
+public class SwapNodesInPairs extends AbstractCustomTestRunner {
 	
-	private static SwapNodesinPairs _instance = new SwapNodesinPairs();		//singleton instance.
+	private static SwapNodesInPairs _instance = new SwapNodesInPairs();		//singleton instance.
 	
-	private SwapNodesinPairs() {}											// private constructor
+	private SwapNodesInPairs() {}											// private constructor
 		
 	public class ListNode {
 		int val;
