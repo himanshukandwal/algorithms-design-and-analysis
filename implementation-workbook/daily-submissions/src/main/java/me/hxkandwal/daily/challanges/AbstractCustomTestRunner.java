@@ -17,6 +17,12 @@ import java.util.stream.Stream;
  */
 public class AbstractCustomTestRunner {
 	
+	private static int testCount = 1;
+	
+	protected void printAndIncrementCount() {
+		System.out.print("test : " + (testCount ++) + " ");
+	}
+	
 	public Object coreTestRun(Method method, Object[] externalVariables) {
 		Object answer = null;
 
