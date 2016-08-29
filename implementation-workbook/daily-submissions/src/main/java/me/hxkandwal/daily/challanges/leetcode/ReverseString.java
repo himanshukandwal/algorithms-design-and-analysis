@@ -48,15 +48,15 @@ public class ReverseString extends AbstractCustomTestRunner {
 		_instance.runTest("a", "a");
 		_instance.runTest("aa", "aa");
 		_instance.runTest("hello", "olleh");
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String input, final String expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { input });
-		
-		for (Object answer : answers) 
+
+		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 }

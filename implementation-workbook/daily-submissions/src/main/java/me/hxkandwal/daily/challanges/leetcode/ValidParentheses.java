@@ -61,8 +61,6 @@ public class ValidParentheses extends AbstractCustomTestRunner {
 		_instance.runTest("([)]", false);
 		_instance.runTest("{)", false);
 		_instance.runTest(")}{({))[{{[}", false);
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final String s, final boolean expectedOutput) {
@@ -70,6 +68,8 @@ public class ValidParentheses extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((Boolean) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

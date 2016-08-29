@@ -37,8 +37,6 @@ public class AddDigits extends AbstractCustomTestRunner {
 		_instance.runTest(8, 8);
 		_instance.runTest(9, 9);
 		_instance.runTest(18, 9);
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final int num, final int expectedOutput) {
@@ -46,5 +44,7 @@ public class AddDigits extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 }

@@ -93,8 +93,6 @@ public class BullsandCows extends AbstractCustomTestRunner {
 		_instance.runTest("1807", "1807", "4A0B");
 		_instance.runTest("1123", "0111", "1A1B");
 		_instance.runTest("11", "10", "1A0B");
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final String secret, final String guess, final String expectedOutput) {
@@ -102,6 +100,8 @@ public class BullsandCows extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

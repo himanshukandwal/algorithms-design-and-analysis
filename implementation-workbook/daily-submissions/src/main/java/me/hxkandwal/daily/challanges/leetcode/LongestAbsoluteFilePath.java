@@ -78,5 +78,4 @@ public class LongestAbsoluteFilePath extends AbstractCustomTestRunner {
 		return null;
 	}
 	
-	
 }

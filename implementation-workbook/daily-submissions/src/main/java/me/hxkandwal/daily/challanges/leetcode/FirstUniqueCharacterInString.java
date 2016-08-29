@@ -81,8 +81,6 @@ public class FirstUniqueCharacterInString extends AbstractCustomTestRunner {
 		_instance.runTest("aaabbc", 5);
 		_instance.runTest("", -1);
 		_instance.runTest(null, -1);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String s, int expectedOutput) {
@@ -90,6 +88,8 @@ public class FirstUniqueCharacterInString extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

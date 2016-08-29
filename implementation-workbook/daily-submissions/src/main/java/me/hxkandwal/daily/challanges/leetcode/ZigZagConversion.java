@@ -69,8 +69,6 @@ public class ZigZagConversion extends AbstractCustomTestRunner {
 		_instance.runTest("A", 2, "A");
 		_instance.runTest("ABCDE", 4, "ABCED");
 		_instance.runTest("ABCDEF", 5, "ABCDFE");
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final String input, final int numRows, final String expectedOutput) {
@@ -78,6 +76,8 @@ public class ZigZagConversion extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 }

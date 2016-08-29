@@ -70,8 +70,6 @@ public class RemoveNthNodeFromEndOfList extends AbstractCustomTestRunner {
 		_instance.runTest("12345", 4, "1345");
 		_instance.runTest("1", 1, null);
 		_instance.runTest("12", 1, "1");
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String input, final int n, final String expectedOutput) {
@@ -79,6 +77,8 @@ public class RemoveNthNodeFromEndOfList extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 	@Override

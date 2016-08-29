@@ -43,6 +43,7 @@ public class AbstractCustomTestRunner {
 				.filter(method -> method.getName().startsWith("_"))
 				.forEach(method -> results.add(coreTestRun(method, externalVariables)));
 
+		printAndIncrementCount();
 		return results;
 	}
 

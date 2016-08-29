@@ -54,8 +54,6 @@ public class ReverseInteger extends AbstractCustomTestRunner {
 		_instance.runTest(10, 1);
 		_instance.runTest(1534236469, 0);
 		_instance.runTest(1000000009, 0);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final int x, final int expectedOutput) {
@@ -63,6 +61,8 @@ public class ReverseInteger extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

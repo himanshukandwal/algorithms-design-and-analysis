@@ -47,8 +47,6 @@ public class ImplementStrStr extends AbstractCustomTestRunner {
 		_instance.runTest("leetcode", "leetcode", 0);
 		_instance.runTest("leetcode", "leetcodes", -1);
 		_instance.runTest("eleetcode", "leetcode", 1);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String haystack, final String needle, final int expectedOutput) {
@@ -56,6 +54,8 @@ public class ImplementStrStr extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}    
     
 }

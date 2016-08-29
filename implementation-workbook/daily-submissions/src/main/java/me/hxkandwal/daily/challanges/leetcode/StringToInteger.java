@@ -71,8 +71,6 @@ public class StringToInteger extends AbstractCustomTestRunner {
 		_instance.runTest("-2147483647", -2147483647);
 		_instance.runTest("-2147483648", -2147483648);
 		_instance.runTest("2147483648", 2147483647);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String str, final int expectedOutput) {
@@ -80,6 +78,8 @@ public class StringToInteger extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

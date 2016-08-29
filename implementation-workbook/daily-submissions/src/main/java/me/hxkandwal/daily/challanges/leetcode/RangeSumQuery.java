@@ -70,8 +70,6 @@ public class RangeSumQuery extends AbstractCustomTestRunner {
 		new RangeSumQuery(new int[] {-4, -5}).runTest(0, 0, -4);
 		new RangeSumQuery(new int[] {-4, -5}).runTest(1, 1, -5);
 		new RangeSumQuery(new int[] {-4, -5}).runTest(0, 1, -9);
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final int i, final int j, final int expectedOutput) {
@@ -79,6 +77,8 @@ public class RangeSumQuery extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 }

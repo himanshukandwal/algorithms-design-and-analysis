@@ -64,8 +64,6 @@ public class SumOfTwoIntegers extends AbstractCustomTestRunner {
 		_instance.runTest(13, 114, 127);
 		_instance.runTest(-1, 1, 0);
 		_instance.runTest(-5, 1, -4);
-
-		System.out.println("ok!");
 	}
 
 	public void runTest(final int a, final int b, final int expectedOutput) {
@@ -73,6 +71,8 @@ public class SumOfTwoIntegers extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

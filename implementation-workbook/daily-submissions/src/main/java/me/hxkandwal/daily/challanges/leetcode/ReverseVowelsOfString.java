@@ -98,8 +98,6 @@ public class ReverseVowelsOfString extends AbstractCustomTestRunner {
 		_instance.runTest("b", "b");
 		_instance.runTest("leetcode", "leotcede");
 		_instance.runTest("aA", "Aa");
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String input, final String expectedOutput) {
@@ -107,6 +105,8 @@ public class ReverseVowelsOfString extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

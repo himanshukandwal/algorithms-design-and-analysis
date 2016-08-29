@@ -116,8 +116,6 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 		_instance.runTest("2143", "1234");
 		_instance.runTest("123456", "214365");
 		_instance.runTest("214365", "123456");
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String input, final String expectedOutput) {
@@ -125,6 +123,8 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 	@Override

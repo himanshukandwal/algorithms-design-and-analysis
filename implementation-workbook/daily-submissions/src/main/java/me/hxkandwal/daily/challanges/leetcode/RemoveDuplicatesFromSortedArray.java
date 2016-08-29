@@ -61,8 +61,6 @@ public class RemoveDuplicatesFromSortedArray extends AbstractCustomTestRunner {
 		_instance.runTest(new int[] {1, 2, 3}, 3);
 		_instance.runTest(new int[] {}, 0);
 		_instance.runTest(null, 0);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final int[] nums, final int expectedOutput) {
@@ -76,8 +74,7 @@ public class RemoveDuplicatesFromSortedArray extends AbstractCustomTestRunner {
 		for (int idx = 0; nums != null && idx < nums.length; idx ++) 
 			sb.append(nums [idx]).append(" ");
 		
-		System.out.println(sb.toString());
-		
+		System.out.println(sb.toString() + " : ok!");
 	}
 	
 }

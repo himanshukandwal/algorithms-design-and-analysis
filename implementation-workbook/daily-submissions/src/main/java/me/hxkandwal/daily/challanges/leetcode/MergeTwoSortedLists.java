@@ -74,8 +74,6 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 		_instance.runTest(null, null, null);
 		_instance.runTest("", "", null);
 		_instance.runTest("1", "1", "11");
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String l1, final String l2, final String expectedOutput) {
@@ -83,6 +81,8 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 	@Override

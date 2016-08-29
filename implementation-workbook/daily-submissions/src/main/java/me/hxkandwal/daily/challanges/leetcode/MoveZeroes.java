@@ -54,13 +54,13 @@ public class MoveZeroes extends AbstractCustomTestRunner {
 		_instance.runTest(new int[] {}, new int[] {});
 		_instance.runTest(new int[] {1, 0, 0, 3, 12}, new int[] {1, 3, 12, 0, 0});
 		_instance.runTest(new int[] {0, 1, 0, 3, 12}, new int[] {1, 3, 12, 0, 0});
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final int[] nums, final int[] expectedOutput) {
 		runAll(getClass(), new Object[] { nums });
 		assertThat(nums).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 }

@@ -158,7 +158,6 @@ public class ValidSudoku extends AbstractCustomTestRunner {
        		   			   "..4......".toCharArray()}
 						, false);
 	}
-
 	
 	public void runTest(final char[][] board, final boolean expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { board });

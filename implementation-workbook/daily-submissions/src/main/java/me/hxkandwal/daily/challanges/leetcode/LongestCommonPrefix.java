@@ -56,8 +56,6 @@ public class LongestCommonPrefix extends AbstractCustomTestRunner {
 		_instance.runTest(new String[] { "c", "cd" }, "c");
 		_instance.runTest(new String[] { "cd" }, "cd");
 		_instance.runTest(new String[] { "a", "b" }, "");
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final String[] strs, final String expectedOutput) {
@@ -65,6 +63,8 @@ public class LongestCommonPrefix extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

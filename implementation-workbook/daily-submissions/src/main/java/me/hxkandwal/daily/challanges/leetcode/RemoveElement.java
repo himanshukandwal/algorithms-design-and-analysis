@@ -73,8 +73,6 @@ public class RemoveElement extends AbstractCustomTestRunner {
 		_instance.runTest(null, 3, 0);
 		_instance.runTest(new int[] { 1, 2, 3, 4 }, 1, 3);
 		_instance.runTest(new int[] { 2, 2, 3 }, 2, 1);
-
-		System.out.println("ok!");
 	}
 
 	public void runTest(final int[] nums, final int val, final int expectedOutput) {
@@ -88,7 +86,7 @@ public class RemoveElement extends AbstractCustomTestRunner {
 		for (int idx = 0; nums != null && idx < nums.length; idx ++) 
 			sb.append(nums [idx]).append(" ");
 		
-		System.out.println(sb.toString());		
+		System.out.println(sb.toString() + " : ok!");		
 	}
 	
 }

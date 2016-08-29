@@ -110,8 +110,6 @@ public class RomanToInteger extends AbstractCustomTestRunner {
 		_instance.runTest("MCMXCVI", 1996);
 		_instance.runTest("MCDLXXVI", 1476);
 		_instance.runTest("MMMXLV", 3045);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String str, final int expectedOutput) {
@@ -119,5 +117,7 @@ public class RomanToInteger extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 }

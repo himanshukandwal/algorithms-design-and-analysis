@@ -71,8 +71,6 @@ public class IntersectionOfTwoArrays2 extends AbstractCustomTestRunner {
 		_instance.runTest(null, null, new int[] {});
 		_instance.runTest(new int[] {}, null, new int[] {});
 		_instance.runTest(new int[] {}, new int[] {}, new int[] {});
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final int[] num1, final int[] num2, final int[] expectedOutput) {
@@ -80,6 +78,8 @@ public class IntersectionOfTwoArrays2 extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((int[]) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 
 }

@@ -47,8 +47,6 @@ public class PalindromeNumber extends AbstractCustomTestRunner {
 		_instance.runTest(1221, true);
 		_instance.runTest(12321, true);
 		_instance.runTest(123210, false);
-		
-		System.out.println("ok!");
 	}
 
 	public void runTest(final int x, final boolean expectedOutput) {
@@ -56,6 +54,8 @@ public class PalindromeNumber extends AbstractCustomTestRunner {
 
 		for (Object answer : answers)
 			assertThat((Boolean) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
 	
 }

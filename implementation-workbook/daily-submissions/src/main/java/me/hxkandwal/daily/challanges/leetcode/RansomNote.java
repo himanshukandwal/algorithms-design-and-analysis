@@ -77,8 +77,6 @@ public class RansomNote extends AbstractCustomTestRunner {
 		_instance.runTest("a", "b", false);
 		_instance.runTest("aa", "ab", false);
 		_instance.runTest("aa", "aab", true);
-		
-		System.out.println("ok!");
 	}
 	
 	public void runTest(final String ransomNote, final String magazine, final Boolean expectedOutput) {
@@ -86,6 +84,8 @@ public class RansomNote extends AbstractCustomTestRunner {
 		
 		for (Object answer : answers) 
 			assertThat((Boolean) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
 	}
     
 }
