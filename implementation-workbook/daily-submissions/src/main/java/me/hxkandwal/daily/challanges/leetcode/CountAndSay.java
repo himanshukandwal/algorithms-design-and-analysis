@@ -31,15 +31,46 @@ public class CountAndSay extends AbstractCustomTestRunner {
 	private CountAndSay() {}
 	
     public String _countAndSay(int n) {
+        String value = "1";
         
-    	return null;
+        for (int num = 0; num < (n - 1); num ++) {
+            StringBuilder sbInner = new StringBuilder();    
+            
+            Character previousCh = null;
+            int count = 0;
+            for (int idx = 0; idx < value.length(); idx ++) {
+                Character ch = value.charAt(idx);
+                
+                if (previousCh == null) {
+                    count = 1;
+                    previousCh = ch;
+                } else if (previousCh == ch) {
+                    count ++;    
+                } else {
+                    sbInner.append(count + String.valueOf(previousCh));
+                    previousCh = ch;
+                    count = 1;
+                }
+            }
+            value = sbInner.append(count + String.valueOf(previousCh)).toString();
+        }
+        
+        return value;
     }
 	
-	public void runTest(final char[][] board, final boolean expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { board });
+    public static void main(String[] args) {
+    	_instance.runTest(1, "1");
+    	_instance.runTest(2, "11");
+    	_instance.runTest(3, "21");
+    	_instance.runTest(4, "1211");
+    	_instance.runTest(5, "111221");
+	}
+    
+	public void runTest(final int n, final String expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { n });
 		
 		for (Object answer : answers)
-			assertThat((Boolean) answer).isEqualTo(expectedOutput);
+			assertThat((String) answer).isEqualTo(expectedOutput);
 			
 		System.out.println("ok!");
 	}
