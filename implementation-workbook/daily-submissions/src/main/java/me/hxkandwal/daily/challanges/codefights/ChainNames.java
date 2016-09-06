@@ -5,7 +5,6 @@ import static org.junit.Assert.assertArrayEquals;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * You're given an array of names, where each name is given as a string. Your
