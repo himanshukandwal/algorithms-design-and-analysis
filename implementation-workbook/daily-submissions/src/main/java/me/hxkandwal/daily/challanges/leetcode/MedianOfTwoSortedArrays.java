@@ -55,15 +55,17 @@ public class MedianOfTwoSortedArrays extends AbstractCustomTestRunner {
 			mIdx1 = (sIdx1 + eIdx1) >>> 1;
 
 			while (sIdx1 <= eIdx1) {
-				if ((nums1[mIdx1] == mid) || (nums1[mIdx1] < mid && (mIdx1 + 1 >= nums1.length || (mIdx1 + 1 < nums1.length || nums1[mIdx1 + 1] > mid)))) {
-					break;
+				if ((nums1[mIdx1] == mid) || (nums1[mIdx1] < mid
+						&& (mIdx1 + 1 >= nums1.length || (mIdx1 + 1 < nums1.length || nums1[mIdx1 + 1] > mid)))) {
+	
 
-				if (nums1[mIdx1] < mid)
-					sIdx1 = mIdx1 + 1;
-				else
-					eIdx1 = mIdx1 - 1;
+					if (nums1[mIdx1] < mid)
+						sIdx1 = mIdx1 + 1;
+					else
+						eIdx1 = mIdx1 - 1;
 
-				mIdx1 = (sIdx1 + eIdx1) >>> 1;
+					mIdx1 = (sIdx1 + eIdx1) >>> 1;
+				}
 			}
 		}
 
@@ -102,7 +104,6 @@ public class MedianOfTwoSortedArrays extends AbstractCustomTestRunner {
 		}
 
 		return median * 1d;
-		}
 	}
 
 	// driver method
