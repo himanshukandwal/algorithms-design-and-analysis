@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.challanges.personal;
+package me.hxkandwal.daily.challanges.assorted;
 
 import java.util.Arrays;
 

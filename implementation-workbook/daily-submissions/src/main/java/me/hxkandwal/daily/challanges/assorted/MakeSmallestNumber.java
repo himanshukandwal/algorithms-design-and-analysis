@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.challanges.personal;
+package me.hxkandwal.daily.challanges.assorted;
 
 import static com.google.common.truth.Truth.assertThat;
 
