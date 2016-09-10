@@ -4,11 +4,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
+import me.hxkandwal.daily.challanges.geeksForGeeks.SortedArrayToBalancedBST.Node;
 
 /**
  * Convert a Binary Tree to a Circular Doubly Link List
@@ -22,6 +21,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  *  
  *  c) The first node of Inorder traversal must be head node of the Circular List.
  *  
+ * link : http://www.geeksforgeeks.org/convert-a-binary-tree-to-a-circular-doubly-link-list/
  * 
  * @author Hxkandwal
  *
@@ -32,25 +32,55 @@ public class BinaryTreeToCircularDoublyLinkedList extends AbstractCustomTestRunn
 	
 	private BinaryTreeToCircularDoublyLinkedList() {}
 	
-	public class Node {
-		int val;	
-		Node next;
-		Node previous;
+	/* method : keep sending left side (or main node up) and join left side of parent by traversing to end and 
+	 * 			right by just overwriting (as left-most node is coming up) */
+	public static Node _converter(Node node) {
+		if (node == null)
+			return node;
 		
-		public Node (int x) { val = x; }
+		Node head = recurseInner(node);
 		
-		@Override
-		public String toString() { return "(" + val + ")"; }
+		// make it cyclic
+		Node traverser = head;
+		while (traverser.right != null)
+			traverser = traverser.right;
+		
+		traverser.right = head;
+		head.left = traverser;
+		
+		return head;
+	}
+	
+	private static Node recurseInner(Node node) {
+		if (node.left == null)  // if left is null, the right must also be null.
+			return node;
+		
+		Node left = recurseInner(node.left);
+		
+		Node traverser = left;
+		while (traverser.right != null)
+			traverser = traverser.right;
+		
+		traverser.right = node;
+		node.left = traverser;  // chain connected (from left)
+		
+		if (node.right != null) {
+			Node right = recurseInner(node.right);	
+			node.right = right;
+			right.left = node;	// chain connected (from right)
+		}
+		
+		return left;
 	}
 	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(null, null);
-		_instance.runTest("10#12 15#25 30 36", "25 12 30 10 36 15");
+		_instance.runTest(new int[] { 25, 12, 30, 10, 36, 15 }, "25 12 30 10 36 15");
 	}
 	
-	public void runTest(final String input, final String expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { input });
+	public void runTest(final int[] array, final String expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { array });
 		
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
@@ -60,48 +90,34 @@ public class BinaryTreeToCircularDoublyLinkedList extends AbstractCustomTestRunn
 
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
-		Node head, tail, root;
-		head = tail = root = null;
+		Node head, tail;
+		head = tail = null;
 		
-		String input = (String) externalVariables[0];
+		int[] array = (int[]) externalVariables[0];
 		
-		if (input == null || input.isEmpty())
+		if (array == null || array.length == 0)
 			return null;
 		
-		Map<Integer, Node> indexedMap = new HashMap<>();
-		
-		String[] layers = input.split("#");
-		for (String layer : layers) {
-			
-		}
-		
-		for (int idx = 0; idx < input.length(); idx ++) {
-			int value = Integer.valueOf(String.valueOf(input.charAt(idx))).intValue();
-			
-			if (head == null) {
-				indexedMap.put(value, tail = head = new Node(value));
-			} else {
-				if (indexedMap.containsKey(value)) 
-					tail = tail.next = indexedMap.get(value);
-				else 
-					indexedMap.put(value, tail = tail.next = new Node(value));
-			}
-		}
+		Node root = SortedArrayToBalancedBST._makeBST(array);
 		
 		try {
-			tail = (Node) method.invoke(_instance, new Object[] { head });
+			tail = head = (Node) method.invoke(_instance, new Object[] { root });
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
 		}
 		
-		if (tail != null) {
+		if (head != null) {
 			StringBuilder sb = new StringBuilder();
 		
-			while (tail != null) {
+			do {
 				sb.append(tail.val);
-				tail = tail.next;
-			}
+				tail = tail.right;
+				
+				if (tail != head) 
+					sb.append(" ");
+				
+			} while (tail != head);
 			
 			return sb.toString();
 		} else {
