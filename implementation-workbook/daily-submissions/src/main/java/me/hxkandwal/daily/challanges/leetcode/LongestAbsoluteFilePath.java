@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -92,7 +93,7 @@ public class LongestAbsoluteFilePath extends AbstractCustomTestRunner {
 		public String toString() { return this.name; }
 	}
 
-	public int _lengthLongestPath(String input) {
+	public int lengthLongestPath(String input) {
 		if (input == null || input.length() == 0)
 			return 0;
 	
@@ -187,6 +188,39 @@ public class LongestAbsoluteFilePath extends AbstractCustomTestRunner {
 		}
 		
 		return startIdx;
+	}
+
+	// method 2 : simple + cleaner. (stack used only to keep track of directories and their length. Max file length is kept with the max variable.
+	public int _lengthLongestPath2(String input) {
+
+		int max = 0, len = input.length(), idx = 0, pathLen = 0, curDepth = 0;
+		Stack<Integer> stk = new Stack<>(); // store direction length in order, Notice stk.size is associate with curDepth
+		
+		while (idx < len) {
+			// first modify pathLen by popping out diretion_len that has greater depth
+			while (stk.size() > curDepth)
+				pathLen -= stk.pop();
+
+			int curLen = 0;
+			curDepth = 0;
+			boolean isFile = false;
+		
+			// find the next dir or file length, check if it is a File
+			for (; idx < len && input.charAt(idx) != '\n'; idx++, curLen++)
+				if (input.charAt(idx) == '.')
+					isFile = true;
+
+			if (isFile)
+				max = Math.max(max, curLen + pathLen); 	// isFile, then output cur total pathLen
+			else
+				pathLen += stk.push(curLen + 1); 		// else, add it to stack & refresh pathLen
+
+			idx++; // idx now points to the char next to '\n'
+			for (; idx < len && input.charAt(idx) == '\t'; idx++)
+				curDepth++; // find curDepth for the next round
+		}
+		return max;
+
 	}
 	
 	// driver method
