@@ -81,12 +81,12 @@ public class SymmetricTree extends AbstractCustomTestRunner {
 	private String inOrderTraversal(Node node) {
 		if (node == null)
 			return null;
-		
-		String childTreeStr, representation = ((childTreeStr = inOrderTraversal(node.left)) != null ? childTreeStr : "") 
-								+ node.val +  
-								((childTreeStr = inOrderTraversal(node.right)) != null ? childTreeStr : "");
-		
-		return representation;
+//		
+//		String childTreeStr, representation = ((childTreeStr = inOrderTraversal(node.left)) != null ? childTreeStr : "") 
+//								+ node.val +  
+//								((childTreeStr = inOrderTraversal(node.right)) != null ? childTreeStr : "");
+//		
+		return "";
 	}
 	
 }
