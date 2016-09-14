@@ -51,6 +51,7 @@ public class BiggerIsGreater extends AbstractCustomTestRunner {
 	
 	private BiggerIsGreater() {}
 	
+	// method : run only 1 iteration of Knuth's L algorithm.
 	public static String _getLexicographicallyGreaterString(String input) {
 		char[] inputArr = input.toCharArray();
 		
