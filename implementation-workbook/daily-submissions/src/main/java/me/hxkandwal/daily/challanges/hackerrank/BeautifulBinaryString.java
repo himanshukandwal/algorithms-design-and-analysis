@@ -46,7 +46,6 @@ public class BeautifulBinaryString extends AbstractCustomTestRunner {
         return count;
     }
 
-
     // driver method
     public static void main(String[] args) {
         _instance.runTest("0101010", 2);
