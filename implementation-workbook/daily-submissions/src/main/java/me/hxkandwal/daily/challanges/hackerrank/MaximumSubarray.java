@@ -43,10 +43,15 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
     // method : max peak keeping algorithm, with assumption that we need something positive from previous summation to keep it going.
     //          If its equal to or below 0 (negative) we can simply start a fresh hill finding. (repeatedly)
     public static long[] _getMaximum(int[] input) {
-        long maximumNonContiguousSum = 0;
+        if (input == null || input.length == 0)
+            return new long[] { 0, 0 };
+
+        long maximumNonContiguousSum = Long.MIN_VALUE;
         for (int idx = 0; idx < input.length; idx ++)
-            if (input[idx] > 0)
-                maximumNonContiguousSum += input [idx];
+            if (input [idx] > 0)
+                maximumNonContiguousSum = (maximumNonContiguousSum < 0) ? input [idx] : maximumNonContiguousSum + input[idx];
+            else if (maximumNonContiguousSum < 0)
+                maximumNonContiguousSum = Math.max(maximumNonContiguousSum, input[idx]);
 
         long maxSum, runningSum;
         maxSum = runningSum = input[0];
@@ -63,13 +68,20 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
                 maxSum = runningSum;
         }
 
-        return new long[] {maxSum, maximumNonContiguousSum};
+        return new long[] { maxSum, maximumNonContiguousSum };
     }
 
     // driver method
     public static void main(String[] args) throws FileNotFoundException {
+        _instance.runTest(new int[] { }, new long[] { 0, 0 });
         _instance.runTest(new int[] { 1, 2, 3, 4 }, new long[] { 10, 10 });
         _instance.runTest(new int[] { 2, -1, 2, 3, 4, -5 }, new long[] { 10, 11 });
+        _instance.runTest(new int[] { 1 }, new long[] { 1, 1 });
+        _instance.runTest(new int[] { -1, -2, -3, -4, -5, -6 }, new long[] { -1, -1 });
+        _instance.runTest(new int[] { 1, -2 }, new long[] { 1, 1 });
+        _instance.runTest(new int[] { 1, 2, 3 }, new long[] { 6, 6 });
+        _instance.runTest(new int[] { -10 }, new long[] { -10, -10 });
+        _instance.runTest(new int[] {1, -1, -1, -1, -1, 5}, new long[]{5, 6});
 
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-1.txt");
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-2.txt");
