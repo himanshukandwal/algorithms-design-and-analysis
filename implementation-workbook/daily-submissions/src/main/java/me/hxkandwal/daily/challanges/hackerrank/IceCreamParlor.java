@@ -41,7 +41,7 @@ public class IceCreamParlor extends AbstractCustomTestRunner {
     private static IceCreamParlor _instance = new IceCreamParlor();
 
     private IceCreamParlor() {}
-    
+
     public static int[] _findPair (int[] input, int sum) {
         Map<Integer, Integer> elementRef = new HashMap<>();
 
