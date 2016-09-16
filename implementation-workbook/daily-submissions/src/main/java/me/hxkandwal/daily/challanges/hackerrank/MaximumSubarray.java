@@ -4,9 +4,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -48,52 +46,34 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
             if (input[idx] > 0)
                 maximumNonContiguousSum += input [idx];
 
-        int[][] maxMatrix = new int[input.length][input.length];
+        long maxSum, runningSum, start, end, j;
+        maxSum = runningSum = input[0];
+        start = end = j = 0;
 
-        long maximumContiguousSum = getContiguousSum(input, 0);
+        for (int index = 1; index < input.length; index ++) {
+            int currentValue = input [index];
 
-        return new long[] {maximumContiguousSum, maximumNonContiguousSum};
-    }
+            if (runningSum + currentValue >= currentValue) {
+                runningSum += currentValue;
+            } else {
+                runningSum = currentValue;
+                j = index;
+            }
 
-    // method to start counting from index + 1 onwards.
-    private static long getContiguousSum(int[] input, int index) {
-        if (index >= input.length)
-            return 0;
-
-        long localsum = 0, max = 0;
-        boolean branch = false;
-        for (int idx = index; idx < input.length; idx ++) {
-            localsum += input [idx];
-
-            if (localsum <= 0)
-                return getContiguousSum(input, index + 1);
-            else {
-                if (branch) {
-                    long branchSum = 0;
-                    if (!map.containsKey(idx)) {
-                        branchSum = getContiguousSum(input, idx);
-                        map.put(idx, branchSum);
-                    } else
-                        branchSum = map.get(idx);
-
-                    if (localsum < 0) {
-                        max = branchSum;
-                        break;
-                    }
-                    branch = false;
-                }
-
-                max = Math.max(localsum, max);
+            if (maxSum <= runningSum) {
+                maxSum = runningSum;
+                start = j;
+                end = index;
             }
         }
 
-        return max;
+        return new long[] {maxSum, maximumNonContiguousSum};
     }
-
+    
     // driver method
     public static void main(String[] args) throws FileNotFoundException {
-//        _instance.runTest(new int[] { 1, 2, 3, 4 }, new long[] { 10, 10 });
-//        _instance.runTest(new int[] { 2, -1, 2, 3, 4, -5 }, new long[] { 10, 11 });
+        _instance.runTest(new int[] { 1, 2, 3, 4 }, new long[] { 10, 10 });
+        _instance.runTest(new int[] { 2, -1, 2, 3, 4, -5 }, new long[] { 10, 11 });
 
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-1.txt");
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-2.txt");
