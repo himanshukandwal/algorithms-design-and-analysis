@@ -40,36 +40,32 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
 
     private MaximumSubarray() {}
 
+    // method : max peak keeping algorithm, with assumption that we need something positive from previous summation to keep it going.
+    //          If its equal to or below 0 (negative) we can simply start a fresh hill finding. (repeatedly)
     public static long[] _getMaximum(int[] input) {
         long maximumNonContiguousSum = 0;
         for (int idx = 0; idx < input.length; idx ++)
             if (input[idx] > 0)
                 maximumNonContiguousSum += input [idx];
 
-        long maxSum, runningSum, start, end, j;
+        long maxSum, runningSum;
         maxSum = runningSum = input[0];
-        start = end = j = 0;
 
         for (int index = 1; index < input.length; index ++) {
             int currentValue = input [index];
 
-            if (runningSum + currentValue >= currentValue) {
+            if (runningSum >= 0)
                 runningSum += currentValue;
-            } else {
+            else
                 runningSum = currentValue;
-                j = index;
-            }
 
-            if (maxSum <= runningSum) {
+            if (maxSum <= runningSum)
                 maxSum = runningSum;
-                start = j;
-                end = index;
-            }
         }
 
         return new long[] {maxSum, maximumNonContiguousSum};
     }
-    
+
     // driver method
     public static void main(String[] args) throws FileNotFoundException {
         _instance.runTest(new int[] { 1, 2, 3, 4 }, new long[] { 10, 10 });
