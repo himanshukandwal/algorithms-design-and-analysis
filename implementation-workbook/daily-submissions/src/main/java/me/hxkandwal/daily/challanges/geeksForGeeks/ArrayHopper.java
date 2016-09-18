@@ -20,6 +20,8 @@ import static com.google.common.truth.Truth.assertThat;
  *
  *              First element is 1, so can only go to 3. Second element is 3, so can make at most 3 steps eg to 5 or 8 or 9.
  *
+ * link : http://www.geeksforgeeks.org/minimum-number-of-jumps-to-reach-end-of-a-given-array/
+ *
  * Created by Hxkandwal
  *
  */
