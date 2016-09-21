@@ -47,7 +47,7 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
 
     // implementation of A, n, k
     private static boolean combineAndCheck(int[] input, boolean[] arr, int n, int k) {
-        if (k > n)  
+        if (k > n)
             return false;
 
         if (k == 0) {
