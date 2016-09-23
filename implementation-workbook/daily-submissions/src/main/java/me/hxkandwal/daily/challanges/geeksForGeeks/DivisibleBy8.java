@@ -69,6 +69,7 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
                 return true;
 
             arr [n] = false;
+            
         }
 
         return false;
