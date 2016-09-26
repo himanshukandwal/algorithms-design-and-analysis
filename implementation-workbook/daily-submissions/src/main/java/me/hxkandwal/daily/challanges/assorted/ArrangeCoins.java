@@ -14,6 +14,7 @@ public class ArrangeCoins extends AbstractCustomTestRunner {
         System.out.println(arrangeCoin(8));
         System.out.println(arrangeCoin(3));
         System.out.println(arrangeCoin(6));
+        
     }
 
     public static long arrangeCoin(int coin) {
