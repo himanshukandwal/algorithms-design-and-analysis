@@ -3,7 +3,9 @@ package me.hxkandwal.daily.challanges.assorted;
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -19,38 +21,30 @@ public class SubsetCharactersOfString extends AbstractCustomTestRunner {
 
 	private SubsetCharactersOfString() {}
 
-	public static String[] _buildSubsequences(String s) {
+	public static int _buildSubsequences(String s) {
 		if (s.length() == 0)
-			return new String[] {};
+		    return 0;
 
-		return permuteInner("", s).toArray(new String[0]);
+		Set<String> subsets = new HashSet<>();
+		buildSubsequencesInner("", s, subsets);
+
+		System.out.println(subsets);
+		return subsets.size();
 	}
 
-
-	private static List<String> permuteInner(String soFar, String remaining) {
-		if (remaining.length() == 0) {
-			System.out.println(" > " + soFar);
-			if (soFar.length() > 0) {
-				List<String> list = new ArrayList<>();
-				list.add(soFar);
-				return list;
-			}
-			else {
-				return new ArrayList<>();
-			}
-
-		}
-
-		List<String> out = new ArrayList<>();
-		out.addAll(permuteInner(soFar + remaining.charAt(0), remaining.substring(1)));
-		out.addAll(permuteInner(soFar, remaining.substring(1)));
-		return out;
+	private static void buildSubsequencesInner(String soFar, String remaining, Set<String> subsets) {
+        if (remaining.length() == 0) {
+            if (soFar.length() > 0)
+                subsets.add(soFar);
+        } else {
+            buildSubsequencesInner(soFar + remaining.charAt(0), remaining.substring(1), subsets);
+            buildSubsequencesInner(soFar, remaining.substring(1), subsets);
+        }
 	}
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest("abc", 2);
-		_instance.runTest("123", 6);
+		_instance.runTest("abc", 7);
 	}
 
 	public void runTest(final String input, final int expectedOutput) {
