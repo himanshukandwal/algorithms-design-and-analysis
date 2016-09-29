@@ -21,6 +21,7 @@ public class SubsetCharactersOfString extends AbstractCustomTestRunner {
 
 	private SubsetCharactersOfString() {}
 
+    // method 1 : calculation of subsets using remaining string manipulation
 	public static int _buildSubsequences(String s) {
 		if (s.length() == 0)
 		    return 0;
@@ -37,7 +38,10 @@ public class SubsetCharactersOfString extends AbstractCustomTestRunner {
             if (soFar.length() > 0)
                 subsets.add(soFar);
         } else {
+            // with inclusion
             buildSubsequencesInner(soFar + remaining.charAt(0), remaining.substring(1), subsets);
+
+            // without inclusion
             buildSubsequencesInner(soFar, remaining.substring(1), subsets);
         }
 	}

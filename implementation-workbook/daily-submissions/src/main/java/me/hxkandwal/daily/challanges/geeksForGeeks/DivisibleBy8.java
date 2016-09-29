@@ -23,78 +23,53 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
 
     private DivisibleBy8() {}
 
-    // method : find nCk combinations, where k = 3 (as to be divisible by 8, last 3 digits have to be divisible by 8)
-    //          and check if it is divisble by 8 or not.
+    // method : find nCk combinations, where k = 3 (as to be divisible by 8, last 3 digits have to be divisible by 8) and check if it is divisble by 8 or not.
     public static boolean _isDivisible(int number) {
         if (number < 100)
             return (number % 8 == 0) ? true :
                     (((number % 10) * 10 + (number / 10)) % 8 == 0 ? true : false);
         else {
-            int [] input = new int[String.valueOf(number).length()];
+            int[] elements = new int [(int) Math.log10(number)+1];
+
             int idx = 0;
-
-            while (number / 10 != 0 || number % 10 != 0) {
-                input[idx ++] = number % 10;
-                number /= 10;
+            while (number/10 > 0 || number % 10 > 0) {
+                elements [idx ++] = number % 10;
+                number /= 10 ;
             }
 
-            boolean [] arr = new boolean[input.length];
-            return combineAndCheck(input, arr, input.length - 1, 3);
+            return combineAndCheck(elements, new boolean [elements.length], elements.length, 3);
         }
     }
 
-    // implementation of A, n, k
-    private static boolean combineAndCheck(int[] input, boolean[] arr, int n, int k) {
-        if (k > n)
+    private static boolean combineAndCheck (int[] elements, boolean[] info, int size, int choose) {
+        if (choose == 0) {
+            StringBuilder sb = new StringBuilder();
+
+            int [] combinedElements = new int [3];
+            int combinedElementsIdx = 0;
+            for (int idx = 0; idx < info.length; idx ++)
+                if (info[idx])
+                    combinedElements[combinedElementsIdx ++] = elements[idx];
+
             return false;
+        }
 
-        if (k == 0) {
-            int[] numArr = new int[3];
-            int innerIdx = 0;
-
-            // selection made, now permute
-            for (int idx = 0; idx < input.length; idx ++)
-                if (arr [idx])
-                    numArr [innerIdx ++] = input [idx];
-            System.out.println(numArr[0] + " " + numArr[1] + " " + numArr[2]);
-            return permuteAndCheck(numArr, 2);
-
-        } else {
-            if (combineAndCheck(input, arr, n - 1, k))
-                return true;
-
-            arr [n] = true;
-
-            if (combineAndCheck(input, arr, n - 1, k - 1))
-                return true;
-
-            arr [n] = false;
-
+        if (choose <= size) {
+            combineAndCheck(elements, info, size - 1, choose);
+            info[size - 1] = true;
+            combineAndCheck(elements, info, size - 1, choose - 1);
+            info[size - 1] = false;
         }
 
         return false;
     }
 
-    private static boolean permuteAndCheck(int[] numArr, int i) {
-        if (i == 0) {
-            System.out.println((numArr[0] * 100 + numArr[1] * 10 + numArr[2]) + " " + ((numArr[0] * 100 + numArr[1] * 10 + numArr[2]) % 8 == 0 ? true : false));
-            return (numArr[0] * 100 + numArr[1] * 10 + numArr[2]) % 8 == 0 ? true : false;
-        } else {
-            for (int j = 0; j <= i; j++) {
-                swap(numArr, j, i);
-                if (permuteAndCheck(numArr, i - 1))
-                    return true;
-                swap(numArr, i, j);
-            }
+    private static boolean checkPermutation (int[] elements) {
+        int[] res = new int[3];
+        for (int idx = 0; idx <= posIdx; idx ++) {
+            res[idx] = elements [idx];
         }
-
         return false;
-    }
-
-    private static void swap(int[] a, int i, int k) {
-        int temp = a[i];
-        a[i] = a[k];
-        a[k] = temp;
     }
 
     // driver method
@@ -113,5 +88,6 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
 
         System.out.println("ok!");
     }
+
 
 }
