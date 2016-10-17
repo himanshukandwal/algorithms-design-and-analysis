@@ -43,8 +43,6 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
 
     private static boolean combineAndCheck (int[] elements, boolean[] info, int size, int choose) {
         if (choose == 0) {
-            StringBuilder sb = new StringBuilder();
-
             int [] combinedElements = new int [3];
             int combinedElementsIdx = 0;
             for (int idx = 0; idx < info.length; idx ++)
@@ -64,13 +62,13 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
         return false;
     }
 
-    private static boolean checkPermutation (int[] elements) {
-        int[] res = new int[3];
-        for (int idx = 0; idx <= posIdx; idx ++) {
-            res[idx] = elements [idx];
-        }
-        return false;
-    }
+//    private static boolean checkPermutation (int[] elements) {
+//        int[] res = new int[3];
+//        for (int idx = 0; idx <= posIdx; idx ++) {
+//            res[idx] = elements [idx];
+//        }
+//        return false;
+//    }
 
     // driver method
     public static void main(String[] args) {
