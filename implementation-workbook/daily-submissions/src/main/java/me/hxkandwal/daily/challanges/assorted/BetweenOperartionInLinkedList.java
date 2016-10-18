@@ -41,19 +41,34 @@ public class BetweenOperartionInLinkedList extends AbstractCustomTestRunner {
 	public static LinkNode _between(final LinkNode head, final int start, final int end) {
 		LinkNode result = null, traverser = head, follower = null;
 		
+		LinkNode resultHead = null;
 		while (traverser != null) {
 			if (traverser.data > start && traverser.data < end) {
-				if (follower == null)
+				if (result == null)
+					result = resultHead = traverser;
+				else
+					result = result.next = traverser;
+				
+				traverser = traverser.next;
+				result.next = null;
+				
+				if (follower != null) 
+					follower.next = traverser;
+				
+			} else {
+				follower = traverser;
+				traverser = traverser.next;
 			}
 		}
 		
-		return result;
+		return resultHead;
 	}
 	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("12345", 2, 4, "3");
 		_instance.runTest("12345", 1, 4, "23");
+		_instance.runTest("1253545", 1, 4, "23");
 	}
 	
 	public void runTest(final String input, final int start, final int end, final String expectedOutput) {
@@ -71,7 +86,8 @@ public class BetweenOperartionInLinkedList extends AbstractCustomTestRunner {
 		head = tail =  null;
 		
 		String input = (String) externalVariables[0];
-		int n = (Integer) externalVariables [1];
+		int start = (Integer) externalVariables [1];
+		int end = (Integer) externalVariables [2];
 		
 		if (input == null || input.isEmpty())
 			return null;
@@ -85,7 +101,7 @@ public class BetweenOperartionInLinkedList extends AbstractCustomTestRunner {
 		}
 		
 		try {
-			tail = (LinkNode) method.invoke(_instance, new Object[] { head, n });
+			tail = (LinkNode) method.invoke(_instance, new Object[] { head, start, end });
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
