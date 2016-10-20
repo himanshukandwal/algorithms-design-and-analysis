@@ -16,6 +16,13 @@ public class FunTricks {
 		for (int idx = 0; idx < 10; idx ++) 
 			System.out.println(idx + " " + (idx & -2));
 		
+		// power of negation
+		System.out.println("Power of negation :  (closing to nearest two for odd number : (n + 1)/2)");
+		System.out.println("~x equals (-x)-1 = -(x + 1) \n");
+		for (int idx = 0; idx < 10; idx++) {
+			System.out.println(idx + " :  (-~idx) : " + (-~idx) + " (-~idx/2) : " + (-~idx/2));
+		}
+		
 	}
 
 }
