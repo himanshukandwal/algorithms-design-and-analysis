@@ -62,12 +62,13 @@ public class BowlingScore extends AbstractCustomTestRunner {
 		return sum;
 	}
 	
-	// a faster method
+	// a faster method (check FunTricks.java for more)
 	public static int _fasterBowlingScore(int[] rolls) {
 		int sum = 0, idx = 0;
 		
-	    for (int e: rolls)
-	    	sum += e + rolls[idx++ & -2] > 19 ? 30 : e;
+	    for (int e: rolls) {
+	    	sum += (e + rolls[idx ++ & -2]) > 19 ? 30 : e;
+	    }
 	    	
 	    return sum;
 	}
