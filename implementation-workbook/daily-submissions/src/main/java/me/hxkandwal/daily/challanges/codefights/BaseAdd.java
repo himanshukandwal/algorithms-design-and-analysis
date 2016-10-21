@@ -37,6 +37,7 @@ public class BaseAdd extends AbstractCustomTestRunner {
 	
 	private BaseAdd() {}
 	
+	// Tip : In case of large string inputs, use Long.parseLong() and Long.toString()
 	public static String _addBase(String number1, int base1, String number2, int base2) {
 		int n1 = Integer.parseInt(number1, base1), n2 = Integer.parseInt(number2, base2);
 	    
