@@ -25,7 +25,7 @@ public class RodCutting extends AbstractCustomTestRunner {
 		for (int length = 1; length <= prices.length; length ++) {
 			int maxPrice = -1;
 			
-			// compute when cut has been made from index 1 to length/2
+			// as prices[0] is for length 1, so prices [length - 1] is for price for complete length
 			for (int cut = 0; cut < length; cut ++)
 				maxPrice = Math.max (maxPrice, (prices [cut] + maximalArray [length - cut - 1]));
 			
