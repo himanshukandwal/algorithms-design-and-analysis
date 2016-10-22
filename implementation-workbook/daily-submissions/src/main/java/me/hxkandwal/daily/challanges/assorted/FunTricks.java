@@ -39,6 +39,17 @@ public class FunTricks {
 		System.out.println("for 3 : " + ((3 & (2 - 1)) == 0));
 		System.out.println("for 4 : " + ((4 & (4 - 1)) == 0));
 		System.out.println("for 6 : " + ((6 & (6 - 1)) == 0));
+		
+		System.out.println();
+		// cool trick to append computed number of zeros in front of a number.
+		System.out.println(String.format("%" + Integer.toString(8) + "s", " "));	// create 8 white spaces
+		System.out.println(String.format("%" + Integer.toString(8) + "s", "abc"));	// create 8 white spaces, and try to fill abc in that
+		// create 8 white spaces, and try to fill Integer.toString(3, 2) in that, and the space remaining can be replaced with 0s.
+        System.out.println(String.format("%" + Integer.toString(8) + "s", Integer.toString(3, 2)).replace(" ","0")); 
+        
+        // create 5 white spaces, and try to fill spaces in that, and the spaces can be replaced with 9s.
+        System.out.println(Integer.valueOf(String.format("%" + 5 +"s", " ").replace(" ", "9")));
+		
 	}
 
 }
