@@ -51,25 +51,42 @@ public class CountAllIncreasingSubsequences extends AbstractCustomTestRunner {
 	
 	private CountAllIncreasingSubsequences() {}
 	
+	// very powerful method. O(n2) solution
 	public static int _countSubsequences(int[] array) {
 		int length = array.length;
+		int[] count = new int [length];
 		
-		return 0;
+		for (int idx = 0; idx < array.length; idx ++) {
+			count [idx] = 1;	// for the path starting from the element itself.
+
+			for (int innerIdx = 0; innerIdx < idx; innerIdx ++) {
+				// this path can be extended.
+				if (array [innerIdx] < array [idx])
+					count [idx] += count [innerIdx];
+			}
+		}
+		
+		int resultingCount = 0;
+		for (int idx = 0; idx < count.length; idx++) 
+			resultingCount += count [idx];
+		
+		return resultingCount;
 	}
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] {}, new int[] {});
-		_instance.runTest(null, null);
-		_instance.runTest(new int[] { 3, 4, 5, 1, 2 }, new int[] { 1, 2, 3, 4, 5 });
-		_instance.runTest(new int[] { 3, 1, 5, 0, 2, 7 }, new int[] { 0, 1, 2, 3, 5, 7 });
+		_instance.runTest(new int[] {}, 0);
+		_instance.runTest(new int[] { 1, 2, 3, 4 }, 15);
+		_instance.runTest(new int[] { 4, 3, 6, 5 }, 8);
+		_instance.runTest(new int[] { 3, 2, 4, 5, 4 }, 14);
+		_instance.runTest(new int[] { 7, 4, 6, 8 }, 9);
 	}
 
-	public void runTest(final int[] array, final int[] expectedOutput) {
+	public void runTest(final int[] array, final int expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { array });
 
 		for (Object answer : answers)
-			assertThat(array).isEqualTo(expectedOutput);
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
 	}	
