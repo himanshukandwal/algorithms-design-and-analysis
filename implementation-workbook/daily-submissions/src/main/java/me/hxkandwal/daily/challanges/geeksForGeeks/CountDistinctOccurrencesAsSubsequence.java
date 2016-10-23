@@ -35,45 +35,30 @@ public class CountDistinctOccurrencesAsSubsequence extends AbstractCustomTestRun
 	private static CountDistinctOccurrencesAsSubsequence _instance = new CountDistinctOccurrencesAsSubsequence();
 	
 	private CountDistinctOccurrencesAsSubsequence() {}
-	
-	/**
-	 * 	0 1 2 3 4 5 
-	 * "b a n a n a"
-	 * 
-	 *   		[b = 0, a = 0, n = 0]
-	 *  i = 0,	[b = 1, a = 0, n = 0]
-	 *  i = 1,	[b = 1, a = 1, n = 0]   a is a's current value + all value of b  
-	 *  i = 2,	[b = 1, a = 1, n = 1]   n is a's current value + all value of a (as n has to associated with all the paths in a)
-	 *  i = 3,	[b = 1, a = 2, n = 1]
-	 *  i = 4,	[b = 1, a = 2, n = 3]	every occurrence of first variable means increment and for rest means to merge the result for that index from the one previous index.  
-	 *  i = 5,	[b = 1, a = 3, n = 3]
-	 *  
-	 *  answer is resulted from the last pattern variable (completed pattern count)
-	 */
+
+	// practise to visualtize it.
 	public static int _findSubsequenceCount(String input, String pattern) {
-		int[] pattern_count = new int [pattern.length()];
+		int[][] dp = new int [pattern.length()][input.length()];
 		
-		for (int idx = 0; idx < input.length(); idx ++) {
-			char ch = input.charAt(idx);
-			
-			if (ch == pattern.charAt(0))
-				pattern_count[0] ++;
-			else {
-				for (int innerIdx = 1; innerIdx < pattern.length(); innerIdx ++) 
-					if (ch == pattern.charAt(innerIdx)) {
-						pattern_count [innerIdx] += pattern_count [innerIdx - 1];
-						break;
-					}
+		for (int row = 0; row < pattern.length(); row++) {
+			char ch = input.charAt(row);
+
+			// starting from row as before that, all has to be zero, as pattern of length (row + 1) cannot be present in input of length (< row + 1)
+			for (int col = row; col < input.length(); col++) {
+				if (ch == input.charAt(col))
+					dp[row][col] = (col == 0 && row == 0) ? 1 : ((row == 0) ? dp [row][col - 1] + 1 : dp[row - 1][col  - 1] + dp [row][col -1]);
+				else
+					dp[row][col] = (col - 1 < 0) ? 0 : dp[row][col - 1];
 			}
 		}
 		
-		return pattern_count [pattern_count.length - 1];
+		return dp [pattern.length() - 1][input.length() - 1];
 	}
 	
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest("banana", "ban", 3);
-//		_instance.runTest("geeksforgeeks", "ge", 6);
+		_instance.runTest("banana", "ban", 3);
+		_instance.runTest("geeksforgeeks", "ge", 6);
 		_instance.runTest("wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxpklorellnmpapqfwkhopkmco", "wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxp", 4);
 	}
 
