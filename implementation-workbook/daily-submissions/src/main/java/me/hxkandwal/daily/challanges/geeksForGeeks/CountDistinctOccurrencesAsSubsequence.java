@@ -41,7 +41,7 @@ public class CountDistinctOccurrencesAsSubsequence extends AbstractCustomTestRun
 		int[][] dp = new int [pattern.length()][input.length()];
 		
 		for (int row = 0; row < pattern.length(); row++) {
-			char ch = input.charAt(row);
+			char ch = pattern.charAt(row);
 
 			// starting from row as before that, all has to be zero, as pattern of length (row + 1) cannot be present in input of length (< row + 1)
 			for (int col = row; col < input.length(); col++) {
@@ -57,6 +57,7 @@ public class CountDistinctOccurrencesAsSubsequence extends AbstractCustomTestRun
 	
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest("banana", "aan", 1);
 		_instance.runTest("banana", "ban", 3);
 		_instance.runTest("geeksforgeeks", "ge", 6);
 		_instance.runTest("wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxpklorellnmpapqfwkhopkmco", "wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxp", 4);
