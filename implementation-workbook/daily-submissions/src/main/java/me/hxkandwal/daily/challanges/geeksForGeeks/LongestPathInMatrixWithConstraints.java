@@ -40,8 +40,7 @@ public class LongestPathInMatrixWithConstraints extends AbstractCustomTestRunner
 		
 		int visited_counter = 1;
 		while (visited_counter <= Math.pow(len, 2)) {
-			int 
-			for (int ro)
+			
 		}
 		
 		return max_length;
