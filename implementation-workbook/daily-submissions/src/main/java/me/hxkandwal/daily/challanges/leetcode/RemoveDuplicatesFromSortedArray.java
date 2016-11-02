@@ -27,31 +27,18 @@ public class RemoveDuplicatesFromSortedArray extends AbstractCustomTestRunner {
 	
 	private RemoveDuplicatesFromSortedArray() {}
 	
+	// 2 cursors to manager unique and traversing motion.
     public int _removeDuplicates(int[] nums) {
-    	int len = 0;
-    	Integer previousElement = null; 
-    	Integer uniqueElementsIndex = null;
+    	if (nums == null || nums.length == 0) 
+    		return 0;
     	
-        for (int idx = 0; nums != null && idx < nums.length; idx++) {
-        	if (previousElement == null) {
-        		len = 1;
-        		previousElement = nums [idx];
-        		uniqueElementsIndex = idx;
-        		continue;
-        	} 
-        	
-        	if (previousElement != nums [idx]) {
-    			len ++;
-    			previousElement = nums [idx];
-    			
-    			if (uniqueElementsIndex + 1 != idx)
-    				nums [++ uniqueElementsIndex] = nums [idx];
-    			else
-    				uniqueElementsIndex = idx;
-        	}
+    	int uniqueElementsIndex = 0;
+    	for (int idx = 0; idx < nums.length; idx ++) {
+        	if (nums [idx] != nums [uniqueElementsIndex])
+				nums [++ uniqueElementsIndex] = nums [idx];
         }
     	
-    	return len;	
+    	return uniqueElementsIndex + 1;	
     }
     
 	// driver method
