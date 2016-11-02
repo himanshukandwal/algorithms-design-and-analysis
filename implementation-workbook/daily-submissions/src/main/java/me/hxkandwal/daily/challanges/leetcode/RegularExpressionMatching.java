@@ -37,10 +37,10 @@ public class RegularExpressionMatching extends AbstractCustomTestRunner {
 	public RegularExpressionMatching() {}
 	
 	public static boolean _isMatch(String s, String p) {
-		return isMatchInner(s, 0, p, 0);
+		return isMatchInner(s, 0, p, 0, null);
     }
 	
-	private static boolean isMatchInner(String s, int sIdx, String p, int pIdx) {
+	private static boolean isMatchInner(String s, int sIdx, String p, int pIdx, Character previouslyIdentified) {
 		if (sIdx >= s.length() && ((pIdx == p.length() - 1 && p.charAt(pIdx) == '*') || (pIdx >= p.length())))
 				return true;
 		
@@ -48,11 +48,11 @@ public class RegularExpressionMatching extends AbstractCustomTestRunner {
 			return false;
 		
 		if (p.charAt(pIdx) == '.' || p.charAt(pIdx) == s.charAt(sIdx))
-			return isMatchInner(s, sIdx + 1, p, pIdx + 1);
-		else if (p.charAt(pIdx) == '*')
-			return isMatchInner(s, sIdx + 1, p, pIdx) || isMatchInner(s, sIdx + 1, p, pIdx + 1) || isMatchInner(s, sIdx, p, pIdx + 1); // for zero or more occurences
+			return isMatchInner(s, sIdx + 1, p, pIdx + 1, s.charAt(sIdx));
+		else if ((p.charAt(pIdx) == '*') && (s.charAt(sIdx) == previouslyIdentified)) 
+				return isMatchInner (s, sIdx + 1, p, pIdx, previouslyIdentified) || isMatchInner (s, sIdx + 1, p, pIdx + 1, previouslyIdentified);
 		else
-			return isMatchInner(s, sIdx, p, pIdx + 1);
+			return isMatchInner(s, sIdx, p, pIdx + 1, p.charAt(pIdx));
 	}
 	
 	// driver method
@@ -66,9 +66,9 @@ public class RegularExpressionMatching extends AbstractCustomTestRunner {
 		_instance.runTest("aa", "a*", true);
 		_instance.runTest("aa", "ab", false);
 		_instance.runTest("aa", ".*", true);
-		_instance.runTest("ab", ".*", true);
+		_instance.runTest("ab", ".*", false);
 		_instance.runTest("aab", "c*a*b", true);
-		_instance.runTest("abcd", "d*", true);
+		_instance.runTest("abcd", "d*", false);
     }
 
 	public void runTest(final String s, final String t, final boolean expectedOutput) {
