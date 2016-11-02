@@ -4,7 +4,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -35,13 +37,19 @@ public class IsomorphicStrings extends AbstractCustomTestRunner {
 
 	public static boolean _isIsomorphic(String s, String t) {
 		if (s.length() == t.length()) {
-			int previousUniqueIndex = 0;
-			for (int idx = 1; idx < s.length(); idx ++) {
-				if ((s.charAt(idx) != s.charAt(previousUniqueIndex) && t.charAt(idx) == t.charAt(previousUniqueIndex)) 
-					|| (s.charAt(idx) == s.charAt(previousUniqueIndex) && t.charAt(idx) != t.charAt(previousUniqueIndex)))
+			Map<Character, Character> replacementMap = new HashMap<>();
+			
+			for (int idx = 0; idx < s.length(); idx ++) {
+				char sch = s.charAt(idx);
+				char tch = t.charAt(idx);
+				
+				if (replacementMap.containsKey(sch) && tch != replacementMap.get(sch))
 					return false;
-				else if (s.charAt(idx) != s.charAt(previousUniqueIndex) && t.charAt(idx) != t.charAt(previousUniqueIndex))
-					previousUniqueIndex = idx;
+				
+				if (!replacementMap.containsKey(sch) && replacementMap.values().contains(tch))
+					return false;
+				
+				replacementMap.put(sch, tch);
 			}
 			return true;
 		}
@@ -51,15 +59,19 @@ public class IsomorphicStrings extends AbstractCustomTestRunner {
 	// driver method
     public static void main(String[] args) throws FileNotFoundException {
     	_instance.runTest("egg", "add", true);
+    	_instance.runTest("ab", "aa", false);
 		_instance.runTest("foo", "bar", false);
 		_instance.runTest("paper", "title", true);
-
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/IsomorphicStrings-1.txt");
+		_instance.runTest("abca", "zbxz", true);
+		_instance.runTest("abcb", "zbxz", false);
+		_instance.runTest("abcb", "zbxb", false);
+		
+        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/IsomorphicStrings-1.txt", false);
     }
 
-    private static void testComplex(String filename) throws FileNotFoundException {
+    private static void testComplex(String filename, final boolean expectedOutput) throws FileNotFoundException {
         Scanner sc = new Scanner(new File(System.getProperty("user.dir") + filename));
-        _instance.runTest(sc.nextLine(), sc.nextLine(), false);
+        _instance.runTest(sc.nextLine(), sc.nextLine(), expectedOutput);
         sc.close();
     }
 
