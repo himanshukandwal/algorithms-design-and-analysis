@@ -1,9 +1,10 @@
-package me.hxkandwal.daily.challanges.leetcode;
+package me.hxkandwal.daily.challanges.assorted;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -11,11 +12,13 @@ import java.util.Queue;
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
+ * Part of SymmetricTree program.
+ * 
  * 101. Symmetric Tree
  * 
  * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
  * 
- * For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+ * For example, this binary tree is represented as [1, 2, 2, 3, 4, 4, 3]:
  * 
  *     1
  *    / \
@@ -23,7 +26,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  *  / \ / \
  * 3  4 4  3
  * 
- * But the following [1,2,2,null,3,null,3] is not:
+ * But the following tree is represented as [1, 2, 2, null, 3, null, 3]:
  * 
  *     1
  *    / \
@@ -33,17 +36,17 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  *
  * Note: Bonus points if you could solve it both recursively and iteratively.
  * 
- * @author Hxkandwal
+ * @author Heman
  *
  */
-public class SymmetricTree extends AbstractCustomTestRunner {
+public class BFSLevelPrintingAndGeneration extends AbstractCustomTestRunner {
+
+	private static BFSLevelPrintingAndGeneration _instance = new BFSLevelPrintingAndGeneration();
 	
-	private static SymmetricTree _instance = new SymmetricTree();
-	
-	private SymmetricTree() {}
+	private BFSLevelPrintingAndGeneration() {}
 	
 	public static class Node {
-		int value;
+		Integer value;
 		Node left;
 		Node right;
 		
@@ -57,60 +60,59 @@ public class SymmetricTree extends AbstractCustomTestRunner {
 		}
 	}
 	
-    public boolean _isSymmetric(Node root) {
-    	return isMirror(root, root);
-    }
-
-    public boolean isMirror(Node t1, Node t2) {
-        if (t1 == null && t2 == null) return true;
-        if (t1 == null || t2 == null) return false;
-        
-        return (t1.value == t2.value)
-            && isMirror(t1.right, t2.left)
-            && isMirror(t1.left, t2.right);
-    }
-	
-    // logic borrowed and enhanced from BFSLevelPrintingAndGeneration program.
 	public static Node generateTree(Integer[] array) {
 		Node root = null;
 		
-		if (array.length > 0 && array [0] != null) {
+		if (array.length > 0) {
 			int index = 0;
 			Queue<Node> queue = new LinkedList<>();
-			
 			queue.add(root = new Node(array [index ++]));
+			
 			while (!queue.isEmpty() && index < array.length) {
 				Node node = queue.poll();
+				queue.add(node.left = new Node(array [index ++]));
 				
-				if (array [index] != null) {
-					node.left = new Node(array [index]);
-					queue.add(node.left);
-				}
-				index ++;
-				
-				if (index < array.length && array [index] != null) {
-					node.right = new Node(array [index]);
-					queue.add(node.right);
-				}
-				index ++;
+				if (index < array.length) 
+					queue.add(node.right = new Node(array [index ++]));
 			}
 		}
 		
 		return root;
 	}
 	
-	// driver method
-	public static void main(String[] args) {
-		_instance.runTest(new Integer[] { 1, 2, 2, 3, 4, 4, 3 }, true);
-		_instance.runTest(new Integer[] { 1, 2, 2, null, 3, null, 3 }, false);
-		_instance.runTest(new Integer[] { 1, 2, 2, null, 3, 3 }, true);
+	public static Integer[] _printTreeBFS(Node root) {
+		List<Integer> result = new ArrayList<>();
+		
+		if (root != null) {
+			Queue<Node> queue = new LinkedList<>();
+			queue.add(root);
+			
+			while (!queue.isEmpty()) {
+				Node node = queue.poll();
+				result.add(node.value);
+				
+				if (node.left != null)
+					queue.add(node.left);
+				
+				if (node.right != null)
+					queue.add(node.right);
+			}
+		}
+		
+		return result.toArray(new Integer[0]);
 	}
 	
-	public void runTest(final Integer[] array, final boolean expectedOutput) {
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(new Integer[] { 1, 2, 2, 3, 4, 4, 3 });
+		_instance.runTest(new Integer[] { 1, 2, 2, null, 3, null, 3 });
+	}
+	
+	public void runTest(final Integer[] array) {
 		List<Object> answers = runAll(getClass(), new Object[] { array });
 		
 		for (Object answer : answers) 
-			assertThat((boolean) answer).isEqualTo (expectedOutput);
+			assertThat((Integer[]) answer).isEqualTo(array);
 		
 		System.out.println("ok!");
 	}
@@ -118,16 +120,16 @@ public class SymmetricTree extends AbstractCustomTestRunner {
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
 		Node root = generateTree((Integer[]) externalVariables[0]);
-		boolean resultArray = false;
+		Integer[] resultArray = null;
 		
 		try {
-			resultArray = (boolean) method.invoke(_instance, new Object[] { root });
+			resultArray = (Integer[]) method.invoke(_instance, new Object[] { root });
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
 		}
 		
 		return resultArray;
-	}
+	}	
 	
 }
