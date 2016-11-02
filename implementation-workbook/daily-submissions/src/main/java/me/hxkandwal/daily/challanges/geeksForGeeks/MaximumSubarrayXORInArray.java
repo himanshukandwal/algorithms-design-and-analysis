@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.challanges.assorted;
+package me.hxkandwal.daily.challanges.geeksForGeeks;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -7,16 +7,34 @@ import java.util.List;
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
- * Given an array of integers ,You have to find two elements whose XOR is maximum.
+ * Find the maximum subarray XOR in a given array
  * 
- * @author Hxkandwal
+ * Given an array of integers. find the maximum XOR subarray value in given array. Expected time complexity O(n).
  *
+ * Examples:
+ * (a)		Input: arr[] = {1, 2, 3, 4}
+ * 			Output: 7
+ * 
+ * 			The subarray {3, 4} has maximum XOR value
+ *
+ * (b)		Input: arr[] = {8, 1, 2, 12, 7, 6}
+ * 			Output: 15
+ * 
+ * 			The subarray {1, 2, 12} has maximum XOR value
+ * 
+ * (c)		Input: arr[] = {4, 6}
+ * 			Output: 6
+ * 
+ * 			The subarray {6} has maximum XOR value
+ * 
+ * link : http://www.geeksforgeeks.org/find-the-maximum-subarray-xor-in-a-given-array/
+ * 
  */
-public class MaximumXOROf2ElementsInArray extends AbstractCustomTestRunner {
+public class MaximumSubarrayXORInArray extends AbstractCustomTestRunner {
 	
-	private static MaximumXOROf2ElementsInArray _instance = new MaximumXOROf2ElementsInArray();
+	private static MaximumSubarrayXORInArray _instance = new MaximumSubarrayXORInArray();
 	
-	private MaximumXOROf2ElementsInArray() {}
+	private MaximumSubarrayXORInArray() {}
 	
 	public static class BinaryTrie {
 		Integer value;
@@ -55,7 +73,6 @@ public class MaximumXOROf2ElementsInArray extends AbstractCustomTestRunner {
 					res = left.getXOR(element, index + 1);
 					res += Math.pow (2, element.length() - index - 1);
 				} else {
-					// go to right (0) if left is not present. 
 					res = right.getXOR(element, index + 1);
 				}
 			} else {
@@ -74,28 +91,16 @@ public class MaximumXOROf2ElementsInArray extends AbstractCustomTestRunner {
 		}
 	}
 	
-	public static int _getMaxXORof2Elements(int[] array) {
-		BinaryTrie root = new BinaryTrie();
+	public static int maxSubarrayXOR(int arr[], int n) {
 		
-		int maxXor = -1;
-		for (int arrayElement : array) {
-			String element = String.format("%8s",Integer.toBinaryString(arrayElement)).replace(" ", "0");
-			
-			// insert the arrayElement			
-			root.insert(element, 0);
-			
-			// find XOR for the arrayElement
-			maxXor = Math.max(maxXor, root.getXOR(element, 0));
-		}
-		
-		return maxXor;
+		return 0;
 	}
-
+	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] { 5 }, 0);
-		_instance.runTest(new int[] { 5, 1, 4, 3, 0, 2 }, 7);
-		_instance.runTest(new int[] { 2, 6, 1, 3, 5, 4, 8 }, 14);
+		_instance.runTest(new int[] { 1, 2, 3, 4 }, 7);
+		_instance.runTest(new int[] { 8, 1, 2, 12, 7, 6 }, 15);
+		_instance.runTest(new int[] { 4, 6 }, 6);
 	}
 
 	public void runTest(final int[] input, final int expectedOutput) {
@@ -105,6 +110,6 @@ public class MaximumXOROf2ElementsInArray extends AbstractCustomTestRunner {
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
-	}
-	
+	}	
+
 }
