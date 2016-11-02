@@ -50,7 +50,7 @@ public class RegularExpressionMatching extends AbstractCustomTestRunner {
 		if (p.charAt(pIdx) == '.' || p.charAt(pIdx) == s.charAt(sIdx))
 			return isMatchInner(s, sIdx + 1, p, pIdx + 1, s.charAt(sIdx));
 		else if ((p.charAt(pIdx) == '*') && (s.charAt(sIdx) == previouslyIdentified)) 
-				return isMatchInner (s, sIdx + 1, p, pIdx, previouslyIdentified) || isMatchInner (s, sIdx + 1, p, pIdx + 1, previouslyIdentified);
+			return isMatchInner (s, sIdx + 1, p, pIdx, previouslyIdentified) || isMatchInner (s, sIdx + 1, p, pIdx + 1, previouslyIdentified);
 		else
 			return isMatchInner(s, sIdx, p, pIdx + 1, p.charAt(pIdx));
 	}
