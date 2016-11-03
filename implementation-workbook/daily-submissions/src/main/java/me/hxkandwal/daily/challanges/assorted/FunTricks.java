@@ -49,6 +49,9 @@ public class FunTricks {
         
         // create 5 white spaces, and try to fill spaces in that, and the spaces can be replaced with 9s.
         System.out.println(Integer.valueOf(String.format("%" + 5 +"s", " ").replace(" ", "9")));
+        
+        // to cover range for all upper lower alphabets 
+        int[] count = new int['z' - 'A' + 1];
 		
 	}
 

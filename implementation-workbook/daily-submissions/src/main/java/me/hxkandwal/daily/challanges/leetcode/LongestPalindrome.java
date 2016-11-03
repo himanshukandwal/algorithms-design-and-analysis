@@ -2,9 +2,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -34,26 +32,16 @@ public class LongestPalindrome extends AbstractCustomTestRunner {
 	private LongestPalindrome() {}
 
 	public static int _longestPalindrome(String s) {
-		Map<Character, Integer> alphabetMap = new HashMap<>(); 
+		int[] count = new int['z' - 'A' + 1];
+		for (char c : s.toCharArray()) 
+			count[c - 'A']++;
 		
-		for (int idx = 0; idx < s.length(); idx++)
-			if (alphabetMap.containsKey(s.charAt(idx))) 
-				alphabetMap.put(s.charAt(idx), alphabetMap.get(s.charAt(idx)) + 1);
-			else
-				alphabetMap.put(s.charAt(idx), 1);
+		// remove 1 from all odds (make them even) and keep them in the string. (keep one odd)
+		int odd = 0;
+		for (char c = 'A'; c <= 'z'; c++) 
+			odd += (count[c - 'A'] & 1);
 		
-		int length = 0;
-		int maxOdd = 0;
-		
-		// handle lowercase
-		for (Map.Entry<Character, Integer> entry : alphabetMap.entrySet()) {
-			if (entry.getValue() % 2 == 0)
-				length += entry.getValue();
-			else
-				maxOdd = Math.max(maxOdd, entry.getValue());
-		}
-		
-		return length + maxOdd;
+		return s.length() - odd + (odd > 0 ? 1 : 0);
     }
 
 	// driver method
