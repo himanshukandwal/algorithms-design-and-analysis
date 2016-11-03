@@ -43,6 +43,7 @@ public class RotateFunction extends AbstractCustomTestRunner {
 	
 	private RotateFunction() {}
 
+	// slow O(n^2) answer.
 	public int _maxRotateFunction(int[] A) {
 		Integer maxValue = null;
 		
@@ -59,6 +60,29 @@ public class RotateFunction extends AbstractCustomTestRunner {
 		
 		return (maxValue == null) ? 0 : maxValue;
 	}
+	
+	// better answer O(n) : https://discuss.leetcode.com/topic/58616/java-solution-o-n-with-non-mathametical-explaination
+	public int _maxRotateFunction2(int[] A) {
+		Integer maxValue = null;
+		
+		int totalSum = 0;
+		for (int idx = 0; idx < A.length; idx ++)
+			totalSum += A [idx];
+		
+		Integer previousEstimation = null;
+		for (int idx = 0; idx < A.length; idx ++) {
+			if (previousEstimation == null) {
+				previousEstimation = 0;
+				for (int innerIdx = 0; innerIdx < A.length; innerIdx ++) 
+					previousEstimation += innerIdx * A [innerIdx];
+			} else
+				previousEstimation = previousEstimation - totalSum + A.length * A [idx - 1];
+			
+			maxValue = (maxValue == null) ? previousEstimation : Math.max(maxValue, previousEstimation);
+		}
+		
+		return (maxValue == null) ? 0 : maxValue;
+	}
 
     
 	// driver method
@@ -67,17 +91,17 @@ public class RotateFunction extends AbstractCustomTestRunner {
 		_instance.runTest(new int[] { }, 0);
 		_instance.runTest(new int[] { -2147483648, -2147483648 },  -2147483648);
 		
-        testComplex ("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/RotateFunction-1.txt");
+        testComplex ("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/RotateFunction-1.txt", 1491052486);
     }
 
-    private static void testComplex(String filename) throws FileNotFoundException {
+    private static void testComplex(String filename, final int expectedOutput) throws FileNotFoundException {
         Scanner sc = new Scanner(new File(System.getProperty("user.dir") + filename));
 
         int[] input = new int [sc.nextInt()];
         for (int idx = 0; idx < input.length; idx ++) 
         	input [idx] = sc.nextInt();
 
-        _instance.runTest(input, 15);
+        _instance.runTest(input, expectedOutput);
 
         sc.close();
     }
