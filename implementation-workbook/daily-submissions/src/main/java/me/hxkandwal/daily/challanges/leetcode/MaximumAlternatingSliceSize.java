@@ -59,6 +59,7 @@ public class MaximumAlternatingSliceSize extends AbstractCustomTestRunner {
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 1, -5, 23, 0, 1, 1, 0, 2, -5, 3, -1, 1, 2, 3 }, 7);
 		_instance.runTest(new int [] { -9, -1, 2, 0, 5, -6, 7, -8, 0, -1 }, 9);	
+		_instance.runTest(new int[] { 0, 0, 0, 0, -1, -1, 1, -1, 1, -1, 0, 0, 0 }, 8);	
 	}
 	
 	public void runTest(final int[] input, final int expectedOutput) {
