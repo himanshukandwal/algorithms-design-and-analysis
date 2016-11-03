@@ -2,7 +2,9 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -32,32 +34,23 @@ public class LongestPalindrome extends AbstractCustomTestRunner {
 	private LongestPalindrome() {}
 
 	public static int _longestPalindrome(String s) {
-		int[] alphabetsLower = new int [26];
-		int[] alphabetsUpper = new int [26];
+		Map<Character, Integer> alphabetMap = new HashMap<>(); 
 		
 		for (int idx = 0; idx < s.length(); idx++)
-			if (Character.isUpperCase(s.charAt(idx)))
-				alphabetsUpper [s.charAt(idx) - 'A'] ++;
+			if (alphabetMap.containsKey(s.charAt(idx))) 
+				alphabetMap.put(s.charAt(idx), alphabetMap.get(s.charAt(idx)) + 1);
 			else
-				alphabetsLower [s.charAt(idx) - 'a'] ++;
+				alphabetMap.put(s.charAt(idx), 1);
 		
 		int length = 0;
 		int maxOdd = 0;
 		
 		// handle lowercase
-		for (int idx = 0; idx < alphabetsLower.length; idx ++) {
-			if (alphabetsLower [idx] % 2 == 0)
-				length += alphabetsLower [idx];
-			else 
-				maxOdd = Math.max(maxOdd, alphabetsLower [idx]);
-		}
-		
-		// handle uppercase		
-		for (int idx = 0; idx < alphabetsUpper.length; idx ++) {
-			if (alphabetsUpper [idx] % 2 == 0)
-				length += alphabetsUpper [idx];
-			else 
-				maxOdd = Math.max(maxOdd, alphabetsUpper [idx]);
+		for (Map.Entry<Character, Integer> entry : alphabetMap.entrySet()) {
+			if (entry.getValue() % 2 == 0)
+				length += entry.getValue();
+			else
+				maxOdd = Math.max(maxOdd, entry.getValue());
 		}
 		
 		return length + maxOdd;
