@@ -52,6 +52,8 @@ public class FunTricks {
         
         // to cover range for all upper lower alphabets 
         int[] count = new int['z' - 'A' + 1];
+        
+        // for max, use class not primitives. If null, assign first value else compute max. Handle return statement wisely.
 		
 	}
 
