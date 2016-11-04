@@ -37,15 +37,25 @@ public class ArrayEqualizationToOnes extends AbstractCustomTestRunner {
 	public ArrayEqualizationToOnes() {}
 	
 	public static int _arrayEqualization(int[] array, int k) {
+		int steps = 0;
+
+		for (int idx = 0; idx < array.length; idx ++) {
+			if (array [idx] != 1) {
+				steps ++;
+				for (int kIdx = 0; kIdx < k && idx + kIdx < array.length; kIdx ++)
+					if (array [idx + kIdx] != 1)
+						array [idx + kIdx] = 1;
+			}
+		}
 		
-		return 0;
+		return steps;
 	}
 	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 1, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1 }, 2, 4);
-		_instance.runTest(new int [] { 1, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1 }, 9, 2);
-		_instance.runTest(new int [] { 5, 2, 3, 5, 2, 2, 3, 5, 1, 2, 5, 1, 2, 5, 3 }, 7, 2);
+		_instance.runTest(new int [] { 1, 2, 2, 1, 1, 1, 2, 2, 2, 1, 1, 1 }, 9, 1);
+		_instance.runTest(new int [] { 5, 2, 3, 5, 2, 2, 3, 5, 1, 2, 5, 1, 2, 5, 3 }, 7, 3);
 	}
 
 	public void runTest(final int[] array, final int k, final int expectedOutput) {
