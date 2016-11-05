@@ -2,7 +2,6 @@ package me.hxkandwal.daily.challanges.hackerrank;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -29,18 +28,18 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  *
  */
-public class BetweenTwoSets extends AbstractCustomTestRunner {
+public class WoC25_BetweenTwoSets extends AbstractCustomTestRunner {
 	
-	private static BetweenTwoSets _instance = new BetweenTwoSets();
+	private static WoC25_BetweenTwoSets _instance = new WoC25_BetweenTwoSets();
 	
-	private BetweenTwoSets() {}
+	private WoC25_BetweenTwoSets() {}
 	
 	// euclid algorithm
 	private static int gcd (int a, int b) {
 		if (b == 0) 
 			return a;
 		else
-			return gcd(b, a % b);
+			return gcd (b, a % b);
 	}
 	
 	private static int arrayGcd (int[] array) {
@@ -57,24 +56,26 @@ public class BetweenTwoSets extends AbstractCustomTestRunner {
 		return gcd;
 	}
 	
-	/* logic : 	build gcd engine, operate on B, resulting answer save as bgcd.
-	 *			find lcm (need gcd engine again) of A, and then build up to bgcd. 
+	private static int arrayLcm (int[] array) {
+	    int ans = array [0];
+	 
+	    for (int idx = 1; idx < array.length; idx ++)
+	    	ans = (((array [idx] * ans)) / (gcd (array[idx], ans)) );
+	 
+	    return ans;
+	}
+	
+	/* logic : build gcd engine, operate on B, resulting answer save as bgcd.
+	 *		   find lcm (need gcd engine again) of A, and then build up to bgcd. 
 	 */
 	public static int _getCountBetweenTwoSets(int[] A, int[] B) {
 		int bgcd = arrayGcd (B);
 		
-		List<Integer> factors = new ArrayList<>();
-		for (int idx = 1; idx <= bgcd; idx ++)
-			if (bgcd % idx == 0) 
-				factors.add(idx);
+		long alcm = arrayLcm (A);
 		
 		int count = 0;
-		for (int factor : factors) {
-			boolean isDivisible = true;
-			for (int idx = 0; idx < A.length; idx++) 
-				isDivisible = isDivisible && (factor % A [idx] == 0);
-			count += (isDivisible) ? 1 : 0;
-		}
+		for (int idx = 1; alcm * idx <= bgcd; idx ++)
+			count += (bgcd % (alcm * idx) == 0) ? 1  : 0;
 		
 		return count;
 	}
@@ -82,6 +83,14 @@ public class BetweenTwoSets extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 2, 4 }, new int[] { 16, 32, 96 }, 3);
+		_instance.runTest(new int[] { 1, 2, 4 }, new int[] { 100 }, 3);
+		_instance.runTest(new int[] { 3, 4, 6 }, new int[] { 24 }, 2);
+		_instance.runTest(new int[] { 1 }, new int[] { 3, 5, 11 }, 1);
+		_instance.runTest(new int[] { 1 }, new int[] { 2, 5, 7 }, 1);
+		_instance.runTest(new int[] { 1 }, new int[] { 4, 6, 8 }, 2);
+		_instance.runTest(new int[] { 1 }, new int[] { 100 }, 9);
+		_instance.runTest(new int[] { 1 }, new int[] { 10000 }, 25);
+		_instance.runTest(new int[] { 1, 1 }, new int[] { 4, 8, 16 }, 3);
 	}
 
 	public void runTest(final int[] A, final int[] B, final int expectedOutput) {
