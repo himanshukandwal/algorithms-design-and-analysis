@@ -35,6 +35,10 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 
  * link : https://www.hackerrank.com/contests/w25/challenges/stone-division
  * 
+ * Variant of Nim Game:	https://en.wikipedia.org/wiki/Nim
+ * 
+ * Useful link: https://www.topcoder.com/community/data-science/data-science-tutorials/algorithm-games/
+ * 
  * @author Hxkandwal
  *
  */
