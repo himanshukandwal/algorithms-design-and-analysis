@@ -54,6 +54,8 @@ public class FunTricks {
         int[] count = new int['z' - 'A' + 1];
         
         // for max, use class not primitives. If null, assign first value else compute max. Handle return statement wisely.
+        // Keep code simple, crisp and fast. (too much logic, will make you look at more potential breakpoints). Always read question properly.
+        // Euclid formula for GCD and LCM is only for two number. For more extension, use piping. 
 		
 	}
 
