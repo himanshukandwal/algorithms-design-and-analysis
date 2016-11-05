@@ -52,7 +52,7 @@ public class WoC25_StoneDivision extends AbstractCustomTestRunner {
 			return this == FIRST ? SECOND : FIRST;
 		}
 	}
-	
+
 	public static Player _getWinningPlayer(int n, int[] S) {
 		int minChoice = Integer.MAX_VALUE;
 		for (int idx = 0; idx < S.length; idx ++) 
@@ -72,7 +72,6 @@ public class WoC25_StoneDivision extends AbstractCustomTestRunner {
 			return player.other();	
 		
 		// choose all pile, try winning from all possible scenarios.
-		
 		Player solPlayer = null;
 		for (int idx = 0; idx < S.length; idx++) {
 			int choice = S [idx];
@@ -104,6 +103,10 @@ public class WoC25_StoneDivision extends AbstractCustomTestRunner {
 	// driver method
     public static void main(String[] args) throws FileNotFoundException {
     	_instance.runTest(15, new int [] { 5, 2, 3 }, Player.SECOND);
+    	_instance.runTest(45, new int [] { 5, 3 }, Player.FIRST);
+    	_instance.runTest(10, new int [] { 2, 5 }, Player.FIRST);
+    	_instance.runTest(15, new int [] { 3, 5, 15 }, Player.FIRST);
+    	_instance.runTest(3888, new int [] { 2, 3, 8, 9, 36 }, Player.FIRST);
     }
 
 	public void runTest(final int n, final int[] S, final Player expectedOutput) {
