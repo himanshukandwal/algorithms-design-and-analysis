@@ -55,7 +55,12 @@ public class FunTricks {
         
         // for max, use class not primitives. If null, assign first value else compute max. Handle return statement wisely.
         // Keep code simple, crisp and fast. (too much logic, will make you look at more potential breakpoints). Always read question properly.
-        // Euclid formula for GCD and LCM is only for two number. For more extension, use piping. 
+        // Euclid formula for GCD and LCM is only for two number. For more extension, use piping.
+        // In (poorly) unstructured problems (like graphs, trees) or multiple  (uncontable) case handling scenarios, run the recursion insect and let will
+        //		spawn its web for us (branching non-uniformly if necessary). Handle or focus only on base case. Avoid looping (send collector that manages 
+        //		states discovered kinda-like graph search) and if found break it.
+        //		Even consider this step for the case when we have multiple steps to choose at a junction. (try all strategy)
+        //		power the algorithm then with DP (managing sub-states).
 		
 	}
 
