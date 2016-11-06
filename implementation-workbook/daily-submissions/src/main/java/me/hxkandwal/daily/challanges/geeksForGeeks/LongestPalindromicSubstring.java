@@ -35,7 +35,7 @@ public class LongestPalindromicSubstring extends AbstractCustomTestRunner {
 		for (int row = 0; row < input.length(); row ++) 
 			for (int col = 0; col <= row; col ++) 
 				if (input.charAt(row) == input.charAt(col)) {
-					dp [row + 1][col + 1] = (row == col) ? 1 : (dp [row][col + 2] + 2);
+					dp [row + 1][col + 1] = (row == col) ? 1 : ((row - col == 1 || dp [row][col + 2] > 0) ? dp [row][col + 2] + 2 : 0);
 					if (dp [row + 1][col + 1] > maxLen) {
 						maxLen = dp [row + 1][col + 1];
 						maxRow = row + 1;
@@ -99,7 +99,8 @@ public class LongestPalindromicSubstring extends AbstractCustomTestRunner {
     	_instance.runTest("forgeeksskeegfor", "geeksskeeg");	
     	_instance.runTest("sabbaerd", "abba");	
     	_instance.runTest("sabaerd", "aba");
-    	_instance.runTest("ayaxzfbjbkrxiri", "aya");	
+    	_instance.runTest("ayaxzfbjbkrxiri", "aya");
+    	_instance.runTest("abcda", "a");	
     }
 
 	public void runTest(final String input, final String expectedOutput) {
