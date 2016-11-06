@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.hackerrank;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -46,7 +47,24 @@ public class FairCut extends AbstractCustomTestRunner {
 	private FairCut() {}
 
 	public static int _getFairCut(int[] a, int k) {
+		int[][] diffMatrix = new int [a.length][a.length];
 		
+		List<Integer> previousKSolutions = new ArrayList<Integer>();
+		
+		for (int row = 0; row < diffMatrix.length; row++) {
+			int rowSum = 0;
+			for (int col = 0; col < diffMatrix.length; col++) 
+				rowSum += diffMatrix [row][col] = Math.abs(a [row] - a [col]);
+			
+			previousKSolutions.add(rowSum);
+		}
+		
+		int minValue = Integer.MAX_VALUE;
+		
+		for (int kIdx = 1; kIdx <= k; kIdx ++) {
+			
+		}
+				
 		return 0;
 	}
 
