@@ -44,28 +44,27 @@ public class FirstBadVersion {
     
     // method 2 : much better and makes less calls to isBadVersion(int) api method.
     public int findFirstBadVersion2(int n) {
-        // write your code here
-        if (n == 0) {
+        if (n == 0)
             return -1;
-        }
 
         int start = 1, end = n, mid;
+        
+        // the while loop will break when start and end are next to each other. Then check just start and end.
         while (start + 1 < end) {
-            mid = start + (end - start)/2;
-            if (isBadVersion(mid) == false) {
+            mid = (start + end) >>> 1;
+            
+            if (!isBadVersion(mid))
                 start = mid;
-            } else {
+            else
                 end = mid;
-            }
         }
 
-        if (isBadVersion(start) == true) {
+        if (isBadVersion(start))
             return start;
-        } else if (isBadVersion(end) == true) {
+        else if (isBadVersion(end))
             return end;
-        } else {
+        else
             return -1; // not found
-        }
     }
     
     // mocked API method.
