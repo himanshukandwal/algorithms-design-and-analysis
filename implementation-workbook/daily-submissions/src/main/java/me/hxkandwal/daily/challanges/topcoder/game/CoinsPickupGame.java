@@ -67,8 +67,6 @@ public class CoinsPickupGame extends AbstractCustomTestRunner {
     	/*
     	 * Notes :	It can be seen that whether a position is winning or losing depends only on the last k positions, 
     	 * 			where k is the maximum number of coins we can take away. 
-    	 * 			
-    	 * 			That's why we sometimes mod it (k + 1).
     	 */
     }
 
