@@ -50,31 +50,48 @@ public class TwoCharacters extends AbstractCustomTestRunner {
 	
 	// to visualize the logic, do a simple dry run.
 	public static int _getTwoCharacterString(String s) {
+		Set<Character> ignoredCharacters = new HashSet<>();
+		
+		// pre-processing.
+		for (int idx = 0; idx < s.length() - 1; idx++) 
+			if (s.charAt(idx) == s.charAt(idx + 1)) 
+				ignoredCharacters.add(s.charAt(idx));		// permenantly ignored
+		
 		int maxLen = 0;
 		
 		for (int idx = 0; idx < s.length(); idx++) {
 			char ch = s.charAt(idx);
-			for (int innerIdx = idx + 1; innerIdx < s.length(); innerIdx++) {
-				char sch = s.charAt(innerIdx);
-
-				int localLen = 2;
-				boolean foundAlternative = false;
-				for (int innermostIdx = innerIdx + 1; innermostIdx < s.length(); innermostIdx++) {
-					if (s.charAt(innermostIdx) == ch || s.charAt(innermostIdx) == sch) {
-						if (!foundAlternative && s.charAt(innermostIdx) == sch) {
-							localLen = 0;
-							break;
-						} else if (foundAlternative && s.charAt(innermostIdx) == ch) {
-							localLen = 0;
-							break;
-						} else {
-							localLen++;
-							foundAlternative = !foundAlternative;
+			if (!ignoredCharacters.contains(ch)) { 
+				for (int innerIdx = idx + 1; innerIdx < s.length(); innerIdx++) {
+					char sch = s.charAt(innerIdx);
+	
+					// augment pre-processing task.
+					if (ch == sch) {
+						ignoredCharacters.add(sch);
+						// breaking as sch == ch, break all future occurences of ch.
+						break;			
+					}
+						
+					if (!ignoredCharacters.contains(sch)) {
+						int localLen = 2;
+						boolean foundAlternative = false;
+						for (int innermostIdx = innerIdx + 1; innermostIdx < s.length(); innermostIdx++) {
+							if (s.charAt(innermostIdx) == ch || s.charAt(innermostIdx) == sch) {
+								if (!foundAlternative && s.charAt(innermostIdx) == sch) {
+									localLen = 0;
+									break;
+								} else if (foundAlternative && s.charAt(innermostIdx) == ch) {
+									localLen = 0;
+									break;
+								} else {
+									localLen++;
+									foundAlternative = !foundAlternative;
+								}
+							}
 						}
+						maxLen = Math.max (maxLen, localLen);
 					}
 				}
-
-				maxLen = Math.max(maxLen, localLen);
 			}
 		}
 		
@@ -83,7 +100,7 @@ public class TwoCharacters extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest("xyxyzz", 4);
+		_instance.runTest("xyxyzz", 4);
 		_instance.runTest("xxyxyyz", 0);
 		_instance.runTest("xyxyyzw", 2);
 		_instance.runTest("beabeefeab", 5);
@@ -99,6 +116,8 @@ public class TwoCharacters extends AbstractCustomTestRunner {
 				+ "dbmandgzcouzdlpiynwlhcwqafaqpqjdkbouelfbmztbqshzlgedbduhgcerrbqnqzfvgpfheqrnwlsduxklrfjjnkmvetkuzagkdmkaugptrdenqfiavgqzfub"
 				+ "ybmjcgoqlmvgcdmddwigtqmvjpkwlkuyxdycuriyrvlbghvyagxulvqmrkxlqfpxblnwdctznlrbbactsrbubcaayntkjmhzjzuyruejekcorvtbglaccnzxhut"
 				+ "fqzjrfadgpgubqynmbxziudhmzcpmpx", 0);
+		_instance.runTest("tlymrvjcylhqifsqtyyzfaugtibkkghfhyzxqbsizkjguqlqwwetyofqihtpkmpdlgthfybfhhmjerjdkybwppwrdapirukcshkpngayrdruanjtzik"
+				+ "nnwxmsjpnuswllymhkmztsrcwwzmlbcoakswwffveobbvzinkhnmvwqhpfednhsuzmffaebi", 0);
 	}
 
 	public void runTest(final String input, final int expectedOutput) {
