@@ -43,10 +43,14 @@ public class CatalanNumbers extends AbstractCustomTestRunner {
 		
 		for (int idx = 2; idx <= n; idx ++) {
 			
-			// finding catalan sequence for idx
+			
+			/* finding catalan sequence for idx:
+			 * 
+			 * Cn = Cn−1*C0 + Cn−2*C1 +···+ C1*Cn−2 + C0*Cn−1
+			 */
 			for (int i = 0; i < idx; i++)
-				catalan_memo [idx] += catalan_memo[i] * catalan_memo[idx - i - 1];
-		}
+				catalan_memo [idx] += catalan_memo[i] * catalan_memo[idx - i - 1];		// calculation of the binomial coefficients.
+		} 
 		
 		return catalan_memo[n];
 	}
