@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.hackerrank;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,15 +52,17 @@ public class TwoCharacters extends AbstractCustomTestRunner {
 	// to visualize the logic, do a simple dry run.
 	public static int _getTwoCharacterString(String s) {
 		Set<Character> ignoredCharacters = new HashSet<>();
+		HashMap<Character, Set<Character>> notpossiblePairMap = new HashMap<>();
 		
 		// pre-processing.
 		for (int idx = 0; idx < s.length() - 1; idx++) 
 			if (s.charAt(idx) == s.charAt(idx + 1)) 
-				ignoredCharacters.add(s.charAt(idx));		// permenantly ignored
+				ignoredCharacters.add(s.charAt(idx));		// Permanently ignored
 		
 		int maxLen = 0;
 		
 		for (int idx = 0; idx < s.length(); idx++) {
+			
 			char ch = s.charAt(idx);
 			if (!ignoredCharacters.contains(ch)) { 
 				for (int innerIdx = idx + 1; innerIdx < s.length(); innerIdx++) {
@@ -68,20 +71,36 @@ public class TwoCharacters extends AbstractCustomTestRunner {
 					// augment pre-processing task.
 					if (ch == sch) {
 						ignoredCharacters.add(sch);
-						// breaking as sch == ch, break all future occurences of ch.
+						// breaking as sch == ch, break all future occurrences of ch.
 						break;			
 					}
-						
-					if (!ignoredCharacters.contains(sch)) {
+				
+					if (!ignoredCharacters.contains(sch) && (notpossiblePairMap.containsKey(ch) ? !notpossiblePairMap.get(ch).contains(sch) : true)) {
 						int localLen = 2;
 						boolean foundAlternative = false;
 						for (int innermostIdx = innerIdx + 1; innermostIdx < s.length(); innermostIdx++) {
 							if (s.charAt(innermostIdx) == ch || s.charAt(innermostIdx) == sch) {
 								if (!foundAlternative && s.charAt(innermostIdx) == sch) {
 									localLen = 0;
+									if (notpossiblePairMap.containsKey(ch)) 
+										notpossiblePairMap.get(ch).add(sch);
+									else {
+										Set<Character> set = new HashSet<>() ;
+										set.add(sch);
+										notpossiblePairMap.put(ch, set);
+									}
+									
 									break;
 								} else if (foundAlternative && s.charAt(innermostIdx) == ch) {
 									localLen = 0;
+									if (notpossiblePairMap.containsKey(ch)) 
+										notpossiblePairMap.get(ch).add(sch);
+									else {
+										Set<Character> set = new HashSet<>() ;
+										set.add(sch);
+										notpossiblePairMap.put(ch, set);
+									}
+									
 									break;
 								} else {
 									localLen++;
