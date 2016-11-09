@@ -1,11 +1,10 @@
 package me.hxkandwal.daily.challanges.hackerrank;
 
-import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-import static com.google.common.truth.Truth.assertThat;
+import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
  * Sherlock and Array
@@ -33,20 +32,20 @@ public class SherlockAndTheArray extends AbstractCustomTestRunner {
 
     private SherlockAndTheArray() {}
 
-    public static String _isElementPresent(int[] input) {
-        long totalSum = 0, runningSum = 0;
-        for (int idx = 0; idx < input.length; idx ++)
-            totalSum += input [idx];
+	public static String _isElementPresent(int[] input) {
+		long totalSum = 0, runningSum = 0;
+		for (int idx = 0; idx < input.length; idx++)
+			totalSum += input[idx];
 
-        for (int idx = 0; idx < input.length; idx ++) {
-            if (runningSum == totalSum - runningSum - input[idx])
-                return "YES";
+		for (int idx = 0; idx < input.length; idx++) {
+			if (runningSum == totalSum - runningSum - input[idx])
+				return "YES";
 
-            runningSum += input [idx];
-        }
+			runningSum += input[idx];
+		}
 
-        return "NO";
-}
+		return "NO";
+	}
 
     // driver method
     public static void main(String[] args) {
