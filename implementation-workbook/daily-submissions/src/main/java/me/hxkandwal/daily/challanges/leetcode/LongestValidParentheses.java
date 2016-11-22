@@ -25,17 +25,32 @@ public class LongestValidParentheses extends AbstractCustomTestRunner {
 	
 	public LongestValidParentheses() {}
 
-	public int longestValidParentheses(String s) {
-
-		return 0;
+	public int _longestValidParentheses(String s) {
+		char[] chArray = s.toCharArray();
+		int [] counter = new int [chArray.length + 1];
+		
+		int maxValue = 0; 
+		for (int idx = 0; idx < chArray.length; idx ++) {
+			if (chArray [idx] == '(' || idx == 0)
+				counter [idx + 1] = counter [idx];
+			else {
+				if (chArray [idx - counter[idx] - 1] == '(')
+					counter [idx + 1] = counter [idx] + 2; 
+			}	
+			maxValue = Math.max(maxValue, counter [idx + 1]);	
+		}
+		
+		return maxValue;
 	}
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("()", 2);
 		_instance.runTest("(()", 2);
+		_instance.runTest("(()))(()()", 4);
 		_instance.runTest("(()((()()", 4);
 		_instance.runTest("(()((()())))", 12);
+		_instance.runTest("(()((()()))", 8);
 		_instance.runTest("(", 0);
 		_instance.runTest("(((", 0);
 		_instance.runTest(")))", 0);
