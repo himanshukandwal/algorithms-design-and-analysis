@@ -79,7 +79,13 @@ public class FindRelatednessInComments extends AbstractCustomTestRunner {
 	public static double findMean(List<List<String>> dataSet) {
 		parse(dataSet);
 		
-		return 0.0;
+        double numNodes = nodes.size() * 1d;
+        int sum = 0;
+		
+		for (Map.Entry<String, Node> entry : nodes.entrySet()) 
+			sum += entry.getValue().neighbors.size();
+		        
+		return sum/numNodes ;
 	}
 
 	/** @return median of the degree of the words
