@@ -21,7 +21,7 @@ public class CorruptedLinkedList extends AbstractCustomTestRunner {
 	private CorruptedLinkedList() {}
 
 	/**
-	 * Data structures.s
+	 * Data structures.
 	 */
 	public static class Node {
 		private final Node next;
@@ -35,6 +35,33 @@ public class CorruptedLinkedList extends AbstractCustomTestRunner {
 		}
 	}
 
+	/**
+	 *  link: http://stackoverflow.com/questions/1594061/check-if-two-linked-lists-merge-if-so-where
+	 * 
+	 * 	lenA = count(listA) //iterates list A
+	 * 	lenB = count(listB) //iterates list B
+	 * 	
+	 * 	ptrA = listA
+	 * 	ptrB = listB
+	 * 	
+	 * 	//now we adjust either ptrA or ptrB so that they are equally far from the end
+	 * 	while(lenA > lenB):
+	 * 	    ptrA = ptrA->next
+	 * 	    lenA--
+	 * 	while(lenB > lenA):
+	 * 	    prtB = ptrB->next
+	 * 	    lenB--
+	 * 	
+	 * 	while(ptrA != NULL):
+	 * 	    if (ptrA == ptrB):
+	 * 	        return ptrA //found merge point
+	 * 	    ptrA = ptrA->next
+	 * 	    ptrB = ptrB->next
+	 * 	    
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public static int _findCorruptedIndex(Node a, Node b) {
 		Node pointerA = a, pointerB = b;
 
