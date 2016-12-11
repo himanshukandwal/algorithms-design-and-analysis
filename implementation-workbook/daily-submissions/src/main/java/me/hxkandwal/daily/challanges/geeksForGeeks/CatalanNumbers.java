@@ -43,7 +43,6 @@ public class CatalanNumbers extends AbstractCustomTestRunner {
 		
 		for (int idx = 2; idx <= n; idx ++) {
 			
-			
 			/* finding catalan sequence for idx:
 			 * 
 			 * Cn = Cn−1*C0 + Cn−2*C1 +···+ C1*Cn−2 + C0*Cn−1
