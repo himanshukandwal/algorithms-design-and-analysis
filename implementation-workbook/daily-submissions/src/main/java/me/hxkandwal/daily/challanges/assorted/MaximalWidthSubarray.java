@@ -30,6 +30,7 @@ public class MaximalWidthSubarray extends AbstractCustomTestRunner {
 			else
 				cumulativeSum -= a[windowStart++];
 		}
+		
 		return maxWidth;
 	}
 
