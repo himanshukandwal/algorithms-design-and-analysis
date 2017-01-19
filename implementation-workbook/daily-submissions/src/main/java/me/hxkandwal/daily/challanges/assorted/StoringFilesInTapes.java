@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.assorted;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -34,17 +35,50 @@ public class StoringFilesInTapes extends AbstractCustomTestRunner {
 	
 	private StoringFilesInTapes() {}
 	
+	public static int _tapeCount(int[] array, int tapeSize) {
+		Arrays.sort(array);
+		boolean[] usedFilesInfo = new boolean[array.length];
+		int tapes = 0;
+		int usedFiles = 0;
+		
+		while (array.length - usedFiles > 1) {
+			int low = 0;
+			int high = array.length - 1;
+			
+			while (low <= high) {
+				if (!usedFilesInfo [low] && !usedFilesInfo [high]) {
+					if (array [low] + array [high] <= tapeSize) {
+						usedFilesInfo [low] = true;
+						usedFilesInfo [high] = true;
+						tapes ++;
+						usedFiles += (low == high ? 1 : 2);
+						break;
+					} else
+						high --;	
+				} else if (usedFilesInfo [low])
+					low ++;
+				else
+					high --;
+			}
+		}
+		
+		if (array.length - usedFiles == 1) 
+			tapes ++;
+		
+		return tapes;
+	}
+	
 	// driver method
 	public static void main(String[] args) {
-				
-//		_instance.runTest(new int[] { 4, 2, 5, 5, 6, 1, 4 }, "4:2,2:1,5:2,1:1,,,6:1");
+		_instance.runTest(new int[] { 70, 10, 20 }, 100, 2);
+		_instance.runTest(new int[] { 70, 10, 20, 30 }, 70, 3);
 	}
 
-	public void runTest(final int[] input, final String expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { input });
+	public void runTest(final int[] input, final int tapeSize, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { input, tapeSize });
 
 		for (Object answer : answers)
-			assertThat((String) answer).isEqualTo(expectedOutput);
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
 
 		System.out.println("ok!");
 	}
