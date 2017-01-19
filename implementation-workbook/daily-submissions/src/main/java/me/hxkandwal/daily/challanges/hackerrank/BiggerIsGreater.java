@@ -41,6 +41,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 	a) Knuth L algorithm
  * 	b) details :
  * 		lexicographically permutations algorithm : https://en.wikipedia.org/wiki/Permutation#Generation_in_lexicographic_order
+ * 		http://blog.bjrn.se/2008/04/lexicographic-permutations-using.html
  * 
  * @author Hxkandwal
  *
@@ -68,8 +69,7 @@ public class BiggerIsGreater extends AbstractCustomTestRunner {
 			return "no answer";
 
 		// partition the array : inputArr [0 .. j] and inputArr [j+1 .. n]
-		for (int partition2reverseIndex = inputArr.length - 1; partition2reverseIndex >= (j
-				+ 1); partition2reverseIndex--) {
+		for (int partition2reverseIndex = inputArr.length - 1; partition2reverseIndex >= (j + 1); partition2reverseIndex --) {
 			if (inputArr[partition2reverseIndex] > inputArr[j]) {
 				swap(inputArr, j, partition2reverseIndex);
 				break;
