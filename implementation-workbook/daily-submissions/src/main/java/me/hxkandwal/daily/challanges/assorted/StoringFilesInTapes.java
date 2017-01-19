@@ -36,20 +36,7 @@ public class StoringFilesInTapes extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-		
-		int[] array = new int[] { 1, 2, 3, 3, 4, 5, 6, 6 };
-		
-		int duplicateStartIdx = -1;
-		int uniqueStartIdx = 0;
-		
-		for (int idx = 0; idx < array.length - 1; idx ++) {
-			if (array [idx] == idx + 1) {
-				// initialization
-				if (duplicateStartIdx == -1)
-					uniqueStartIdx
-			}
-		}
-		
+				
 //		_instance.runTest(new int[] { 4, 2, 5, 5, 6, 1, 4 }, "4:2,2:1,5:2,1:1,,,6:1");
 	}
 
