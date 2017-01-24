@@ -20,6 +20,7 @@ public class MatrixTransposition extends AbstractCustomTestRunner {
 
 	private MatrixTransposition() {}
 	
+	// additional space.
 	public static int[][] _transpose(int[][] matrix, int flag) {
 		int[][] res = null;
 		
