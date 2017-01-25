@@ -50,23 +50,35 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 	}
 	
 	// manager/dispatcher function.
-	public boolean isValidBST(TreeNode root) {
-	    boolean result = false;
-	    
-	    
-	    
-		return result;
+	public boolean _isValidBST(TreeNode root) {
+	    Integer[] minMax = getMinMax(root);
+	    return minMax != null;
 	}
 	
 	private Integer[] getMinMax(TreeNode node) {
-		Integer[] result = new Integer[2];
+		if ((node.left != null && node.left.val > node.val) || (node.right != null && node.right.val < node.val))
+			return null;
 		
+		Integer[] result = new Integer[2];
 		if (node.left != null) {
-			Integer[] leftResult = getMinMax(node.left);
-			if (leftResult) {
-				
-			}
-		}
+	    	Integer[] minMax = getMinMax(node.left);
+	    	
+	    	if (minMax == null || ((minMax [0] < node.val) || (minMax [1] < node.val)))
+	    		return null;
+	    	else 
+	    		result [0] = minMax [0]; 
+	    } else
+	    	result [0] = node.val;
+		
+		if (node.right != null) {
+	    	Integer[] minMax = getMinMax(node.right);
+	    	
+	    	if (minMax == null || ((minMax [0] > node.val) || (minMax [1] > node.val)))
+	    		return null;
+	    	else 
+	    		result [1] = minMax [1]; 
+	    } else
+	    	result [1] = node.val;
 		
 		return result;
 	}
