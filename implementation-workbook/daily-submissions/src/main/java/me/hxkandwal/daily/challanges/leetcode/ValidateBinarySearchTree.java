@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Queue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
-import me.hxkandwal.daily.challanges.leetcode.SymmetricTree.Node;
 
 /**
  * 98. Validate Binary Search Tree
@@ -42,28 +41,28 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 	
 	public ValidateBinarySearchTree() {}
 	
-	public class TreeNode {
+	public static class TreeNode {
 		int val;
 		TreeNode left;
 		TreeNode right;
-		TreeNode(int x) { val = x; }
+		
+		public TreeNode(int x) { val = x; }
 	}
 	
 	// manager/dispatcher function.
 	public boolean _isValidBST(TreeNode root) {
-	    Integer[] minMax = getMinMax(root);
-	    return minMax != null;
+		return (root == null ? true : getMinMax(root) != null);
 	}
 	
 	private Integer[] getMinMax(TreeNode node) {
-		if ((node.left != null && node.left.val > node.val) || (node.right != null && node.right.val < node.val))
+		if (node != null && (node.left != null && node.left.val > node.val) || (node.right != null && node.right.val < node.val))
 			return null;
 		
 		Integer[] result = new Integer[2];
 		if (node.left != null) {
 	    	Integer[] minMax = getMinMax(node.left);
 	    	
-	    	if (minMax == null || ((minMax [0] < node.val) || (minMax [1] < node.val)))
+	    	if (minMax == null || ((minMax [0] >= node.val) || (minMax [1] >= node.val)))
 	    		return null;
 	    	else 
 	    		result [0] = minMax [0]; 
@@ -73,7 +72,7 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 		if (node.right != null) {
 	    	Integer[] minMax = getMinMax(node.right);
 	    	
-	    	if (minMax == null || ((minMax [0] > node.val) || (minMax [1] > node.val)))
+	    	if (minMax == null || ((minMax [0] <= node.val) || (minMax [1] <= node.val)))
 	    		return null;
 	    	else 
 	    		result [1] = minMax [1]; 
@@ -85,9 +84,10 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new Integer[] { 1, 2, 2, 3, 4, 4, 3 }, true);
-		_instance.runTest(new Integer[] { 1, 2, 2, null, 3, null, 3 }, false);
-		_instance.runTest(new Integer[] { 1, 2, 2, null, 3, 3 }, true);
+		_instance.runTest(new Integer[] { 2, 1, 3 }, true);
+		_instance.runTest(new Integer[] { }, true);
+		_instance.runTest(new Integer[] { 1, 1 }, false);
+		_instance.runTest(new Integer[] { 1, 2, 3 }, false);
 	}
 	
 	public void runTest(final Integer[] array, final boolean expectedOutput) {
@@ -101,7 +101,7 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
-		Node root = generateTree((Integer[]) externalVariables[0]);
+		TreeNode root = generateTree((Integer[]) externalVariables[0]);
 		boolean resultArray = false;
 		
 		try {
@@ -114,29 +114,26 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 		return resultArray;
 	}
 	
-	 // logic borrowed and enhanced from BFSLevelPrintingAndGeneration program.
-	public static Node generateTree(Integer[] array) {
-		Node root = null;
+	// BFS way of creating the tree.
+	public static TreeNode generateTree(Integer[] array) {
+		TreeNode root = null;
 		
-		if (array.length > 0 && array [0] != null) {
-			int index = 0;
-			Queue<Node> queue = new LinkedList<>();
-			
-			queue.add(root = new Node(array [index ++]));
-			while (!queue.isEmpty() && index < array.length) {
-				Node node = queue.poll();
+		Queue<TreeNode> queue = new LinkedList<>();
+		int idx = 0;
+		
+		while (idx < array.length) {
+			if (idx == 0) {
+				root = new TreeNode(array [idx ++]);
+				queue.add(root);
+			} else {
+				TreeNode node = queue.poll();
+				node.left = new TreeNode(array [idx ++]);
+				queue.add(node.left);
 				
-				if (array [index] != null) {
-					node.left = new Node(array [index]);
-					queue.add(node.left);
-				}
-				index ++;
-				
-				if (index < array.length && array [index] != null) {
-					node.right = new Node(array [index]);
+				if (idx < array.length) {
+					node.right = new TreeNode(array [idx ++]);
 					queue.add(node.right);
 				}
-				index ++;
 			}
 		}
 		
