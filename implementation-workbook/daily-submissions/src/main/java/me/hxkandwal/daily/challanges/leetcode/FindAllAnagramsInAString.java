@@ -1,8 +1,8 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -41,27 +41,57 @@ public class FindAllAnagramsInAString extends AbstractCustomTestRunner {
 	private FindAllAnagramsInAString() {}
 	
 	public List<Integer> _findAnagrams(String s, String p) {
-		List<Integer> result = null;
+		List<Integer> result = new ArrayList<>();
 		
 		int[] alphabets = new int [26];
 		for (int idx = 0; idx < p.length(); idx ++) 
 			alphabets [p.charAt(idx) - 'a'] ++;
 		
-		for (int idx = 0; idx < s.length() - p.length(); idx ++) {
-			
+		boolean found = false;
+		for (int idx = 0; idx < s.length() - p.length() + 1; idx ++) {
+			if (found) { 
+				if (s.charAt(idx + p.length() - 1) == s.charAt(idx - 1))
+					result.add(idx);
+				else {
+					found = false;
+					if (alphabets [s.charAt(idx + p.length() - 1) - 'a'] == 0)
+						idx += (p.length() - 1);
+				}
+			} else {
+				int[] localAlphabets = new int [26];
+				for (int innerIdx = 0; innerIdx < p.length(); innerIdx ++) {
+					if (alphabets [s.charAt(idx + innerIdx) - 'a'] == 0)
+						break;
+					else
+						localAlphabets [s.charAt(idx + innerIdx) - 'a'] ++;
+				}
+				
+				if (isEqual(alphabets, localAlphabets)) 
+					found = result.add(idx);
+			}
 		}		
 		
 		return result;
     }
 	
-	// driver method
-	public static void main(String[] args) {
-		_instance.runTest("cbaebabacd", "abc", new int[] { 0, 6 });
-		_instance.runTest("abab", "ab", new int[] { 0, 1, 2 });
+	private static boolean isEqual(int[] pattern, int[] detected) {
+		for (int idx = 0; idx < detected.length; idx ++) 
+			if (pattern [idx] != detected [idx])
+				return false;
+		
+		return true;
 	}
 	
+	// driver method
+	public static void main(String[] args) {
+//		_instance.runTest("cbaebabacd", "abc", new int[] { 0, 6 });
+//		_instance.runTest("abab", "ab", new int[] { 0, 1, 2 });
+		_instance.runTest("abacbabc", "abc", new int[] { 1, 2, 3, 5 });
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void runTest(final String s, final String p, final int[] expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { s, t });
+		List<Object> answers = runAll(getClass(), new Object[] { s, p });
 		
 		for (Object answer : answers) {
 			assertEquals(expectedOutput.length, ((List<Integer>) answer).size());
