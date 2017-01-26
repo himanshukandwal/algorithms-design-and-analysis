@@ -11,38 +11,28 @@ import java.util.List;
  */
 public class Vertex {
 	
-	private int id;
-	private String name;
+	private int name;
 	private List<Edge> adjacentEdges;
 	
-	public Vertex(int id) {
-		this.id = id;
+	public Vertex(int name) {
+		this.name = name;
 		this.adjacentEdges = new ArrayList<>();
 	}
 	
-	public Vertex(int id, String name) {
-		this(id);
-		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
+	public int getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(int name) {
 		this.name = name;
 	}
 
 	public List<Edge> getAdjacentEdges() {
 		return adjacentEdges;
+	}
+	
+	public String toString() {
+		return Integer.toString(name);
 	}
 
 }

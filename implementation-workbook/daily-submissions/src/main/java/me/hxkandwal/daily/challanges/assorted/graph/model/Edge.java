@@ -11,6 +11,7 @@ public class Edge {
 	private Vertex to;
 	private Vertex from;
 	private int weight;
+	private boolean seen;
 	
 	public Edge(Vertex to, Vertex from) {
 		this.to = to;
@@ -48,6 +49,18 @@ public class Edge {
 	
 	public void setWeight(int weight) {
 		this.weight = weight;
+	}
+	
+	public boolean isSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
+	}
+	
+	public String toString() {
+		return "(" + from + "," + to + ")";
 	}
 	
 }
