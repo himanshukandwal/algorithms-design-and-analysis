@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.challanges.assorted.graph;
+package me.hxkandwal.daily.challanges.assorted.graph.model;
 
 /**
  * A general purpose edge data structure for vertex data structure.
