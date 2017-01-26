@@ -52,6 +52,8 @@ public class Graph {
 				Edge edge = new Edge (graph.vertices [is.read() - 1], graph.vertices [is.read() - 1], is.read());
 				edge.getTo().getAdjacentEdges().add(edge);
 				
+				if (!directed) 
+					edge.getFrom().getAdjacentEdges().add(edge);
 			}
 			
 		} catch (Exception e) {
