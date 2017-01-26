@@ -10,11 +10,16 @@ public class Edge {
 	
 	private Vertex to;
 	private Vertex from;
-	private boolean directed;
+	private int weight;
 	
 	public Edge(Vertex to, Vertex from) {
 		this.to = to;
 		this.from = from;
+	}
+
+	public Edge(Vertex to, Vertex from, int weight) {
+		this(to, from);
+		this.weight = weight;
 	}
 	
 	public Vertex otherEnd(Vertex vertex) {
@@ -36,13 +41,13 @@ public class Edge {
 	public void setFrom(Vertex from) {
 		this.from = from;
 	}
-
-	public boolean isDirected() {
-		return directed;
+	
+	public int getWeight() {
+		return weight;
 	}
-
-	public void setDirected(boolean directed) {
-		this.directed = directed;
+	
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	
 }
