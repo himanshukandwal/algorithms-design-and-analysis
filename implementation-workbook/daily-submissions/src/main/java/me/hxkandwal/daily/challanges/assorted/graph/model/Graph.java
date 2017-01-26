@@ -1,7 +1,6 @@
 package me.hxkandwal.daily.challanges.assorted.graph.model;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Scanner;
 
 /**
  * A general purpose graph data structure.
@@ -43,25 +42,18 @@ public class Graph {
 		return vertices;
 	}
 
-	public static Graph readGraph(InputStream is, boolean directed) throws IOException {
-		Graph graph = null;
-		try {
-			graph = new Graph(is.read(), is.read());
+	public static Graph readGraph(Scanner sc, boolean directed) {
+		Graph graph = new Graph(sc.nextInt(), sc.nextInt());
 		
-			for (int edgeIteration = 0; edgeIteration < graph.numEdges; edgeIteration ++) {
-				Edge edge = new Edge (graph.vertices [is.read() - 1], graph.vertices [is.read() - 1], is.read());
-				edge.getTo().getAdjacentEdges().add(edge);
-				
-				if (!directed) 
-					edge.getFrom().getAdjacentEdges().add(edge);
-			}
+		for (int edgeIteration = 0; edgeIteration < graph.numEdges; edgeIteration ++) {
+			Edge edge = new Edge (graph.vertices [sc.nextInt() - 1], graph.vertices [sc.nextInt() - 1], sc.nextInt());
+			edge.getTo().getAdjacentEdges().add(edge);
 			
-		} catch (Exception e) {
-			is.close();
-		} finally {
-			is.close();
+			if (!directed) 
+				edge.getFrom().getAdjacentEdges().add(edge);
 		}
 		
+		sc.close();
 		return graph;
 	}
 }
