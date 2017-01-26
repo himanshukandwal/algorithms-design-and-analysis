@@ -13,10 +13,12 @@ public class Vertex {
 	
 	private int name;
 	private List<Edge> adjacentEdges;
+	private List<Edge> revAdjacentEdges;
 	
 	public Vertex(int name) {
 		this.name = name;
 		this.adjacentEdges = new ArrayList<>();
+		this.revAdjacentEdges = new ArrayList<>();
 	}
 	
 	public int getName() {
@@ -29,6 +31,10 @@ public class Vertex {
 
 	public List<Edge> getAdjacentEdges() {
 		return adjacentEdges;
+	}
+	
+	public List<Edge> getRevAdjacentEdges() {
+		return revAdjacentEdges;
 	}
 	
 	public String toString() {

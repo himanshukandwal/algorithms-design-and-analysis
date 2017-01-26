@@ -47,10 +47,12 @@ public class Graph {
 		
 		for (int edgeIteration = 0; edgeIteration < graph.numEdges; edgeIteration ++) {
 			Edge edge = new Edge (graph.vertices [sc.nextInt() - 1], graph.vertices [sc.nextInt() - 1], sc.nextInt());
-			edge.getTo().getAdjacentEdges().add(edge);
+			edge.getFrom().getAdjacentEdges().add(edge);
 			
 			if (!directed) 
-				edge.getFrom().getAdjacentEdges().add(edge);
+				edge.getTo().getAdjacentEdges().add(edge);
+			else
+				edge.getTo().getRevAdjacentEdges().add(edge);
 		}
 		
 		sc.close();

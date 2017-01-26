@@ -13,13 +13,13 @@ public class Edge {
 	private int weight;
 	private boolean seen;
 	
-	public Edge(Vertex to, Vertex from) {
-		this.to = to;
+	public Edge(Vertex from, Vertex to) {
 		this.from = from;
+		this.to = to;
 	}
 
-	public Edge(Vertex to, Vertex from, int weight) {
-		this(to, from);
+	public Edge(Vertex from, Vertex to, int weight) {
+		this(from, to);
 		this.weight = weight;
 	}
 	
