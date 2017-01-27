@@ -33,7 +33,7 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 		Stack<Vertex> orderedStack = new Stack<>();
 		
 		for (Vertex vertex : graph.getVertices())
-			if (!vertex.isSeen() && vertex.getAdjacentEdges().size() == 0)
+			if (!vertex.isSeen() && vertex.getRevAdjacentEdges().size() == 0)
 				performDFS(vertex, orderedStack);
 		
 		return printVertexStack(orderedStack);
@@ -51,6 +51,7 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 					performDFS (otherVertex, collector);
 			}
 			
+			vertex.setSeen(true);
 			collector.push(vertex);
 		}
 	}
@@ -61,6 +62,7 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-2.txt", "5,4,3,1,2");
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-3.txt", "2,5,4,3,1");
         testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-4.txt", "2,5,3,1,4");
+        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-find-cycle-1.txt", "");
     }
 
     private static void testComplex(final String filename, final String expectedOutput) throws FileNotFoundException {
