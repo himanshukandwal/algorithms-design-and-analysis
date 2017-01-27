@@ -14,6 +14,7 @@ public class Vertex {
 	private int name;
 	private List<Edge> adjacentEdges;
 	private List<Edge> revAdjacentEdges;
+	private boolean seen;
 	
 	public Vertex(int name) {
 		this.name = name;
@@ -41,4 +42,11 @@ public class Vertex {
 		return Integer.toString(name);
 	}
 
+	public boolean isSeen() {
+		return seen;
+	}
+	
+	public void setSeen(boolean seen) {
+		this.seen = seen;
+	}
 }
