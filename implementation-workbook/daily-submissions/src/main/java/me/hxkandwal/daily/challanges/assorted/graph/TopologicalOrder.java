@@ -13,6 +13,8 @@ import me.hxkandwal.daily.challanges.assorted.graph.model.Edge;
 import me.hxkandwal.daily.challanges.assorted.graph.model.Graph;
 import me.hxkandwal.daily.challanges.assorted.graph.model.Vertex;
 
+import static me.hxkandwal.daily.challanges.assorted.graph.GraphUtilities.printVertexStack;
+
 /**
  * Program to compute the topological ordering of a directed acyclic graph.
  * 
@@ -25,14 +27,14 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 	
 	private TopologicalOrder() {}
 	
-	public Stack<Vertex> _topologicalOrdering(Graph graph) {
+	public String _topologicalOrdering(Graph graph) {
 		Stack<Vertex> orderedStack = new Stack<>();
 		
 		for (Vertex vertex : graph.getVertices())
 			if (!vertex.isSeen())
 				performDFS(vertex, orderedStack);
 		
-		return orderedStack;
+		return printVertexStack(orderedStack);
 	}
 	
 	private void performDFS(Vertex vertex, Stack<Vertex> collector) {
@@ -51,26 +53,21 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 	
     // driver method
     public static void main(String[] args) throws FileNotFoundException {
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-1.txt");
+        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-1.txt", "7,6,5,4,2,3,1");
+        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-2.txt", "5,4,3,1,2");
     }
 
-    private static void testComplex(String filename) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File(System.getProperty("user.dir") + filename));
+    private static void testComplex(final String filename, final String expectedOutput) throws FileNotFoundException {
+        Graph graph = Graph.readGraph(new Scanner(new File(System.getProperty("user.dir") + filename)), true);
 
-        int[] input = new int[sc.nextInt()];
-        for (int idx = 0; idx < input.length; idx ++)
-            input [idx] = sc.nextInt();
-
-        _instance.runTest(input, sc.nextLong());
-
-        sc.close();
+        _instance.runTest(graph, expectedOutput);
     }
 
-    public void runTest(final int[] healthPoints, final long expectedOutput) {
-        List<Object> answers = runAll(getClass(), new Object[] { healthPoints });
+    public void runTest(final Graph graph, final String expectedOutput) {
+        List<Object> answers = runAll(getClass(), new Object[] { graph });
 
         for (Object answer : answers)
-            assertThat((Long) answer).isEqualTo(expectedOutput);
+            assertThat((String) answer).isEqualTo(expectedOutput);
 
         System.out.println("ok!");
     }	
