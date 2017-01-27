@@ -14,6 +14,8 @@ import me.hxkandwal.daily.challanges.assorted.graph.model.Graph;
 import me.hxkandwal.daily.challanges.assorted.graph.model.Vertex;
 
 import static me.hxkandwal.daily.challanges.assorted.graph.GraphUtilities.printVertexStack;
+import static me.hxkandwal.daily.challanges.assorted.graph.GraphUtilities.resetGraph;
+import static me.hxkandwal.daily.challanges.assorted.graph.FindCycleInAGraph._hasCycle;
 
 /**
  * Program to compute the topological ordering of a directed acyclic graph.
@@ -38,14 +40,16 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 	}
 	
 	private void performDFS(Vertex vertex, Stack<Vertex> collector) {
-		vertex.setSeen(true);
-		
-		if (vertex.getAdjacentEdges().size() == 0)
+		if (vertex.getAdjacentEdges().size() == 0) {
 			collector.push(vertex);
-		else {
-			for (Edge edge : vertex.getAdjacentEdges())
-				if (!edge.otherEnd(vertex).isSeen())
-					performDFS(edge.otherEnd(vertex), collector);
+			vertex.setSeen(true);
+		} else {
+			for (Edge edge : vertex.getAdjacentEdges()) {
+				Vertex otherVertex = edge.otherEnd(vertex);
+				
+				if (!otherVertex.isSeen())
+					performDFS (otherVertex, collector);
+			}
 			
 			collector.push(vertex);
 		}
@@ -62,7 +66,12 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
     private static void testComplex(final String filename, final String expectedOutput) throws FileNotFoundException {
         Graph graph = Graph.readGraph(new Scanner(new File(System.getProperty("user.dir") + filename)), true);
 
-        _instance.runTest(graph, expectedOutput);
+        if (!_hasCycle(graph)) {
+        	resetGraph(graph);
+        	
+			_instance.runTest(graph, expectedOutput);
+        } else
+        	System.out.println("graph has a cycle!");
     }
 
     public void runTest(final Graph graph, final String expectedOutput) {

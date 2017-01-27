@@ -26,16 +26,8 @@ public class Graph {
 		return numVertices;
 	}
 
-	public void setNumVertices(int numVertices) {
-		this.numVertices = numVertices;
-	}
-
 	public int getNumEdges() {
 		return numEdges;
-	}
-
-	public void setNumEdges(int numEdges) {
-		this.numEdges = numEdges;
 	}
 
 	public Vertex[] getVertices() {

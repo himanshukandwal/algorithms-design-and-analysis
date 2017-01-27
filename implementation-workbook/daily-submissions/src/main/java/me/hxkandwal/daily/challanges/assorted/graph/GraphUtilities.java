@@ -3,6 +3,7 @@ package me.hxkandwal.daily.challanges.assorted.graph;
 import java.util.Iterator;
 import java.util.Stack;
 
+import me.hxkandwal.daily.challanges.assorted.graph.model.Graph;
 import me.hxkandwal.daily.challanges.assorted.graph.model.Vertex;
 
 /**
@@ -25,4 +26,10 @@ public class GraphUtilities {
 		
 		return sb.toString();
 	}
+	
+	public static void resetGraph(Graph graph) {
+		for (Vertex vertex : graph.getVertices())
+			vertex.setSeen(false);
+	}
+	
 }

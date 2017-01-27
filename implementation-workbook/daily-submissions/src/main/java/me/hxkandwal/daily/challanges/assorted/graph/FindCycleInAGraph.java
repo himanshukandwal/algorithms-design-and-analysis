@@ -4,11 +4,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
+import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
+import me.hxkandwal.daily.challanges.assorted.graph.model.Edge;
 import me.hxkandwal.daily.challanges.assorted.graph.model.Graph;
 import me.hxkandwal.daily.challanges.assorted.graph.model.Vertex;
 
@@ -25,17 +27,40 @@ public class FindCycleInAGraph extends AbstractCustomTestRunner {
 	private FindCycleInAGraph() {}
 	
 	public static boolean _hasCycle(Graph graph) {
-		Stack<Vertex> collector = new Stack<>();
 		
-		for (Vertex vertex : graph.getVertices())
-			if (!vertex.isSeen() && vertex.getRevAdjacentEdges().size() == 0)
-				performDFS(vertex, collector);
+		for (Vertex vertex : graph.getVertices()) { 
+			if (!vertex.isSeen() && vertex.getRevAdjacentEdges().size() == 0) {
+				Set<Integer> recordedVertices = new HashSet<>();
+				recordedVertices.add(vertex.getName());
+				
+				if (performDFS(vertex, recordedVertices))
+					return true;
+			}
+		}
 		
 		return false;
 	}
 	
-	private static boolean performDFS(Vertex vertex, Stack<Vertex> collector) {
+	private static boolean performDFS(Vertex vertex, Set<Integer> recordedVertices) {
+		if (vertex.getAdjacentEdges().size() == 0)
+				vertex.setSeen(true);
+		else {
+			for (Edge edge : vertex.getAdjacentEdges()) {
+				Vertex otherVertex = edge.otherEnd(vertex);
+				
+				if (recordedVertices.contains(otherVertex.getName()))
+					return true;
+				
+				if (!otherVertex.isSeen())  {
+					recordedVertices.add(otherVertex.getName());
+					
+					if (performDFS(otherVertex, recordedVertices))
+						return true;
+				}
+			}
+		}
 		
+		recordedVertices.remove(vertex.getName());
 		return false;
 	}
 	
