@@ -26,20 +26,12 @@ public class Vertex {
 		return name;
 	}
 
-	public void setName(int name) {
-		this.name = name;
-	}
-
 	public List<Edge> getAdjacentEdges() {
 		return adjacentEdges;
 	}
 	
 	public List<Edge> getRevAdjacentEdges() {
 		return revAdjacentEdges;
-	}
-	
-	public String toString() {
-		return Integer.toString(name);
 	}
 
 	public boolean isSeen() {
@@ -49,4 +41,9 @@ public class Vertex {
 	public void setSeen(boolean seen) {
 		this.seen = seen;
 	}
+	
+	public String toString() {
+		return Integer.toString(name);
+	}
+
 }
