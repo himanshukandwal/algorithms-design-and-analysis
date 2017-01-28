@@ -18,6 +18,9 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 	
 	private BoundaryTraversalBST() {}
 	
-	public static String _boundaryTraversal()
+	public static String _boundaryTraversal() {
+		
+		 return null;
+	}
 	
 }
