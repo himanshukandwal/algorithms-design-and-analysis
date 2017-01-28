@@ -1,5 +1,6 @@
 package me.hxkandwal.daily.challanges;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +14,20 @@ import me.hxkandwal.daily.challanges.assorted.tree.model.BinaryTreeNode;
  */
 public class Utilities {
 	
-	public static <T> String printList(List<T> list) {
+	public static <T> String print(List<T> list) {
+		StringBuilder sb = new StringBuilder();
+		
+		for (Iterator<T> collectorIterator = list.iterator(); collectorIterator.hasNext();) {
+			sb.append(collectorIterator.next());
+			
+			if (collectorIterator.hasNext())
+				sb.append(",");
+		}
+		
+		return sb.toString();
+	}
+	
+	public static <T> String print(Collection<T> list) {
 		StringBuilder sb = new StringBuilder();
 		
 		for (Iterator<T> collectorIterator = list.iterator(); collectorIterator.hasNext();) {

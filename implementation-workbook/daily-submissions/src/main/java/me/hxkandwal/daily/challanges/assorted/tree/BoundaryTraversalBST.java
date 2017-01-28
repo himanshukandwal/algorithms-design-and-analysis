@@ -2,7 +2,7 @@ package me.hxkandwal.daily.challanges.assorted.tree;
 
 import static com.google.common.truth.Truth.assertThat;
 import static me.hxkandwal.daily.challanges.Utilities.makeBST;
-import static me.hxkandwal.daily.challanges.Utilities.printList;
+import static me.hxkandwal.daily.challanges.Utilities.print;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -46,17 +46,20 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 			collector.add(root.getRight().getValue());
 		}
 		
-		return printList(collector);
+		return print(collector);
 	}
 	
-	private static void innerRecursion (boolean isLeft, BinaryTreeNode node, List<Integer> collector) {
-		if (node.getLeft() == null && node.getRight() == null) {
-			collector.add(node.getValue());
-		} else {
+	private static boolean innerRecursion (boolean isLeft, BinaryTreeNode node, List<Integer> collector) {
+		if (node.getLeft() == null && node.getRight() == null)
+			return collector.add(node.getValue());
+		else {
 			if (isLeft) {
 				if (node.getLeft() != null) {
 					collector.add(node.getLeft().getValue());
-					innerRecursion(isLeft, node.getLeft(), collector);
+					
+					// remove if already added 
+					if (innerRecursion(isLeft, node.getLeft(), collector))
+						collector.remove(collector.size() - 1);
 				}
 				
 				if (node.getRight() != null)
@@ -66,18 +69,18 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 				if (node.getLeft() != null)
 					innerRecursion(isLeft, node.getLeft(), collector);
 				
-				if (node.getRight() != null) {
-					innerRecursion(isLeft, node.getRight(), collector);
-					collector.add(node.getLeft().getValue());
-				}
+				if (node.getRight() != null && !innerRecursion(isLeft, node.getRight(), collector))
+						collector.add(node.getLeft().getValue());
 			}
 		}
+		
+		return false;
 	}
 	
 	
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(null, null);
+		_instance.runTest(null, null);
 		_instance.runTest(new int[] { 25, 12, 30, 10, 36, 15 }, "10,12,25,30,36,15");
 	}
 	
