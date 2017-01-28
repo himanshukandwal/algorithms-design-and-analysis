@@ -35,4 +35,8 @@ public class BinaryTreeNode {
 		this.right = right;
 	}
 	
+	@Override
+	public String toString() {
+		return String.valueOf("[" + value + "]");
+	}
 }
