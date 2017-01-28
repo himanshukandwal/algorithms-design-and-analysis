@@ -1,4 +1,4 @@
-package me.hxkandwal.daily.challanges.geeksForGeeks;
+package me.hxkandwal.daily.challanges.assorted.tree;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -16,8 +16,8 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 	
 	private static BoundaryTraversalBST _instance = new BoundaryTraversalBST();
 	
-	public BoundaryTraversalBST() {}
+	private BoundaryTraversalBST() {}
 	
+	public static String _boundaryTraversal()
 	
-
 }
