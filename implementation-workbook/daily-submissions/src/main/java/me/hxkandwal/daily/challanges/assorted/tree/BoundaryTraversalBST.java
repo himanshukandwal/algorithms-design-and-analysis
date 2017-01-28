@@ -12,7 +12,6 @@ import java.util.List;
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 import me.hxkandwal.daily.challanges.assorted.tree.model.BinaryTreeNode;
 
-
 /**
  * Boundary Traversal of binary tree
  * 
@@ -76,7 +75,6 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 		
 		return false;
 	}
-	
 	
 	// driver method
 	public static void main(String[] args) {
