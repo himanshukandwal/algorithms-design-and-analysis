@@ -60,7 +60,7 @@ public class SpreadsheetCalculator extends AbstractCustomTestRunner {
     }
 	
     public static void main(String args[] ) throws Exception {
-    	Scanner sc = new Scanner (new File(System.getProperty("user.dir") + "/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/spreadsheet-calculator-sample-4.txt"));
+    	Scanner sc = new Scanner (new File(System.getProperty("user.dir") + "/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/spreadsheet-calculator-sample-1.txt"));
         int cols = sc.nextInt();
         int rows = sc.nextInt();
         sc.nextLine();
@@ -104,62 +104,83 @@ public class SpreadsheetCalculator extends AbstractCustomTestRunner {
         sc.close();
         
         // check cyclicity.
-        if (containCycles(metamap)) 
-        	System.out.println("Error: Circular dependency!");
-        else {
-	        while (!isResolved (metamap)) {
-	        	for (CellNode node : metamap.values()) 
-	        		if (node.isResolved) {
-	        			recursiveResolver(node);
-	        		}
-	        }
-	        
-	        for (CellNode node : metamap.values())
-	        	System.out.println(node.cellvalue);
+        Set<CellNode> mainCycle = containCycles(metamap);
+        
+        Set<CellNode> cycle = null;
+        
+        // expand cycle
+        if (mainCycle != null) {
+        	cycle = new HashSet<>();
+            for (CellNode cycleItem : mainCycle) {
+            	cycle.add(cycleItem);
+            	recursiveExpansion(cycleItem, cycle);
+            }
+		}
+        
+        
+        while (!isResolved (metamap, cycle)) {
+        	for (CellNode node : metamap.values()) 
+        		if (node.isResolved) {
+        			recursiveResolver(node, cycle);
+        		}
         }
+	        
+        for (CellNode node : metamap.values())
+        	if (cycle != null && cycle.contains(node))
+        		System.out.println("Error: Circular dependency!");
+        	else
+        		System.out.println(node.cellvalue);
     }
     
+    private static void recursiveExpansion(CellNode node, Set<CellNode> cycle) {
+    	for (CellNode innerNode : node.requestors) {
+    		if (!cycle.contains(innerNode)) {
+    			cycle.add(innerNode);
+    			recursiveExpansion(innerNode, cycle);
+			}
+    	}
+    }
     
-    private static void recursiveResolver (CellNode resolvedCellNode) {
+    private static void recursiveResolver (CellNode resolvedCellNode, Set<CellNode> cycle) {
     	
     	for (CellNode cellNode : resolvedCellNode.requestors) {
-    		if (!cellNode.isResolved) {
+    		if ((cycle == null && !cellNode.isResolved) || (cycle != null && !cycle.contains(cellNode) && !cellNode.isResolved)) {
 				cellNode.expression = cellNode.expression.replace(resolvedCellNode.cellName, resolvedCellNode.cellvalue);
 				if (!cellNode.expression.matches(regex)) {
 					cellNode.cellvalue = (cellNode.expression.matches(regexOperators) ? rpnResolver(cellNode.expression) : cellNode.expression);
 					cellNode.expression = null;
 					cellNode.isResolved = true;
 					
-					recursiveResolver(cellNode);
+					recursiveResolver(cellNode, cycle);
 				}	
     		}
 		}
     }
     
-    private static boolean containCycles(Map<String, CellNode> metamap) {
+    private static Set<CellNode> containCycles(Map<String, CellNode> metamap) {
 		for (CellNode node : metamap.values()) { 
 			if (!node.seen && node.requestors.size() == 0) {
-				Set<String> recordedCells = new HashSet<>();
-				recordedCells.add(node.getCellName());
+				Set<CellNode> recordedCells = new HashSet<>();
+				recordedCells.add(node);
 				
 				if (performDFS(node, recordedCells))
-					return true;
+					return recordedCells;
 			}
 		}
-		return false;
+		return null;
 	}
 	
-	private static boolean performDFS (CellNode node, Set<String> recordedCells) {
+	private static boolean performDFS (CellNode node, Set<CellNode> recordedCells) {
 		if (node.dependents.size() == 0)
 			node.seen = true;
 		else {
 			for (CellNode otherNode : node.dependents) {
 				
-				if (recordedCells.contains(otherNode.getCellName()))
+				if (recordedCells.contains(otherNode) && otherNode.dependents.contains(node))
 					return true;
 				
 				if (!otherNode.seen)  {
-					recordedCells.add(otherNode.getCellName());
+					recordedCells.add(otherNode);
 					
 					if (performDFS(otherNode, recordedCells))
 						return true;
@@ -172,10 +193,10 @@ public class SpreadsheetCalculator extends AbstractCustomTestRunner {
 	}
 	
 	// fail-fast resolution checker.
-    private static boolean isResolved (Map<String, CellNode> map) {
+    private static boolean isResolved (Map<String, CellNode> map, Set<CellNode> cycle) {
     	for (CellNode node : map.values()) 
-    		if (!node.isResolved)
-    			return false;
+    		if ((cycle == null && !node.isResolved) || (cycle != null && !cycle.contains(node) && !node.isResolved))
+    				return false;
     	return true;
     }
     
@@ -183,7 +204,7 @@ public class SpreadsheetCalculator extends AbstractCustomTestRunner {
     	String[] str = expression.split(" ");
 		Stack<String> stack = new Stack<>();
 
-		MathContext mc = new MathContext(5, RoundingMode.HALF_UP);
+		MathContext mc = new MathContext(6, RoundingMode.HALF_UP);
 		
 		for (int i = 0; i < str.length; i++) {
 			if (str[i].equals("*") || str[i].equals("+") || str[i].equals("-")
