@@ -1,6 +1,7 @@
 package me.hxkandwal.daily.challanges.assorted.tree.model;
 
 import static org.junit.Assert.*;
+import static me.hxkandwal.daily.challanges.assorted.tree.model.Trie.createFreshRoot;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class TrieTest {
 	
 	@Before
 	public void initialize() {
-		root = new Trie(' ');
+		root = createFreshRoot();
 	}
 	
 	@Test
@@ -36,4 +37,14 @@ public class TrieTest {
 		assertEquals(4, root.getAllPrefixes("authorize").size());
 	}
 
+	@Test
+	public void testGetSuggestions() throws Exception {
+		assertEquals(0, root.getItem("auth").size());
+		assertEquals(0, root.getItem("author").size());
+		assertEquals(0, root.getItem("authori").size());
+		assertEquals(0, root.getItem("authorize").size());
+		assertEquals(4, root.getSuggestions("auth").size());
+		assertEquals(0, root.getSuggestions("b").size());
+	}
+	
 }

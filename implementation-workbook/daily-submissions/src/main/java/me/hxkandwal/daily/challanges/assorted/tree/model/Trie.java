@@ -94,9 +94,49 @@ public class Trie {
 		return prefixes;
 	}
 	
+	public List<String> getSuggestions(String prefix) {
+		Trie traverser = this;
+		StringBuilder builder = new StringBuilder();
+		List<String> collector = new ArrayList<>();
+		
+		// loading prefix.
+		for (int idx = 0; idx < prefix.length(); idx ++) {
+			char ch = prefix.charAt(idx);
+			
+			if (traverser.children [ch] == null)
+				return collector;
+			
+			builder.append(ch);
+			traverser = traverser.children [ch];
+		}
+		
+		// DFS traversal to get the ordered list of suggestions.
+		if (traverser.isTerminal)
+			collector.add(builder.toString());
+		
+		dfsOrderedCollection(traverser, collector, builder);
+		return collector;
+	}
+	
 	@Override
 	public String toString() {
 		return String.valueOf("[" + String.valueOf(letter) + "]");
+	}
+	
+	private void dfsOrderedCollection (Trie node, List<String> collector, StringBuilder builder) {
+		for (int idx = 0; idx < node.children.length; idx ++) {
+			Trie child = node.children [idx];
+			StringBuilder childBuilder = new StringBuilder(builder);
+			
+			if (child != null) {
+				childBuilder.append(child.letter);
+				
+				if (child.isTerminal)
+					collector.add(childBuilder.toString());
+				
+				dfsOrderedCollection (child, collector, childBuilder);
+			}
+		}
 	}
 
 }
