@@ -3,9 +3,12 @@ package me.hxkandwal.daily.challanges.assorted;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
+import me.hxkandwal.daily.challanges.assorted.tree.model.Trie;
 
 /**
  * Longest Compound Word
@@ -31,10 +34,28 @@ public class LongestCompoundWord extends AbstractCustomTestRunner {
 	
 	private LongestCompoundWord() {}
 	
-	public static String _getLongestCompoundWord(String[] words) {
+	public static class Tuple {
 		
+		private String prefix;
+		private String suffix;
+		
+		public Tuple(String prefix, String suffix) {
+			this.prefix = prefix;
+			this.suffix = suffix;
+		}
+		
+		@Override
+		public String toString() {
+			return super.toString();
+		}
+	}
+	
+	public static String _getLongestCompoundWord(String[] words) {
+		Trie root = new Trie(' ');
+		
+		Queue<Tuple> queue = new LinkedList<>();
 		for (String word : words) {
-			
+			root.getItem(word);
 		}
 		
 		return null;

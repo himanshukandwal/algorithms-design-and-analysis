@@ -37,15 +37,15 @@ public class Trie {
 	 * To be used from root node.
 	 */
 	public List<Integer> getItem(String word) {
-		Trie traverser = null;
+		Trie traverser = this;
 		
-		for (int idx = 0; idx < word.length(); idx++) {
+		for (int idx = 0; idx < word.length(); idx ++) {
 			char ch = word.charAt(idx);
 			
-			if (children[ch] == null)
-				children[ch] = new Trie(ch);
+			if (traverser.children[ch] == null)
+				traverser.children[ch] = new Trie(ch);
 			
-			traverser = children[ch];
+			traverser = traverser.children[ch];
 		}
 
 		traverser.isTerminal = true;
@@ -53,18 +53,40 @@ public class Trie {
 	}
 	
 	public boolean contains(String word) {
-		Trie traverser = null;
+		Trie traverser = this;
 		
-		for (int idx = 0; idx < word.length(); idx++) {
+		for (int idx = 0; idx < word.length(); idx ++) {
 			char ch = word.charAt(idx);
 			
-			if (children[ch] == null)
+			if (traverser.children[ch] == null)
 				return false;
 			
-			traverser = children[ch];
+			traverser = traverser.children[ch];
 		}
 		
 		return traverser.isTerminal;
+	}
+	
+	public List<String> getAllPrefixes(String word) {
+		Trie traverser = this;
+		
+		List<String> prefixes = new ArrayList<>();
+		StringBuilder runningPrefix = new StringBuilder();
+		
+		for (int idx = 0; idx < word.length(); idx ++) {
+			if (traverser.isTerminal) 
+				prefixes.add(runningPrefix.toString());
+			
+			char ch = word.charAt(idx);
+			
+			if (traverser.children [ch] == null)
+				return prefixes;
+			
+			runningPrefix.append(ch);
+			traverser = traverser.children [ch];
+		}
+		
+		return prefixes;
 	}
 	
 	@Override

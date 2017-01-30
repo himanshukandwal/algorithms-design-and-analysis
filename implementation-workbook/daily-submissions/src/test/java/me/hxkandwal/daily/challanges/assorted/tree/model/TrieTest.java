@@ -1,7 +1,6 @@
 package me.hxkandwal.daily.challanges.assorted.tree.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +24,15 @@ public class TrieTest {
 	public void testContains() {
 		assertEquals(0, root.getItem("hello").size());
 		assertTrue(root.contains("hello"));
+	}
+	
+	@Test
+	public void testGetAllPrefixes() throws Exception {
+		assertEquals(0, root.getItem("auth").size());
+		assertEquals(0, root.getItem("author").size());
+		assertEquals(0, root.getItem("authori").size());
+		assertEquals(0, root.getItem("authorize").size());
+		assertEquals(3, root.getAllPrefixes("authority").size());
 	}
 
 }
