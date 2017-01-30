@@ -51,6 +51,21 @@ public class Trie {
 		return traverser.positions;
 	}
 	
+	public boolean contains(String word) {
+		Trie traverser = null;
+		
+		for (int idx = 0; idx < word.length(); idx++) {
+			char ch = word.charAt(idx);
+			
+			if (children[ch] == null)
+				return false;
+			
+			traverser = children[ch];
+		}
+		
+		return traverser.isTerminal;
+	}
+	
 	@Override
 	public String toString() {
 		return String.valueOf("[" + String.valueOf(letter) + "]");
