@@ -78,15 +78,16 @@ public class Trie {
 		StringBuilder runningPrefix = new StringBuilder();
 		
 		for (int idx = 0; idx < word.length(); idx ++) {
-			if (traverser.isTerminal) 
-				prefixes.add(runningPrefix.toString());
-			
 			char ch = word.charAt(idx);
 			
 			if (traverser.children [ch] == null)
 				return prefixes;
 			
 			runningPrefix.append(ch);
+			
+			if (traverser.children [ch].isTerminal) 
+				prefixes.add(runningPrefix.toString());
+			
 			traverser = traverser.children [ch];
 		}
 		

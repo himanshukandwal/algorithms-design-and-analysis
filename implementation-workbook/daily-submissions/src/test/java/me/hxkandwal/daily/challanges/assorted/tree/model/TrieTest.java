@@ -33,6 +33,7 @@ public class TrieTest {
 		assertEquals(0, root.getItem("authori").size());
 		assertEquals(0, root.getItem("authorize").size());
 		assertEquals(3, root.getAllPrefixes("authority").size());
+		assertEquals(4, root.getAllPrefixes("authorize").size());
 	}
 
 }
