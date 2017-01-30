@@ -1,13 +1,12 @@
 package me.hxkandwal.daily.challanges.assorted;
 
-import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.google.common.truth.Truth.assertThat;
+import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
  * program that creates subsets of the characters of a string and prints and returns the count of all.

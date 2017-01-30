@@ -17,7 +17,5 @@ public class KeyboardWordPrediction extends AbstractCustomTestRunner {
 	private static KeyboardWordPrediction _instance = new KeyboardWordPrediction();
 	
 	private KeyboardWordPrediction() {}
-	
-	
 
 }
