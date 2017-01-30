@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.assorted;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -19,6 +20,8 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * Note that the longest individual words are ‘catxdogcatsrat’ and ‘hippopotamuses’ with 14 letters, but they’re not fully constructed by other words. 
  * Former one has an extra ‘x’ letter, and latter is an individual word by itself not a compound word.
  * 
+ * link: http://www.ardendertat.com/2012/06/15/programming-interview-questions-28-longest-compound-word/
+ * 
  * @author Hxkandwal
  *
  */
@@ -28,24 +31,7 @@ public class LongestCompoundWord extends AbstractCustomTestRunner {
 	
 	private LongestCompoundWord() {}
 	
-	public static class Trie {
-		private Character letter;
-		private Trie[] children = new Trie[26];
-		private boolean isTerminal;
-		
-		public Trie() {
-			this.children = new Trie[26];
-		}
-		
-		public void insert(String word, int index) {
-			if (index < word.length()) {
-			
-			}
-		}
-	}
-	
 	public static String _getLongestCompoundWord(String[] words) {
-		Trie root = new Trie();
 		
 		for (String word : words) {
 			

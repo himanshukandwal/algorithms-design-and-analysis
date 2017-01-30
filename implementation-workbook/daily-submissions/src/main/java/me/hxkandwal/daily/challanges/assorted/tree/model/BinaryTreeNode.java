@@ -39,4 +39,5 @@ public class BinaryTreeNode {
 	public String toString() {
 		return String.valueOf("[" + value + "]");
 	}
+	
 }
