@@ -24,6 +24,10 @@ public class Trie {
 		this.positions = new ArrayList<>();
 	}
 
+	public static Trie createFreshRoot() {
+		return new Trie(' ');
+	}
+	
 	public List<Integer> getPositions() {
 		return positions;
 	}

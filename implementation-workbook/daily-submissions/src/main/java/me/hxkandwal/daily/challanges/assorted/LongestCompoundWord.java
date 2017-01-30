@@ -1,8 +1,8 @@
 package me.hxkandwal.daily.challanges.assorted;
 
 import static com.google.common.truth.Truth.assertThat;
+import static me.hxkandwal.daily.challanges.assorted.tree.model.Trie.createFreshRoot;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -44,6 +44,14 @@ public class LongestCompoundWord extends AbstractCustomTestRunner {
 			this.suffix = suffix;
 		}
 		
+		public String getPrefix() {
+			return prefix;
+		}
+		
+		public String getSuffix() {
+			return suffix;
+		}
+		
 		@Override
 		public String toString() {
 			return super.toString();
@@ -51,14 +59,24 @@ public class LongestCompoundWord extends AbstractCustomTestRunner {
 	}
 	
 	public static String _getLongestCompoundWord(String[] words) {
-		Trie root = new Trie(' ');
+		Trie root = createFreshRoot();
 		
 		Queue<Tuple> queue = new LinkedList<>();
 		for (String word : words) {
 			root.getItem(word);
+			
+			List<String> prefixes = root.getAllPrefixes(word);
+			
+			for (String prefix : prefixes) 
+				queue.add(new Tuple(prefix, word.substring(word.indexOf(prefix) + prefix.length())));
 		}
 		
-		return null;
+		String maxCompoundWord = null;
+		while (!queue.isEmpty()) {
+			
+		}
+		
+		return maxCompoundWord;
 	}
 	
 	// driver method
