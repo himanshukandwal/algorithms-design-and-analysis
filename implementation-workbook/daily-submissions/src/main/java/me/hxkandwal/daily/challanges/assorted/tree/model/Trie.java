@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The trie data structure, also known as a prefix tree are space and time
- * efficient structures for text storage and search. They let words to share
- * prefixes.
+ * Trie
+ * 
+ * The trie data structure, also known as a prefix tree are space and time efficient structures for 
+ * text storage and search. They let words to share prefixes.
  * 
  * @author Hxkandwal
  */
