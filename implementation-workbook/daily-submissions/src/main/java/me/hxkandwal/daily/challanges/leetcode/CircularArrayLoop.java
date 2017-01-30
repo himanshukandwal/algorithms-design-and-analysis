@@ -1,8 +1,11 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -31,16 +34,34 @@ public class CircularArrayLoop extends AbstractCustomTestRunner {
 	private static CircularArrayLoop _instance = new CircularArrayLoop();
 	
 	private CircularArrayLoop() {}
-	
-	public boolean _circularArrayLoop(int[] nums) {
 		
-		return false;
-    }
+	public static boolean _circularArrayLoop(int[] nums) {
+		int index = 0;
+		if (nums.length == 0) return false;
+
+	    boolean directionForward = (nums[index] >=0 ) ? true : false;
+	    
+	    while (true) {
+	        if (index < 0) return false;
+	        if (index >= nums.length) index = index % (nums.length);
+	        
+	        // if new direction following current direction
+	        if (directionForward != ((nums[index] >=0 ) ? true : false)) return false;
+	        if (nums[index] == 0) return true;
+	        
+	        int temp = nums [index];
+	        nums [index] = 0;
+	        index += temp;
+	    } 
+	}
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 2, -1, 1, 2, 2 }, true);
 		_instance.runTest(new int[] { -1, 2 }, false);
+		_instance.runTest(new int[] { -2, 1, -1, -2, -2 }, false);
+		_instance.runTest(new int[] { 3, 1, 2 }, true);
+		_instance.runTest(new int[] { -1, -2, -3, -4, -5 }, false);
 	}
 	
 	public void runTest(final int[] input, final boolean expectedOutput) {
