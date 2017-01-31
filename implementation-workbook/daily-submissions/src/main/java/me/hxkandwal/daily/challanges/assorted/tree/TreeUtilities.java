@@ -14,11 +14,29 @@ public class TreeUtilities {
 		if (array == null || array.length == 0) 
 			return null;
 		
-		BinaryTree root = new BinaryTree(array [array.length / 2]); 
+		int mid = array.length / 2;
+		
+		BinaryTree root = new BinaryTree(array [mid]); 
+		
+		root.setLeft(innerRecursionGenerateBinarySearchTree (array, 0, mid));
+		root.setRight(innerRecursionGenerateBinarySearchTree (array, mid + 1, array.length - 1));
+		
+		return root;
+	}
+	
+	public static String printBinarySearchTreeInorder(BinaryTree root) {
 		
 		return null;
 	}
 	
-	private static
+	private static BinaryTree innerRecursionGenerateBinarySearchTree(int[] array, int start, int end) {
+		int mid = (start + end) / 2;
+		
+		BinaryTree node = new BinaryTree(array [mid]); 
+		node.setLeft(innerRecursionGenerateBinarySearchTree (array, start, mid));
+		node.setRight(innerRecursionGenerateBinarySearchTree (array, mid + 1, end));
+		
+		return node;
+	}
 	
 }
