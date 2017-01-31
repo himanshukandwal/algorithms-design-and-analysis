@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
-import me.hxkandwal.daily.challanges.assorted.tree.model.BinaryTreeNode;
+import me.hxkandwal.daily.challanges.assorted.tree.model.BinaryTree;
 
 /**
  * Boundary Traversal of binary tree
@@ -28,7 +28,7 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 	
 	private BoundaryTraversalBST() {}
 	
-	public static String _boundaryTraversal(BinaryTreeNode root) {
+	public static String _boundaryTraversal(BinaryTree root) {
 		if (root == null) 
 			return null;
 		
@@ -48,7 +48,7 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 		return print(collector);
 	}
 	
-	private static boolean innerRecursion (boolean isLeft, BinaryTreeNode node, List<Integer> collector) {
+	private static boolean innerRecursion (boolean isLeft, BinaryTree node, List<Integer> collector) {
 		if (node.getLeft() == null && node.getRight() == null)
 			return collector.add(node.getValue());
 		else {

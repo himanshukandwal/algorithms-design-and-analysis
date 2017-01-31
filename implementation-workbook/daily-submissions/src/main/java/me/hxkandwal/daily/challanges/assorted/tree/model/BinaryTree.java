@@ -5,13 +5,13 @@ package me.hxkandwal.daily.challanges.assorted.tree.model;
  * 
  * @author Hxkandwal
  */
-public class BinaryTreeNode {
+public class BinaryTree {
 	
 	private int value;
-	private BinaryTreeNode left;
-	private BinaryTreeNode right;
+	private BinaryTree left;
+	private BinaryTree right;
 
-	public BinaryTreeNode(int value) {
+	public BinaryTree(int value) {
 		this.value = value;
 	}
 
@@ -19,19 +19,19 @@ public class BinaryTreeNode {
 		return value;
 	}
 
-	public BinaryTreeNode getLeft() {
+	public BinaryTree getLeft() {
 		return left;
 	}
 
-	public void setLeft(BinaryTreeNode left) {
+	public void setLeft(BinaryTree left) {
 		this.left = left;
 	}
 
-	public BinaryTreeNode getRight() {
+	public BinaryTree getRight() {
 		return right;
 	}
 
-	public void setRight(BinaryTreeNode right) {
+	public void setRight(BinaryTree right) {
 		this.right = right;
 	}
 	

@@ -14,7 +14,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
-import me.hxkandwal.daily.challanges.assorted.tree.model.BinaryTreeNode;
+import me.hxkandwal.daily.challanges.assorted.tree.model.BinaryTree;
 
 /**
  * 257. Binary Tree Paths
@@ -42,21 +42,21 @@ public class BinaryTreePaths extends AbstractCustomTestRunner {
 	// data-structure to store the state critical information.
 	public static class StateTuple {
 		
-		private BinaryTreeNode node;
+		private BinaryTree node;
 		private Stack<Integer> pathStack;
 		
-		public StateTuple(BinaryTreeNode node) {
+		public StateTuple(BinaryTree node) {
 			this.node = node;
 			this.pathStack = new Stack<>();
 			this.pathStack.push(this.node.getValue());
 		}
 		
-		public StateTuple(BinaryTreeNode node, Stack<Integer> pathStack) {
+		public StateTuple(BinaryTree node, Stack<Integer> pathStack) {
 			this.node = node;
 			this.pathStack = pathStack;
 		}
 		
-		public BinaryTreeNode getNode() {
+		public BinaryTree getNode() {
 			return node;
 		}
 		
@@ -65,7 +65,7 @@ public class BinaryTreePaths extends AbstractCustomTestRunner {
 		}
 	}
 	
-	public List<String> _binaryTreePaths(BinaryTreeNode root) {
+	public List<String> _binaryTreePaths(BinaryTree root) {
 		if (root == null)
 			return null;
 		
@@ -78,7 +78,7 @@ public class BinaryTreePaths extends AbstractCustomTestRunner {
 		// BFS traversal of tree. (logic reused from Pac-man project)
 		while (!queue.isEmpty()) {
 			StateTuple tuple = queue.poll();
-			BinaryTreeNode node = tuple.getNode();
+			BinaryTree node = tuple.getNode();
 			
 			if (node.getLeft() == null && node.getRight() == null) 
 				collector.add(print(tuple.getPathStack(), "->"));
@@ -101,13 +101,13 @@ public class BinaryTreePaths extends AbstractCustomTestRunner {
 	}
 	
 	// highly optimized solution
-	public List<String> _binaryTreePaths2(BinaryTreeNode root) {
+	public List<String> _binaryTreePaths2(BinaryTree root) {
 	    List<String> answer = new ArrayList<String>();
 	    if (root != null) searchBT(root, "", answer);
 	    return answer;
 	}
 	
-	private void searchBT(BinaryTreeNode root, String path, List<String> answer) {
+	private void searchBT(BinaryTree root, String path, List<String> answer) {
 	    if (root.getLeft() == null && root.getRight() == null) answer.add(path + root.getValue());
 	    if (root.getLeft() != null) searchBT (root.getLeft(), path + root.getValue() + "->", answer);
 	    if (root.getRight() != null) searchBT (root.getRight(), path + root.getValue() + "->", answer);
