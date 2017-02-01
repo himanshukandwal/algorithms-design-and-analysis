@@ -95,12 +95,14 @@ public class LongestPalindromicSubstring extends AbstractCustomTestRunner {
 
 	// driver method
     public static void main(String[] args) throws FileNotFoundException {
-    	_instance.runTest("abcba", "abcba");	
-    	_instance.runTest("forgeeksskeegfor", "geeksskeeg");	
-    	_instance.runTest("sabbaerd", "abba");	
-    	_instance.runTest("sabaerd", "aba");
-    	_instance.runTest("ayaxzfbjbkrxiri", "aya");
-    	_instance.runTest("abcda", "a");	
+//    	_instance.runTest("abcba", "abcba");	
+//    	_instance.runTest("forgeeksskeegfor", "geeksskeeg");	
+//    	_instance.runTest("sabbaerd", "abba");	
+//    	_instance.runTest("sabaerd", "aba");
+//    	_instance.runTest("ayaxzfbjbkrxiri", "aya");
+//    	_instance.runTest("abcda", "a");
+    	_instance.runTest("cabac", "cabac");
+    	_instance.runTest("dcabag", "aba");
     }
 
 	public void runTest(final String input, final String expectedOutput) {
