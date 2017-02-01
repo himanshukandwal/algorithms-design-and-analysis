@@ -8,6 +8,6 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 	
 	private LFUCacheFramework() {}
 	
-	// data-structure to hold the properties of LFU (least-fr) cache
+	// data-structure to hold the properties of LFU (least-frequently used) cache.
 
 }
