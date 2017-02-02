@@ -37,7 +37,6 @@ public class EquationEqulaityChecker extends AbstractCustomTestRunner {
 	}
 	
 	public static boolean _areEqual(String[] input1, String[] input2) {
-		
 		Map<String, Node> lookup = new HashMap<>();
 		
 		// construct from input1;
@@ -81,12 +80,10 @@ public class EquationEqulaityChecker extends AbstractCustomTestRunner {
 				
 				if (rn1 != rn2)
 					return false;
-
 			}
 		}
 		
 		return true;
-		
 	}
 	
 	private static Node find (Node node) {
