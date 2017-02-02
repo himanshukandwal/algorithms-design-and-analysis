@@ -44,9 +44,6 @@ public class CountNegativeIntegersInMatrix extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(new int[][] { new int[] { 1, 2, 3, 4 }, 
-//						  				new int[] { 4, 5, 6, 8 }}, 0);
-		
 		_instance.runTest(new int[][] { new int[] { -4, -3, -2, -1 }, 
 										new int[] { -4, -3, -2, -1}}, 8);
 		
