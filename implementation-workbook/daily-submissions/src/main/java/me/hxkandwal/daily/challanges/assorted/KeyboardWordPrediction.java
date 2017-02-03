@@ -34,7 +34,6 @@ public class KeyboardWordPrediction extends AbstractCustomTestRunner {
 		
 		return trie.getSuggestions(word);
 	}
-
 	
 	// driver method
 	public static void main(String[] args) throws Exception {
