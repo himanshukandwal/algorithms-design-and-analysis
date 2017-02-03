@@ -88,8 +88,8 @@ public class EquationEqulaityChecker extends AbstractCustomTestRunner {
 	
 	private static Node find (Node node) {
 		if (node != node.parent)
-			node = find (node.parent);
-		return node;
+			node.parent = find (node.parent);
+		return node.parent;
 	}
 	
 	private static void union(Node node1, Node node2) {

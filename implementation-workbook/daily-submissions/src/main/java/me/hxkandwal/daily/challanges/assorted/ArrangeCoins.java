@@ -7,7 +7,6 @@ import java.util.List;
 import static com.google.common.truth.Truth.assertThat;
 
 /**
- *
  * Created by Hxkandwal
  */
 public class ArrangeCoins extends AbstractCustomTestRunner {
