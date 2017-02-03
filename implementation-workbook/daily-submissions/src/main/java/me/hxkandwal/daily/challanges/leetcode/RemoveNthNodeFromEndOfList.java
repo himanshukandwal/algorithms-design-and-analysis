@@ -44,7 +44,7 @@ public class RemoveNthNodeFromEndOfList extends AbstractCustomTestRunner {
 		
 		for (; forwardnode != null && counter < n - 1; counter++, forwardnode = forwardnode.next);
 		
-		if (counter == (n -1)) {
+		if (counter == (n - 1)) {
 			while (forwardnode != null && forwardnode.next != null) {
 				forwardnode = forwardnode.next;
 				node = (node == null) ? head : node.next;

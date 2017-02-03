@@ -45,6 +45,7 @@ public class ReverseString extends AbstractCustomTestRunner {
 		_instance.runTest(null, null);
 		_instance.runTest("", "");
 		_instance.runTest("abc", "cba");
+		_instance.runTest("abcd", "dcba");
 		_instance.runTest("a", "a");
 		_instance.runTest("aa", "aa");
 		_instance.runTest("hello", "olleh");

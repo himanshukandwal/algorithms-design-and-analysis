@@ -4,7 +4,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Map;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 

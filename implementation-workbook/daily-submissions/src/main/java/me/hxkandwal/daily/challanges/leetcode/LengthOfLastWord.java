@@ -32,7 +32,7 @@ public class LengthOfLastWord extends AbstractCustomTestRunner {
         int followingIdx = -1;
         
         for (int idx = 0; idx < s.length(); idx ++) 
-            if (idx > 0 && s.charAt(idx -1) == ' ')
+            if (idx > 0 && s.charAt(idx - 1) == ' ')
                 followingIdx = idx;
                 
         return (followingIdx == -1) ? (s.length() > 0 ? s.length() : 0) : (s.length() - followingIdx) ; 

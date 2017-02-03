@@ -47,7 +47,7 @@ public class FizzBuzz extends AbstractCustomTestRunner {
 	private FizzBuzz() {}
 	
 	public static int _fizzBuzz(int n) {
-		for (int idx = 1; idx <= n; idx++) {
+		for (int idx = 1; idx <= n; idx ++) {
 			if (idx % 3 == 0 && idx % 5 == 0)
 				System.out.println("FizzBuzz");
 			else if (idx % 3 == 0)
