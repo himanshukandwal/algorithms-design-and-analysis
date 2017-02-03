@@ -24,26 +24,21 @@ public class AllCombinationPrinter extends AbstractCustomTestRunner {
 		char[] number = String.valueOf(num).toCharArray();
 		boolean[] seen = new boolean[number.length];
 		
+		for (int idx = 0; idx < seen.length; idx ++)
+			seen [idx] = true;
+		
 		generateCombinations(number, seen, 0, k);
 		
 		return 0;
 	}
 
-	private static void generateCombinations(char[] number, boolean[] seen, int loc, int k) {
-		if (k == 0) {
-			for (int idx = 0; idx < seen.length; idx ++) {
-				if (seen [idx]) 
-					System.out.print(number [idx]);
-			}
-			System.out.println();
-		} else {
-			for (int idx = loc; idx < seen.length; idx ++) {
-				seen [idx] = false;
-				generateCombinations(number, seen, loc + 1, k);
-				
-				seen [idx] = true;
-				generateCombinations(number, seen, loc +  1, k -1);
-			}
+	private static void generateCombinations(char[] number, boolean[] seen, int idx, int k) {
+		for (; idx < seen.length; idx ++) {
+			seen [idx] = false;
+			generateCombinations(number, seen, idx + 1, k);
+			
+			seen [idx] = true;
+			generateCombinations(number, seen, idx + 1, k);
 		}
 	}
 	
