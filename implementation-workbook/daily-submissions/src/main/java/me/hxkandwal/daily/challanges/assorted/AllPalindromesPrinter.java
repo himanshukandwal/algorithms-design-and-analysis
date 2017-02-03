@@ -7,10 +7,9 @@ import java.util.List;
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
- * Write a program to print all plaindromes present in a string.
+ * Write a program to print all palindromes present in a string.
  * 
  * @author Hxkandwal
- *
  */
 public class AllPalindromesPrinter extends AbstractCustomTestRunner {
 	
