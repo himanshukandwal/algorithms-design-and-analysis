@@ -15,16 +15,32 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 	public class Cache {
 		private int size;
 		private Map<Integer, DataNode> metadata;
+		private DataNode head;
+		private DataNode tail;
 		
 		public Cache(int size) {
 			this.size = size;
 			this.metadata = new HashMap<>(size);
 		}
 		
+		public int getSize() {
+			return size;
+		}
+		
+		public Map<Integer, DataNode> getMetadata() {
+			return metadata;
+		}
+		
+		public void add(int data) {
+			
+		}
+		
 		// value holder data structure.
 		public class DataNode {
 			private int data;
 			private int frequency;
+			private DataNode forward;
+			private DataNode backward;
 			
 			public DataNode(int data) {
 				this.data = data;
