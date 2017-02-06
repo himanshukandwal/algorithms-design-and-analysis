@@ -31,6 +31,7 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 			return metadata;
 		}
 		
+		// insert data to cache.
 		public void add(int data) {
 			
 		}
