@@ -33,6 +33,25 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 		
 		// insert data to cache.
 		public void add(int data) {
+			DataNode node = null;
+			
+			if (metadata.size() < size) {
+				node = new DataNode(data);
+				
+				if (tail == null) 
+					tail = node;
+				else {
+					metadata.get(tail.data).backward = node;
+					node.forward = metadata.get(tail.data);
+					tail = node;
+				}
+				
+				metadata.put(data, node);
+			} else {
+				if (metadata.containsKey(data)) {
+					node = metadata.get(data);
+				}
+			}
 			
 		}
 		
