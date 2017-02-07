@@ -7,12 +7,10 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 public class LFUCacheFramework extends AbstractCustomTestRunner {
 	
-	private static LFUCacheFramework _instance = new LFUCacheFramework();
-	
 	private LFUCacheFramework() {}
 	
 	// data-structure to hold the properties of LFU (least-frequently used) cache.
-	public class Cache {
+	public static class Cache {
 		private int size;
 		private Map<Integer, DataNode> metadata;
 		private DataNode head;
@@ -69,9 +67,17 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 				} else {
 					System.out.println("removing least recently used :" + head.data);
 					metadata.remove(head.data);
+					head.following.ahead = null;
+					head = head.following;
+					
+					node = new DataNode(data);
+					metadata.put(data, node);
 				}
+				
+				tail.following = node;
+				node.ahead = tail;
+				tail = node;
 			}
-			
 		}
 		
 		// value holder data structure.
@@ -89,6 +95,22 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 				return "(" + this.data + ")";
 			}
 		}
+	}
+
+	// driver method
+	public static void main(String[] args) {
+		Cache cache = new Cache(5);
+		
+		cache.add(1);
+		cache.add(2);
+		cache.add(3);
+		cache.add(4);
+		cache.add(5);
+		cache.add(1);
+		cache.add(6);
+		cache.add(3);
+		cache.add(7);
+		cache.add(8);
 	}
 
 }
