@@ -50,7 +50,6 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 			} else {
 				if (metadata.containsKey(data)) {
 					node = metadata.get(data);
-					node.incrementFrequency();
 					
 					DataNode following = node.following;
 					DataNode ahead = node.ahead;
@@ -58,15 +57,18 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 					node.following = null;
 					node.ahead = null;
 					
-					if (ahead == null) {
-						if (following == ) {
-							
-						}
-						following.ahead = null;
+					if (ahead != null)
+						ahead.following = following;
+					else 
 						head = following;
-					}
 					
-					
+					if (following != null) 
+						following.ahead = ahead;
+					else
+						tail = ahead;
+				} else {
+					System.out.println("removing least recently used :" + head.data);
+					metadata.remove(head.data);
 				}
 			}
 			
@@ -75,22 +77,16 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 		// value holder data structure.
 		public class DataNode {
 			private int data;
-			private int frequency;
 			private DataNode ahead;
 			private DataNode following;
 			
 			public DataNode(int data) {
 				this.data = data;
-				this.frequency = 1;
-			}
-			
-			public void incrementFrequency() {
-				this.frequency ++;
 			}
 			
 			@Override
 			public String toString() {
-				return "(" + this.data + ":" + this.frequency + ")";
+				return "(" + this.data + ")";
 			}
 		}
 	}
