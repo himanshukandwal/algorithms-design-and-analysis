@@ -39,10 +39,10 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 				node = new DataNode(data);
 				
 				if (tail == null) 
-					tail = node;
+					head = tail = node;
 				else {
-					metadata.get(tail.data).backward = node;
-					node.forward = metadata.get(tail.data);
+					metadata.get(tail.data).following = node;
+					node.ahead = metadata.get(tail.data);
 					tail = node;
 				}
 				
@@ -50,6 +50,23 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 			} else {
 				if (metadata.containsKey(data)) {
 					node = metadata.get(data);
+					node.incrementFrequency();
+					
+					DataNode following = node.following;
+					DataNode ahead = node.ahead;
+					
+					node.following = null;
+					node.ahead = null;
+					
+					if (ahead == null) {
+						if (following == ) {
+							
+						}
+						following.ahead = null;
+						head = following;
+					}
+					
+					
 				}
 			}
 			
@@ -59,15 +76,15 @@ public class LFUCacheFramework extends AbstractCustomTestRunner {
 		public class DataNode {
 			private int data;
 			private int frequency;
-			private DataNode forward;
-			private DataNode backward;
+			private DataNode ahead;
+			private DataNode following;
 			
 			public DataNode(int data) {
 				this.data = data;
 				this.frequency = 1;
 			}
 			
-			public void increment() {
+			public void incrementFrequency() {
 				this.frequency ++;
 			}
 			
