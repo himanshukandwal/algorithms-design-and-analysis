@@ -20,7 +20,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 		Output:  [1,2,4,7,5,3,6,8,9]
  * 
  * @author Hxkandwal
- *
  */
 public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
 	
@@ -37,6 +36,7 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
         
         int idx = 0, rows = matrix.length, cols = matrix[0].length, row = 0, col = 0;
         boolean isTopDownFold = false;
+        
         int [] ans = new int [rows * cols];
         
         while (idx < ans.length) {
@@ -52,9 +52,16 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
 	        
 	        // correction step
 	        row = (row < 0 ? 0 : row);
-	        row = (row == rows ? rows - 1 : row);
+	        if (row == rows) {
+	        	row = rows - 1;
+	        	col += 2;
+	        }
+	        
 	        col = (col < 0 ? 0 : col);
-	        col = (col == cols ? cols - 1 : col);
+	        if (col == cols) {
+	        	col = cols - 1;
+	        	row ++;
+	        }
 	        
 	        isTopDownFold = !isTopDownFold;
         }
@@ -64,7 +71,10 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[][] {{ 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }}, new int [] { 1, 2, 4, 7, 5, 3, 6, 8, 9 });
+//		_instance.runTest(new int[][] {{ 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }}, new int [] { 1, 2, 4, 7, 5, 3, 6, 8, 9 });
+//		_instance.runTest(new int[][] {{ 1, 2, 3 }}, new int [] { 1, 2, 3 });
+//		_instance.runTest(new int[][] {{ 1, 2 }, { 3, 4 }}, new int [] { 1, 2, 3, 4 });
+		_instance.runTest(new int[][] {{ 1, 2 }, { 3, 4 }, { 5, 6 }}, new int [] { 1, 2, 3, 5, 4, 6 });
 	}
 
 	public void runTest(final int[][] matrix, final int[] expectedOutput) {
