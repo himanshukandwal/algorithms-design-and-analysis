@@ -1,5 +1,9 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -31,7 +35,45 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
         if (matrix.length == 1)
         	return matrix [0];
         
-		return null;
+        int idx = 0, rows = matrix.length, cols = matrix[0].length, row = 0, col = 0;
+        boolean isTopDownFold = false;
+        int [] ans = new int [rows * cols];
+        
+        while (idx < ans.length) {
+	        while (row >= 0 && row < rows && col >= 0 && col < cols) {
+	        	ans [idx ++] = matrix [row][col];
+	        	
+	        	if (isTopDownFold) {
+					row ++; col --;
+				} else {
+					row --; col ++;
+				}
+	        }
+	        
+	        // correction step
+	        row = (row < 0 ? 0 : row);
+	        row = (row == rows ? rows - 1 : row);
+	        col = (col < 0 ? 0 : col);
+	        col = (col == cols ? cols - 1 : col);
+	        
+	        isTopDownFold = !isTopDownFold;
+        }
+        
+		return ans;
     }
+	
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(new int[][] {{ 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }}, new int [] { 1, 2, 4, 7, 5, 3, 6, 8, 9 });
+	}
 
+	public void runTest(final int[][] matrix, final int[] expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { matrix });
+
+		for (Object answer : answers)
+			assertThat((int[]) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
+	}	
+	
 }
