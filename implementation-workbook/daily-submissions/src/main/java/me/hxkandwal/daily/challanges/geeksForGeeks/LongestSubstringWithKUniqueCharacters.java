@@ -60,6 +60,32 @@ public class LongestSubstringWithKUniqueCharacters extends AbstractCustomTestRun
 		return (locations.size() == k ? maxlength : 0);
 	}
 	
+	public static int _longestSubstring2(String s, int k) {
+		int start = 0, maxlength = 0, count = 0;
+		int [] locations = new int [256];
+		
+		for (int idx = 0; idx < 256; idx ++)
+			locations [idx] = -1;
+		
+		for (int idx = 0; idx < s.length(); idx ++) {
+			char ch = s.charAt(idx);
+			
+			if (count >= k && locations [ch] == -1) {
+				char sch = s.charAt(start);
+				start = locations [sch] + 1;
+				locations [sch] = -1;
+				count --;
+			}
+			
+			count += (locations [ch] == -1) ? 1 : 0;
+			locations [ch] = idx;
+			
+			maxlength = Math.max(maxlength, idx - start + 1);
+		} 
+		
+		return (count == k ? maxlength : 0);
+	}
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("aabbcc", 1, 2);
