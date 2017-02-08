@@ -2,9 +2,11 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 import me.hxkandwal.daily.challanges.leetcode.SortCharactersByFrequency.MostFrequentlyCharacterHeap.DataNode;
@@ -164,7 +166,7 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 	}
 	
 	// solution using bucket-sort.
-	public String frequencySort2(String s) {
+	public static String frequencySort2(String s) {
 		if (s.length() < 3) return s;
 		
 		int max = 0;
@@ -192,6 +194,38 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 		}
 		
 		return strb.toString();
+	}
+	
+	// solution using java max heap (priority queue). 
+	public static String frequencySort3(String str) {
+        if (str == null || str.length() <= 2) return str;
+        
+        Map<Character, Integer> map = new HashMap<>();
+        char[] list = str.toCharArray();
+        
+        for (char c : list) {
+            map.putIfAbsent(c, 0);
+            map.put(c, map.get(c) + 1);
+        }
+        
+        PriorityQueue<Character> heap = new PriorityQueue<>(str.length(), new Comparator<Character>() {
+            public int compare(Character c1, Character c2) {
+                return map.get(c2) - map.get(c1);
+            }
+        });
+        
+        for (char c : map.keySet())
+            heap.offer(c);
+        
+        StringBuilder sb = new StringBuilder();
+        while (!heap.isEmpty()) {
+            char c = heap.poll();
+            int count = map.get(c);
+            
+            for (int i = 0; i < count; ++i) sb.append(c);
+        }
+        
+        return sb.toString();
 	}
 	
 	// driver method
