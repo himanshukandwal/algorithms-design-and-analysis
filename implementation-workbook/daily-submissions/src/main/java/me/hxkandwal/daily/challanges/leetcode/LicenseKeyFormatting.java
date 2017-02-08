@@ -100,4 +100,5 @@ public class LicenseKeyFormatting extends AbstractCustomTestRunner {
 		
 		System.out.println("ok!");
 	}
+	
 }

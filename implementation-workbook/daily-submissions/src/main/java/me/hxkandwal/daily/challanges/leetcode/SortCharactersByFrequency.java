@@ -1,6 +1,13 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
+import me.hxkandwal.daily.challanges.leetcode.SortCharactersByFrequency.MostFrequentlyCharacterHeap.DataNode;
 
 /**
  * 451. Sort Characters By Frequency
@@ -25,7 +32,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 		Explanation: "bbaA" is also a valid answer, but "Aabb" is incorrect.
  * 					 Note that 'A' and 'a' are treated as two different characters.
  * 	
- * 
  * @author Hxkandwal
  */
 public class SortCharactersByFrequency extends AbstractCustomTestRunner {
@@ -34,8 +40,143 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 	
 	private SortCharactersByFrequency() {}
 	
-	public String _frequencySort(String s) {
+	// character frequency max heap
+	public static class MostFrequentlyCharacterHeap {
 		
-		return null;
+		private DataNode[] array = new DataNode [256 + 1];
+		private Map<Character, DataNode> bookkeepingMap = new HashMap<>();
+		private int fillSize;
+		
+		public static class DataNode {
+			private char ch;
+			private int index;
+			private int frequency;
+			
+			public DataNode(char ch, int index) {
+				this.ch = ch;
+				this.index = index;
+				this.frequency = 1;
+			}
+			
+			@Override
+			public String toString() {
+				return "(" + ch + ":" + frequency + ")";
+			}
+		}
+
+		public void percolateUp(int index) {
+			DataNode node = array [index];
+			
+			while (index > 1 && (array [index].frequency > array [index / 2].frequency)) {
+				array [index / 2].index = index;
+				array [index] = array [index / 2];
+				index /= 2;
+			}
+			
+			node.index = index;
+			array [index] = node;
+		}
+		
+		public void percolateDown(int index) {
+			DataNode node = array [index];
+			
+			if (fillSize >= 2 * index) {
+				int maxIndex = 2 * index;
+				
+				if (fillSize >= maxIndex + 1) 
+					maxIndex =  (array [maxIndex].frequency > array [maxIndex + 1].frequency ? maxIndex : maxIndex + 1);
+				
+				if (array [index].frequency < array [maxIndex].frequency) {
+					node.index = maxIndex;
+					array [index] = array [maxIndex];
+					array [maxIndex].index = index;
+					array [maxIndex] = node;
+					
+					percolateDown(maxIndex);
+				}
+			}
+		}		
+		
+		public void add (char ch) {
+			DataNode node = null;
+			
+			if (bookkeepingMap.containsKey(ch)) {
+				node = bookkeepingMap.get(ch);
+				node.frequency ++;
+				
+				// percolate up.
+				percolateUp (node.index);
+			} else {
+				node = new DataNode(ch, ++ fillSize);
+				array [node.index] = node;
+				bookkeepingMap.put(ch, node);
+			}
+		}
+		
+		public DataNode removeMax () {
+			DataNode node = null;
+			
+			if (fillSize > 0) {
+				node = array [1];
+				array [1] = array [fillSize --];
+				array [1].index = 1;
+				
+				// percolate down.
+				percolateDown (1);
+			}
+			
+			return node;
+		}
+		
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			
+			for (int idx = 1; idx <= fillSize; idx ++) {
+				sb.append(array [idx].toString());
+				
+				if (idx < fillSize) sb.append(",");
+			}
+				
+			return sb.toString();
+		}
+		
 	}
+	
+	public static String _frequencySort(String s) {
+		MostFrequentlyCharacterHeap maxHeap = new MostFrequentlyCharacterHeap();
+		
+		for (char ch : s.toCharArray()) 
+			maxHeap.add(ch);
+		
+		char[] answer = s.toCharArray();
+		
+		DataNode node = null;
+		int idx = 0;
+		while ((node = maxHeap.removeMax()) != null) {
+			int repeatitions = node.frequency;
+			
+			while (repeatitions -- > 0)
+				answer [idx ++] = node.ch;
+		}
+		
+		return String.valueOf(answer);
+	}
+	
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest("tree", "eetr");
+		_instance.runTest("cccaaa", "cccaaa");
+		_instance.runTest("Aabb", "bbAa");
+	}
+
+	public void runTest(final String input, final String expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { input });
+
+		for (Object answer : answers)
+			assertThat((String) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
+	}
+		
 }
