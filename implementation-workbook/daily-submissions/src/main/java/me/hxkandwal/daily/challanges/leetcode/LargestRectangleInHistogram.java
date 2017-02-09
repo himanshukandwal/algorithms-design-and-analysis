@@ -42,11 +42,28 @@ public class LargestRectangleInHistogram extends AbstractCustomTestRunner {
 		return maxArea;
     }
 
+	public static int _largestRectangleArea2(int[] height) {
+        int len = height.length;
+        Stack<Integer> s = new Stack<Integer>();
+        int maxArea = 0;
+        for(int i = 0; i <= len; i++){
+            int h = (i == len ? 0 : height[i]);
+            
+            if (s.isEmpty() || h >= height [s.peek()])
+                s.push(i);
+            else
+                maxArea = Math.max(maxArea, height[s.pop()] * (s.isEmpty() ? i -- : -- i - s.peek()));
+        }
+        return maxArea;
+    }
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 2, 1, 5, 6, 2, 3 }, 10);
 		_instance.runTest(new int[] { 2, 1, 2 }, 3);
 		_instance.runTest(new int[] { 1, 3, 2, 1, 2 }, 5);
+		_instance.runTest(new int[] { 1, 1, 1, 1, 1 }, 5);
+		_instance.runTest(new int[] { 1, 1, 1, 0, 1 }, 3);
 	}
 
 	public void runTest(final int[] input, final int expectedOutput) {
