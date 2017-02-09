@@ -36,28 +36,25 @@ public class WordAbbreviation extends AbstractCustomTestRunner {
 	        sum += (int) Math.pow(2, a.charAt(idx) - 'a');
 	    
 	    StringBuffer ans = new StringBuffer();
-	    while (sum > 0 || sum % 2 > 0) {
-	    	if (sum % 2 == 0) {
-	    		int pow = 0;
-	    		while (sum > 0 && sum % 2 == 0) {
-	    			sum =  (sum == 2 ? 0 : sum /2);
-	    			pow ++;
-	    		}
-	    		
-	    		ans.append("" + (char)('a' + pow));
-			} else {
-				ans.append("" + (char)('a'));
-				sum --;
-			}
+	    int [] binaryAns = new int [ (int) Math.ceil((Math.log(sum) / Math.log(2))) + 1];
+	    int bIdx = 0;
+	    
+	    while (sum / 2 > 0 || sum % 2 > 0) {
+	    	binaryAns [bIdx ++] = sum % 2;
+	    	sum /= 2;
 	    }
 	    
-	    return ans.toString();
+	    for (bIdx = binaryAns.length - 1; bIdx >= 0; bIdx --)
+	    	if (binaryAns [bIdx] > 0)
+	    		ans.append("" + ((char) ('a' + bIdx)));
+	    
+	    return ans.reverse().toString();
 	}
 
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest("abac", "d");
-//		_instance.runTest("aaaaa", "ac");
+		_instance.runTest("abac", "d");
+		_instance.runTest("aaaaa", "ac");
 		_instance.runTest("abcabc", "bcd");		
 	}
 
