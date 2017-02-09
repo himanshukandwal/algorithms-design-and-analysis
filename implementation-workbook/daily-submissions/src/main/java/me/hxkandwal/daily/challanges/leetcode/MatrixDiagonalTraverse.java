@@ -29,10 +29,7 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
 	
 	public static int[] _findDiagonalOrder(int[][] matrix) {
         if (matrix == null || matrix.length == 0) 
-        	return null;
-        
-        if (matrix.length == 1)
-        	return matrix [0];
+        	return new int[0];
         
         int idx = 0, rows = matrix.length, cols = matrix[0].length, row = 0, col = 0;
         boolean isTopDownFold = false;
