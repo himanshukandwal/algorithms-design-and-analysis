@@ -46,6 +46,7 @@ public class LargestRectangleInHistogram extends AbstractCustomTestRunner {
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 2, 1, 5, 6, 2, 3 }, 10);
 		_instance.runTest(new int[] { 2, 1, 2 }, 3);
+		_instance.runTest(new int[] { 1, 3, 2, 1, 2 }, 5);
 	}
 
 	public void runTest(final int[] input, final int expectedOutput) {
