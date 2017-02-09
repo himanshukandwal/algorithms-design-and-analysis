@@ -33,39 +33,34 @@ public class GenerateParentheses extends AbstractCustomTestRunner {
 		int left = n, right = n;
         
 		List<String> collector = new ArrayList<>();
-		innerRecursion (collector, new StringBuilder(), left, right);
+		innerRecursion (collector, "", left, right);
 		return collector;
     }
 	
-	private static void innerRecursion(List<String> collector, StringBuilder answer, int left, int right) {
-		if (left == 0) 
-			collector.add(answer.toString());
-		else {
-			while (left -- > 0) {
-				answer.append("(");
-				innerRecursion (collector, new StringBuilder(), left, right);
-			}
+	private static void innerRecursion(List<String> collector, String answer, int left, int right) {
+		if (left < 0 || right < left) return;
+		
+		if (left == 0 && right == 0) { 
+			collector.add (answer);
+		} else {
+			if (left > 0) innerRecursion (collector, answer + "(", left - 1, right);
 			
-			while (right -- > 0) {
-				answer.append(")");
-				innerRecursion (collector, new StringBuilder(), left, right);
-			}
+			if (right > left) innerRecursion (collector, answer + ")", left, right - 1);
 		}
 	}
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(1, new ArrayList() {{ add("()"); }});
+		_instance.runTest(3, new ArrayList() {{ add("((()))");  add("(()())"); add("(())()"); add("()(())"); add("()()()"); }});
 	}
 
 	public void runTest(final int number, final List<String> expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { number });
 
 		for (Object answer : answers)
-			assertThat((Integer) answer).isEqualTo(expectedOutput);
+			assertThat((List<String>) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
 	}
-		
 	
 }
