@@ -55,6 +55,7 @@ public class WordBreakProblem extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest(new HashSet() {{ add("ap"); add("ple"); }}, "apple", true);
 		_instance.runTest(new HashSet() {{ add("ale"); add("apple"); add("monkey"); add("plea"); }}, "apple", true);
 		_instance.runTest(new HashSet() {{ add("ale"); add("apple"); add("monkey"); add("plea"); }}, "banana", false);
 		_instance.runTest(new HashSet() {{ add("i"); add("like"); add("sam"); add("sung"); 
