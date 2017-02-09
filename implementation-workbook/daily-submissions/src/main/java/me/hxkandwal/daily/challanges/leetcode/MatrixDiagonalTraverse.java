@@ -54,13 +54,13 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
 	        row = (row < 0 ? 0 : row);
 	        if (row == rows) {
 	        	row = rows - 1;
-	        	col += 2;
+	        	col += (rows == cols ? 1 : 2);
 	        }
 	        
 	        col = (col < 0 ? 0 : col);
 	        if (col == cols) {
 	        	col = cols - 1;
-	        	row ++;
+	        	row += (rows == cols ? 1 : 2);
 	        }
 	        
 	        isTopDownFold = !isTopDownFold;
@@ -71,10 +71,10 @@ public class MatrixDiagonalTraverse extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(new int[][] {{ 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }}, new int [] { 1, 2, 4, 7, 5, 3, 6, 8, 9 });
+		_instance.runTest(new int[][] {{ 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }}, new int [] { 1, 2, 4, 7, 5, 3, 6, 8, 9 });
 //		_instance.runTest(new int[][] {{ 1, 2, 3 }}, new int [] { 1, 2, 3 });
 //		_instance.runTest(new int[][] {{ 1, 2 }, { 3, 4 }}, new int [] { 1, 2, 3, 4 });
-		_instance.runTest(new int[][] {{ 1, 2 }, { 3, 4 }, { 5, 6 }}, new int [] { 1, 2, 3, 5, 4, 6 });
+//		_instance.runTest(new int[][] {{ 1, 2 }, { 3, 4 }, { 5, 6 }}, new int [] { 1, 2, 3, 5, 4, 6 });
 	}
 
 	public void runTest(final int[][] matrix, final int[] expectedOutput) {
