@@ -54,15 +54,11 @@ public class LongestStringByDeletingSomeCharactersDictionary extends AbstractCus
 		int idx = answer.length - 1, row = dp.length - 1, col = dp[0].length - 1;
 		
 		while (row > 0 && col > 0) {
-			if (dp [row - 1][col] == dp [row][col - 1] && dp [row][col] == dp [row - 1][col - 1] + 1) {
-				answer [idx --] = a.charAt(row - 1);
-				row --; col --;
-			} else {
-				if (dp [row] == dp [row - 1])
-					row --;
-				else 
-					col --;
-			}	
+			if (dp [row][col] == dp [row - 1][col]) { row --; continue; }
+			if (dp [row][col] == dp [row][col - 1]) { col --; continue; }
+			
+			answer [idx --] = a.charAt(row - 1);
+			row --; col --;
 		}
 		
 		return String.valueOf (answer);
