@@ -24,6 +24,7 @@ public class SquarerootOfANumber extends AbstractCustomTestRunner {
 	private SquarerootOfANumber() {}
 
 	public static int _findSqrt(int num) {
+		if (num == 1) return num;
 		int low = 0, high = num;
 		
 		while (high > low) {
@@ -42,9 +43,17 @@ public class SquarerootOfANumber extends AbstractCustomTestRunner {
 		return 0;
 	}
 
+	// newton's method
+	public static int _mySqrt(int x) {
+		long r = x;
+		while (r * r > x)
+			r = (r + x / r) / 2;
+		return (int) r;
+	}
+
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(1, 0);
+		_instance.runTest(1, 1);
 		_instance.runTest(4, 2);
 		_instance.runTest(5, 2);
 		_instance.runTest(6, 2);
