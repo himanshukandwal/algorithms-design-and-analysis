@@ -67,5 +67,4 @@ public class WordAbbreviation extends AbstractCustomTestRunner {
 		System.out.println("ok!");
 	}
 
-
 }
