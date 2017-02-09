@@ -80,10 +80,27 @@ public class LongestSubstringWithKUniqueCharacters extends AbstractCustomTestRun
 			count += (locations [ch] == -1) ? 1 : 0;
 			locations [ch] = idx;
 			
-			maxlength = Math.max(maxlength, idx - start + 1);
+			maxlength = Math.max (maxlength, idx - start + 1);
 		} 
 		
 		return (count == k ? maxlength : 0);
+	}
+	
+	public static int _lengthOfLongestSubstringKDistinct3(String s, int k) {
+	    int ctr[] = new int [256], j = -1, distinct = 0, maxlen = 0;
+	    
+	    for (int i = 0; i < s.length(); i ++) {
+	        if (ctr [s.charAt(i)] ++ == 0)
+	        	distinct ++;
+	        	
+	        while (distinct > k)
+	            if (-- ctr [s.charAt(++j)] == 0)
+	            	distinct --;
+	        
+	        maxlen = Math.max (maxlen, i - j);
+	    }
+	    
+	    return maxlen;
 	}
 	
 	// driver method
