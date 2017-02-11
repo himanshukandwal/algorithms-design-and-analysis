@@ -3,6 +3,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -62,6 +63,31 @@ public class ShuffleAnArray extends AbstractCustomTestRunner {
     	return ans.toString();
     }
     
+    /**
+     * Sources : 
+     * 		http://www.geeksforgeeks.org/shuffle-a-given-array/
+     * 		https://discuss.leetcode.com/topic/53978/first-accepted-solution-java/14
+     */
+    public String shuffleBetter() {
+    	Random rnd = new Random();
+    	
+    	for (int idx = 0; idx < nums.length; idx ++) {
+    		int swapIdx = rnd.nextInt(idx + 1);
+    		int t = nums [swapIdx];
+			nums [swapIdx] = nums [idx];
+			nums [idx] = t;	
+    	}
+    	
+    	StringBuilder ans = new StringBuilder();
+    	for (int idx  = 0; idx  < nums.length; idx ++) {
+			ans.append(nums [idx]);
+			if (idx + 1 < nums.length)
+				ans.append(" ");
+		}
+    	
+    	return ans.toString();
+    }
+    
     private void knuthLAlgorithmIteration() {
     	int idx = nums.length - 1;
     	while (idx >= 1) {
@@ -101,6 +127,20 @@ public class ShuffleAnArray extends AbstractCustomTestRunner {
 		
 		assertThat(count).isEqualTo(6);
 		System.out.println("ok !");
+		
+		/**
+		 * with shuffle-better, idea is to we always start with the original copy (clone) of the array, not working ahead with the permuted copy.
+		 */
+		
+		shuffler.reset();
+		seen.clear();
+		
+		count = 1;
+		while (seen.add(shuffler.shuffleBetter()))
+			count ++;
+		
+		assertThat(count).isEqualTo(6);
+		System.out.println("ok (Better) !");
 	} 
 	
 }
