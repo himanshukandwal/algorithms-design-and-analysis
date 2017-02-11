@@ -1,9 +1,9 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -32,20 +32,16 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class ShuffleAnArray extends AbstractCustomTestRunner {
 	
-	private static ShuffleAnArray _instance = new ShuffleAnArray();
-	
 	private int [] nums;
 	private int [] backup;
-	
-	public ShuffleAnArray() {}
-	
+
 	public ShuffleAnArray (int[] nums) {
-        this.nums = nums;
+		this.nums = nums;
         this.backup = new int [nums.length];
         
         for (int idx = 0; idx < nums.length; idx ++)  backup [idx] = nums [idx];
-    }
-    
+	}
+	
     /** Resets the array to its original configuration and return it. */
     public int[] reset() {
     	for (int idx = 0; idx < nums.length; idx ++)  nums [idx] = backup [idx];
@@ -53,23 +49,58 @@ public class ShuffleAnArray extends AbstractCustomTestRunner {
     }
     
     /** Returns a random shuffling of the array. */
-    public int[] shuffle() {
-    	int shuffles = (int) (nums.length * 0.60);
+    public String shuffle() {
+    	knuthLAlgorithmIteration();
     	
-    	Random rnd = new Random ();
-    	while (shuffles -- > 0) {
-    		int start = 0, end = 0;
-    		
-    		while ((start = rnd.nextInt(nums.length)) != (end = rnd.nextInt(nums.length))) {
-    			int t = nums [start];
-    			nums [start] = nums [end];
-    			nums [start] = t;
+    	StringBuilder ans = new StringBuilder();
+    	for (int idx  = 0; idx  < backup.length; idx ++) {
+			ans.append(nums [idx]);
+			if (idx + 1 < nums.length)
+				ans.append(" ");
+		}
+    	
+    	return ans.toString();
+    }
+    
+    private void knuthLAlgorithmIteration() {
+    	int idx = nums.length - 1;
+    	while (idx >= 1) {
+    		if (nums [idx] > nums [idx - 1])
     			break;
-    		}
+    		idx --;
     	}
     	
-    	return nums;
-        
+    	if (idx == 0) return;
+    	
+    	for (int revIdx = nums.length - 1; revIdx >= idx; revIdx --) {
+    		if (nums [revIdx] > nums [idx - 1]) {
+    			int t = nums [revIdx];
+    			nums [revIdx] = nums [idx - 1];
+    			nums [idx - 1] = t;
+    			break;
+    		}	
+    	}
+    	
+    	for (int delta = 0; delta < (nums.length - idx) / 2; delta ++) {
+    		int t = nums [idx + delta];
+			nums [idx + delta] = nums [nums.length - delta - 1];
+			nums [nums.length - delta - 1] = t;
+    	}
     }
-
+     
+    public static void main(String[] args) {
+		int [] array = new int [] { 1, 2, 3 };
+		
+		ShuffleAnArray shuffler = new ShuffleAnArray(array);
+		shuffler.reset();
+		Set<String> seen = new HashSet<>();
+		
+		int count = 1;
+		while (seen.add(shuffler.shuffle()))
+			count ++;
+		
+		assertThat(count).isEqualTo(6);
+		System.out.println("ok !");
+	} 
+	
 }
