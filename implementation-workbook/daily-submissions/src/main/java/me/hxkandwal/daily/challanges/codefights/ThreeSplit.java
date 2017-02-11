@@ -35,91 +35,40 @@ public class ThreeSplit extends AbstractCustomTestRunner {
 	private ThreeSplit() {}
 	
 	public static int _threeSplit(int[] a) {
-		int sum = 0, count = 0, idx = 0;
+		int sum = 0, idx1 = 0, count = 0;
 		
 		for (int ai : a) sum += ai;
 		sum = sum / 3;
 
-		int mark1 = -1, mark2 = -1;
-		while (mark2 == -1) {
-			Integer lsum = null;
+		Integer sum1 = null;
+		while (idx1 < a.length) {
+			sum1 = (sum1 == null) ? a [idx1 ++] : sum1 + a [idx1 ++];
 			
-			while (lsum == null || lsum != sum) lsum = (lsum == null) ? a [idx ++] : lsum + a [idx ++];
-			
-			mark2 = (mark1 != -1) ? idx - 1 : -1;
-			mark1 = (mark1 == -1) ? idx - 1 : mark1;
+			if (sum1 != null && sum1 == sum) {
+				Integer sum2 = null, idx2 = idx1;
+				
+				while (idx2 < a.length) {
+					sum2 = (sum2 == null) ? a [idx2 ++] : sum2 + a [idx2 ++];
+					
+					if (sum2 != null && sum2 == sum) {
+						Integer sum3 = null, idx3 = idx2;
+						
+			            while (idx3 < a.length) sum3 = (sum3 == null) ? a [idx3 ++] : sum3 + a [idx3 ++];
+			            
+			            if (sum3 != null && sum3 == sum) count ++;
+					}
+			    }
+			}
 		}
-		count ++;
-		
-		final int markleft = mark1;
-		final int markright = mark2;
-		
-		while (mark1 + 1 < a.length && a [mark1 + 1] == 0) {
-			count ++; mark1 ++;
-			
-			while (mark2 + 1 < a.length && a [mark2 + 1] == 0) { 
-				count ++; mark2 ++;
-			} 
-			mark2 = markright;
-			
-			while (mark2 - 1 >= 0 && a [mark2] == 0 && mark2 < mark1) {
-				count ++; mark2 --;
-			} 
-			mark2 = markright;
-		} 
-		mark1 = markleft;
-		
-		while (mark1 - 1 >= 0 && a [mark1] == 0) {
-			count ++; mark1 --;
-			
-			while (mark2 + 1 < a.length && a [mark2 + 1] == 0 && mark2 < mark1) { 
-				count ++; mark2 ++;
-			} 
-			mark2 = markright;
-			
-			while (mark2 - 1 >= 0 && a [mark2] == 0) {
-				count ++; mark2 --;
-			} 
-			mark2 = markright;
-		} 
-		mark1 = markleft;
-		
-		while (mark2 + 1 < a.length && a [mark2 + 1] == 0) {
-			count ++; mark2 ++;
-			
-			while (mark1 + 1 < a.length && a [mark1 + 1] == 0) { 
-				count ++; mark1 ++;
-			} 
-			mark1 = markleft;
-			
-			while (mark1 - 1 >= 0 && a [mark1] == 0 && mark2 < mark1) {
-				count ++; mark1 --;
-			} 
-			mark1 = markleft;
-		} 
-		mark2 = markright;
-		
-		while (mark2 - 1 >= 0 && a [mark2] == 0) {
-			count ++; mark2 --;
-			
-			while (mark1 + 1 < a.length && a [mark1 + 1] == 0 && mark2 < mark1) { 
-				count ++; mark1 ++;
-			} 
-			mark1 = markleft;
-			
-			while (mark1 - 1 >= 0 && a [mark1] == 0) {
-				count ++; mark1 --;
-			} 
-			mark1 = markleft;
-		}
-		mark2 = markright;
-		
+
 		return count;
 	}
 	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 0, -1, 0, -1, 0, -1 }, 4);
+		_instance.runTest(new int[] { -1, 0, -1, 0, -1, 0 }, 4);
+		_instance.runTest(new int[] { -1, 1, -1, 1, -1, 1, -1, 1 }, 3);
 	}
 
 	public void runTest(final int[] a, final int expectedOutput) {
