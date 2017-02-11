@@ -52,6 +52,7 @@ public class CyclicString extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("cabca", 3);
+		_instance.runTest("abc", 3);
 		_instance.runTest("abab", 2);
 		_instance.runTest("aaa", 1);
 		_instance.runTest("abcabc", 3);
