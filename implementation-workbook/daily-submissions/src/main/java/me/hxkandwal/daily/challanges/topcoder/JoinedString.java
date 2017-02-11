@@ -91,7 +91,7 @@ public class JoinedString extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new String[] { "BAB", "ABA" }, "ABAB");
-//		_instance.runTest(new String[] { "ABABA", "AKAKA", "AKABAS", "ABAKA" }, "ABABAKAKABAS");
+		_instance.runTest(new String[] { "ABABA", "AKAKA", "AKABAS", "ABAKA" }, "ABABAKAKABAS");
 		_instance.runTest(new String[] { "AAA","BBB", "CCC", "ABC", "BCA", "CAB" }, "AAABBBCABCCC");
 	}
 
