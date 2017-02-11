@@ -38,13 +38,13 @@ public class BestTimeToBuyAndSellStock extends AbstractCustomTestRunner {
 		int result = 0;
 		int minIdx = 0;
 		
-		for (int idx = 1; idx < prices.length; idx ++)
-			if (prices [idx] < prices[minIdx])
+		for (int idx = 1; idx < prices.length; idx ++) {
+			if (prices [idx] > prices [minIdx])
+				result = Math.max (result, prices [idx] - prices [minIdx]);
+			
+			if (prices [idx] < prices [minIdx])
 				minIdx = idx;
-		
-		if (minIdx < prices.length)
-			for (int idx = minIdx; idx < prices.length; idx ++) 
-				result = Math.max(result, prices [idx] - prices [minIdx]);
+		}
 		
 		return result;
     }
