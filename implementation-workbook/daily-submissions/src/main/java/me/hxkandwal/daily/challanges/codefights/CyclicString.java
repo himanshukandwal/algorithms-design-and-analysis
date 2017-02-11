@@ -55,6 +55,7 @@ public class CyclicString extends AbstractCustomTestRunner {
 		_instance.runTest("abab", 2);
 		_instance.runTest("aaa", 1);
 		_instance.runTest("abcabc", 3);
+		_instance.runTest("abcdeabc", 5);
 	}
 
 	public void runTest(final String s, final int expectedOutput) {
