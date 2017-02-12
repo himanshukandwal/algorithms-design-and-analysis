@@ -48,6 +48,7 @@ public class BestTimeToBuyAndSellStockII extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 1, 2, 4 }, 3);
+		_instance.runTest(new int[] { 1, 2, 4, 9, 8, 10 }, 10);
 	}
 	
 	public void runTest(final int[] prices, final int expectedOutput) {
