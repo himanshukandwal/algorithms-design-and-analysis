@@ -33,31 +33,17 @@ public class BestTimeToBuyAndSellStockWithCooldown extends AbstractCustomTestRun
 	private BestTimeToBuyAndSellStockWithCooldown() {}
 	
 	public static int _maxProfit(int[] prices) {
-		int [] dp = new int [prices.length]; 
-		
-		Boolean dipped = null;
-		for (int idx = 1; idx < prices.length; idx ++) {
-			if (prices [idx] > prices [idx - 1]) {
-				dipped = (dipped == null ? false : dipped);
-				
-				int diff = prices [idx] - prices [idx - 1];
-				
-				if (idx - 3 >= 0 && dipped) {
-					if (prices [idx - 3] > prices [idx])
-						dp [idx] =  Math.max (dp [idx - 2], dp [idx - 3] + diff);
-					else
-						dp [idx] =  Math.max (Math.max (dp [idx - 2], dp [idx - 3] + diff), dp [idx - 3] + prices [idx] - prices [idx - 3]);
-				} else
-					dp [idx] = dp [idx - 1] + diff;
-				
-				dipped = false;
-			} else {
-				dipped = true;
-				dp [idx] = dp [idx - 1];
-			}
-		}
-		
-        return (prices == null || prices.length == 0 ? 0 : dp [dp.length - 1]);
+		if (prices.length < 2) return 0;
+		int s0 = 0, s1 = -prices[0], s2 = 0;
+        
+        for (int idx = 1; idx < prices.length; idx ++) {
+            int last_s2 = s2;
+            s1 = Math.max (s0 - prices [idx], s1);
+            s2 = s1 + prices[idx];
+            s0 = Math.max (s0, last_s2);
+        }
+        
+        return Math.max (s0, s2);
     }
 	
 	// driver method
