@@ -32,6 +32,7 @@ public class BestTimeToBuyAndSellStockWithCooldown extends AbstractCustomTestRun
 	
 	private BestTimeToBuyAndSellStockWithCooldown() {}
 	
+	// https://discuss.leetcode.com/topic/30680/share-my-dp-solution-by-state-machine-thinking
 	public static int _maxProfit(int[] prices) {
 		if (prices.length < 2) return 0;
 		int s0 = 0, s1 = -prices[0], s2 = 0;
