@@ -27,27 +27,31 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 
  * 		a	b	c	e	b	a									
  *	a	1	0	0	0	0	0									
- *	b	0	1	0	0	0	0									
- *	c	0	0	1	0	0	0									
- *	e	0	0	0	1	0	0									
- *	b	0	3	0	0	1	0									
- *	a	5	0	0	0	0	1
+ *	b	1	1	0	0	0	0									
+ *	c	1	1	1	0	0	0   <= this means we have longest subsequence of 1 length, which is true as every char is unique and is palindrome of length 1. 									
+ *	e	1	1	1	1	0	0									
+ *	b	3	3	1	1	1	0									
+ *	a	5	3	1	1	1	1
  *
  *		a	b	c	c	b	a	
  *	a	1	0	0	0	0	0	
- *	b	0	1	0	0	0	0	
- *	c	0	0	1	0	0	0	
- *	c	0	0	2	1	0	0	
- *	b	0	4	0	0	1	0	
- *	a	6	0	0	0	0	1	
+ *	b	1	1	0	0	0	0	
+ *	c	1	1	1	0	0	0	
+ *	c	2	2	2	1	0	0	
+ *	b	4	4	2	1	1	0	
+ *	a	6	4	2	1	1	1	
  *
  *		b	b	b	a	b										
  *	b	1	0	0	0	0										
  *	b	2	1	0	0	0										
  *	b	3	2	1	0	0										
- *	a	3	2	0	1	0										
- *	b	4	3	3	0	1
- *										
+ *	a	3	2	1	1	0										
+ *	b	4	3	3	1	1
+ *						
+ * Diagonal curving, propagating information right to left (column wise, so that next hit has the information of latest updates)
+ * this wont effect the regular left to right as we are curving diagonally however, next hit will happen earlier (row > col) than last hit,
+ * this suggest that we need that information earlier, hence right to left information transfer.
+ *  				
  * @author Hxkandwal
  */
 public class LongestPalindromicSubsequence extends AbstractCustomTestRunner {
@@ -56,18 +60,22 @@ public class LongestPalindromicSubsequence extends AbstractCustomTestRunner {
 	
 	private LongestPalindromicSubsequence() {}
 	
-	public static int _longestPalindromeSubseq(String s) {
+	// when curving inwards, throw information towards extreme left so that when we find an extension we can determine correct length (try bbbab and agbdba)
+	// information propagation is extremely important.
+	public static int _longestPalindromeSubsequence (String s) {
         int [][] dp = new int [s.length() + 1][s.length() + 1];
         
-        int maxLength = 0;
+        int maxLength = 1;
         for (int row = 0; row < s.length(); row ++) {
-			for (int col = 0; col <= row; col ++) {
-				if (s.charAt(row) == s.charAt(col)) {
-					dp [row + 1][col + 1] = (row == col) ? 1 : (dp [row][col + 2] > 0) ? dp [row][col + 2] + 2 : (row - col > 1 ? 3 : 2);
-				} else 
-					dp [row + 1][col + 1] = (row != col) ? dp [row][col + 1] : 0;
+        	dp [row + 1][row + 1] = 1;
+        	
+			for (int col = row - 1; col >= 0; col --) {
+				if (s.charAt(row) == s.charAt(col))
+					dp [row + 1][col + 1] = dp [row][col + 2] + 2;
+				else 
+					dp [row + 1][col + 1] = Math.max (dp [row][col + 1], dp [row + 1][col + 2]);
 					
-				maxLength = Math.max(maxLength, dp [row + 1][col + 1]);
+				maxLength = Math.max (maxLength, dp [row + 1][col + 1]);
 			}
 		}
         
@@ -76,12 +84,16 @@ public class LongestPalindromicSubsequence extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest("agbdba", 5);
 		_instance.runTest("bbbab", 4);
 		_instance.runTest("cbbd", 2);
 		_instance.runTest("abceba", 5);
 		_instance.runTest("abccba", 6);
 		_instance.runTest("abcdcba", 7);
 		_instance.runTest("abcdecba", 7);
+		_instance.runTest("abcdecbafghigf", 7);
+		_instance.runTest("abcdecbafghigfttttuvwxyzzzzyxwvu", 14);
+		_instance.runTest("tuvwxyzzzzyxwvuttttabcdecbafghigf", 16);	
 	}
 	
 	public void runTest(final String s, final int expectedOutput) {
