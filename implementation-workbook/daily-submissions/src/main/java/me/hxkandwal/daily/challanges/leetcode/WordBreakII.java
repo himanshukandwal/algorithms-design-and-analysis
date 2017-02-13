@@ -14,6 +14,8 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 /**
  * 140. Word Break II (Extraction)
  * 
+ * DP + DFS
+ *  
  * Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where 
  * each word is a valid dictionary word. You may assume the dictionary does not contain duplicate words.
  * 
@@ -34,49 +36,101 @@ public class WordBreakII extends AbstractCustomTestRunner {
 	
 	private WordBreakII() {}
 	
-	public static List<String> _wordBreak(String s, List<String> wordDict) {
+	/**
+	 * regular boolean [] solution (extra work while going down, have to check everything every time)
+	 * 
+	 * @param s
+	 * @param wordDict
+	 * @return
+	 */
+	public static List<String> wordBreak(String s, List<String> wordDict) {
 		Set<String> hash = new HashSet<>();
-		int dictionaryLength = 0;
-		for (String word : wordDict) { dictionaryLength += word.length(); hash.add(word); }
+		int [] presentChars = new int [256];
+		
+		for (String word : wordDict) { 
+			hash.add(word);
+			for (int idx = 0; idx < word.length(); idx ++)
+				presentChars [word.charAt(idx)] ++;
+		}
+		
+		for (int idx = 0; idx < s.length(); idx ++)
+			if (presentChars[s.charAt(idx)] == 0)
+				return new ArrayList<>();
 		
 		boolean [] f = new boolean [s.length() + 1];
 		f [0] = true;
 		
 		Map<Integer, List<String>> indexBasedRegister = new HashMap<>();
+		indexBasedRegister.put(0, new ArrayList() {{ add (""); }});
 		
-		if (s.length() <= dictionaryLength) { 		
-			indexBasedRegister.put(0, new ArrayList() {{ add (""); }});
-			
-			for (int idx = 1; idx < f.length; idx ++) {
-				boolean found = false;
-				for (int innerIdx = idx - 1; innerIdx >= 0; innerIdx --) {
-					if (f [innerIdx] && hash.contains(s.substring(innerIdx, idx))) {
-						found = (!found) ? true : found;
-						
-						if (! indexBasedRegister.containsKey(idx))
-							indexBasedRegister.put(idx, new ArrayList<>());
-						
-						for (String innerIdxStrings : indexBasedRegister.get(innerIdx)) 
-							indexBasedRegister.get(idx).add(innerIdxStrings + (innerIdxStrings.length() > 0 ? " " : "") + s.substring(innerIdx, idx));
-					}
+		for (int idx = 1; idx < f.length; idx ++) {
+			boolean found = false;
+			for (int innerIdx = idx - 1; innerIdx >= 0; innerIdx --) {
+				if (f [innerIdx] && hash.contains(s.substring(innerIdx, idx))) {
+					found = (!found) ? true : found;
+					
+					if (! indexBasedRegister.containsKey(idx))
+						indexBasedRegister.put(idx, new ArrayList<>());
+					
+					for (String innerIdxStrings : indexBasedRegister.get(innerIdx)) 
+						indexBasedRegister.get(idx).add(innerIdxStrings + (innerIdxStrings.length() > 0 ? " " : "") + s.substring(innerIdx, idx));
 				}
-				
-				f [idx] = found;
 			}
+			
+			f [idx] = found;
 		}
 		
         return (indexBasedRegister.size() == 0 || !indexBasedRegister.containsKey(f.length - 1) ? new ArrayList<>() : indexBasedRegister.get(f.length - 1));
     }
+
+	/**
+	 * DFS Solution
+	 * 
+	 * same philosophy of start as that of boolean []. build up ahead and concatenate while coming back. (bottom up, lesser work, build up)
+	 */
+	public static List<String> _wordBreakDFS (String s, List<String> wordDict) {
+		Set<String> set = new HashSet<>();
+		int maxDictionaryWordLength = 0;
+		for (String word : wordDict) { maxDictionaryWordLength = Math.max(maxDictionaryWordLength, word.length()); set.add(word); }
+		
+		Map<Integer, List<String>> indexBasedRegister = new HashMap<>();
+		return generateWords (indexBasedRegister, s, set, 0, maxDictionaryWordLength);
+	}
+	
+	private static List<String> generateWords (Map<Integer, List<String>> indexBasedRegister, String s, Set<String> set, int start, int maxDictionaryWordLength) {
+		List<String> words = new ArrayList<>();
+		
+		if (start >= s.length()) {
+			words.add("");
+			return words;
+		}
+		
+		for (int idx = start + 1; idx <= start + maxDictionaryWordLength && idx <= s.length(); idx ++) {
+			String currentWord = s.substring(start, idx);
+			
+			if (set.contains(currentWord)) {
+				List<String> processedList;
+				if (indexBasedRegister.containsKey(idx)) processedList = indexBasedRegister.get(idx);
+				else processedList = generateWords (indexBasedRegister, s, set, idx, maxDictionaryWordLength);
+				
+				// reverse build up stack.
+				for (String processedWord : processedList)
+					words.add (currentWord + (processedWord.length() > 0 ? " " + processedWord : ""));
+			}
+		}
+		
+		indexBasedRegister.put (start, words); 
+		return words;
+	}
 	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("catsanddog", new ArrayList() {{ add ("cat"); add ("cats"); add ("and"); add ("sand"); add ("dog"); }}, 
-							new ArrayList() {{ add ("cats and dog"); add("cat sand dog"); }});
+							new ArrayList() {{ add("cat sand dog"); add ("cats and dog"); }});
 		
 		_instance.runTest("ilikesamsung", new ArrayList() {{ add("i"); add("like"); add("sam"); add("sung"); add("samsung"); add("mobile"); add("ice"); add("go");
 		   													 add("cream"); add("icecream"); add("man"); add("mango"); }}, 
 						   new ArrayList() {{ add("i like sam sung"); add ("i like samsung"); }});
-		
 		
 		_instance.runTest("aaaaaaaa", new ArrayList() {{ add("aaaa"); add("aa"); add("a"); }},
 				new ArrayList() {{ add("a a a a a a a a"); add ("aa a a a a a a"); add("a aa a a a a a"); add("a a aa a a a a"); add("aa aa a a a a"); add("aaaa a a a a"); 
