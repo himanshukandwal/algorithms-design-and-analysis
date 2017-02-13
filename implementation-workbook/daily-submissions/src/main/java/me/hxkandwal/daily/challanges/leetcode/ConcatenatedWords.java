@@ -80,7 +80,7 @@ public class ConcatenatedWords extends AbstractCustomTestRunner {
 		}
 	}
 	
-	public static List<String> _findAllConcatenatedWordsInADict(String[] words) {
+	public static List<String> findAllConcatenatedWordsInADict(String[] words) {
         Trie root = new Trie(' ');
         List<String> answer = new ArrayList<>();
         
@@ -117,23 +117,33 @@ public class ConcatenatedWords extends AbstractCustomTestRunner {
 	
 	public static List<String> _findAllConcatenatedWordsInADictOptimized(String[] words) {
 		List<String> answer = new ArrayList<>();
-		Set<String> map = new HashSet<>();
 		
-		for (String word : words) map.add(word);
-		
-		for (int i = 0; i < words.length; i++) {
+		if (words.length > 1) {
+			Set<String> hash = new HashSet<>();
+			for (String word : words) hash.add(word);
 			
+			for (String word : words) {
+				if (word.length() > 1) {
+					boolean [] f = new boolean [word.length() + 1];
+					f [0] = true;
+					
+					for (int idx = 1; idx < f.length; idx ++)
+						for (int innerIdx = idx - 1; innerIdx >= 0; innerIdx --)
+							if (f [idx] = (f [innerIdx] && hash.contains(word.substring(innerIdx, idx)) && !word.substring(innerIdx, idx).equals(word)))
+								break;
+					
+					if (f [f.length - 1]) answer.add(word);
+				}
+			}
 		}
-		boolean [] f = new b
-		
-		
 		
 		return answer;
 	}
-	
-	
+
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest(new String[] { "" }, new ArrayList());
+		
 		_instance.runTest(new String[] { "a","b","ab","abc" }, new ArrayList() {{ add ("ab"); }});
 		
 		_instance.runTest(new String[] { "cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat" }, 
