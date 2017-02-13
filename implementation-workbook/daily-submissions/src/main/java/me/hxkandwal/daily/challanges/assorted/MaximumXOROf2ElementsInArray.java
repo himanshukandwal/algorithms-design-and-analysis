@@ -18,82 +18,50 @@ public class MaximumXOROf2ElementsInArray extends AbstractCustomTestRunner {
 	
 	private MaximumXOROf2ElementsInArray() {}
 	
-	public static class BinaryTrie {
-		Integer value;
-		BinaryTrie right; 	// 0
-		BinaryTrie left; 	// 1
-		
-		// for root 
-		public BinaryTrie() {}
-		
-		public BinaryTrie(int value) { this.value = value; }
-		
-		public void insert(String element, int index) {
-			if (index >= element.length()) 
-				return;
-			
-			if (element.charAt(index) == '0') {
-				if (right == null) 
-					right = new BinaryTrie(0);
-				
-				right.insert(element, index + 1);
-			} else {
-				if (left == null) 
-					left = new BinaryTrie(1);
-				
-				left.insert(element, index + 1);				
-			}
-		}
-		
-		public int getXOR(String element, int index) {
-			if (left == null && right == null)
-				return 0;
-			
-			int res = 0;
-			if (element.charAt(index) == '0') {
-				if (left != null) {
-					res = left.getXOR(element, index + 1);
-					res += Math.pow (2, element.length() - index - 1);
-				} else {
-					// go to right (0) if left is not present. 
-					res = right.getXOR(element, index + 1);
-				}
-			} else {
-				if (right != null) {
-					res = right.getXOR(element, index + 1);
-					res += Math.pow (2, element.length() - index - 1);
-				}
-			}
-			
-			return res;
-		}
-		
-		@Override
-		public String toString() {
-			return String.valueOf(value);
-		}
-	}
-	
 	public static int _getMaxXORof2Elements(int[] array) {
-		BinaryTrie root = new BinaryTrie();
+		if(array == null || array.length == 0) return 0;
 		
-		int maxXor = -1;
-		for (int arrayElement : array) {
-			String element = String.format("%8s",Integer.toBinaryString(arrayElement)).replace(" ", "0");
-			
-			// insert the arrayElement			
-			root.insert(element, 0);
-			
-			// find XOR for the arrayElement
-			maxXor = Math.max(maxXor, root.getXOR(element, 0));
-		}
-		
-		return maxXor;
+        // Init Trie.
+        Object[] root = { null, null };
+        
+        for(int num: array) {
+            Object[] curNode = root;
+            
+            for (int i = 31; i >= 0; i --) {
+                int curBit = (num >>> i) & 1;
+                
+                if (curNode [curBit] == null) 
+                    curNode [curBit] = new Object[] { null, null };
+                
+                curNode = (Object[]) curNode[curBit];
+            }
+        }
+        
+        int max = Integer.MIN_VALUE;
+        for (int num: array) {
+            Object[] curNode = root;
+            int curSum = 0;
+            
+            for (int i = 31; i >= 0; i --) {
+                int curBit = (num >>> i) & 1;
+                
+                if (curNode [curBit ^ 1] != null) {
+                    curSum += (1 << i);
+                    curNode = (Object[]) curNode [curBit ^ 1];
+                } else
+                    curNode = (Object[]) curNode [curBit];
+            }
+            
+            max = Math.max(curSum, max);
+        }
+        
+        return max;
 	}
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 5 }, 0);
+		_instance.runTest(new int[] { 4, 6, 7 }, 3);
 		_instance.runTest(new int[] { 5, 1, 4, 3, 0, 2 }, 7);
 		_instance.runTest(new int[] { 2, 6, 1, 3, 5, 4, 8 }, 14);
 	}
