@@ -3,6 +3,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -53,39 +54,49 @@ public class ShortestPalindromeFrontEnd extends AbstractCustomTestRunner {
 		return answer.toString();
     }
 
+	/**
+	 * idea : https://discuss.leetcode.com/topic/14542/ac-in-288-ms-simple-brute-force
+	 * 
+	 *   s          dedcba
+	 *  r[0:]      abcded    Nope...
+	 *  r[1:]   (a)bcded     Nope...
+	 *  r[2:]  (ab)cded      Nope...
+	 *  r[3:] (abc)ded       Yes! Return abc + dedcba
+	 * 
+	 */
 	public static String _shortestPalindromeOptimized(String s) {
-        int lastEndIndexFromStart = -1;
-        
-        List<Integer> dp = new ArrayList<>(s.length());
-        List<Integer> dpNext = new ArrayList<>(s.length());
-        
-        for (int row = 0; row < s.length(); row ++) {
-        	for (int col = row; col >= 0; col --) {
-				if (s.charAt(row) == s.charAt(col)) 
-					dpNext.add((row == col) ? 1 : (row - col == 1 || dp.size() <= col + 2) ? (dp.size() <= col + 2 ? dp.get(col + 1) : 0) + 2 : 0);
-				
-				if (col == 0) lastEndIndexFromStart = Math.max (lastEndIndexFromStart, dpNext.get(col) - 1);
-			}
-        	
-        	dp.clear(); dp.addAll(dpNext); dpNext.clear();
-        }
-        
-        if (lastEndIndexFromStart + 1 == s.length()) return s;
-        
-        StringBuilder answer = new StringBuilder(s);
-        if (lastEndIndexFromStart > 0)
-        	for (int idx = lastEndIndexFromStart + 1; idx < s.length(); idx ++) answer.insert(0, s.charAt(idx));
-        else 
-        	for (int idx = 1; idx < s.length(); idx ++) answer.insert(0, s.charAt(idx));
-        
-		return answer.toString();
+		char[] rev = s.toCharArray();
+		
+		// string reversal.
+		for (int idx = 0; idx < s.length()/2; idx ++) {
+			char ch = rev [idx];
+			rev [idx] = rev [s.length() - idx - 1];
+			rev [s.length() - idx - 1] = ch;
+		}
+		
+		boolean matched = false; int shifts = 0;
+		
+		while (!matched) {
+			matched = true;
+			for (int idx = 0; idx + shifts < s.length(); idx ++)
+				if (!(matched = (s.charAt(idx) == rev [idx + shifts])))
+					break;	
+			
+			if (! matched) shifts ++;
+		}
+		
+		return new StringBuilder(s.substring(s.length() - shifts)).reverse().toString() + s;
     }
 	
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest("dedcba", "abcdedcba");
 		_instance.runTest("aacecaaa", "aaacecaaa");
 		_instance.runTest("abcd", "dcbabcd");	
 		_instance.runTest("abb", "bbabb");	
+		_instance.runTest("adcba", "abcdadcba");	
+		_instance.runTest("abbacd", "dcabbacd");
+		_instance.runTest("aabba", "abbaabba");
 	}
 	
 	public void runTest(final String s, final String expectedOutput) {
