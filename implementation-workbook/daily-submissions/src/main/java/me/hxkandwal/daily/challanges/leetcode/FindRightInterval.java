@@ -2,8 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,15 +67,15 @@ public class FindRightInterval extends AbstractCustomTestRunner {
 	// logic : sort by start time, search by end time.
 	public static int[] _findRightInterval(Interval[] intervals) {
         int [] answer = new int [intervals.length];
-        List<AbstractMap.SimpleEntry<Integer, Integer>> sortedIntervals = new ArrayList<>();
+        List<int[]> sortedIntervals = new ArrayList<>();
         
         for (int idx = 0; idx < intervals.length; idx ++)
-			sortedIntervals.add(new AbstractMap.SimpleEntry<Integer, Integer>(intervals [idx].start, idx));
+			sortedIntervals.add(new int[] { intervals [idx].start, idx });
         
-        Collections.sort (sortedIntervals, new Comparator<AbstractMap.SimpleEntry<Integer, Integer>>() {
+        Collections.sort (sortedIntervals, new Comparator<int[]>() {
 			@Override
-			public int compare(SimpleEntry<Integer, Integer> o1, SimpleEntry<Integer, Integer> o2) {
-				return o1.getKey() - o2.getKey();
+			public int compare(int[] o1, int[] o2) {
+				return o1 [0] - o2 [0];
 			}
 		});
         
@@ -89,17 +87,17 @@ public class FindRightInterval extends AbstractCustomTestRunner {
         	int mid = -1;
         	while (low <= high) {
 				mid = (low + high) >>> 1;
-				if (sortedIntervals.get(mid).getKey() > search)
+				if (sortedIntervals.get(mid)[0] > search)
 					high = mid - 1;
-				else if (sortedIntervals.get(mid).getKey() < search)
+				else if (sortedIntervals.get(mid)[0] < search)
 					low = mid + 1;
 				else {
-					answer[idx] = sortedIntervals.get(mid).getValue();
+					answer[idx] = sortedIntervals.get(mid)[1];
 					found = true; break;
 				}
 			}
 
-        	answer[idx] = (!found) ? (low < sortedIntervals.size() && high < sortedIntervals.size() ? sortedIntervals.get(low).getValue() : -1) : answer[idx];
+        	answer[idx] = (!found) ? (low < sortedIntervals.size() && high < sortedIntervals.size() ? sortedIntervals.get(low)[1] : -1) : answer[idx];
         }
         
 		return answer;
