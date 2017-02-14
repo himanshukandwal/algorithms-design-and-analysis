@@ -59,6 +59,7 @@ public class FindRightInterval extends AbstractCustomTestRunner {
 	}
 	
 	public static int[] findRightInterval(Interval[] intervals) {
+        int [] answer = new int [intervals.length];
         
 		return null;
     }

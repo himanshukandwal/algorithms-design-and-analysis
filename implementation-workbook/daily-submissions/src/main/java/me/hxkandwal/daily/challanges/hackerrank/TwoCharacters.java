@@ -2,9 +2,13 @@ package me.hxkandwal.daily.challanges.hackerrank;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -49,8 +53,97 @@ public class TwoCharacters extends AbstractCustomTestRunner {
 	
 	private TwoCharacters() {}
 	
+	public static int _getTwoCharacterStringOptimized(String s) {
+		StringBuilder sb = new StringBuilder(s);
+		boolean fine = false;
+		
+		while (!fine) {
+			fine = true;
+			for (int idx = 0; idx < sb.length() - 1; idx ++) {
+				if (sb.charAt(idx) == sb.charAt(idx + 1)) {
+					char ch = sb.charAt(idx);
+					fine = false;
+					for (int oIdx = 0; oIdx < sb.length(); oIdx ++)
+						if (sb.charAt(oIdx) == ch)
+							sb.deleteCharAt(oIdx --);
+					break;
+				}
+			}
+		}
+		
+		if (sb.length() <= 1) return 0;
+		
+		Map<Character, List<Integer>> hash = new HashMap<>();
+		int distinct = 0, maxLength = 0, ans = 0;
+		
+		for (int idx = 0; idx < sb.length(); idx ++) {
+			if (!hash.containsKey(sb.charAt(idx))) {
+				distinct ++;
+				List<Integer> indexes = new ArrayList<>();
+				indexes.add(idx);
+				hash.put(sb.charAt(idx), indexes);
+			} else
+				hash.get(sb.charAt(idx)).add(idx);
+			
+			maxLength = Math.max (maxLength, hash.get(sb.charAt(idx)).size());
+		}
+		
+		if (distinct == 2) return sb.length();
+		if (maxLength == 1 && sb.length() > 2) return 0;
+	
+		while (hash.size() > 1) {
+			List<Integer> firstList = null;
+			for (Iterator<Map.Entry<Character, List<Integer>>> mapEntrySetIterator = hash.entrySet().iterator(); mapEntrySetIterator.hasNext();) {
+				Entry<Character, List<Integer>> entry = mapEntrySetIterator.next();
+				if (entry.getValue().size() == maxLength) {
+					firstList = entry.getValue();
+					mapEntrySetIterator.remove();
+					break;
+				}
+			}
+			
+			// try overlapping, with candidates
+			for (Iterator<Map.Entry<Character, List<Integer>>> mapEntrySetIterator = hash.entrySet().iterator(); mapEntrySetIterator.hasNext();) {
+				Entry<Character, List<Integer>> entry = mapEntrySetIterator.next();
+				List<Integer> secondList = entry.getValue();
+				
+				if (firstList.size() <= secondList.size() + 1) {
+					// merging
+					int firstIdx = 0, secondIdx = 0;
+					
+					// true - first list used, false - second list used.
+					boolean alt = firstList.get(firstIdx) < secondList.get(secondIdx);
+					
+					if (alt) firstIdx ++; else secondIdx ++;
+					
+					boolean failed = false;
+					while (firstIdx < firstList.size() && secondIdx < secondList.size()) {
+						if (alt) {
+							if (secondList.get(secondIdx) < firstList.get(firstIdx)) {
+								alt = !alt; secondIdx ++;
+							} else { failed = true; break; }
+						} else {
+							if (firstList.get(firstIdx) < secondList.get(secondIdx)) {
+								alt = !alt; firstIdx ++;
+							} else { failed = true; break; }
+						}
+					}
+					
+					if (!failed && !(firstIdx < firstList.size() - 1 || secondIdx < secondList.size() - 1)) 
+						ans = Math.max (ans, firstList.size() + secondList.size());
+				}
+			}
+			
+			maxLength = 0;
+			for (Iterator<Map.Entry<Character, List<Integer>>> mapEntrySetIterator = hash.entrySet().iterator(); mapEntrySetIterator.hasNext();)
+				maxLength = Math.max(maxLength, mapEntrySetIterator.next().getValue().size());
+		}
+		
+		return ans;
+	}
+	
 	// to visualize the logic, do a simple dry run.
-	public static int _getTwoCharacterString(String s) {
+	public static int getTwoCharacterString(String s) {
 		Set<Character> ignoredCharacters = new HashSet<>();
 		HashMap<Character, Set<Character>> notpossiblePairMap = new HashMap<>();
 		
