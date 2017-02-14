@@ -2,6 +2,11 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -58,10 +63,39 @@ public class FindRightInterval extends AbstractCustomTestRunner {
 		Interval(int s, int e) { start = s; end = e; }
 	}
 	
+	// logic : sort by start time, search by end time.
 	public static int[] findRightInterval(Interval[] intervals) {
         int [] answer = new int [intervals.length];
+        List<AbstractMap.SimpleEntry<Integer, Integer>> sortedIntervals = new ArrayList<>();
         
-		return null;
+        for (int idx = 0; idx < intervals.length; idx ++)
+			sortedIntervals.add(new AbstractMap.SimpleEntry<Integer, Integer>(intervals [idx].start, idx));
+        
+        Collections.sort (sortedIntervals, new Comparator<AbstractMap.SimpleEntry<Integer, Integer>>() {
+			@Override
+			public int compare(SimpleEntry<Integer, Integer> o1, SimpleEntry<Integer, Integer> o2) {
+				return o1.getKey() - o2.getKey();
+			}
+		});
+        
+        for (int idx = 0; idx < intervals.length; idx ++) {
+        	int search = intervals [idx].end;
+        	int low = 0, high = sortedIntervals.size() - 1;
+        	
+        	while (low < high) {
+				int mid = (low + high) >>> 1;
+        		if (sortedIntervals.get(mid).getKey() > search)
+        			high = mid - 1;
+        		else if (sortedIntervals.get(mid).getKey() < search)
+        			low = mid + 1;
+        		else 
+        			answer [idx] = sortedIntervals.get(mid).getValue();
+			}
+        	
+        	answer [idx] = (answer [idx] == 0) ? -1 : answer [idx];
+        }
+        
+		return answer;
     }
 	
 	// driver method
