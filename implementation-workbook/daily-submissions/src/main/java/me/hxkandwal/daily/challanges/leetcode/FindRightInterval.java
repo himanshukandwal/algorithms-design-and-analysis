@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -102,6 +105,22 @@ public class FindRightInterval extends AbstractCustomTestRunner {
 		return answer;
     }
 	
+	// faster tree-map implementation
+	public static int[] _findRightIntervalTreeMap(Interval[] intervals) {
+		int[] result = new int[intervals.length];
+		NavigableMap<Integer, Integer> intervalMap = new TreeMap<>();
+
+		for (int i = 0; i < intervals.length; i ++)
+			intervalMap.put(intervals[i].start, i);
+
+		for (int i = 0; i < intervals.length; i ++) {
+			Map.Entry<Integer, Integer> entry = intervalMap.ceilingEntry(intervals[i].end);
+			result[i] = (entry != null) ? entry.getValue() : -1;
+		}
+
+		return result;
+	}
+	 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new Interval[] { new Interval(3, 4), new Interval(2, 3), new Interval(1, 2) }, new int[] { -1, 0, 1 });
