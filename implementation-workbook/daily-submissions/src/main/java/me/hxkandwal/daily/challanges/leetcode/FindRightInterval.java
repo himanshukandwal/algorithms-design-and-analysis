@@ -64,7 +64,7 @@ public class FindRightInterval extends AbstractCustomTestRunner {
 	}
 	
 	// logic : sort by start time, search by end time.
-	public static int[] findRightInterval(Interval[] intervals) {
+	public static int[] _findRightInterval(Interval[] intervals) {
         int [] answer = new int [intervals.length];
         List<AbstractMap.SimpleEntry<Integer, Integer>> sortedIntervals = new ArrayList<>();
         
@@ -81,18 +81,22 @@ public class FindRightInterval extends AbstractCustomTestRunner {
         for (int idx = 0; idx < intervals.length; idx ++) {
         	int search = intervals [idx].end;
         	int low = 0, high = sortedIntervals.size() - 1;
+        	boolean found = false;
         	
-        	while (low < high) {
-				int mid = (low + high) >>> 1;
-        		if (sortedIntervals.get(mid).getKey() > search)
-        			high = mid - 1;
-        		else if (sortedIntervals.get(mid).getKey() < search)
-        			low = mid + 1;
-        		else 
-        			answer [idx] = sortedIntervals.get(mid).getValue();
+        	int mid = -1;
+        	while (low <= high) {
+				mid = (low + high) >>> 1;
+				if (sortedIntervals.get(mid).getKey() > search)
+					high = mid - 1;
+				else if (sortedIntervals.get(mid).getKey() < search)
+					low = mid + 1;
+				else {
+					answer[idx] = sortedIntervals.get(mid).getValue();
+					found = true; break;
+				}
 			}
-        	
-        	answer [idx] = (answer [idx] == 0) ? -1 : answer [idx];
+
+        	answer[idx] = (!found) ? (low < sortedIntervals.size() && high < sortedIntervals.size() ? sortedIntervals.get(low).getValue() : -1) : answer[idx];
         }
         
 		return answer;
@@ -100,17 +104,15 @@ public class FindRightInterval extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(null, null, 0);
-		_instance.runTest(new int[] {}, new int[] {}, 0);
-		_instance.runTest(new int[] { 1, 3 }, new int[] { 2 }, 2.0d);
-		_instance.runTest(new int[] { 1, 2 }, new int[] { 3, 4 }, 2.5d);
+		_instance.runTest(new Interval[] { new Interval(3, 4), new Interval(2, 3), new Interval(1, 2) }, new int[] { -1, 0, 1 });
+		_instance.runTest(new Interval[] { new Interval(4, 5), new Interval(2, 3), new Interval(1, 2) }, new int[] { -1, 0, 1 });
 	}
 
-	public void runTest(final int[] nums1, final int[] nums2, final double expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { nums1, nums2 });
+	public void runTest(final Interval[] intervals, final int[] expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { intervals });
 
 		for (Object answer : answers)
-			assertThat((Double) answer).isWithin(expectedOutput);
+			assertThat((int[]) answer).isEqualTo(expectedOutput);
 
 		System.out.println("ok!");
 	}	
