@@ -47,38 +47,40 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	private CreateMaximumNumber() {}
 	
 	public static int[] _maxNumber(int[] nums1, int[] nums2, int k) {
-		Stack<Integer> stack = new Stack<>();
-		Queue<Integer> kickoutQueue = new LinkedList<>(); 
-		
-		int idx1 = 0, idx2 = 0;
-		while (idx1 < nums1.length || idx2 < nums2.length) {
-			int num;
-			if (idx1 < nums1.length && idx2 < nums2.length)
-				num = (nums1 [idx1] > nums2 [idx2]) ? nums1 [idx1 ++] : nums2 [idx2 ++];
-			else if (idx1 < nums1.length)
-				num = nums1 [idx1 ++];
-			else 
-				num = nums2 [idx2 ++];
-			
-			while (!stack.isEmpty() && stack.peek() < num) kickoutQueue.offer(stack.pop());
-			stack.push(num);
-		}
-		
-		boolean changed = true;
-		while (changed) {
-			changed = false;
-			int size = kickoutQueue.size();
-			while (size -- > 0) {
-				int qItem = kickoutQueue.poll();
-				while (!stack.isEmpty() && stack.peek() < qItem)  { kickoutQueue.offer(stack.pop()); changed = true; }
-				stack.push(qItem);
-			}
-		}
-		
-		int [] ans = new int [k];
-		for (int idx = 0; idx < k; idx ++) ans [idx] = stack.get(idx);
-        return ans;
-    }
+		int n = nums1.length;
+	    int m = nums2.length;
+	    int[] ans = new int[k];
+	    for (int i = Math.max(0, k - m); i <= k && i <= n; ++i) {
+	        int[] candidate = merge(maxArray(nums1, i), maxArray(nums2, k - i), k);
+	        if (greater(candidate, 0, ans, 0)) ans = candidate;
+	    }
+	    return ans;
+	}
+	
+	private static int[] merge(int[] nums1, int[] nums2, int k) {
+	    int[] ans = new int[k];
+	    for (int i = 0, j = 0, r = 0; r < k; ++r)
+	        ans[r] = greater(nums1, i, nums2, j) ? nums1[i++] : nums2[j++];
+	    return ans;
+	}
+	
+	public static boolean greater(int[] nums1, int i, int[] nums2, int j) {
+	    while (i < nums1.length && j < nums2.length && nums1[i] == nums2[j]) {
+	        i++;
+	        j++;
+	    }
+	    return j == nums2.length || (i < nums1.length && nums1[i] > nums2[j]);
+	}
+	
+	public static int[] maxArray(int[] nums, int k) {
+	    int n = nums.length;
+	    int[] ans = new int[k];
+	    for (int i = 0, j = 0; i < n; ++i) {
+	        while (n - i + j > k && j > 0 && ans[j - 1] < nums[i]) j--;
+	        if (j < k) ans[j++] = nums[i];
+	    }
+	    return ans;
+	}
 
 	// driver method
 	public static void main(String[] args) {
