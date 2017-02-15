@@ -26,8 +26,7 @@ public class DivisibleBy8 extends AbstractCustomTestRunner {
     // method : find nCk combinations, where k = 3 (as to be divisible by 8, last 3 digits have to be divisible by 8) and check if it is divisble by 8 or not.
     public static boolean _isDivisible(int number) {
         if (number < 100)
-            return (number % 8 == 0) ? true :
-                    (((number % 10) * 10 + (number / 10)) % 8 == 0 ? true : false);
+            return (number % 8 == 0) ? true : (((number % 10) * 10 + (number / 10)) % 8 == 0 ? true : false);
         else {
             int[] elements = new int [(int) Math.log10(number)+1];
 
