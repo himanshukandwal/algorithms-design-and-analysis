@@ -17,34 +17,25 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class LongestCommonPrefix extends AbstractCustomTestRunner {
 	
 	private static LongestCommonPrefix _instance = new LongestCommonPrefix();
-	
-	public String _longestCommonPrefix(String[] strs) {
-		String prefix = "";
 
+	public String _longestCommonPrefixFast(String[] strs) {
+		StringBuilder prefix = new StringBuilder();
+		
 		if (strs.length > 0) {
-			int endIndex = 0;
-			boolean isPresent = true;
-			String incrementedPrefix = "";
+			int mIdx = 0, idx = strs.length;
 			
-			while (isPresent) {
-				prefix = incrementedPrefix;
-				endIndex ++;
+			// check if we have looped completely or not.
+			while ((idx == strs.length) && mIdx < strs [0].length()) {
+				char ch = strs [0].charAt(mIdx);
 				
-				if (endIndex <= strs[0].length())
-					incrementedPrefix = strs[0].substring(0, endIndex);
-				else
-					break;
-
-				for (int idx = 0; idx < strs.length; idx++) {
-					if (endIndex > strs[idx].length() || !strs[idx].substring(0, endIndex).equalsIgnoreCase(incrementedPrefix)) {
-						isPresent = false;
-						break;
-					}
-				}
+				for (idx = 1; idx < strs.length && (mIdx < strs [idx].length()); idx ++)
+					if (strs [idx].charAt(mIdx) != ch) break;
+				
+				if (idx == strs.length) prefix.append(strs [0].charAt(mIdx ++));
 			}
 		}
-
-		return prefix;
+		
+		return prefix.toString();
 	}
 	
 	// driver method
