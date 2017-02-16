@@ -40,7 +40,7 @@ public class KnuthMorrisPrattAlgorithm extends AbstractCustomTestRunner {
 				if (ch == pattern.charAt(piIdx)) {
 					if (piIdx + 1 == pi.length) { 
 						ans ++; 
-						piIdx = (pattern.charAt(0) == pattern.charAt(piIdx) ? 1 : 0); 
+						piIdx = pi [piIdx];     // <<<<<<<<<<<<< very important point.
 					} else piIdx ++;
 					
 					break;
