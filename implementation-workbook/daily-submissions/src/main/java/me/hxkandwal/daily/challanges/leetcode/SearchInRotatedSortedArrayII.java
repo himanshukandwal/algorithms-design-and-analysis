@@ -28,7 +28,7 @@ public class SearchInRotatedSortedArrayII extends AbstractCustomTestRunner {
 	
 	private SearchInRotatedSortedArrayII() {}
 	
-	// try to move away  from plateaus
+	// try to move away from plateaus
     public boolean _search(int[] nums, int target) {
     	int low = 0, high = nums.length - 1;
     	
@@ -63,6 +63,29 @@ public class SearchInRotatedSortedArrayII extends AbstractCustomTestRunner {
     	return false;
     }
 
+    // Shorter code.
+    public boolean _searchShorter(int[] A, int key) {
+    	int l = 0, r = A.length - 1;
+    	
+        while (l <= r) {
+            int m = l + (r - l)/2;
+            if (A[m] == key) return true; //return m in Search in Rotated Array I
+            if (A[l] < A[m]) { //left half is sorted
+                if (A[l] <= key && key < A[m])
+                    r = m - 1;
+                else
+                    l = m + 1;
+            } else if (A[l] > A[m]) { //right half is sorted
+                if (A[m] < key && key <= A[r])
+                    l = m + 1;
+                else
+                    r = m - 1;
+            } else l++;                // line which made all effects.
+        }
+        
+        return false;
+    }
+    
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 1, 2, 1 }, 1, true);
