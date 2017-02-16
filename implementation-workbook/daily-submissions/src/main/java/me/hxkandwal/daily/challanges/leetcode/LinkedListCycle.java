@@ -62,4 +62,5 @@ private static LinkedListCycle _instance = new LinkedListCycle();
 
 		System.out.println("ok!");
 	}
+	
 }
