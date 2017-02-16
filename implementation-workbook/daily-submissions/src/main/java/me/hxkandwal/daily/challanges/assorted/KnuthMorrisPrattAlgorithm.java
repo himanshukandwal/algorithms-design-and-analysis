@@ -56,11 +56,11 @@ public class KnuthMorrisPrattAlgorithm extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest("abc", "dabasdasabc", 1);
-//		_instance.runTest("abc", "jdsalkjdlakjl;dkja;k", 0);
-//		_instance.runTest("abc", "dabcabc", 2);
-//		_instance.runTest("aaba", "aabaacaadaabaaba", 3);
-//		_instance.runTest("abcdabcy", "abcxabcdabxabcdabcdabcy", 1);
+		_instance.runTest("abc", "dabasdasabc", 1);
+		_instance.runTest("abc", "jdsalkjdlakjl;dkja;k", 0);
+		_instance.runTest("abc", "dabcabc", 2);
+		_instance.runTest("aaba", "aabaacaadaabaaba", 3);
+		_instance.runTest("abcdabcy", "abcxabcdabxabcdabcdabcy", 1);
 		_instance.runTest("aabaabaaa", "a", 0);
 	}
 
