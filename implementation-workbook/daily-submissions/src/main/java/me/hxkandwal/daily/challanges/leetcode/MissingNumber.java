@@ -30,6 +30,12 @@ public class MissingNumber extends AbstractCustomTestRunner {
     	return sum;
     }	
     
+    public int _missingNumberXOR(int[] nums) {
+        int xor = 0, i = 0;
+    	for (i = 0; i < nums.length; i++) xor = xor ^ i ^ nums[i];
+    	return xor ^ i;
+    }
+    
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 0, 1, 3 }, 2);
