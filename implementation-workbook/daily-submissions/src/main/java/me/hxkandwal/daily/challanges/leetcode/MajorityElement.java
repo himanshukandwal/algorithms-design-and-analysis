@@ -21,7 +21,7 @@ public class MajorityElement extends AbstractCustomTestRunner {
 	
 	private MajorityElement() {}
 
-	// O(n) solution
+	// O(n) solution (Boyer-Moore algorithm)
 	public int _majorityElementFaster(int[] nums) {
 		int count = 0, major = nums [0];
 		for (int num : nums) {
@@ -55,6 +55,5 @@ public class MajorityElement extends AbstractCustomTestRunner {
 
 		System.out.println("ok!");
 	}	    
-    
-    
+   
 }
