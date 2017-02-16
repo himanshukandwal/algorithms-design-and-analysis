@@ -1,5 +1,9 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -49,5 +53,22 @@ public class InsertionSortList extends AbstractCustomTestRunner {
 		
 		return head;
     }
+	
+	// driver method
+	public static void main(String[] args) {
+		ListNode head = new ListNode(10);
+		head.next = new ListNode(2);
+		
+		_instance.runTest(head, head.next);
+	}
+
+	public void runTest(final ListNode head, final ListNode expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { head });
+
+		for (Object answer : answers)
+			assertThat((ListNode) answer).isEqualTo(expectedOutput);
+
+		System.out.println("ok!");
+	}	
 
 }
