@@ -42,7 +42,7 @@ public class CombinationSumII extends AbstractCustomTestRunner {
         List<List<Integer>> answer = new ArrayList<>();
         
         if (candidates != null && candidates.length != 0) {
-        	Arrays.sort(candidates);                                      // <<<<<<<<<< sort it.
+        	Arrays.sort(candidates);                                      // <<<<<<<<<< sort it first, so that we can handle duplicates
         	answer = combinationSum2Indexed (candidates, target, 0);
         }
         
@@ -53,7 +53,7 @@ public class CombinationSumII extends AbstractCustomTestRunner {
     	List<List<Integer>> answer = new ArrayList<>();
     	
     	for (int idx = index; idx < candidates.length; idx ++) {
-    		if (idx > index && (candidates [idx] == candidates [idx - 1])) continue;
+    		if (idx > index && (candidates [idx] == candidates [idx - 1])) continue; // <<<<<<<<<< stop processing duplicates
     		
     		if (candidates [idx] < target) {
     			for (List<Integer> response : combinationSum2Indexed (candidates, target - candidates [idx], idx + 1)) {
