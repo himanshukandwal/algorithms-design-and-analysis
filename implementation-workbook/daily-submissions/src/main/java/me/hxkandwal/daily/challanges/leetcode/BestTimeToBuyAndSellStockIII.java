@@ -2,10 +2,8 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Scanner;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
