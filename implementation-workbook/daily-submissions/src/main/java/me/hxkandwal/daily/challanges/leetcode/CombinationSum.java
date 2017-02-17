@@ -64,7 +64,6 @@ public class CombinationSum extends AbstractCustomTestRunner {
 		return answer;
 	}
     
-    
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 2, 3, 6, 7 }, 7, new ArrayList() {{  add (new ArrayList() {{ add(7); }});
