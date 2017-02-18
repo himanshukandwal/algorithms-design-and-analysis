@@ -23,11 +23,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class InvertBinaryTree extends AbstractCustomTestRunner {
-	
-	private static InvertBinaryTree _instance = new InvertBinaryTree();
-	
-	public InvertBinaryTree() {}
-	
+		
 	public static class TreeNode {
 		int val;
 		TreeNode left;
