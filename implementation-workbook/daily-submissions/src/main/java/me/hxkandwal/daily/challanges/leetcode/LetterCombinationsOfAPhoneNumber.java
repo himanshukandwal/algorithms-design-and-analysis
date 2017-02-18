@@ -2,9 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.sql.Array;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,6 +24,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
+@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class LetterCombinationsOfAPhoneNumber extends AbstractCustomTestRunner {
 	
 	private static LetterCombinationsOfAPhoneNumber _instance = new LetterCombinationsOfAPhoneNumber();
