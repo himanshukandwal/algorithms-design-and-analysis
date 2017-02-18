@@ -33,8 +33,36 @@ public class Permutations extends AbstractCustomTestRunner {
 	
 	private Permutations() {}
 
-	// juggle technique
-    public List<List<Integer>> _permute (int[] nums) {
+	/**
+	 * *********************** FROM START *********************** 
+	 */
+	// juggle technique (from start)
+    public List<List<Integer>> _permuteStart (int[] nums) {
+    	List<List<Integer>> answer = new ArrayList<>();
+    	if (nums != null && nums.length > 0) juggleStart(answer, nums, 0);
+    	return answer;
+    }
+    
+	private void juggleStart(List<List<Integer>> answer, int[] nums, int start) {
+		if (start == nums.length) {
+			List<Integer> response = new ArrayList<>();
+			for (int num : nums) response.add(num);
+			answer.add(response);
+		} else {
+			for (int idx = start; idx < nums.length; idx ++) {         // <<<<<<<<<<<<<<<<< catch here, we have to go to till start and initiate from 1.
+				swap (nums, idx, start);
+				juggleStart (answer, nums, start + 1);
+				swap (nums, start, idx);
+			}
+		}
+	}
+	
+	/**
+	 * *********************** FROM END *********************** 
+	 */
+	
+	// juggle technique (reverse)
+    public List<List<Integer>> permute (int[] nums) {
     	List<List<Integer>> answer = new ArrayList<>();
     	if (nums != null && nums.length > 0) juggle(answer, nums, nums.length - 1);
     	return answer;
@@ -46,7 +74,7 @@ public class Permutations extends AbstractCustomTestRunner {
 			for (int num : nums) response.add(num);
 			answer.add(response);
 		} else {
-			for (int idx = 0; idx <= start; idx++) {         // <<<<<<<<<<<<<<<<< catch here, we have to go to till start and initiate from 1.
+			for (int idx = 0; idx <= start; idx ++) {         // <<<<<<<<<<<<<<<<< catch here, we have to go to till start and initiate from 1.
 				swap (nums, idx, start);
 				juggle (answer, nums, start - 1);
 				swap (nums, start, idx);

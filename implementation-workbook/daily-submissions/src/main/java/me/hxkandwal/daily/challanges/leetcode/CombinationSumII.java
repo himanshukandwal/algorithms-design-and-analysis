@@ -59,7 +59,6 @@ public class CombinationSumII extends AbstractCustomTestRunner {
     			for (List<Integer> response : combinationSum2Indexed (candidates, target - candidates [idx], idx + 1)) {
     				response.add(candidates [idx]);
     				answer.add (response);
-    				
 	    		}
 	    	} else if (candidates [idx] == target) {
 	    		List<Integer> ansItem = new ArrayList<>();
