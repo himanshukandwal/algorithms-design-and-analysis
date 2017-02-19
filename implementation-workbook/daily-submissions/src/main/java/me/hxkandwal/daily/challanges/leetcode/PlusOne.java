@@ -22,34 +22,19 @@ public class PlusOne extends AbstractCustomTestRunner {
 	
 	private PlusOne() {}
 	
-    public int[] _plusOne(int[] digits) {
-        if (digits == null || digits.length == 0)
-            return new int[] { 1 };
-        
+	public int[] plusOne(int[] digits) {
         int carry = 0;
         for (int idx = digits.length - 1; idx >= 0; idx --) {
-            int val = digits [idx] + (idx == digits.length - 1 ? 1 : 0) + carry;
-            
-            if (val >= 10)  {
-                carry = 1;
-                val %= 10;
-            } else
-                carry = 0;
-            
-            digits [idx] = val;
+            int sum = digits [idx] + (idx == digits.length - 1 ? 1 : 0) + carry;
+            digits [idx] = (sum % 10);
+            carry = sum / 10;
+            if (carry == 0) return digits;
         }
+        int [] answer = new int [digits.length + 1];
+        answer [0] = carry;
         
-        if (carry > 0) {
-            int [] res = new int [digits.length + 1];
-            res [0] = carry;
-            
-            for (int idx = 1; idx < res.length; idx ++)
-                res [idx] = digits [idx -1];
-                
-            digits = res;    
-        }
-        
-        return digits;
+        for (int idx = 1; idx < answer.length; idx ++) answer [idx] = digits [idx - 1];
+        return answer;
     }
     
 	// driver method
