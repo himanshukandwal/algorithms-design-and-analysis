@@ -1,5 +1,11 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -25,6 +31,24 @@ public class MaximumSizeSubarraySumEqualsK extends AbstractCustomTestRunner {
 	
 	private MaximumSizeSubarraySumEqualsK() {}
 	
+	// O(n) solution : Two Sum philosophy
+	public int _maxSubArrayLen(int[] nums, int k) {
+		int max = 0, localsum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int idx = 0; idx < nums.length; idx ++) { 
+            localsum += nums [idx];
+            
+            if (localsum == k) 
+                max = Math.max (max, idx + 1);
+            else if (map.containsKey(-(k - localsum)))
+                    max = Math.max (max, idx - map.get(-(k - localsum)));            // <<<<<<<<<<<<<<<<<<<<<<<< this is same as (localsum - k)
+                    
+            map.putIfAbsent(localsum, idx);
+        }
+        
+        return max;
+    }
+	
 	// bruteforce O(n^2) solution
 	public int maxSubArrayLen(int[] nums, int k) {
         int max = 0, localsum = 0;
@@ -38,4 +62,18 @@ public class MaximumSizeSubarraySumEqualsK extends AbstractCustomTestRunner {
         return max;
     }
 
+	// driver method
+	public static void main(String[] args) {
+//		_instance.runTest(new int[] { -2, -1, 2, 1 }, 1, 2);
+		_instance.runTest(new int[] { 1, -1, 5, -2, 3 }, 3, 4);
+	}
+
+	public void runTest(final int[] nums, final int k, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { nums, k });
+
+		for (Object answer : answers)
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
+
+		System.out.println("ok!");
+	} 	
 }
