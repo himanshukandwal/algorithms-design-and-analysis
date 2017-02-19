@@ -38,19 +38,6 @@ public class CountPrimes extends AbstractCustomTestRunner {
         return count;
     }
 	
-	// failed naive approach
-    public int _countPrimes(int n) {
-    	if (n == 0) return 0;
-        int count = 0;
-        for (int idx = 2; idx < n; idx ++) {
-            boolean isPrime = true;
-            for (int j = 2; j * j <= idx && isPrime; j ++)
-                if (idx % j == 0) isPrime = false;
-            if (isPrime) count ++;
-        }
-        return count;
-    }
-    
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(999983, 78497);
