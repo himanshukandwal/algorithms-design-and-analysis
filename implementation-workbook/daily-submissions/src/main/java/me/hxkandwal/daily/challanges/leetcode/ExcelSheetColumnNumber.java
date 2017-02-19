@@ -38,7 +38,7 @@ public class ExcelSheetColumnNumber extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest("A", 1);
+		_instance.runTest("A", 1);
 		_instance.runTest("AA", 27);
 		_instance.runTest("AB", 28);
 		_instance.runTest("BA", 53);
