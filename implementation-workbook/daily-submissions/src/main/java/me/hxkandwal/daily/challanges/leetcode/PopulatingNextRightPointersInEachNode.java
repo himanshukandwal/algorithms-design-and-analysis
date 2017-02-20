@@ -47,4 +47,19 @@ public class PopulatingNextRightPointersInEachNode extends AbstractCustomTestRun
 		 TreeLinkNode(int x) { val = x; }
 	}
 	
+	public void connect(TreeLinkNode root) {
+        if (root == null) return;
+        connect (root.left, root.right);
+    }
+    
+    public void connect (TreeLinkNode left, TreeLinkNode right) {
+        if (left == null) return;
+        connect (left);
+        connect (right);
+        left.next = right;
+        
+        // parallel tree stitching
+        while (left.right != null) { left.right.next = right.left; left = left.right; right = right.left; }
+    }
+    
 }
