@@ -1,6 +1,8 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -25,10 +27,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class BinaryTreeInorderTraversal extends AbstractCustomTestRunner {
 	
-	private static BinaryTreeInorderTraversal _instance = new BinaryTreeInorderTraversal();
-	
-	private BinaryTreeInorderTraversal() {}
-	
 	public static class TreeNode {
 		int val;
 		TreeNode left;
@@ -37,9 +35,23 @@ public class BinaryTreeInorderTraversal extends AbstractCustomTestRunner {
 		public TreeNode(int x) { val = x; }
 	}
 	
-	public static List<Integer> inorderTraversal(TreeNode root) {
+	public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> answer = new ArrayList<>();
+        Stack<TreeNode> bstk = new Stack<>();
         
-		return null;
+        TreeNode node = root;
+        while (node != null) {
+        	
+        	// maintain left 
+            while (node != null) { bstk.push (node); node = node.left; }
+            answer.add ((node = bstk.pop()).val);
+            
+            // maintain mid + right
+            while (node.right == null && !bstk.isEmpty()) { node = bstk.pop(); answer.add (node.val); }
+            node = node.right;
+        }
+        
+        return answer;
     }
 
 }
