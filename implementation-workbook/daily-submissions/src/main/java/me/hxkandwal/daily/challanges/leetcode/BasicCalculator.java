@@ -29,7 +29,7 @@ public class BasicCalculator extends AbstractCustomTestRunner {
 	
 	private BasicCalculator() {}
 	
-	/*
+	/* *
 	 * Principle:
 	 * 		(Sign before '+'/'-') = (This context sign);
 	 * 		(Sign after '+'/'-') = (This context sign) * (1 or -1);
