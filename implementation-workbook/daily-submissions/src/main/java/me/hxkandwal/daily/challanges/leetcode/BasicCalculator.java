@@ -47,7 +47,7 @@ public class BasicCalculator extends AbstractCustomTestRunner {
 	public int _calculateBetter(String s) {
 		if (s == null || s.isEmpty()) return 0;
         
-        Stack<Integer> stk = new Stack<>();         // <<<<<<<<<<<<<<<<< sign stack
+        Stack<Integer> stk = new Stack<>();         // <<<<<<<<<<<<<<<<< sign stack (for parenthesis only, else result we are anyways computing on the go)
         int result = 0;
         int sign = 1;
         int num = 0;
@@ -59,7 +59,7 @@ public class BasicCalculator extends AbstractCustomTestRunner {
                 num = 10 * num + (ch - '0');
             else if (ch == '+' || ch == '-') {
                 result += sign * num;
-                sign = (!stk.isEmpty() ? stk.peek() : 1) * (ch == '+' ? 1 : -1);
+                sign = (!stk.isEmpty() ? stk.peek() : 1) * (ch == '+' ? 1 : -1);   // <<<<<<<<<<<<<<<<<< To check with outside parenthesis sign stored in stack
                 num = 0;
             } 
             else if (ch == '(')
