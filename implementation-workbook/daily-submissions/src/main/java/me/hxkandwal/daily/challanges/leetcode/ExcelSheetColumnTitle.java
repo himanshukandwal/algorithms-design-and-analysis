@@ -62,6 +62,5 @@ public class ExcelSheetColumnTitle extends AbstractCustomTestRunner {
 		
 		System.out.println("ok!");
 	}
-	    
-
+	   
 }
