@@ -57,4 +57,21 @@ public class BinaryTreeRightSideView extends AbstractCustomTestRunner {
         return answer;
     }
     
+    // another good approach, recurse both side (right side first) and check if the selection has been made of not at every depth (Space efficient solution)
+    public List<Integer> rightSideViewSpaceEfficient(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        rightSideView(root, 0, list);
+        return list;
+    }
+    
+    public void rightSideView(TreeNode root, int level, List<Integer> list) {
+        if(root == null) return;
+
+        if(list.size() == level)
+            list.add(root.val);
+
+        rightSideView(root.right, level + 1, list);
+        rightSideView(root.left, level + 1, list);
+    }
+    
 }
