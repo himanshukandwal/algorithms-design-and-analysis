@@ -38,7 +38,32 @@ public class NumberOfIslands extends AbstractCustomTestRunner {
 	
 	private NumberOfIslands() {}
 	
+	// better approach
 	public int _numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+        int count = 0;
+        for (int row = 0; row < grid.length; row ++)
+            for (int col = 0; col < grid [0].length; col ++)
+                if (grid [row][col] == '1') 
+                    count += sink (grid, row, col);
+        return count;
+    }
+    
+    public int sink (char [][] g, int r, int c) {
+        if (r >= g.length || r < 0 || c < 0 || c >= g[0].length || g [r][c] == '0') return 0;
+        g [r][c] = '0';
+        
+        int[] d = new int [] { 0, 1, 0, -1, 0 };    
+        
+        // or could be used something like : sink(i+1, j); sink(i-1, j); sink(i, j+1); sink(i, j-1);
+        for (int k = 0; k < 4; k ++) 
+            sink (g, r + d [k], c + d [k + 1]);
+        
+        return 1;
+    }
+	
+    // conventional approach
+	public int numIslands(char[][] grid) {
         if (grid == null || grid.length == 0) return 0;
         boolean [][] seen = new boolean [grid.length][grid[0].length];
         
@@ -47,7 +72,7 @@ public class NumberOfIslands extends AbstractCustomTestRunner {
             for (int col = 0; col < grid [0].length; col ++) {
                 if (grid [row][col] == '1' && !seen [row][col]) {
                     count ++;
-                    visit(grid, seen, row, col);
+                    visit (grid, seen, row, col);
                 }
             }
         }
@@ -76,7 +101,7 @@ public class NumberOfIslands extends AbstractCustomTestRunner {
         }
     }
     
-   	// driver method
+    // driver method
    	public static void main(String[] args) {
 		_instance.runTest(new char [][] { "11000".toCharArray(), 
 										  "11000".toCharArray(),
