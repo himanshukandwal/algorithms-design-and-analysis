@@ -51,15 +51,15 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
         return lo;	
     }
 	
-	// Heap way
+	// Heap way (better) : O (n^2logk) as here n is one dimention of the matrix and in worst case where k = n^2, we have to put (n items, as poll is also there) in heap.
 	public int _kthSmallestHeap(int[][] matrix, int k) {
         int n = matrix.length;
         PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
-        for(int j = 0; j <= n-1; j++) pq.offer(new Tuple(0, j, matrix[0][j]));
-        for(int i = 0; i < k-1; i++) {
+        for (int j = 0; j <= n-1; j++) pq.offer(new Tuple (0, j, matrix[0][j]));
+        for (int i = 0; i < k-1; i++) {
             Tuple t = pq.poll();
-            if(t.x == n-1) continue;
-            pq.offer(new Tuple(t.x+1, t.y, matrix[t.x+1][t.y]));
+            if (t.x == n-1) continue;
+            pq.offer (new Tuple (t.x+1, t.y, matrix[t.x+1][t.y]));
         }
         return pq.poll().val;
     }
