@@ -3,6 +3,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -34,6 +35,7 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
 	
 	private KthSmallestElementInASortedMatrix() {}
 
+	// Binary Search method.
 	public int _kthSmallest(int[][] matrix, int k) {
         int lo = matrix[0][0], hi = matrix[matrix.length - 1][matrix[0].length - 1] + 1;//[lo, hi]
         while (lo < hi) {
@@ -48,6 +50,34 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
         }
         return lo;	
     }
+	
+	// Heap way
+	public int _kthSmallestHeap(int[][] matrix, int k) {
+        int n = matrix.length;
+        PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
+        for(int j = 0; j <= n-1; j++) pq.offer(new Tuple(0, j, matrix[0][j]));
+        for(int i = 0; i < k-1; i++) {
+            Tuple t = pq.poll();
+            if(t.x == n-1) continue;
+            pq.offer(new Tuple(t.x+1, t.y, matrix[t.x+1][t.y]));
+        }
+        return pq.poll().val;
+    }
+
+	class Tuple implements Comparable<Tuple> {
+		int x, y, val;
+
+		public Tuple(int x, int y, int val) {
+			this.x = x;
+			this.y = y;
+			this.val = val;
+		}
+
+		@Override
+		public int compareTo(Tuple that) {
+			return this.val - that.val;
+		}
+	}
 	
    	// driver method
    	public static void main(String[] args) {
