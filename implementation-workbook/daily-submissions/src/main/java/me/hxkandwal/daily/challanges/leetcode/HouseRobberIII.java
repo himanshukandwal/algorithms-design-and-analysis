@@ -86,5 +86,27 @@ public class HouseRobberIII extends AbstractCustomTestRunner {
         dp.put (root, Math.max (value, robSub (root.left, dp) + robSub (root.right, dp)));
         return dp.get (root);
     }
+    
+    // Best of all
+    /**
+     *  maxMoney[0] = max Money avoiding root itself
+     *  maxMoney[1] = max Money allowing root to be stolen
+     *  
+     *  the transfer equation can be read as below:
+     */
+	public int robBest(TreeNode root) {
+		return maxMoney(root)[1];
+	}
+
+	// return int[2]: 
+	// 		maxMoney[0] = max Money avoiding root itself, 
+	// 		maxMoney[1] = max Money allowing root to be stolen
+	private int[] maxMoney(TreeNode root) {
+		if (root == null) return new int[2];
+		int[] ans = new int[2], l = maxMoney(root.left), r = maxMoney(root.right);
+		ans[0] = l[1] + r[1];
+		ans[1] = Math.max(root.val + l[0] + r[0], ans[0]);
+		return ans;
+	}
 	
 }
