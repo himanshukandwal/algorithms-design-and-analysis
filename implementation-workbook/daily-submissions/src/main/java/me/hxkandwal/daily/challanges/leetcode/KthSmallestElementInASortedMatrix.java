@@ -46,10 +46,9 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
             if (count < k) lo = mid + 1;
             else hi = mid;
         }
-        return lo;
+        return lo;	
     }
 	
-    
    	// driver method
    	public static void main(String[] args) {
 		_instance.runTest(new int [][] { new int[] { 1,  5,  9 },
@@ -61,7 +60,7 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
    		List<Object> answers = runAll(getClass(), new Object[] { matrix, k });
 
    		for (Object answer : answers)
-   				assertThat((Boolean) answer).isEqualTo(expectedOutput);
+   				assertThat((Integer) answer).isEqualTo(expectedOutput);
 
    		System.out.println("ok!");
    	}
