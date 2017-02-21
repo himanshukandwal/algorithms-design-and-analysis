@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -44,36 +45,39 @@ public class FindKPairsWithSmallestSums extends AbstractCustomTestRunner {
 	private static FindKPairsWithSmallestSums _instance = new FindKPairsWithSmallestSums();
 
 	public List<int[]> _kSmallestPairs(int[] nums1, int[] nums2, int k) {
-        List<int[]> answer = new ArrayList<>();
+		List<int[]> answer = new ArrayList<>();
         if (nums1.length == 0 || nums2.length == 0) return answer;
-        int[][] sum = new int [nums2.length][nums1.length];
         
-        for (int row = 0; row < nums2.length; row ++) 
-            for (int col = 0; col < nums1.length; col ++)
-                sum [row][col] = nums2 [row] + nums1 [col];
-                
-        for (int idx = 1; idx <= k; idx ++) {
-            int[] pair = pairFinding (sum, nums1, nums2, idx);
-            if (pair != null) answer.add (pair);
+        k = (k > nums1.length * nums2.length) ? nums1.length * nums2.length : k;
+        PriorityQueue<Tuple> minheap = new PriorityQueue<>();
+        int [][] sum = new int [nums1.length][nums2.length];
+        for (int row = 0; row < nums1.length; row ++) 
+            for (int col = 0; col < nums2.length; col ++) 
+                sum [row][col] = nums1 [row] + nums2 [col];
+        
+        for (int col = 0; col < nums2.length; col ++) minheap.offer (new Tuple (sum [0][col], 0, col));
+        for (int idx = 0; idx < k; idx ++) {
+            Tuple t = minheap.poll();
+            answer.add (new int [] { nums1 [t.x], nums2 [t.y] });
+            if (t.x + 1 == nums1.length) continue;
+            minheap.offer (new Tuple (sum [t.x + 1][t.y], t.x + 1, t.y));
         }
         return answer;
     }
-    
-	private int[] pairFinding(int[][] s, int[] nums1, int[] nums2, int k) {
-		int low = s[0][0], high = s[s.length - 1][s[0].length - 1];
-		while (low < high) {
-			int mid = (low + high) >>> 1;
-			int count = 0, row = 0, col = s [0].length - 1;
-			for (; row < s.length; row ++) {
-				while (col >= 0 && s[row][col] > mid) col--;
-				count += (col + 1);
-			}
-			if (count < k) low = mid + 1;
-			else high = mid;
-		}
-		
-		return new int [] { nums1 [col], nums2 [row] };
-	}
+
+    public class Tuple implements Comparable<Tuple> {
+        int val;
+        int x; 
+        int y; 
+        
+        public Tuple (int val, int x, int y) {
+            this.val = val; this.x = x; this.y = y;
+        }
+        
+        public int compareTo(Tuple that) {
+            return this.val - that.val;
+        }
+    }
 	
    	// driver method
    	public static void main(String[] args) {
