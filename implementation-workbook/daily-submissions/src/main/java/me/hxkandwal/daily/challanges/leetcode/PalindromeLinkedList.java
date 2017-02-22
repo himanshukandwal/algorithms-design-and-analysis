@@ -21,15 +21,15 @@ public class PalindromeLinkedList extends AbstractCustomTestRunner {
 	}
 	
 	public boolean isPalindrome(ListNode head) {
-        Object [] res = recurse (head, head);
-        return (Boolean) res [0];
+        return head == null || recurse (head, head) != null;
     }
     
-    private Object[] recurse (ListNode node, ListNode head) {
-        if (node == null) return new Object [] { Boolean.valueOf(true), head } ;
-        Object [] res = recurse (node.next, head);
-        boolean ans = ((Boolean) res [0]) && ((ListNode) res [1]).val == node.val;
-        return new Object [] { Boolean.valueOf(ans), ((ListNode) res [1]).next };
+    private ListNode recurse (ListNode node, ListNode head) {
+        if (node == null) return  head;
+        ListNode res = recurse (node.next, head);
+        if (res == null) return res;
+        else if (res.val == node.val) return (res.next == null ? res : res.next);
+        else return null;
     }
     
 }
