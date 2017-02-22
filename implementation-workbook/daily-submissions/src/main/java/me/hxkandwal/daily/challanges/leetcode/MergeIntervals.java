@@ -52,7 +52,6 @@ public class MergeIntervals extends AbstractCustomTestRunner {
                 ans.offer (c);
             }
         }
-        
         return ans;
     }
 	
