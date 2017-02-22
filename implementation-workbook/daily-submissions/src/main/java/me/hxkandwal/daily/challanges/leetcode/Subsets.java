@@ -36,6 +36,22 @@ public class Subsets extends AbstractCustomTestRunner {
 	
 	private Subsets() {}
 	
+	// less memory user.
+	public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> answer = new ArrayList<>();
+        combineIndex (answer, new ArrayList<>(), nums, 0);
+        return answer;
+    }
+    
+    private void combineIndex (List<List<Integer>> answer, List<Integer> build, int[] nums, int start) {
+        answer.add (new ArrayList<>(build));
+        for (int idx = start; idx < nums.length; idx ++) {
+               build.add (nums [idx]);
+               combineIndex (answer, build, nums, idx + 1);
+               build.remove (build.size() - 1);
+        }
+    }
+    
     public List<List<Integer>> _subsets(int[] nums) {
     	List<List<Integer>> answer = new ArrayList<>();
     	for (int k = 0; k <= nums.length; k ++) {
