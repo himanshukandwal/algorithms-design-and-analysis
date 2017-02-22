@@ -55,4 +55,5 @@ public class MergeIntervals extends AbstractCustomTestRunner {
         
         return ans;
     }
+	
 }
