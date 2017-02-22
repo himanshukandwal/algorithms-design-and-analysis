@@ -28,6 +28,24 @@ public class ShortestWordDistance extends AbstractCustomTestRunner {
 	
 	private static ShortestWordDistance _instance = new ShortestWordDistance();
     
+	// more clean approach (always find difference and keep updating the index pointer with occurences, no late processing, then and there itself)
+	public int shortestDistance(String[] words, String word1, String word2) {
+	    int p1 = -1, p2 = -1, min = Integer.MAX_VALUE;
+	    
+	    for (int i = 0; i < words.length; i++) {
+	        if (words[i].equals(word1)) 
+	            p1 = i;
+
+	        if (words[i].equals(word2)) 
+	            p2 = i;
+	            
+	        if (p1 != -1 && p2 != -1)
+	            min = Math.min(min, Math.abs(p1 - p2));
+	    }
+	    
+	    return min;
+	}
+	
     public int _shortestDistance(String[] words, String word1, String word2) {
     	int distance = Integer.MAX_VALUE;
         
