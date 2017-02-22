@@ -4,10 +4,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -30,20 +28,18 @@ public class ShortestWordDistance extends AbstractCustomTestRunner {
     
 	// more clean approach (always find difference and keep updating the index pointer with occurences, no late processing, then and there itself)
 	public int shortestDistance(String[] words, String word1, String word2) {
-	    int p1 = -1, p2 = -1, min = Integer.MAX_VALUE;
-	    
-	    for (int i = 0; i < words.length; i++) {
-	        if (words[i].equals(word1)) 
-	            p1 = i;
-
-	        if (words[i].equals(word2)) 
-	            p2 = i;
-	            
-	        if (p1 != -1 && p2 != -1)
-	            min = Math.min(min, Math.abs(p1 - p2));
-	    }
-	    
-	    return min;
+		int p1 = -1, p2 = -1, distance = Integer.MAX_VALUE;
+		
+        for (int idx = 0; idx < words.length; idx ++) {
+            String word = words [idx];
+            if (word.equals(word1))  p1 = idx;
+            if (word.equals(word2))  p2 = idx;
+            
+            if (p1 != -1 && p2 != -1)
+                distance = Math.min (distance, Math.abs (p1 - p2));
+        }
+        
+        return distance;  
 	}
 	
     public int _shortestDistance(String[] words, String word1, String word2) {
