@@ -1,7 +1,6 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
-import me.hxkandwal.daily.challanges.leetcode.BinaryTreeInorderTraversal.TreeNode;
 
 /**
  * 513. Find Bottom Left Tree Value
