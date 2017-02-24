@@ -1,5 +1,9 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -20,6 +24,22 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class NestedListWeightSumII extends AbstractCustomTestRunner {
+	
+	// This is the interface that allows for creating nested lists.
+	// You should not implement it, or speculate about its implementation
+	public class NestedInteger {
+		
+		// @return true if this NestedInteger holds a single integer, rather than a nested list.
+		public boolean isInteger() { return false; }
+
+		// @return the single integer that this NestedInteger holds, if it holds a single integer
+		// Return null if this NestedInteger holds a nested list
+		public Integer getInteger() { return null; }
+		
+		// @return the nested list that this NestedInteger holds, if it holds a nested list
+		// Return null if this NestedInteger holds a single integer
+		public List<NestedInteger> getList() { return null; }
+	 }
 
 	public int depthSumInverse(List<NestedInteger> nestedList) {
         int res = 0;
@@ -37,6 +57,23 @@ public class NestedListWeightSumII extends AbstractCustomTestRunner {
                 ans.set (depth - 1, ans.get (depth - 1) + n.getInteger());
             } else depthSum (n.getList().iterator(), depth + 1, ans);
         }
+    }
+    
+    // One pass approach
+    public int depthSumInverseOnePass(List<NestedInteger> nestedList) {
+        int unweighted = 0, weighted = 0;
+        while (!nestedList.isEmpty()) {
+            List<NestedInteger> nextLevel = new ArrayList<>();
+            for (NestedInteger ni : nestedList) {
+                if (ni.isInteger())
+                    unweighted += ni.getInteger();
+                else
+                    nextLevel.addAll(ni.getList());
+            }
+            weighted += unweighted; 	// <<<<<<<<<<<<<<<<< all solutions automatically gets double (level times) added as we are continuously adding over it.
+            nestedList = nextLevel;
+        }
+        return weighted;
     }
     
 }
