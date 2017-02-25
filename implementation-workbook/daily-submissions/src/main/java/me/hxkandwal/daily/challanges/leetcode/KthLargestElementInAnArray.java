@@ -58,6 +58,7 @@ public class KthLargestElementInAnArray extends AbstractCustomTestRunner {
    	// driver method
    	public static void main(String[] args) {
    		_instance.runTest(new int[] { 1 }, 1, 1);
+   		_instance.runTest(new int[] { 1, 1, 2 }, 2, 1);
    		_instance.runTest(new int[] { 2, 1 }, 2, 1);
    		_instance.runTest(new int[] { -1, 2, 0 }, 2, 0);
 		_instance.runTest(new int[] { 3, 2, 1, 5, 6, 4 }, 2, 5);
