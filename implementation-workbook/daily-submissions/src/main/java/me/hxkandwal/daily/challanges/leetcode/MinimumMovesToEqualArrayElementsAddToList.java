@@ -1,5 +1,7 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.stream.IntStream;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -31,5 +33,9 @@ public class MinimumMovesToEqualArrayElementsAddToList extends AbstractCustomTes
         for (int num : nums) res += Math.abs (num - min);
         return res;
     }
+
+	public int minMovesOneLiner(int[] nums) {
+	    return IntStream.of(nums).sum() - nums.length * IntStream.of(nums).min().getAsInt();
+	}
 	
 }
