@@ -2,7 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Stack;
 
@@ -23,26 +22,26 @@ public class LargestRectangleInHistogram extends AbstractCustomTestRunner {
 	private LargestRectangleInHistogram() {}
 	
 	public static int _largestRectangleArea (int[] heights) {
-		int maxArea = 0;
-		Stack<AbstractMap.SimpleEntry<Integer, Integer>> stack = new Stack<>();
-		
-		for (int idx = 0; idx < heights.length; idx ++) {
-			if (stack.isEmpty()) {
-				stack.add(new AbstractMap.SimpleEntry<Integer, Integer>(heights [idx], idx));
-			} else {
-				int index = idx;
-				while (!stack.isEmpty() && heights [idx] < stack.peek().getKey())
-					maxArea = Math.max (maxArea, stack.peek().getKey() * (idx - (index = stack.pop().getValue())));
-					
-				stack.push(new AbstractMap.SimpleEntry<Integer, Integer>(heights [idx], index));
-			}
-		}
-		
-		while (!stack.isEmpty()) maxArea = Math.max(maxArea, stack.peek().getKey() * (heights.length - stack.pop().getValue()));
-		return maxArea;
+        Stack<int[]> stk = new Stack<>();
+        int maxArea = 0, idx = 0;
+        
+        for (idx = 0; idx < heights.length; idx ++) {
+            int bestStart = idx;
+            while (!stk.isEmpty() && stk.peek ()[0] > heights [idx]) {
+                int [] top = stk.pop ();
+                maxArea = Math.max (maxArea, top [0] * (idx - (bestStart = top [1])));
+            }
+            stk.push (new int[] { heights [idx], bestStart });
+        }
+        
+        while (! stk.isEmpty()) {
+            int [] top = stk.pop ();
+            maxArea = Math.max (maxArea, top [0] * (idx - top [1]));
+        }
+        return maxArea;
     }
 
-	public static int _largestRectangleArea2(int[] height) {
+	public static int largestRectangleArea2(int[] height) {
         int len = height.length;
         Stack<Integer> s = new Stack<Integer>();
         int maxArea = 0;
