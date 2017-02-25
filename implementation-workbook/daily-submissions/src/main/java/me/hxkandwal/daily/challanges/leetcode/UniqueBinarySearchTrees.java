@@ -15,8 +15,8 @@ public class UniqueBinarySearchTrees extends AbstractCustomTestRunner {
         num [1] = 1;
         
         for (int idx = 2; idx <= n; idx ++)
-            for (int j = 1; j <= idx; j ++)
-                num [idx] += num [j - 1] * num [idx - j];
+            for (int j = 0; j < idx; j ++)
+                num [idx] += num [j] * num [idx - j - 1];
         return num [n];
     }
 
