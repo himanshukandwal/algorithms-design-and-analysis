@@ -66,7 +66,7 @@ public class ShuffleAnArray extends AbstractCustomTestRunner {
     /**
      * Sources : 
      * 		http://www.geeksforgeeks.org/shuffle-a-given-array/
-     * 		https://discuss.leetcode.com/topic/53978/first-accepted-solution-java/14
+     * 		https://discuss.leetcode.com/topic/53978/first-accepted-solution-java
      */
     public String shuffleBetter() {
     	Random rnd = new Random();
