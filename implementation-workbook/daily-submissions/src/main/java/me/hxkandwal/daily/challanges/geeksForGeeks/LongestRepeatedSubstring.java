@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.geeksForGeeks;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -30,12 +31,12 @@ public class LongestRepeatedSubstring extends AbstractCustomTestRunner {
 	
 	private LongestRepeatedSubstring() {}
 	
-	/* this is just an simpler case for LongestRepeatingNonOverlappingSubstring, as here we done care about the parent 
+	/* this is just an simpler case for LongestRepeatingNonOverlappingSubstring, as here we dont care about the parent 
 	 * placeholder conditions.
 	 * 
 	 * There is another solution possible from suffix trees.
 	 */
-	public static String _longestRepeatedSubstring(String input) {
+	public static String longestRepeatedSubstring(String input) {
 		int[][] dp = new int [input.length()][input.length()];
 		int position_index = -1, max_length = 0;
 		
@@ -53,6 +54,31 @@ public class LongestRepeatedSubstring extends AbstractCustomTestRunner {
 		}
 		
 		return input.substring(position_index - max_length + 1, position_index + 1);
+	}
+	
+	// using simple suffix array (simple version)
+	public static String _longestRepeatedSubstringSimple(String input) {
+		String[] suffixArray = new String [input.length()];
+		for (int idx = 0; idx < input.length (); idx ++)
+			suffixArray [idx] = input.substring(idx);
+		
+		Arrays.sort(suffixArray);
+		
+		int max_length = 0; String ans = null;
+		
+		for (int idx = 0; idx < suffixArray.length - 1; idx ++) {
+			int length = 0;
+			while (length < suffixArray [idx].length())
+				if (suffixArray [idx].charAt(length) == suffixArray [idx + 1].charAt(length)) length ++;
+				else break;
+			
+			if (max_length < length) {
+				max_length = length;
+				ans = suffixArray [idx].substring(0, length);
+			}
+		}
+		
+		return ans == null ? "" : ans;
 	}
 	
 	// driver method
