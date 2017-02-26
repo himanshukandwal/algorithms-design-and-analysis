@@ -33,25 +33,21 @@ public class LongestPalindromicSubstring extends AbstractCustomTestRunner {
 
 	// diagonal matching, right to left information storing (not propagating)
 	public static String _longestPalindrome(String s) {
-		int [][] dp = new int [s.length() + 1][s.length() + 1];
-		
-		int maxLength = 0;
-		String answer = null;
-		
-		for (int row = 0; row < s.length(); row ++) {
-				
-			for (int col = row; col >= 0; col --) {
-				if (s.charAt(row) == s.charAt(col))
-					dp [row + 1][col + 1] = (row == col) ? 1 : (row - col == 1 || dp [row][col + 2] > 0) ? dp [row][col + 2] + 2 : 0;
-				
-				if (dp [row + 1][col + 1] > maxLength) {
-					maxLength = Math.max (maxLength, dp [row + 1][col + 1]);
-					answer = s.substring(col, row + 1);
-				}
-			}
-		}
-		
-		return answer;
+		if (s.length() == 0) return "";
+        int[][] dp = new int [s.length() + 1][s.length() + 1];
+        
+        String ans = "";
+        for (int row = 0; row < s.length(); row ++) {
+            for (int col = 0; col <= row; col ++) {
+                if (s.charAt(row) == s.charAt(col)) {
+                    dp [row + 1][col + 1] = (row == col) ? 1 : (dp [row][col + 2] > 0 || (row - col <= 1) ? (dp [row][col + 2]  + 2) : 0);
+                    
+                    if (dp [row + 1][col + 1] > ans.length())
+                        ans = s.substring (col, row + 1);
+                }
+            }
+        }
+        return ans;
     }
 
 	// driver method
