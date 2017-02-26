@@ -1,7 +1,5 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
