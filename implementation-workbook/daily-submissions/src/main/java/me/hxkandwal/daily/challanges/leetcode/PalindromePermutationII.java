@@ -1,5 +1,8 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
