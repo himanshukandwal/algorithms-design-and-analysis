@@ -23,11 +23,10 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class PalindromePartitioning extends AbstractCustomTestRunner {
 	
-	private static PalindromePartitioning _instance = new PalindromePartitioning();
 	
+	// could be more optmized by caching the recursive build up answer calls. 
 	public List<List<String>> _partition(String s) {
         List<List<String>> ans = new ArrayList<>();
         if (s.length() == 0) return ans;
