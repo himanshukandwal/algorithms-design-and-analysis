@@ -14,13 +14,13 @@ public class SuffixArray extends AbstractCustomTestRunner {
 		
 		for (int i = 0; i < n; i++) {
 			sa[i] = i;
-			rank[i] = s.charAt(i);
+			rank[i] = s.charAt(i) - 'a';
 		}
 		
 		for (int len = 1; len < n; len *= 2) {
 			long[] rank2 = new long[n];
 			for (int i = 0; i < n; i++)
-				rank2[i] = ((long) rank[i] << 32) + (i + len < n ? rank[i + len] + 1 : 0);
+				rank2[i] = ((long) rank[i] << 32) + (i + len < n ? rank[i + len] : 0);
 
 			Arrays.sort(sa, (a, b) -> Long.compare(rank2[a], rank2[b]));
 

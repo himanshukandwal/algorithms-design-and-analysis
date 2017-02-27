@@ -56,7 +56,7 @@ public class LongestRepeatedSubstring extends AbstractCustomTestRunner {
 		return input.substring(position_index - max_length + 1, position_index + 1);
 	}
 	
-	// using simple suffix array (simple version)
+	// using simple suffix array (simple version, but still store full substrings)
 	public static String _longestRepeatedSubstringSimple(String input) {
 		String[] suffixArray = new String [input.length()];
 		for (int idx = 0; idx < input.length (); idx ++)
