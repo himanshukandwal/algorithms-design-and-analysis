@@ -14,8 +14,8 @@ public class FenwickTree extends AbstractCustomTestRunner {
 	private int [] array;
 	
 	public FenwickTree(int size) {
-		this.size = size;
-		this.array = new int [size];
+		this.size = size + 1;
+		this.array = new int [size + 1];
 	}
 	
 	public void add (int index, int val) {
@@ -38,4 +38,15 @@ public class FenwickTree extends AbstractCustomTestRunner {
 	public int rangeSum (int idx1, int idx2) {
 		return sum (idx2) - sum (idx1);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (int idx = 0; idx < array.length; idx ++) {
+			sb.append(array [idx]);
+			if (idx < array.length - 1) sb.append(" , ");
+		}
+		return super.toString();
+	}
+	
 }
