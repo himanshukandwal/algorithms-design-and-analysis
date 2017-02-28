@@ -16,8 +16,27 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class SubsetSum extends AbstractCustomTestRunner {
 	
 	private static SubsetSum _instance = new SubsetSum();
-
-	public boolean _isPresent (int [] nums, int sum) {
+	
+	// dynamic approach.
+	public boolean _isPresentDP (int [] nums, int sum) {
+		boolean [][] dp = new boolean [nums.length] [sum + 1];
+		
+		for (int row = 0; row < nums.length; row ++) dp [row][0] = true;
+		
+		for (int row = 0; row < nums.length; row ++) {
+			for (int col = 0; col <= sum; col ++) {
+				if (nums [row] > col) 
+					dp [row][col] = (row == 0) ? false : dp [row - 1][col];
+				else 
+					dp [row][col] = col - nums [row] == 0 ? true : ((row == 0) ? false : dp [row - 1][col] || dp [row - 1][col - nums [row]]);
+			}
+		}
+		
+		return dp [nums.length - 1][sum];
+	}
+	
+	// recursive approach
+	public boolean isPresent (int [] nums, int sum) {
 		return isPresentAt (nums, 0, 0, sum);
 	}
 	
