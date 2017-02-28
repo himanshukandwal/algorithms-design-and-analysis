@@ -17,8 +17,22 @@ public class SubsetSum extends AbstractCustomTestRunner {
 	
 	private static SubsetSum _instance = new SubsetSum();
 	
+	// optimal dynamic approach.
+	public boolean _isPresentOptimalDP (int [] nums, int sum) {
+		boolean [] dp = new boolean [sum + 1];
+		
+		dp [0] = true;
+		
+		for (int num : nums)
+			for (int col = dp.length - 1; col >= 0; col --)
+				if (col >= num) 
+					dp [col] = dp [col] || dp [col - num];
+		
+		return dp [sum];
+	}
+	
 	// dynamic approach.
-	public boolean _isPresentDP (int [] nums, int sum) {
+	public boolean isPresentDP (int [] nums, int sum) {
 		boolean [][] dp = new boolean [nums.length] [sum + 1];
 		
 		for (int row = 0; row < nums.length; row ++) dp [row][0] = true;

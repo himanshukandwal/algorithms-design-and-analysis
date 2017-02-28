@@ -33,6 +33,34 @@ public class TargetSum extends AbstractCustomTestRunner {
 	
 	private static TargetSum _instance = new TargetSum();
 
+	/**
+	 * https://discuss.leetcode.com/topic/76243/java-15-ms-c-3-ms-o-ns-iterative-dp-solution-using-subset-sum-with-explanation
+	 * 
+	 *       		            sum(P) - sum(N) = target
+	 *        sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+	 *        		  				 2 * sum(P) = target + sum(nums)
+	 *        
+	 * So the original problem has been converted to a subset sum problem as follows:
+	 * 			Find a subset P of nums such that sum(P) = (target + sum(nums)) / 2
+	 * 
+	 */
+	public int _findTargetSumWaysDP(int[] nums, int s) {
+		int sum = 0;
+        for (int n : nums)
+            sum += n;
+        return sum < s || (s + sum) % 2 > 0 ? 0 : subsetSum(nums, (s + sum) >>> 1); 
+    }   
+
+    public int subsetSum(int[] nums, int s) {
+        int[] dp = new int[s + 1]; 
+        dp[0] = 1;
+        
+        for (int n : nums)
+            for (int i = s; i >= n; i--)
+                dp[i] += dp[i - n]; 
+        return dp[s];
+    } 
+	
 	public int _findTargetSumWays(int[] nums, int S) {
         return count (nums, "", 0, 0, S);
     }
