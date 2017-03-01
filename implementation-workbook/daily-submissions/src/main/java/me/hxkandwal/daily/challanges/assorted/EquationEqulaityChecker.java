@@ -95,7 +95,7 @@ public class EquationEqulaityChecker extends AbstractCustomTestRunner {
 	private static void union(Node node1, Node node2) {
 		if (node1.rank > node2.rank) 
 			node2.parent = node1;
-		else if (node2.rank > node2.rank)
+		else if (node2.rank > node1.rank)
 			node1.parent = node2;
 		else {
 			node2.parent = node1;
