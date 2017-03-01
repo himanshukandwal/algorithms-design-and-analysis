@@ -50,6 +50,7 @@ public class LongestCommonSubsequence extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest("abpcplea", "monkey", 1);		
 		_instance.runTest("AGGTAB", "GXTXAYB", 4);		
 		_instance.runTest("ABCDGH", "AEDFHR", 3);		
 		_instance.runTest("AGGTAB", "GXTXAYB", 4);		
