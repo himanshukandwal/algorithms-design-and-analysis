@@ -24,10 +24,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class PathSum extends AbstractCustomTestRunner {
 	
-	private static PathSum _instance = new PathSum();
-	
-	private PathSum() {} 
-
 	public static class TreeNode {
 		int val;
 		TreeNode left;

@@ -38,6 +38,7 @@ public class SentenceScreenFitting extends AbstractCustomTestRunner {
 
 	// highly optimized approach.
 	public int wordsTyping(String[] sentence, int rows, int cols) {
+		 
 		String s = String.join (" ", sentence) + " ";
         int start = 0, l = s.length();
         
