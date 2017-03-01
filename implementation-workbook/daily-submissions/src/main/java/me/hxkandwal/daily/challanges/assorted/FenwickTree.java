@@ -19,6 +19,7 @@ public class FenwickTree extends AbstractCustomTestRunner {
 	}
 	
 	public void add (int index, int val) {
+		index ++;
 		int idx = index;
 		while (idx < size) {
 			array [idx] += val;
@@ -27,6 +28,7 @@ public class FenwickTree extends AbstractCustomTestRunner {
 	}
 	
 	public int sum (int index) {
+		index ++;
 		int sum = 0;
 		while (index > 0) {
 			sum += array [index];
