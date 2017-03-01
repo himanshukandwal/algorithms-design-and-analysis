@@ -92,11 +92,11 @@ public class PathSumIII extends AbstractCustomTestRunner {
         
         if (root.val == sum) count ++;
         if (root.left != null)  {
-            count += _pathSum(root.left, sum);
+            count += pathSum(root.left, sum);
             count += pathSumContinuous(root.left, sum - root.val);
         }
         if (root.right != null)  {
-            count += _pathSum(root.right, sum);
+            count += pathSum(root.right, sum);
             count += pathSumContinuous(root.right, sum - root.val);
         }
         
