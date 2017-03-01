@@ -32,10 +32,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class PathSumII extends AbstractCustomTestRunner {
 	
-	private static PathSumII _instance = new PathSumII();
-	
-	public PathSumII() {}
-
 	public static class TreeNode {
 		int val;
 		TreeNode left;
