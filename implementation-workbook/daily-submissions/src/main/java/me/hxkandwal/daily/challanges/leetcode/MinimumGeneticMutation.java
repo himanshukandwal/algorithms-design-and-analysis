@@ -2,8 +2,11 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -48,98 +51,41 @@ public class MinimumGeneticMutation extends AbstractCustomTestRunner {
 	
 	private MinimumGeneticMutation() {}
 	
-	public enum GeneType {
-		A, C, G, T;
-		
-		public static GeneType valueOf(char ch) {
-			for (GeneType type : values())
-				if (type.name().charAt(0) == ch)
-					return type;
-			return null;
-		}
-	}
-	
-	public static class GeneBank {
-		GeneType type; 										// current address
-		HashMap<GeneType, GeneBank> next = new HashMap<>(); // future addresses
-		
-		public GeneBank(GeneType type) {
-			this.type = type;
-		}
-		
-		@Override
-		public String toString() {
-			return "[" + (type == null ? "root" : type.name()) + "]";
-		}
-	}
-	
-	public static int _minMutation(String start, String end, String[] bank) {
-		if (start.length() == 0)
-			return 0;
-			
-		GeneBank root = new GeneBank (null);
-		
-		// build the bank tree
-		for (String element : bank)
-			insert(root, 0, element);
-	
-		StringBuilder sb = new StringBuilder(start);
-		
-		int count = 0;
-		int conflictingIndex = -1;
-		
-		// initial alignment
-		while ((conflictingIndex = find (root, sb, 0)) != -1) {
-			count ++;
-			sb.setCharAt(conflictingIndex, end.charAt(conflictingIndex));
-		}
-		
-		while (!sb.equals(end)) {
-			int idx = 0;
-			for (; idx < sb.length(); idx ++)
-				if (sb.charAt(idx) != end.charAt(idx))
-					break;
-			
-			sb.setCharAt(idx, end.charAt(idx));
-			count ++;
-			
-			while ((conflictingIndex = find (root, sb, 0)) != -1) {
-				count ++;
-				sb.setCharAt(conflictingIndex, end.charAt(conflictingIndex));
-			}
-		}
-		
-		return count;
-	}
-	
-	public static int find (GeneBank bank, StringBuilder element, int index) {
-		if (index >= element.length())
-			return -1;
-		
-		GeneType geneType = GeneType.valueOf(element.charAt(index));
-		
-		if (!bank.next.containsKey(geneType))
-			return index;
-		else 
-			return find (bank.next.get(geneType), element, index + 1);
-	}
-	
-	// insert : handle the inner children.
-	private static void insert(GeneBank bank, int index, String element) {
-		if (index >= element.length())
-			return;
-		
-		GeneType geneType = GeneType.valueOf (element.charAt(index));
-		
-		if (!bank.next.containsKey(geneType))
-			bank.next.put(geneType, new GeneBank(geneType));
-		
-		insert (bank.next.get(geneType), index + 1, element);
-	}
+	public int _minMutation(String start, String end, String[] bank) {
+        if (bank.length == 0) return -1;
+        Set<String> dict = new HashSet<>();
+        for (String bi : bank) dict.add (bi);
+        
+        int mutations = 0;
+        Queue<String> queue = new LinkedList<>();
+        queue.add (start);
+        Set<String> seen = new HashSet<>();
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size ();
+            while (size -- > 0) {
+                String word = queue.poll ();
+                if (word.equals (end)) return mutations;
+                char [] chArr = word.toCharArray ();
+                
+                seen.add (word);
+                for (int idx = 0; idx < chArr.length; idx ++)
+                    for (char c : "ACGT".toCharArray()) {
+                        char old = chArr [idx];
+                        chArr [idx] = c;
+                        if (dict.contains (String.valueOf(chArr)) && !seen.contains(String.valueOf(chArr))) queue.offer (String.valueOf(chArr));
+                        chArr [idx] = old;
+                    }    
+            }
+            mutations ++;
+        }
+        return -1;
+    }
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest("AAAAACCC", "AACCCCCC", new String[] {"AAAACCCC", "AAACCCCC", "AACCCCCC"}, 3);
+		_instance.runTest("AAAAACCC", "AACCCCCC", new String[] { "AAAACCCC", "AAACCCCC", "AACCCCCC" }, 3);
+		_instance.runTest("AACCTTGG", "AATTCCGG", new String[] { "AATTCCGG", "AACCTGGG", "AACCCCGG", "AACCTACC" }, -1);
 	}
 	
 	public void runTest(final String start, final String end, final String[] bank, final int expectedOutput) {
