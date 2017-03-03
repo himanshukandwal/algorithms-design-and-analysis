@@ -7,33 +7,46 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class SuffixArray extends AbstractCustomTestRunner {
 
 	// suffix array in O(n*log^2(n))
-	public static Integer[] suffixArray(CharSequence s) {
-		int n = s.length();
-		Integer[] sa = new Integer[n];
-		int[] rank = new int[n];
-		
-		for (int i = 0; i < n; i++) {
-			sa[i] = i;
-			rank[i] = s.charAt(i) - 'a';
+	public static Integer[] suffixArray(String s) {
+		Integer [] index = new Integer [s.length()];
+		int [] rank = new int [s.length()];
+		for (int idx = 0; idx < s.length(); idx ++) {
+			index [idx] = idx;
+			rank [idx] = s.charAt(idx) - 'a';
 		}
 		
-		for (int len = 1; len < n; len *= 2) {
-			long[] rank2 = new long[n];
-			for (int i = 0; i < n; i++)
-				rank2[i] = ((long) rank[i] << 32) + (i + len < n ? rank[i + len] : 0);
-
-			Arrays.sort(sa, (a, b) -> Long.compare(rank2[a], rank2[b]));
-
-			for (int i = 0; i < n; i++)
-				rank[sa[i]] = i > 0 && rank2[sa[i - 1]] == rank2[sa[i]] ? rank[sa[i - 1]] : i;
+		for (int loop = 1; loop < s.length(); loop *= 2) {
+			long [] rank2 = new long [s.length()];
+			for (int idx = 0; idx < s.length(); idx ++) 
+				rank2 [idx] = ((long) rank [idx] << 32 | (idx + loop < s.length() ? s.charAt(idx + loop) - 'a' : 0));
+			
+			Arrays.sort(index, (a, b) -> Long.compare(rank2 [a], rank2 [b]));
+			
+			for (int idx = 0; idx < s.length(); idx ++) 
+				rank [index [idx]] = (idx > 0 && rank2 [index [idx]] == rank2 [index [idx - 1]] ? rank [index [idx]] : idx);
 		}
 		
-		return sa;
+		return index;
 	}
 
 	// random test
 	public static void main(String[] args) {
-		Integer[] sa = suffixArray("banana");
+		String s = "banana";
+		Integer [] ans = suffixArray(s);
+ 
+		String res = "";
+		int len = 0;
+		for (int idx = 0; idx < ans.length - 1; idx ++) {
+			int i1 = ans [idx], i2 = ans [idx + 1], llen = 0;
+			while (i1 < s.length() && i2 < s.length() && s.charAt(i1) == s.charAt(i2)) { llen ++; i1 ++; i2 ++; }
+			
+			if (llen > len) {
+				len = llen;
+				res = s.substring(ans [idx], ans [idx] + llen);
+			}
+		}
 		
+		System.out.println(res);
 	}
+	
 }
