@@ -18,7 +18,7 @@ public class SubsetSum extends AbstractCustomTestRunner {
 	private static SubsetSum _instance = new SubsetSum();
 	
 	// optimal dynamic approach.
-	public boolean _isPresentOptimalDP (int [] nums, int sum) {
+	public boolean isPresentOptimalDP (int [] nums, int sum) {
 		boolean [] dp = new boolean [sum + 1];
 		
 		dp [0] = true;
@@ -32,17 +32,18 @@ public class SubsetSum extends AbstractCustomTestRunner {
 	}
 	
 	// dynamic approach.
-	public boolean isPresentDP (int [] nums, int sum) {
+	public boolean _isPresentDP (int [] nums, int sum) {
 		boolean [][] dp = new boolean [nums.length] [sum + 1];
 		
 		for (int row = 0; row < nums.length; row ++) dp [row][0] = true;
 		
 		for (int row = 0; row < nums.length; row ++) {
-			for (int col = 0; col <= sum; col ++) {
+			for (int col = 1; col <= sum; col ++) {
+				if (row == 0) { dp [row][col] = nums [row] == col ? true : false; continue; }
 				if (nums [row] > col) 
-					dp [row][col] = (row == 0) ? false : dp [row - 1][col];
+					dp [row][col] = dp [row - 1][col];
 				else 
-					dp [row][col] = col - nums [row] == 0 ? true : ((row == 0) ? false : dp [row - 1][col] || dp [row - 1][col - nums [row]]);
+					dp [row][col] = dp [row - 1][col] || dp [row - 1][col - nums [row]];
 			}
 		}
 		
@@ -66,6 +67,7 @@ public class SubsetSum extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 2, 3, 7, 8, 10 }, 11, true);
+		_instance.runTest(new int[] { 2, 3, 7, 8, 10 }, 5, true);
 		_instance.runTest(new int[] { 2, 3, 7, 8, 10 }, 12, true);
 		_instance.runTest(new int[] { 2, 3, 7, 8, 10 }, 14, false);
 	}
