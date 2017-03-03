@@ -1,5 +1,7 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.PriorityQueue;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -28,27 +30,24 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class FindMedianFromDataStream extends AbstractCustomTestRunner {
-	
-	private static FindMedianFromDataStream _instance = new FindMedianFromDataStream();
-	
-	private FindMedianFromDataStream() {}
-	
-	// data-structure.
-	public static class MedianFinder {
-		
-		
-		/** initialize your data structure here. */
-	    public MedianFinder() {
-	    	
-	    }
-	    
-	    public void addNum(int num) {
-	        
-	    }
-	    
-	    public double findMedian() {
-	        
-	    }
+
+	PriorityQueue<Long> large = new PriorityQueue<>();
+	PriorityQueue<Long> small = new PriorityQueue<>();
+
+	/** initialize your data structure here. */
+	public FindMedianFromDataStream() {
+
+	}
+
+	public void addNum(int num) {
+		large.offer((long) num);
+		small.offer(-large.poll());
+		if (large.size() < small.size())
+			large.offer(-small.poll());
+	}
+
+	public double findMedian() {
+		return large.size() > small.size() ? large.peek() : (large.peek() - small.peek()) / 2.0;
 	}
 
 }
