@@ -78,8 +78,7 @@ public class ShortestDistanceFromAllBuildingsAddToList extends AbstractCustomTes
             layer ++;
         }
     }
-	
-	
+		
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[][] { new int[] {1,0,2,0,1},
@@ -96,4 +95,5 @@ public class ShortestDistanceFromAllBuildingsAddToList extends AbstractCustomTes
 		
 		System.out.println("ok!");
 	}
+	
 }
