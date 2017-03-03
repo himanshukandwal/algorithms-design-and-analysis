@@ -1,5 +1,8 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -33,5 +36,25 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class EncodeAndDecodeStrings extends AbstractCustomTestRunner {
+	
+	 // Encodes a list of strings to a single string.
+    public String encode(List<String> strs) {
+        StringBuilder sb = new StringBuilder();
+        for (String str : strs) sb.append(str.length()).append ('/').append(str);
+        return sb.toString();
+    }
 
+    // Decodes a single string to a list of strings.
+    public List<String> decode(String s) {
+        List<String> ans = new ArrayList<>();
+        int idx = 0;
+        while (idx < s.length()) {
+            int slash = s.indexOf('/', idx);
+            int size = Integer.valueOf (s.substring(idx, slash));
+            ans.add (s.substring (slash + 1, slash + 1 + size));
+            idx = slash + 1 + size;
+        }
+        return ans;
+    }
+    
 }
