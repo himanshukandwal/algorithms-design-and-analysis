@@ -18,7 +18,6 @@ public class ConvertArray extends AbstractCustomTestRunner {
 	private static ConvertArray _instance = new ConvertArray();
 	
 	public static int[] _convert (int [] arr) {
-		int iters = arr.length / 3;
 		int [] ans = new int [arr.length];
 		
 		for (int idx = 0; idx < arr.length; idx ++) 
