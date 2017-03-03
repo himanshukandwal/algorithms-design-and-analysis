@@ -95,6 +95,8 @@ public class WordSquares extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new String[] { "ball", "area", "lead", "lady" }, Arrays.asList(Arrays.asList("ball", "area", "lead", "lady")));
+		_instance.runTest(new String[] { "area", "lead", "wall", "lady", "ball"}, Arrays.asList(Arrays.asList("wall", "area", "lead", "lady"), 
+																								Arrays.asList("ball", "area", "lead", "lady")));
 	}
 
 	@SuppressWarnings("unchecked")
