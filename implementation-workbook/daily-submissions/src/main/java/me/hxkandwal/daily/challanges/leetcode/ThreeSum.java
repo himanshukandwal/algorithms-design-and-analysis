@@ -28,22 +28,7 @@ public class ThreeSum extends AbstractCustomTestRunner {
 
 	public List<List<Integer>> _threeSum(int[] nums) {
 		List<List<Integer>> answer = new ArrayList<>();
-		if (nums != null && nums.length > 0) {
-			Arrays.sort(nums);
-			int l = 0, h = nums.length - 1;
-			
-			while (l < h) {
-				
-				if (nums [l] + nums [m] > nums [h]) answer.add(Arrays.asList(nums [l], nums [m], nums [h]));
-				while (m > l && nums [l] + nums [m] > nums [h]) m --;
-				m += (m == l) ? 1 : 0;
-				
-				while (m < h && nums [l] + nums [m] < nums [h]) m ++;
-				
-				
-				h --;
-			}
-		}
+		
 		
 		return answer;
 	}

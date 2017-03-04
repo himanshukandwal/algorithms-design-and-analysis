@@ -34,6 +34,7 @@ public class BinaryWatch extends AbstractCustomTestRunner {
 	
 	public List<String> _readBinaryWatch(int num) {
         
+		return null;
     }
 
 }
