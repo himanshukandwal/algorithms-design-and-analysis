@@ -57,7 +57,6 @@ public class SubsetSum extends AbstractCustomTestRunner {
 	
 	private boolean isPresentAt (int[] nums, int start, int rsum, int sum) {
 		if (start == nums.length) return  (rsum == sum);
-		
 		boolean res = isPresentAt (nums, start + 1, rsum, sum);
 		if (res) return res;
 		res = res || isPresentAt(nums, start + 1, rsum + nums [start], sum);
