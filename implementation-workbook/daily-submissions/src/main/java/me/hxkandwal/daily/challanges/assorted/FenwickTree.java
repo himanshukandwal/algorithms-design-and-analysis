@@ -34,6 +34,7 @@ public class FenwickTree extends AbstractCustomTestRunner {
 			sum += array [index];
 			index -= index & (~index + 1);  // -x == ~x + 1
 		}
+		
 		return sum;
 	}
 	
