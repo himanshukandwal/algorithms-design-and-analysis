@@ -23,23 +23,18 @@ public class ImplementStrStr extends AbstractCustomTestRunner {
 	private ImplementStrStr() {};
 	
     public int _strStr(String haystack, String needle) {
-    	if (haystack == null || needle == null) 
-    		return -1;
-    	
-    	for (int idx = 0; idx <= (haystack.length() - needle.length()); idx ++) {
-    		boolean found = true;
-			for (int innerIdx = 0; innerIdx < needle.length(); innerIdx ++) {
-				if (haystack.charAt(idx + innerIdx) != needle.charAt(innerIdx)) {
-					found = false;
-					break;
-				}
-			}
-			
-			if (found)
-				return idx;
-		}
-    	
-    	return -1;
+        int res = -1;
+        for (int idx = 0; idx <= haystack.length() - needle.length(); idx ++) {
+            boolean found = true; 
+            for (int jdx = 0; jdx < needle.length(); jdx ++) {
+                if (needle.charAt(jdx) != haystack.charAt(idx + jdx)) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) return idx;
+        }
+        return res;
     }
 
 	// driver method
@@ -47,6 +42,7 @@ public class ImplementStrStr extends AbstractCustomTestRunner {
 		_instance.runTest("leetcode", "leetcode", 0);
 		_instance.runTest("leetcode", "leetcodes", -1);
 		_instance.runTest("eleetcode", "leetcode", 1);
+		_instance.runTest("mississippi", "issip", 4);
 	}
 	
 	public void runTest(final String haystack, final String needle, final int expectedOutput) {
