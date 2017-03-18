@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,24 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class KDiffPairsInAnArray extends AbstractCustomTestRunner {
 	
 	private static KDiffPairsInAnArray _instance = new KDiffPairsInAnArray();
+	
+	//  two-pointers approach
+	public int findPairsBetter(int[] nums, int k) {
+        Arrays.sort(nums);
+        int start = 0, end = 1, result = 0;
+        
+        while (start < nums.length && end < nums.length) {
+            if (start == end || nums[start] + k > nums[end]) end++;
+            else if (nums[start] + k < nums[end]) start++;
+            else {
+                start ++; result ++;
+                while (start < nums.length && nums[start] == nums[start - 1]) start++;
+                end = Math.max(end + 1, start + 1);
+            }
+        }
+        
+        return result;
+    }
 	
 	public int _findPairs(int[] nums, int k) {
 		if (nums == null || nums.length == 0 || k < 0) return 0;
