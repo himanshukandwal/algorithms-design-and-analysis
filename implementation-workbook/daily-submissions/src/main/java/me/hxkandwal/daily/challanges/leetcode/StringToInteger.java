@@ -27,28 +27,20 @@ public class StringToInteger extends AbstractCustomTestRunner {
 	private StringToInteger() {}
 	
 	public int _myAtoi(String str) {
-		str = str.trim();
-		
-		if (str.length() == 0)
-			return 0;
-		
-		boolean isNeg = (str.charAt(0) == '-') ? true : false;
-		char baseChar = '0';
-		
-		int ans = 0;
-		for (int idx = (isNeg ? 1 : ((str.charAt(0) == '+' ? 1 : 0))); idx < str.length(); idx ++) {
-			if (str.charAt(idx) >= baseChar && str.charAt(idx) <= (baseChar + 9)) {
-				long upValue = (ans * 10l) + (str.charAt(idx) - baseChar);
-				
-				if (isNeg ? (-upValue < Integer.MIN_VALUE) : (upValue > Integer.MAX_VALUE))
-					return (isNeg ? Integer.MIN_VALUE : Integer.MAX_VALUE); 
-				
-				ans = (int) upValue;
-			} else
-				break;
-		}
-		
-		return (isNeg ? -ans : ans);
+		if ((str = str.trim()).length() == 0) return 0;
+        boolean isNeg = (str.charAt(0) == '-');
+        if (str.charAt(0) == '+' || str.charAt(0) == '-') str = str.substring(1); 
+        	
+        long value = 0;
+        for (int idx = 0; idx < str.length(); idx ++) {
+            if (Character.isDigit (str.charAt(idx))) { 
+                value = 10 * value + (str.charAt(idx) - '0'); 
+                if (value > Integer.MAX_VALUE)
+                    return (isNeg) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            }
+            else break;
+        }
+        return ((int) value) * (isNeg ? -1 : 1);
 	}
 	
 	// driver method
@@ -71,6 +63,7 @@ public class StringToInteger extends AbstractCustomTestRunner {
 		_instance.runTest("-2147483647", -2147483647);
 		_instance.runTest("-2147483648", -2147483648);
 		_instance.runTest("2147483648", 2147483647);
+		_instance.runTest("9223372036854775809", 2147483647);
 	}
 	
 	public void runTest(final String str, final int expectedOutput) {
