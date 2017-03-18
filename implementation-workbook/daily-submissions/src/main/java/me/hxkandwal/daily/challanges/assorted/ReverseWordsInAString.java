@@ -17,7 +17,14 @@ public class ReverseWordsInAString extends AbstractCustomTestRunner {
 	
 	private static ReverseWordsInAString _instance = new ReverseWordsInAString();
 	
-	public String reverseWords(String s) {
+	public String _reverse (String input) {
+		String[] parts = input.trim().split("\\s+");
+		StringBuilder out = new StringBuilder();
+		for (int i = parts.length - 1; i > 0; i--) out .append(parts [i]).append(" ");
+		return out.append(parts [0]).toString();
+	}
+	
+	public String _reverseWords(String s) {
         if (s.length() == 0) return s;
         StringBuilder ans = new StringBuilder();
         StringBuilder local = new StringBuilder();
