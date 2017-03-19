@@ -26,23 +26,18 @@ public class ReverseString extends AbstractCustomTestRunner {
 	private ReverseString() {}
 
 	public String _reverseString(String s) {
-		if (s == null || s.isEmpty() || s.length() == 1)
-			return s;
-		
-		char[] chArr = s.toCharArray();
-		for (int idx = 0; idx < chArr.length/2; idx ++) {
-			char ch = chArr [idx];
-			chArr [idx] = chArr [chArr.length - 1 - idx];
-			chArr [chArr.length - 1 - idx] = ch;
-		}
-		
-		return String.valueOf(chArr);
+		if (s.length() == 0) return s;
+        char [] chArr = s.toCharArray();
+        for (int idx = 0; idx < chArr.length / 2; idx ++) {
+            char ch = chArr [idx];
+            chArr [idx] = chArr [chArr.length - 1 - idx];
+            chArr [chArr.length - 1 - idx] = ch;
+        }
+        return String.valueOf(chArr);
 	}
-
     
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(null, null);
 		_instance.runTest("", "");
 		_instance.runTest("abc", "cba");
 		_instance.runTest("abcd", "dcba");
