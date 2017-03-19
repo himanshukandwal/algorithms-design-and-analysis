@@ -19,22 +19,17 @@ public class PalindromeNumber extends AbstractCustomTestRunner {
 	private static PalindromeNumber _instance = new PalindromeNumber();
 	
 	public boolean _isPalindrome(int x) {
-		if (x < 0)
-			return false;
-			
-		if (x < 10)
-			return true;
-		
-		String str = String.valueOf(x);
-		for (int idx = 0; idx <= str.length()/2; idx ++)
-			if (str.charAt(idx) != str.charAt(str.length() - idx - 1))
-				return false;
-			
-		return true;
+		int ans = 0, o = x;
+		while (x > 0) {
+            ans = ans * 10 + (x % 10);
+            x /= 10;
+        }
+        return ans == o;
 	}
 
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest(1, true);
 		for (int idx = 0; idx < 10; idx ++) 
 			_instance.runTest(idx, true);
 		
