@@ -22,47 +22,8 @@ public class RomanToInteger extends AbstractCustomTestRunner {
 
 	private static RomanToInteger _instance = new RomanToInteger();
 	
-	private RomanToInteger() {}
-
-    // method 1 : crude and complex.
     public int _romanToInt(String s) {
-    	int icount = 0;
-    	for (; icount < s.length() && s.charAt(icount) == 'I'; icount ++);
-    	
-    	if (icount > 0) {
-    		if (s.length() == icount)
-    			return icount;
-    		else
-    			return (s.charAt(icount) == 'X') ? 9 : 4;
-    	} else {
-    		if (s.startsWith("XC"))
-    			return 90 + (s.length() > 2 ? _romanToInt(s.substring(2)) : 0);
-    		if (s.startsWith("CM"))
-    			return 900 + (s.length() > 2 ? _romanToInt(s.substring(2)) : 0);
-    		if (s.startsWith("CD"))
-    			return 400 + (s.length() > 2 ? _romanToInt(s.substring(2)) : 0);
-    		if (s.startsWith("XL"))
-    			return 40 + (s.length() > 2 ? _romanToInt(s.substring(2)) : 0);
-    		if (s.charAt(0) == 'V')
-    			return 5 + (s.length() > 1 ? _romanToInt(s.substring(1)) : 0);
-    		if (s.charAt(0) == 'X')
-    			return 10 + (s.length() > 1 ? _romanToInt(s.substring(1)) : 0);
-    		if (s.charAt(0) == 'L')
-    			return 50 + (s.length() > 1 ? _romanToInt(s.substring(1)) : 0);
-    		if (s.charAt(0) == 'C')
-    			return 100 + (s.length() > 1 ? _romanToInt(s.substring(1)) : 0);
-    		if (s.charAt(0) == 'D')
-    			return 500 + (s.length() > 1 ? _romanToInt(s.substring(1)) : 0);
-    		if (s.charAt(0) == 'M')
-    			return 1000 + (s.length() > 1 ? _romanToInt(s.substring(1)) : 0);
-    	}
-    	
-    	return 0;
-    }
-    
-    // method 2 : cleaner and short.
-    public int _romanToInt2(String s) {
-        Map<Character, Integer> romans = new HashMap<Character, Integer>();
+    	Map<Character, Integer> romans = new HashMap<Character, Integer>();
         romans.put('I', 1);
         romans.put('V', 5);
         romans.put('X', 10);
@@ -70,21 +31,15 @@ public class RomanToInteger extends AbstractCustomTestRunner {
         romans.put('C', 100);
         romans.put('D', 500);
         romans.put('M', 1000);
-        char[] cs = s.toCharArray();
-        int num = 0;
-        int val;
-        for (int i = 0; i < cs.length; i++) {
-            val = romans.get(cs[i]);
-            
-            // very nice logic, saved multiple if else condition with the clause that 
-            // if (value of cs[i + 1]) >  (value of cs[i]), then remove else add.
-            if (i == cs.length - 1 || romans.get(cs[i + 1]) <= val) {
-                num += val;
-            } else {
-                num -= val;
-            }
+        char[] chArr = s.toCharArray();
+        
+        int ans = 0;
+        for (int idx = 0; idx < chArr.length; idx ++) {
+            int value = romans.get (chArr [idx]);
+            if (idx == chArr.length - 1 || romans.get (chArr [idx + 1]) <= value) ans += value;
+            else ans -= value;
         }
-        return num;
+        return ans;
     }
     
 	// driver method
@@ -120,4 +75,5 @@ public class RomanToInteger extends AbstractCustomTestRunner {
 		
 		System.out.println("ok!");
 	}
+	
 }
