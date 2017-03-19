@@ -25,26 +25,17 @@ public class MaximumMinimumDepthOfBinaryTree extends AbstractCustomTestRunner {
 	
 	// this code will ensure that only leaves are getting considered.
 	public static int maxDepth(TreeNode root) {
-		if (root == null)
-        	return 0;
-        
+		if (root == null) return 0;
 		return Math.max(maxDepth (root.left), maxDepth (root.right)) + 1;
     }
 
 	// this code will ensure that only leaves are getting considered.
 	// note :  we cannot apply max depth logic as that will take non-leaf with only one child into priority.
     public static int minDepth(TreeNode root) {
-    	if (root == null)
-        	return 0;
-        
-        if (root.left == null && root.right == null)	
-            return 1;
-        else if (root.left == null)
-            return minDepth (root.right) + 1;
-        else if (root.right == null)    
-            return minDepth (root.left) + 1;
-        else
-            return Math.min(minDepth (root.left), minDepth (root.right)) + 1;  
+    	if (root == null) return 0;
+        if (root.left == null) return minDepth (root.right) + 1;
+        if (root.right == null) return minDepth (root.left) + 1;
+        return Math.min(minDepth (root.left), minDepth (root.right)) + 1;  
     }
 	
 }
