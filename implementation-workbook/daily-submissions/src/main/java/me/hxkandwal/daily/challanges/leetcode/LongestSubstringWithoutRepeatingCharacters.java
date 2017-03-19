@@ -29,24 +29,16 @@ public class LongestSubstringWithoutRepeatingCharacters extends AbstractCustomTe
 
 	// sliding window checking.
 	public static int _lengthOfLongestSubstring(String s) {
-		int [] alphabetsMap = new int [256]; // 26 if sure that its lowercase letters, else 256 which is complete ASCII range. 
-        
-        // dummy initialization
-        for (int idx = 0; idx < alphabetsMap.length; idx ++)
-        	alphabetsMap [idx] = -1;
-        
-        int maxLength = 0, start = 0;
+		int [] map = new int [256];
+        int max = 0, start = 0;
         for (int idx = 0; idx < s.length(); idx ++) {
-			char currentChar = s.charAt(idx);
-			
-			if (alphabetsMap [currentChar] >= start)
-				start = (alphabetsMap [currentChar] + 1 > start) ? alphabetsMap [currentChar] + 1 : idx;
-			
-			alphabetsMap [currentChar] = idx;
-			maxLength = Math.max(maxLength, idx - start + 1);
-		}
-        
-		return maxLength;
+            if (map [s.charAt (idx)] ++ > 0) {
+                while (s.charAt (start) != s.charAt (idx)) map [s.charAt (start ++)] --;
+                map [s.charAt (start ++) ] --;
+            }
+            max = Math.max (max, idx - start  + 1);
+        }
+        return max;
     }
 	
 	// driver method
