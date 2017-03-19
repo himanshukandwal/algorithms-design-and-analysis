@@ -17,22 +17,18 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class SingleNumber extends AbstractCustomTestRunner {
 	
 	private static SingleNumber _instance = new SingleNumber();
-	
-	private SingleNumber() {}
 
 	public static int _singleNumber(int[] nums) {
-		int res = nums[0];
-		for (int idx = 1; idx < nums.length; idx++)
-			res ^= nums[idx];
-			
-		return res;
+		int res = nums [0];
+        for (int idx = 1; idx < nums.length; idx ++) res ^= nums [idx];
+        return res;
 	}
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] {1}, 1);
-		_instance.runTest(new int[] {1, 1, 3, 3, 4 }, 4);
-		_instance.runTest(new int[] {1, 1, 3, 3, 4, 4, 5}, 5);
+		_instance.runTest(new int[] { 1 }, 1);
+		_instance.runTest(new int[] { 1, 1, 3, 3, 4 }, 4);
+		_instance.runTest(new int[] { 1, 1, 3, 3, 4, 4, 5 }, 5);
 	}
 	
 	public void runTest(final int[] nums, final int expectedOutput) {
