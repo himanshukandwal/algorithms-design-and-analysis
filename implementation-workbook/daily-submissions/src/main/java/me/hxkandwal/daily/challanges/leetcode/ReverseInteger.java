@@ -23,26 +23,17 @@ public class ReverseInteger extends AbstractCustomTestRunner {
 	private static ReverseInteger _instance = new ReverseInteger();
 	
 	public int _reverse(int x) {
-		if (x < 10 && x > -10)
-			return x;
-		
-		boolean isPos = (x > 0);
-		x = (isPos) ? x : (-x);
-		
-		int answer = 0;
-		while (x / 10 > 0 || x % 10 > 0) {
-			long upValue = answer * 10l + (x % 10);
-			
-			if (upValue >= Integer.MAX_VALUE) {
-			    answer = 0;
-			    break;
-			}
-		    
-		    answer = (int) upValue; 
-		    x /= 10;
-		}
-				
-		return (isPos) ? answer : (-answer);
+		long ans = 0;
+        boolean isNeg = (x < 0);
+        if (isNeg) x = -x;
+        
+        while (x > 0) {
+            ans = 10 * ans + (x % 10);
+            x /= 10;
+        }
+        
+        if (ans > Integer.MAX_VALUE) return 0;
+        else return ((int) ans * (isNeg ? -1 : 1));
 	}
 	
 	// driver method
