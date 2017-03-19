@@ -31,46 +31,31 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 		int val;
 		ListNode next;
 		public ListNode(int x) { val = x; }
+		@Override public String toString() { return "(" + val + ")"; }
 	}
 
 	// method 1 : manage links.
 	public ListNode _swapperManagingLinks(ListNode head) {
-		
-		if (head == null)
-			return head;
-			
-		int idx = 0;
-	
-		ListNode prevprev = null;
-		ListNode prev = null;
-		ListNode current = head;
-		
-		while (current.next != null) {
-			prevprev = prev;
-			prev = current;
-			current = current.next;
-			
-			idx ++;
-			
-			if (idx % 2 == 1) {
-				if (prevprev != null)
-					prevprev.next = current;
-				else 
-					head = current;
-				
-				ListNode oldCurrent = current;
-				
-				prev.next = current.next;
-				current = current.next = prev;
-				prev = oldCurrent;
-			}
-		}
-		
-		return head;
+		if (head == null || head.next == null) return head;
+        ListNode follower = head, traverser = head.next, start = null, prev = null;
+        while (traverser != null) {
+            ListNode future = traverser.next;
+            if (start == null) start = traverser;
+            follower.next = future;
+            traverser.next = follower;
+            if (prev != null) prev.next = traverser;
+            
+            if (follower.next != null) {
+            	prev = follower;
+                traverser = follower.next.next;
+                follower = follower.next;
+            } else break;
+        }
+        return start;
 	}
 	
 	// method 2 : copy values.
-	public ListNode _swapperCopyingValues(ListNode head) {
+	public ListNode swapperCopyingValues(ListNode head) {
 		if (head == null)
 			return head;
 		
@@ -95,7 +80,7 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 	}
 	
 	// method 3 : recursion.
-	public ListNode _swapperUsingRecursion(ListNode head) {
+	public ListNode swapperUsingRecursion(ListNode head) {
 		if (head == null || head.next == null)
 			return head;
 		
@@ -103,7 +88,7 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 		ListNode futureNextNode = nextNode.next;
 		
 		nextNode.next = head;
-		head.next = (futureNextNode != null) ? _swapperUsingRecursion(futureNextNode) : futureNextNode;
+		head.next = (futureNextNode != null) ? swapperUsingRecursion(futureNextNode) : futureNextNode;
 		
 		return nextNode;
 	}
