@@ -44,6 +44,23 @@ public class SpiralMatrix extends AbstractCustomTestRunner {
         return ans;
     }
 	
+	public List<Integer> _spiralOrderBook(int[][] matrix) {
+		 List<Integer> ans = new ArrayList<>();
+	        if (matrix.length == 0) return ans;
+	        int row = 0, col = -1, rows = matrix.length, cols = matrix [0].length;
+	        while (true) {
+	            for (int idx = 0; idx < cols; idx ++) ans.add (matrix [row][++ col]);
+	            if (--rows == 0) break;
+	            for (int idx = 0; idx < rows; idx ++) ans.add (matrix [++ row][col]);
+	            if (--cols == 0) break;
+	            for (int idx = 0; idx < cols; idx ++) ans.add (matrix [row][-- col]);
+	            if (--rows == 0) break;
+	            for (int idx = 0; idx < rows; idx ++) ans.add (matrix [-- row][col]);
+	            if (--cols == 0) break;
+	        }
+	        return ans;
+	}
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[][] { new int[] { 1 } }, Arrays.asList(1));
