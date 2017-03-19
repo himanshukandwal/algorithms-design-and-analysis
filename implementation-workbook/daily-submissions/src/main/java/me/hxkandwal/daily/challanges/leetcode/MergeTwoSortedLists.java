@@ -30,38 +30,24 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 	}
     
 	public ListNode _mergeTwoLists(ListNode l1, ListNode l2) {
-		ListNode pointer1 = l1;
-		ListNode pointer2 = l2;
-	
-		ListNode resultPointer = null, resultHead = null;
-		
-		while (pointer1 != null && pointer2 != null) {
-			if (pointer1.val > pointer2.val) {
-				resultPointer = ((resultPointer == null) ? (resultHead = pointer2) : (resultPointer.next = pointer2));
-				pointer2 = pointer2.next;
-			}
-			else if (pointer1.val < pointer2.val) {
-				resultPointer = ((resultPointer == null) ? (resultHead = pointer1) : (resultPointer.next = pointer1));
-				pointer1 = pointer1.next;
-			} else {
-				resultPointer = ((resultPointer == null) ? (resultHead = pointer1) : (resultPointer.next = pointer1));
-				pointer1 = pointer1.next;
-				resultPointer =  (resultPointer.next = pointer2);
-				pointer2 = pointer2.next;
-			}	 
-		}
-	
-		while (pointer1 != null) {
-			resultPointer = ((resultPointer == null) ? (resultHead = pointer1) : (resultPointer.next = pointer1));
-			pointer1 = pointer1.next;
-		}
-		 
-		while (pointer2 != null) {
-			resultPointer = ((resultPointer == null) ? (resultHead = pointer2) : (resultPointer.next = pointer2));
-			pointer2 = pointer2.next;
-		}
-		
-		return resultHead;
+		ListNode traverser1 = l1, traverser2 = l2, ans = null, traverser3 = null;
+        while (traverser1 != null && traverser2 != null) {
+            if (traverser1.val > traverser2.val) {
+                if (ans == null) traverser3 = ans = traverser2;
+                else traverser3 = traverser3.next = traverser2;
+                traverser2 = traverser2.next;
+                traverser3.next = null;
+            } 
+            else {
+                if (ans == null) traverser3 = ans = traverser1;
+                else traverser3 = traverser3.next = traverser1;
+                traverser1 = traverser1.next;
+                traverser3.next = null;
+            }
+        }
+        if (traverser3 != null) traverser3.next = (traverser1 != null) ? traverser1 : traverser2;
+        else ans = (traverser1 != null) ? traverser1 : traverser2;
+        return ans;
     }
     
 	// driver method
