@@ -38,37 +38,27 @@ public class SortedArrayToBalancedBST extends AbstractCustomTestRunner {
 	
 	private SortedArrayToBalancedBST() {}
 	
-	public static class Node {
+	public static class TreeNode {
 		int val;
-		Node left;
-		Node right;
+		TreeNode left;
+		TreeNode right;
 		
-		public Node(int val) { this.val = val; }
-		
-		@Override
-		public String toString() { return "(" + val + ")"; }
+		public TreeNode (int val) { this.val = val; }
 	}
 	
-	public static Node _makeBST(int[] array) {
-		if (array == null || array.length == 0)
-			return null;
-		
-		return makeBSTInner(array, 0, array.length - 1);
-	}
-	
-	private static Node makeBSTInner(int[] array, int startIdx, int endIdx) {
-		if (startIdx > endIdx)
-			return null;
-		
-		int midIdx = ((endIdx - startIdx + 1) % 2 != 0) ? ((endIdx + startIdx) / 2) 
-															: ((endIdx + startIdx + 1) / 2); 
-		
-		Node centerNode = new Node(array [midIdx]);
-		centerNode.left = makeBSTInner(array, startIdx, midIdx - 1);
-		centerNode.right = makeBSTInner(array, midIdx + 1, endIdx);
-		
-		return centerNode;
-	}
+	public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums.length == 0) return null;
+        return makeBST (nums, 0, nums.length - 1);
+    }
+    
+    private TreeNode makeBST (int[] nums, int start, int end) {
+        if (start > end) return null;
+        int mid = (start + end) >>> 1;
+        TreeNode node = new TreeNode (nums [mid]);
+        node.left = makeBST (nums, start, mid - 1);
+        node.right = makeBST (nums, mid + 1, end);
+        return node;
+    }
 	
 	// driver method
 	public static void main(String[] args) {
@@ -89,12 +79,12 @@ public class SortedArrayToBalancedBST extends AbstractCustomTestRunner {
 
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
-		Node root = null;
+		TreeNode root = null;
 		
 		int[] input = (int[]) externalVariables[0];
 		
 		try {
-			root = (Node) method.invoke(_instance, new Object[] { input });
+			root = (TreeNode) method.invoke(_instance, new Object[] { input });
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
@@ -103,7 +93,7 @@ public class SortedArrayToBalancedBST extends AbstractCustomTestRunner {
 		return inOrderTraversal(root);
 	}	
 	
-	private String inOrderTraversal(Node node) {
+	private String inOrderTraversal(TreeNode node) {
 		if (node == null)
 			return null;
 		
