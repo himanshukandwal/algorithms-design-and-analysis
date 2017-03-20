@@ -2,9 +2,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -35,39 +33,13 @@ public class HappyNumber extends AbstractCustomTestRunner {
 	
 	private HappyNumber() {}
 
-	public static boolean _isHappy(int n) {
-		int num = n;
-		Set<Integer> seen = new HashSet<>();
-		
-        while (seen.add(num)) {
-        	int squaresSum = 0;
-        	while (num > 0) {
-        		squaresSum += Math.pow(num % 10, 2);
-        		num /= 10;
-        	}
-        	
-        	while (squaresSum > 0 && squaresSum % 10 == 0) squaresSum /= 10;
-        	
-        	num = squaresSum;
-        }
-        
-        return (num == 1);
-    }
-
-	/**
-	 * Very innovative approach than from keep track using a set.
-	 */
 	public static boolean _isHappyFloydCycleDetectionAlgorithm(int n) {
-		 int slow, fast;
-		    slow = fast = n;
-		    do {
-		        slow = digitSquareSum (slow);
-		        fast = digitSquareSum (fast);
-		        fast = digitSquareSum (fast);
-		    } while (slow != fast);
-		    
-		    if (slow == 1) return true;
-		    else return false;
+		 int slow = digitSquareSum (n), fast = digitSquareSum (slow);
+		 while (slow != fast) {
+	        slow = digitSquareSum (slow);
+	        fast = digitSquareSum (digitSquareSum (fast));
+		 }
+		 return slow == 1;
     }
 	
 	private static int digitSquareSum(int n) {
