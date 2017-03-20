@@ -19,8 +19,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class FindMinimumInRotatedSortedArrayII extends AbstractCustomTestRunner {
 	
-	private static FindMinimumInRotatedSortedArrayII _instance = new FindMinimumInRotatedSortedArrayII();
-	
 	public int findMin(int[] nums) {
         int start = 0, end = nums.length - 1;
         while (start < end && nums [start] >= nums [end]) {
