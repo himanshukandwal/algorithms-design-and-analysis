@@ -2,11 +2,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -25,51 +21,11 @@ public class FirstUniqueCharacterInString extends AbstractCustomTestRunner {
 	
 	private static FirstUniqueCharacterInString _instance = new FirstUniqueCharacterInString();
 	
-	// method 1 : using collections.
 	public int firstUniqCharCollections(String s) {
-		if (s == null || s.isEmpty())
-			return -1;
-		
-		if (s.length() == 1)
-			return 0;
-		
-		Map<Character, Integer> charMap = new LinkedHashMap<>();
-		Set<Character> trashedCharacters = new HashSet<>();
-		
-		for (int idx = 0; idx < s.length(); idx ++) {
-			if (charMap.containsKey(s.charAt(idx))) {
-				charMap.remove(s.charAt(idx));
-				trashedCharacters.add(s.charAt(idx));
-			} else
-				if (!trashedCharacters.contains(s.charAt(idx)))
-					charMap.put(s.charAt(idx), idx);
-		}
-		
-		return (charMap.size() == 0 ? -1 : charMap.entrySet().iterator().next().getValue());
-	}
-
-	// method 2 : using native components.
-	public int _firstUniqCharNative(String s) {
-		if (s == null || s.isEmpty())
-			return -1;
-		
-		if (s.length() == 1)
-			return 0;
-		
-		int[] alpha = new int[26];
-		
-		for (int idx = 0; idx < s.length(); idx ++)
-			alpha[s.charAt(idx) - 'a'] ++;
-		
-		int returnIdx = -1;
-		
-		for (int idx = 0; idx < s.length(); idx ++) 
-			if (alpha[s.charAt(idx) - 'a'] == 1) {
-				returnIdx = idx;
-				break;
-			}
-		
-		return returnIdx;
+		int [] map = new int [256];
+	    for (char ch : s.toCharArray()) map [ch] ++;
+	    for (int idx = 0; idx < s.length(); idx ++) if (map [s.charAt(idx)] == 1) return idx;
+	    return -1;
 	}
 
 	// driver method
