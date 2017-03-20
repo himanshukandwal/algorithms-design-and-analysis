@@ -19,23 +19,19 @@ public class LongestCommonPrefix extends AbstractCustomTestRunner {
 	private static LongestCommonPrefix _instance = new LongestCommonPrefix();
 
 	public String _longestCommonPrefixFast(String[] strs) {
-		StringBuilder prefix = new StringBuilder();
-		
-		if (strs.length > 0) {
-			int mIdx = 0, idx = strs.length;
-			
-			// check if we have looped completely or not.
-			while ((idx == strs.length) && mIdx < strs [0].length()) {
-				char ch = strs [0].charAt(mIdx);
-				
-				for (idx = 1; idx < strs.length && (mIdx < strs [idx].length()); idx ++)
-					if (strs [idx].charAt(mIdx) != ch) break;
-				
-				if (idx == strs.length) prefix.append(strs [0].charAt(mIdx ++));
-			}
-		}
-		
-		return prefix.toString();
+		StringBuilder ans = new StringBuilder();
+        int minLen = Integer.MAX_VALUE;
+        for (String str : strs) minLen = Math.min (minLen, str.length());
+        for (int idx = 0; idx < minLen; idx ++) {
+            Character ch = null;
+            for (String str : strs) {
+                if (ch == null) ch = str.charAt (idx);
+                else if (ch != str.charAt (idx)) { ch = null; break; }
+            }
+            if (ch == null) break;
+            else ans.append (ch);
+        }
+        return ans.toString();
 	}
 	
 	// driver method
