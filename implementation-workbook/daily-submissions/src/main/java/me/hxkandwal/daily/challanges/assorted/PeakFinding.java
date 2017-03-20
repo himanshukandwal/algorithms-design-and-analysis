@@ -20,14 +20,14 @@ public class PeakFinding extends AbstractCustomTestRunner {
 	public static int _findPeak(int[] list) {
 		int low = 0, high = list.length - 1, peak = -1;
 		
-		while (low < high) {
+		while (low <= high) {
 			int mid = (low + high) >>> 1;
 			peak = Math.max (peak, list [mid]);
 			
 			if (mid - 1 < 0 || list [mid - 1] > list [mid])
-				high = mid;
+				high = mid - 1;
 			else if (mid + 1 >= list.length || list [mid + 1] > list [mid])
-				low = mid;
+				low = mid + 1;
 			else 
 				break;
 		}
