@@ -46,4 +46,5 @@ public class PowerOfTwo extends AbstractCustomTestRunner {
 
 		System.out.println("ok!");
 	}	
+	
 }
