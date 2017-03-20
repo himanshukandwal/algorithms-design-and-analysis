@@ -30,16 +30,14 @@ public class SearchInsertPosition extends AbstractCustomTestRunner {
 	private SearchInsertPosition() {}
 
     public int _searchInsert(int[] nums, int target) {
-        int l = 0, h = nums.length - 1;
-        
-        while (l <= h) {
-        	int m = (l + h) >>> 1;
-        	if (nums [m] == target) return m;
-        	else if (nums [m] > target) h = m - 1;
-        	else l = m + 1;
+    	int start = 0, end = nums.length - 1;
+        while (start <= end) {
+            int mid = (start + end) >>> 1;
+            if (nums [mid] == target) return mid;
+            else if (nums [mid] > target) end = mid - 1;
+            else start = mid + 1;
         }
-       
-        return l;
+        return start;
     }
     
 	// driver method
