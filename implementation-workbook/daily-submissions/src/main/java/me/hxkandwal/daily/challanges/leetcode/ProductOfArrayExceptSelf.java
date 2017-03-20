@@ -18,6 +18,17 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class ProductOfArrayExceptSelf extends AbstractCustomTestRunner {
 
+	/**
+	 * nums   = [1, 2, 3, 4]
+	 * output = product of nums[left of i] * product of nums[right of i]
+	 * 	 
+	 * output = [
+	 * 		  24, // left: init=1     nums[i]=1  right: 2 * 3 * 4 
+	 * 		  12, // left: 1          nums[i]=2  right: 3 * 4
+	 * 		  8,  // left: 1 * 2      nums[i]=3  right: 4
+	 * 		  6,  // left: 1 * 2 * 3  nums[i]=4  right: init=1 
+	 * ]
+	 **/
     public int[] productExceptSelf(int[] nums) {
         int [] res = new int [nums.length];
         for (int idx = 0, temp = 1; idx < nums.length; idx ++) { res [idx] = temp; temp *= nums [idx]; }
