@@ -31,13 +31,9 @@ public class SquarerootOfANumber extends AbstractCustomTestRunner {
 			int mid = (low + high) >>> 1;
 			
 			if (low == mid) return mid;
-			
-			if ((mid * mid) > num)
-				high = mid;
-			else if ((mid * mid) < num)
-				low = mid;
-			else
-				return mid;
+			if ((mid * mid) > num) high = mid;
+			else if ((mid * mid) < num) low = mid;
+			else return mid;
 		}
 		
 		return 0;
@@ -46,9 +42,8 @@ public class SquarerootOfANumber extends AbstractCustomTestRunner {
 	// newton's method
 	public static int _mySqrt(int x) {
 		long r = x;
-		while (r * r > x)
-			r = (r + x / r) / 2;
-		return (int) r;
+        while (r * r > x)  r = (r + x/r)/2;
+        return (int) r;
 	}
 
 	// driver method
