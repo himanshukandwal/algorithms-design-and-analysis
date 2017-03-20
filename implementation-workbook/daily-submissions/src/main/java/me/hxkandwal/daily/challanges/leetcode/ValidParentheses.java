@@ -26,33 +26,19 @@ public class ValidParentheses extends AbstractCustomTestRunner {
 	private ValidParentheses() {}
 	
 	public boolean _isValid(String s) {
-		if (s == null || s.length() == 0)
-			return true;
-		
-		if (s.length() % 2 != 0)
-			return false;
-		
-		Map<Character, Character> dictionary = new HashMap<>();
-		dictionary.put(')', '(');
-		dictionary.put('}', '{');
-		dictionary.put(']', '[');
-		
-		Stack<Character> parathesisStack = new Stack<>();
-		for (int idx = 0; idx < s.length(); idx++) {
-			if (!dictionary.keySet().contains(s.charAt(idx))) 
-				parathesisStack.push(s.charAt(idx));
-			else
-				if (parathesisStack.isEmpty() || (parathesisStack.pop() != dictionary.get(s.charAt(idx)))) 
-					return false;
-		}
-		
-		return parathesisStack.isEmpty();
+		Map<Character, Character> map = new HashMap<>();
+        map.put('(', ')');  map.put('{', '}');  map.put('[', ']');
+        Stack<Character> stk = new Stack<>();
+        for (char ch : s.toCharArray()) {
+            if (map.keySet().contains(ch)) stk.push (map.get(ch));
+            else if (stk.isEmpty() || ch != stk.pop()) return false;
+        }
+        return stk.isEmpty();
 	}
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("", true);
-		_instance.runTest(null, true);
 		_instance.runTest("()", true);
 		_instance.runTest("[]", true);
 		_instance.runTest("{}", true);
