@@ -7,19 +7,19 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
-import me.hxkandwal.daily.challanges.geeksForGeeks.SortedArrayToBalancedBST.Node;
+import me.hxkandwal.daily.challanges.geeksForGeeks.SortedArrayToBalancedBST.TreeNode;
 
 /**
  * Convert a Binary Tree to a Circular Doubly Link List
  * 
  * Given a Binary Tree, convert it to a Circular Doubly Linked List (In-Place).
  * 
- *  a) The left and right pointers in nodes are to be used as previous and next pointers respectively in 
+ *  a) The left and right pointers in TreeNodes are to be used as previous and next pointers respectively in 
  *     converted Circular Linked List.
  *  
- *  b) The order of nodes in List must be same as Inorder of the given Binary Tree.
+ *  b) The order of TreeNodes in List must be same as Inorder of the given Binary Tree.
  *  
- *  c) The first node of Inorder traversal must be head node of the Circular List.
+ *  c) The first TreeNode of Inorder traversal must be head TreeNode of the Circular List.
  *  
  * link : http://www.geeksforgeeks.org/convert-a-binary-tree-to-a-circular-doubly-link-list/
  * 
@@ -32,42 +32,38 @@ public class BinaryTreeToCircularDoublyLinkedList extends AbstractCustomTestRunn
 	
 	private BinaryTreeToCircularDoublyLinkedList() {}
 	
-	/* method : keep sending left side (or main node up) and join left side of parent by traversing to end and 
-	 * 			right by just overwriting (as left-most node is coming up) */
-	public static Node _converter(Node node) {
-		if (node == null)
-			return node;
-		
-		Node head = recurseInner(node);
+	/* method : keep sending left side (or main TreeNode up) and join left side of parent by traversing to end and 
+	 * 			right by just overwriting (as left-most TreeNode is coming up) */
+	public static TreeNode _converter(TreeNode TreeNode) {
+		if (TreeNode == null) return TreeNode;
+		TreeNode head = recurseInner(TreeNode);
 		
 		// make it cyclic
-		Node traverser = head;
-		while (traverser.right != null)
-			traverser = traverser.right;
+		TreeNode traverser = head;
+		while (traverser.right != null) traverser = traverser.right;
 		
 		traverser.right = head;
 		head.left = traverser;
-		
 		return head;
 	}
 	
-	private static Node recurseInner(Node node) {
-		if (node.left == null)  // if left is null, the right must also be null.
-			return node;
+	private static TreeNode recurseInner(TreeNode TreeNode) {
+		if (TreeNode.left == null)  // if left is null, the right must also be null.
+			return TreeNode;
 		
-		Node left = recurseInner(node.left);
+		TreeNode left = recurseInner(TreeNode.left);
 		
-		Node traverser = left;
+		TreeNode traverser = left;
 		while (traverser.right != null)
 			traverser = traverser.right;
 		
-		traverser.right = node;
-		node.left = traverser;  // chain connected (from left)
+		traverser.right = TreeNode;
+		TreeNode.left = traverser;  // chain connected (from left)
 		
-		if (node.right != null) {
-			Node right = recurseInner(node.right);	
-			node.right = right;
-			right.left = node;	// chain connected (from right)
+		if (TreeNode.right != null) {
+			TreeNode right = recurseInner(TreeNode.right);	
+			TreeNode.right = right;
+			right.left = TreeNode;	// chain connected (from right)
 		}
 		
 		return left;
@@ -90,7 +86,7 @@ public class BinaryTreeToCircularDoublyLinkedList extends AbstractCustomTestRunn
 
 	@Override
 	public Object coreTestRun(Method method, Object[] externalVariables) {
-		Node head, tail;
+		TreeNode head, tail;
 		head = tail = null;
 		
 		int[] array = (int[]) externalVariables[0];
@@ -98,10 +94,10 @@ public class BinaryTreeToCircularDoublyLinkedList extends AbstractCustomTestRunn
 		if (array == null || array.length == 0)
 			return null;
 		
-		Node root = SortedArrayToBalancedBST._makeBST(array);
+		TreeNode root = new SortedArrayToBalancedBST().sortedArrayToBST(array);
 		
 		try {
-			tail = head = (Node) method.invoke(_instance, new Object[] { root });
+			tail = head = (TreeNode) method.invoke(_instance, new Object[] { root });
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;

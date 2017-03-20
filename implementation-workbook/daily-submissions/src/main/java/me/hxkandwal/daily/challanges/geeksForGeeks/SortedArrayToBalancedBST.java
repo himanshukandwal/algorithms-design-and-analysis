@@ -36,8 +36,6 @@ public class SortedArrayToBalancedBST extends AbstractCustomTestRunner {
 	
 	private static SortedArrayToBalancedBST _instance = new SortedArrayToBalancedBST();
 	
-	private SortedArrayToBalancedBST() {}
-	
 	public static class TreeNode {
 		int val;
 		TreeNode left;
@@ -51,7 +49,7 @@ public class SortedArrayToBalancedBST extends AbstractCustomTestRunner {
         return makeBST (nums, 0, nums.length - 1);
     }
     
-    private TreeNode makeBST (int[] nums, int start, int end) {
+	public TreeNode makeBST (int[] nums, int start, int end) {
         if (start > end) return null;
         int mid = (start + end) >>> 1;
         TreeNode node = new TreeNode (nums [mid]);
