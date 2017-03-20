@@ -13,23 +13,16 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class MaximumProductSubarray extends AbstractCustomTestRunner {
 	
-    public int maxProduct(int[] A) {
-        if (A.length == 0) return 0;
-        
-        int maxherepre = A[0];
-        int minherepre = A[0];
-        int maxsofar = A[0];
-        int maxhere, minhere;
-        
-        for (int i = 1; i < A.length; i++) {
-            maxhere = Math.max(Math.max(maxherepre * A[i], minherepre * A[i]), A[i]);
-            minhere = Math.min(Math.min(maxherepre * A[i], minherepre * A[i]), A[i]);
-            maxsofar = Math.max(maxhere, maxsofar);
-            maxherepre = maxhere;
-            minherepre = minhere;
+    public int maxProduct(int[] nums) {
+    	if (nums.length == 0) return 0;
+        int max = nums [0], min = max, maxProduct = max;
+        for (int idx = 1; idx < nums.length; idx ++) {
+            int num = nums [idx], mx = max, mn = min;
+            max = Math.max (Math.max (mx * num, num), Math.max (mn * num, num)); 
+            min = Math.min (Math.min (mx * num, num), Math.min (mn * num, num)); 
+            maxProduct = Math.max (maxProduct, max);
         }
-        
-        return maxsofar;
+        return maxProduct;
     }
     
 }
