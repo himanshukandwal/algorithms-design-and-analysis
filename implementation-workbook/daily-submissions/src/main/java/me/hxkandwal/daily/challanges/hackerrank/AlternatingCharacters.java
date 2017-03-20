@@ -40,20 +40,15 @@ public class AlternatingCharacters extends AbstractCustomTestRunner {
     private AlternatingCharacters() {}
 
     public static int _minDeletions(String input) {
-        Character previousChar = null;
-
-        int deletions = 0;
+        int deletions = 0; char previousChar = ' ';
         for (int idx = 0; idx < input.length(); idx ++) {
-            if (idx == 0)
-                previousChar = input.charAt(idx);
+            if (idx == 0) 
+            	previousChar = input.charAt(idx);
             else {
-                if (input.charAt(idx) == previousChar)
-                    deletions ++;
-                else
-                    previousChar = input.charAt(idx);
+                if (input.charAt(idx) == previousChar) deletions ++;
+                else previousChar = input.charAt(idx);
             }
         }
-
         return deletions;
     }
 
