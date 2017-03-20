@@ -23,12 +23,13 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
 	private MaximumSubarray() {}
 	
 	public static int _maxSubArray(int[] nums) {
-		int maxSum = Integer.MIN_VALUE, localSum = 0;
-		
-		for (int idx = 0; idx < nums.length; idx ++) 
-			maxSum = Math.max (maxSum, localSum = Math.max (localSum + nums [idx], nums [idx]));
-		
-		return maxSum;
+		if (nums.length == 0) return 0;
+        int max = nums [0], localMax = max;
+        for (int idx = 1; idx < nums.length; idx ++) {
+            localMax = Math.max (localMax + nums [idx], nums [idx]);
+            max = Math.max (max, localMax);
+        }
+        return max;
     }
 
 	// driver method
