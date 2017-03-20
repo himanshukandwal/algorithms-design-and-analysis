@@ -36,17 +36,10 @@ public class ClimbingStairs extends AbstractCustomTestRunner {
     
 	// method 2 : optimized (dynamic program, using memoization)
 	public int _climbStairs2(int n) {
-		int [] ways = new int [n + 1];
-		
-		if (n <= 2)
-			return n;
-		
-		ways [0] = 1;	// for n == 1
-		ways [1] = 2;	// for n == 2
-		for (int way = 2; way < ways.length; way ++)
-			ways [way] = ways [way - 1] + ways [way - 2];
-		
-		return ways [n - 1];
+		if (n <= 2) return n;
+        int a = 1, b = 2;
+        for (int idx = 3; idx <= n; idx ++) { b = (a + b); a = b - a; }
+        return b;
 	}
 	
 	// driver method
