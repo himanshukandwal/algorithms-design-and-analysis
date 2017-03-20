@@ -18,53 +18,20 @@ package me.hxkandwal.daily.challanges.leetcode;
  */
 public class FirstBadVersion {
     
-	// used concept of binary search to find the first bad version.
-    public int firstBadVersion(int n) {
-        if (n == 0 || n == 1)
-            return n;
-            
-        int low = 1;
-        int high = n;
-        int mid = 0;
-        
-        while (low <= high) {
-            mid = (low + high) >>> 1;
-            
-            if (isBadVersion(mid)) {
-                if (!isBadVersion(mid - 1))
-                    return mid;
-                else 
-                    return firstBadVersion(mid - 1);
-            } else
-                low = mid + 1;
-        }
-        
-        return mid;
-    }
-    
-    // method 2 : much better and makes less calls to isBadVersion(int) api method.
     public int findFirstBadVersion2(int n) {
-        if (n == 0)
-            return -1;
-
-        int start = 1, end = n, mid;
+        if (n == 0) return -1;
+        int start = 1, end = n;
         
         // the while loop will break when start and end are next to each other. Then check just start and end.
         while (start + 1 < end) {
-            mid = (start + end) >>> 1;
-            
-            if (!isBadVersion(mid))
-                start = mid;
-            else
-                end = mid;
+            int mid = (start + end) >>> 1;
+            if (!isBadVersion(mid)) start = mid;
+            else end = mid;
         }
 
-        if (isBadVersion(start))
-            return start;
-        else if (isBadVersion(end))
-            return end;
-        else
-            return -1; // not found
+        if (isBadVersion(start)) return start;
+        else if (isBadVersion(end)) return end;
+        else return -1; // not found
     }
     
     // mocked API method.
