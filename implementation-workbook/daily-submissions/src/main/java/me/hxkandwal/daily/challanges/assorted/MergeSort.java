@@ -33,13 +33,9 @@ public class MergeSort extends AbstractCustomTestRunner {
 	}
 	
 	private static void sort(int[] inputArray, int l, int m, int r) {
-		int mIndex = m + 1;
-		
-		for (int idx = l; idx < r; idx ++) {
-			if (idx == mIndex) 
-				mIndex ++;
+		for (int idx = l, mIndex = m + 1; idx < r; idx ++) {
+			if (idx == mIndex) mIndex ++;
 			
-			// swap point.
 			if (inputArray [idx] > inputArray [mIndex]) {
 				int temp = inputArray [idx];
 				inputArray [idx] = inputArray [mIndex];
