@@ -22,35 +22,15 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class MoveZeroes extends AbstractCustomTestRunner {
 
 	private static MoveZeroes _instance = new MoveZeroes();
-	
-	private MoveZeroes() {}
-	
-	// Method 1 : O(n) algorithm using O(1) space
+
 	public void _moveZeroes(int[] nums) {
-		if (nums == null || nums.length <= 1 )
-			return;
-		
-		for (int nzeroIdx = -1, idx = 0; idx < nums.length; idx ++) {
-			if (nums [idx] != 0) {
-				if (idx - nzeroIdx == 1)
-					nzeroIdx ++;
-				else
-					swap(nums, idx, ++ nzeroIdx);
-			}			
-		}
-	}
-	
-	public void swap (int[] nums, int pos1, int pos2) {
-		if (pos1 >= 0 && pos2 < nums.length) {
-			int swapTemp = nums [pos1];
-			nums [pos1] = nums [pos2];
-			nums [pos2] = swapTemp;
-		}
+		int uIdx = -1;
+        for (int idx = 0; idx < nums.length; idx ++) if (nums [idx] != 0) nums [ ++ uIdx] = nums [idx];
+        for (int idx = uIdx + 1; idx < nums.length; idx ++) nums [idx] = 0;
 	}
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(null, null);
 		_instance.runTest(new int[] {}, new int[] {});
 		_instance.runTest(new int[] {1, 0, 0, 3, 12}, new int[] {1, 3, 12, 0, 0});
 		_instance.runTest(new int[] {0, 1, 0, 3, 12}, new int[] {1, 3, 12, 0, 0});
