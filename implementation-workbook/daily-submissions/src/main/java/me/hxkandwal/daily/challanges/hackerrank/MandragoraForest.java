@@ -51,23 +51,20 @@ public class MandragoraForest extends AbstractCustomTestRunner {
     // how to make intelligent solution for selecting the point and choosing action on it. need O(n) solution.
     public static long _defeatMandragoras(int[] healthPoints) {
         long sum = 0;
-        for(int i = 0; i < healthPoints.length; i++) {
-            sum += healthPoints[i];
-        }
+        for (int i = 0; i < healthPoints.length; i++) sum += healthPoints[i];
 
         Arrays.sort(healthPoints);
 
         long S = 1, P = sum, var = 0;
 
-        //eat one by one and calculate the
-        //experience from the fight with the rest
-        for(int i = 0; i < healthPoints.length; i++) {
+        // eat one by one and calculate the experience from the fight with the rest
+        for (int i = 0; i < healthPoints.length; i ++) {
             S++;
-            //eaten - update the sum and new exp
+            // eaten - update the sum and new exp
             sum -= healthPoints [i];
             var = sum*S;
-            //save the biggest solution
-            if(var > P) P = var;
+            // save the biggest solution
+            if (var > P) P = var;
         }
 
         return P;
