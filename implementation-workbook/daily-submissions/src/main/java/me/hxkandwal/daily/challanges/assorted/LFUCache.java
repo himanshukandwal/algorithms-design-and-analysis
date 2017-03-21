@@ -1,6 +1,6 @@
 package me.hxkandwal.daily.challanges.assorted;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
  * 
  * Technical Reference : http://mcicpc.cs.atu.edu/archives/2012/mcpc2012/lru/lru.html
  * 
- * @author Heman
- *
+ * @author Hxkandwal
  */
+@SuppressWarnings({ "unchecked", "hiding" })
 public class LFUCache<T extends Comparable<T>> {
 
 	private final int LIMIT = 1 + 5; 	// position idx 0 has been reserved to null. (swap operations)
@@ -99,11 +99,9 @@ public class LFUCache<T extends Comparable<T>> {
 		return builder.toString();
 	}
 
-	/*
-	 * Driver code
-	 */
+	// driver method
 	public static void main(String[] args) {
-		assertEquals(new String[] {"ABC", "CDFAE", "DEFAB"},  runAndReturn("ABC!DEAF!B!"));
+		assertThat(new String[] {"ABC", "CDFAE", "DEFAB"}).isEqualTo(runAndReturn("ABC!DEAF!B!"));
 	}
 
 	// runner method
