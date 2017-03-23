@@ -2,8 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.List;
-
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -38,29 +36,39 @@ public class SerializeAndDeserializeBST extends AbstractCustomTestRunner {
 	// Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         StringBuilder build = new StringBuilder();
-        inorder (root, build);
+        preorder (root, build);
         return build.toString().trim();
     }
     
-    public void inorder (TreeNode node, StringBuilder build) {
-        if (node == null) { build.append(" #"); return; }
-        inorder (node.left, build);
+    public void preorder (TreeNode node, StringBuilder build) {
+        if (node == null) return;
         build.append(" " + node.val);
-        inorder (node.right, build);
+        preorder (node.left, build);
+        preorder (node.right, build);
     }
 
+    public class Indexer {
+    	int index;
+    	
+    	public Indexer (int index) { this.index = index; }
+    }
+    
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         String[] dataParts = data.split("\\ ");
-        return generate (dataParts, 0, dataParts.length - 1);
+        Indexer idxr = new Indexer(0);
+        return generate (dataParts, idxr, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
     
-    public TreeNode generate (String[] dataParts, int start, int end) {
-        int mid = (start + end) >>> 1;
-        if (!dataParts [mid].equals("#")) {
-            TreeNode node = new TreeNode (Integer.valueOf(dataParts [mid]));
-            node.left = generate (dataParts, start, mid - 1);
-            node.right = generate (dataParts, mid + 1, end);
+    public TreeNode generate (String[] dataParts, Indexer idxr, int min, int max) {
+        if (dataParts.length == 0 || idxr.index >= dataParts.length || dataParts [idxr.index].isEmpty()) return null;
+        int val = Integer.valueOf(dataParts [idxr.index]);
+        
+        if (val > min && val < max) {
+        	idxr.index ++;
+            TreeNode node = new TreeNode (val);
+            node.left = generate (dataParts, idxr, min, val);
+            node.right = generate (dataParts, idxr, val, max);
             return node;
         }
         return null;
