@@ -49,7 +49,6 @@ public class SerializeAndDeserializeBST extends AbstractCustomTestRunner {
 
     public class Indexer {
     	int index;
-    	
     	public Indexer (int index) { this.index = index; }
     }
     
