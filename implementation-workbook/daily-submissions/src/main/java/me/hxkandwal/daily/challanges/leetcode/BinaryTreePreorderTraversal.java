@@ -37,20 +37,18 @@ public class BinaryTreePreorderTraversal extends AbstractCustomTestRunner {
 	}
 	
 	public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        if (root != null) {
-            Stack<TreeNode> bstk = new Stack<>();
-            
-            TreeNode t = root;
-            bstk.push (root);
-            while (!bstk.isEmpty()) {
-                t = bstk.pop();
-                ans.add (t.val);
-                if (t.right != null) bstk.push (t.right);
-                if (t.left != null) bstk.push (t.left);
-            }
-        }
-        return ans;
-    }
+		List<Integer> ans = new ArrayList<>();
+		Stack<TreeNode> stk = new Stack<>();
+		stk.push(root);
+		while (!stk.isEmpty()) {
+			TreeNode node = stk.pop();
+			if (node == null)
+				continue;
+			ans.add(node.val);
+			stk.push(node.right);
+			stk.push(node.left);
+		}
+		return ans;
+	}
 	
 }
