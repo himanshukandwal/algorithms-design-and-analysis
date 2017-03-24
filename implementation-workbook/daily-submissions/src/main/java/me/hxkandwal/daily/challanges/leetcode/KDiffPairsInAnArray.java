@@ -53,7 +53,7 @@ public class KDiffPairsInAnArray extends AbstractCustomTestRunner {
             else {
                 start ++; result ++;
                 while (start < nums.length && nums[start] == nums[start - 1]) start++;
-                end = Math.max(end + 1, start + 1);
+                end = Math.max (end + 1, start + 1);
             }
         }
         

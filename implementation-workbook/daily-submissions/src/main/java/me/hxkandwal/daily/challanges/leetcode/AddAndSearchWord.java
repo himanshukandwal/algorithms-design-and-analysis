@@ -25,7 +25,7 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class AddAndSearchWord extends AbstractCustomTestRunner {
 
 	private class TrieNode {
-        char ch;
+        private char ch;
         TrieNode [] children = new TrieNode [26];
         boolean isTerminal;
         
