@@ -24,94 +24,54 @@ public class MultiplyStrings extends AbstractCustomTestRunner {
 	
 	private static MultiplyStrings _instance = new MultiplyStrings();
 	
-	private MultiplyStrings() {}
-	
-    public static String _multiply(String num1, String num2) {
-    	String first = num1, second = num2;
-    	
-    	if (num2.length() > num1.length()) { first = num2; second = num1; }
-    	int idx2 = second.length() - 1, shift = 0;
-    	
-    	StringBuilder answer = null;
-    	while (idx2 >= 0) {
-    		int idx1 = first.length() - 1;
-    		StringBuilder localAnswer = new StringBuilder();
-    		int product = 0, sum = 0, carry = 0;
-    		
-    		while (idx1 >= 0) {
-    			product = (first.charAt(idx1 --) - '0') * (second.charAt(idx2) - '0') + carry;
-    			carry = (product >= 10) ? product / 10 : 0;
-    			product = (product >= 10) ? product % 10 : product;
-    			
-    			localAnswer.append(product);
-    		}
-    		
-    		if (carry > 0) localAnswer.append(carry);
-    		localAnswer.reverse();
-    		
-    		if (shift == 0)
-				answer = localAnswer;
-    		else {
-    			StringBuilder additiveAnswer = new StringBuilder();
-    			int mIdx = answer.length() - 1;
-    			
-    			for (int idx = 0; idx < shift; idx ++) additiveAnswer.append(answer.charAt(mIdx - idx));
-    			mIdx -= shift; carry = 0;
-    			
-    			int lIdx = localAnswer.length() - 1;
-    			
-    			while (lIdx >= 0 || mIdx >= 0) {
-    				if (lIdx >= 0 && mIdx >= 0)
-    					sum = (answer.charAt(mIdx --) - '0') + (localAnswer.charAt(lIdx --) - '0') + carry;
-    				else if (lIdx >= 0)
-    					sum = (localAnswer.charAt(lIdx --) - '0') + carry;
-    				else
-    					sum = (answer.charAt(mIdx --) - '0') + carry;
-    				
-    				carry = (sum >= 10) ? sum / 10 : 0;
-    				sum = (sum >= 10) ? sum % 10 : sum;
-    				additiveAnswer.append(sum);
-    			}
-    			
-    			if (carry > 0) additiveAnswer.append(carry);
-    			
-    			answer = additiveAnswer.reverse();
-    		}
-    		
-    		idx2 --;
-    		shift ++;
-    	}
-    	
-    	for (idx2 = 0; idx2 < answer.length(); idx2 ++)
-			if (answer.charAt(idx2) != '0') break;
-    	
-    	return (idx2 == answer.length() ? "0" : answer.toString());
-    }	
-    
-    /**
-     * Amazing solution.
-     * 
-     * Read more: https://discuss.leetcode.com/topic/30508/easiest-java-solution-with-graph-explanation
-     */
-    public static String _multiplyOptimal(String num1, String num2) {
-        int m = num1.length(), n = num2.length();
-        int [] pos = new int [m + n];
-       
-        for (int i = m - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0'); 
-                int p1 = i + j, p2 = i + j + 1;
-                int sum = mul + pos[p2];
-
-                pos[p1] += sum / 10;
-                pos[p2] = (sum) % 10;
+    public static String _multiply(String s1, String s2) {
+    	StringBuilder ans = new StringBuilder();
+        
+        int idx2 = s2.length() - 1;
+        while (idx2 >= 0) {
+            int ch2 = s2.charAt(idx2) - '0';
+            
+            int idx1 = s1.length() - 1, localcarry = 0;
+            StringBuilder localProduct = new StringBuilder();
+            
+            while (idx1 >= 0) {
+                int ch1 = s1.charAt(idx1 --) - '0';
+                int innerProduct = ch1 * ch2 + localcarry;
+                localcarry = innerProduct / 10;
+                innerProduct %= 10;
+                localProduct.append (String.valueOf(innerProduct));
             }
-        }  
+            
+            if (localcarry > 0) localProduct.append (String.valueOf(localcarry));
+            
+            if (ans.length() == 0) 
+                ans.append (localProduct.toString());
+            else {
+                localcarry = 0;
+                int iidx1 = s2.length() - idx2 - 1, iidx2 = 0;
+                
+                while (iidx1 < ans.length() && iidx2 < localProduct.length()) {
+                    int cch1 = ans.charAt(iidx1 ++) - '0';
+                    int cch2 = localProduct.charAt(iidx2 ++) - '0';
+                    int sum = cch1 + cch2 + localcarry;
+                    localcarry = sum / 10;
+                    sum %= 10;
+                    ans.setCharAt (iidx1 - 1, (char) (sum + '0'));
+                }
+                
+                while (iidx2 < localProduct.length()) {
+                    int sum = localProduct.charAt(iidx2 ++) - '0' + localcarry;
+                    localcarry = sum / 10;
+                    sum %= 10;
+                    ans.append (sum);
+                }
+                
+                if (localcarry > 0) ans.append (localcarry);
+            }
+            idx2 --;
+        }
         
-        StringBuilder sb = new StringBuilder();
-        for (int p : pos) if (!(sb.length() == 0 && p == 0)) sb.append(p);
-        
-        return sb.length() == 0 ? "0" : sb.toString();
+        return (Long.valueOf(ans.toString()) == 0) ? "0" : ans.reverse().toString();
     }
     
 	// driver method
