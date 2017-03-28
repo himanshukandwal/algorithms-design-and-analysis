@@ -26,15 +26,13 @@ public class TwoSum extends AbstractCustomTestRunner {
 	
 	private static TwoSum _instance = new TwoSum();
 	
-	private TwoSum() {}
-	
     public int[] _twoSum(int[] nums, int target) {
     	Map<Integer, Integer> map = new HashMap<>();
-    	for (int idx = 0; idx < nums.length; idx ++)
+    	for (int idx = 0; idx < nums.length; idx ++) {
     		if (map.containsKey(target - nums [idx]))
     			return new int [] { map.get(target - nums [idx]), idx };
-    		else 
-    			map.put (nums [idx], idx);
+    		map.put (nums [idx], idx);
+    	}
         return new int [] {};
     }
     
