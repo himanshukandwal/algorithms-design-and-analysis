@@ -35,39 +35,37 @@ public class SerializeAndDeserializeBST extends AbstractCustomTestRunner {
 	
 	// Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        StringBuilder build = new StringBuilder();
-        preorder (root, build);
-        return build.toString().trim();
+        StringBuilder sb = new StringBuilder();
+        preOrder (root, sb);
+        if (sb.length() > 0) sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
     
-    public void preorder (TreeNode node, StringBuilder build) {
+    private void preOrder (TreeNode node, StringBuilder build) {
         if (node == null) return;
-        build.append(" " + node.val);
-        preorder (node.left, build);
-        preorder (node.right, build);
+        build.append (node.val).append(",");
+        preOrder (node.left, build);
+        preOrder (node.right, build);
     }
 
-    public class Indexer {
-    	int index;
-    	public Indexer (int index) { this.index = index; }
-    }
+    private class Index { int idx; }
     
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        String[] dataParts = data.split("\\ ");
-        Indexer idxr = new Indexer(0);
-        return generate (dataParts, idxr, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        if (data == null || data.length() == 0) return null;
+        String[] parts = data.split(",");
+        Index idx = new Index ();
+        return deserializeTree (parts, idx, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
     
-    public TreeNode generate (String[] dataParts, Indexer idxr, int min, int max) {
-        if (dataParts.length == 0 || idxr.index >= dataParts.length || dataParts [idxr.index].isEmpty()) return null;
-        int val = Integer.valueOf(dataParts [idxr.index]);
-        
+    private TreeNode deserializeTree (String[] parts, Index idx, int min, int max) {
+        if (parts == null || parts.length <= idx.idx) return null;
+        int val = Integer.valueOf(parts [idx.idx]);
         if (val > min && val < max) {
-        	idxr.index ++;
             TreeNode node = new TreeNode (val);
-            node.left = generate (dataParts, idxr, min, val);
-            node.right = generate (dataParts, idxr, val, max);
+            idx.idx ++;
+            node.left = deserializeTree (parts, idx, min, val);
+            node.right = deserializeTree (parts, idx, val, max);
             return node;
         }
         return null;
