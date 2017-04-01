@@ -2,7 +2,9 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -26,21 +28,40 @@ public class FractionToRecurringDecimal extends AbstractCustomTestRunner {
 	private static FractionToRecurringDecimal _instance = new FractionToRecurringDecimal();
 	
 	public String _fractionToDecimal(int numerator, int denominator) {
+		if (numerator == 0) return "0";
+		
+		StringBuilder ans = new StringBuilder();
+		ans.append(((numerator > 0) ^ (denominator > 0)) ? "-" : "");
+		long numer = Math.abs((long) numerator), denom = Math.abs((long) denominator);
+		
+        ans.append (numer / denom);
+        long remainder = numer % denom;       
         
-		return "";
+        if (remainder > 0) ans.append(".");
+        
+        Map<Long, Integer> remainderIndex = new HashMap<>();
+        while (!remainderIndex.containsKey (remainder) && remainder > 0) {
+            remainderIndex.put (remainder, ans.length());
+            numer = remainder * 10l;
+            ans.append (numer / denom);
+            remainder = (numer % denom);
+        }
+        
+	    if (remainder != 0) { ans.append (")"); ans.insert (remainderIndex.get (remainder).intValue(), '('); }
+        return ans.toString();
     }
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest("0", "0", "0");
-		_instance.runTest("1", "1", "10");
-		_instance.runTest("11", "1", "100");
-		_instance.runTest("101111", "10", "110001");
-		_instance.runTest("110010", "10111", "1001001");
+		_instance.runTest(1, 2, "0.5");
+		_instance.runTest(-1, -2, "0.5");
+		_instance.runTest(-1, 2, "-0.5");
+		_instance.runTest(2, 1, "2");
+		_instance.runTest(2, 3, "0.(6)");
 	}
 
-	public void runTest(final String a, final String b, final String expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { a, b });
+	public void runTest(final int numerator, int denominator, final String expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { numerator, denominator });
 
 		for (Object answer : answers)
 			assertThat((String) answer).isEqualTo(expectedOutput);
