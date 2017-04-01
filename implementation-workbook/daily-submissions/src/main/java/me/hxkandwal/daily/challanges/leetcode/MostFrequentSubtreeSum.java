@@ -1,6 +1,8 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -49,25 +51,22 @@ public class MostFrequentSubtreeSum extends AbstractCustomTestRunner {
         int maxFreqCount;
     }
     
-    public int[] findFrequentTreeSum(TreeNode root) {
+	public int[] findFrequentTreeSum(TreeNode root) {
         Stats stats = new Stats ();
         Map<Integer, Integer> map = new HashMap<>();
-        compute (root, map, stats);
-        int size = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) 
-            if (entry.getValue() == stats.maxFreqCount) size ++;
-            
-        int [] res = new int [size]; size = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) 
-            if (entry.getValue() == stats.maxFreqCount) res [size ++] = entry.getKey();
+        List<Integer> ans = new ArrayList<>();
+        compute (root, map, stats, ans);
+        int [] res = new int [ans.size()]; int idx = 0;
+        for (Integer item : ans) res [idx ++] = item;
         return res;
     }
     
-    private int compute (TreeNode node, Map<Integer, Integer> map, Stats stats) {
+    private int compute (TreeNode node, Map<Integer, Integer> map, Stats stats, List<Integer> ans) {
         if (node == null) return 0;
-        int val = node.val + compute (node.left, map, stats) + compute (node.right, map, stats);
+        int val = node.val + compute (node.left, map, stats, ans) + compute (node.right, map, stats, ans);
         map.put (val, map.getOrDefault(val, 0) + 1);
-        if (stats.maxFreqCount < map.get(val)) stats.maxFreqCount = map.get(val);
+        if (stats.maxFreqCount == map.get(val)) ans.add (val);
+        else if (stats.maxFreqCount < map.get(val)) { stats.maxFreqCount = map.get(val); ans.clear(); ans.add (val); }
         return val;
     }
     
