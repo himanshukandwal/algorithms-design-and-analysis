@@ -48,6 +48,7 @@ public class LuckBalance extends AbstractCustomTestRunner {
 			if (matrixInput [1] == 0) sum += matrixInput [0];
 			else { if (k == 0) sum -= matrixInput [0]; else { sum += matrixInput [0]; k --; } }
 		}
+		
 		return sum;
 	}
 	
