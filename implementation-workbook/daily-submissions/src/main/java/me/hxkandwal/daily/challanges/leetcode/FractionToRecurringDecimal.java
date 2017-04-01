@@ -60,7 +60,7 @@ public class FractionToRecurringDecimal extends AbstractCustomTestRunner {
 		_instance.runTest(2, 3, "0.(6)");
 	}
 
-	public void runTest(final int numerator, int denominator, final String expectedOutput) {
+	public void runTest(final int numerator, final int denominator, final String expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { numerator, denominator });
 
 		for (Object answer : answers)
