@@ -18,13 +18,17 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class GasStation extends AbstractCustomTestRunner {
 	
-	private static GasStation _instance = new GasStation();
-	
     public int _canCompleteCircuit(int[] gas, int[] cost) {
-     
-    	return 0;
+    	int start = 0, gas_needed = 0, gas_left = 0;
+        for (int idx = 0; idx < gas.length; idx ++) {
+            gas_left += gas [idx] - cost [idx];
+            if (gas_left < 0) {
+                gas_needed += -gas_left;
+                gas_left = 0;
+                start = idx + 1;
+            }
+        }
+        return (gas_left >= gas_needed) ? start : -1;
     }
     
-    
-
 }
