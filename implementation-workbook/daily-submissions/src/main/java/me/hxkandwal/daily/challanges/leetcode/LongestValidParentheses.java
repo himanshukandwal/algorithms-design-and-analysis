@@ -2,7 +2,10 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -26,21 +29,27 @@ public class LongestValidParentheses extends AbstractCustomTestRunner {
 	public LongestValidParentheses() {}
 
 	public int _longestValidParentheses(String s) {
-		char[] chArray = s.toCharArray();
-		int [] counter = new int [chArray.length + 1];
-		
-		int maxValue = 0; 
-		for (int idx = 0; idx < chArray.length; idx ++) {
-			if (chArray [idx] == '(' || idx == 0)
-				counter [idx + 1] = counter [idx];
-			else {
-				if (chArray [idx - counter[idx] - 1] == '(')
-					counter [idx + 1] = counter [idx] + 2; 
-			}	
-			maxValue = Math.max(maxValue, counter [idx + 1]);	
-		}
-		
-		return maxValue;
+		Map<Character, Character> dict = new HashMap<>();
+        dict.put ('(', ')'); dict.put ('[', ']'); dict.put ('{', '}'); 
+        
+        Stack<Object[]> stk = new Stack<>();
+        Stack<int[]> ans = new Stack<>();
+        int max = 0;
+        for (int idx = 0; idx < s.length(); idx ++) {
+            char ch = s.charAt (idx);
+            if (dict.containsKey (ch)) stk.push (new Object [] { dict.get (ch), idx });
+            else {
+                if (!stk.isEmpty() && ch == (Character) stk.peek() [0]) {
+                    int pidx = (int) stk.pop() [1];
+                    int len = idx - pidx + 1;
+                    while (!ans.isEmpty() && ans.peek() [0] > pidx) ans.pop();
+                    if (!ans.isEmpty() && ans.peek() [0] == pidx - 1) len += ans.pop () [1];
+                    max = Math.max (max, len);
+                    ans.push (new int [] { idx , len });
+                }
+            }
+        }
+        return max;
 	}
 
 	// driver method
@@ -50,7 +59,7 @@ public class LongestValidParentheses extends AbstractCustomTestRunner {
 		_instance.runTest("(()))(()()", 4);
 		_instance.runTest("(()((()()", 4);
 		_instance.runTest("(()((()())))", 12);
-		_instance.runTest("(()((()()))", 8);
+		_instance.runTest("(()((()()))", 10);
 		_instance.runTest("(", 0);
 		_instance.runTest("(((", 0);
 		_instance.runTest(")))", 0);
