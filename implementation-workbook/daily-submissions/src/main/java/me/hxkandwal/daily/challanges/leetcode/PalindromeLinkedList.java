@@ -25,11 +25,10 @@ public class PalindromeLinkedList extends AbstractCustomTestRunner {
     }
     
     private ListNode recurse (ListNode node, ListNode head) {
-        if (node == null) return  head;
-        ListNode res = recurse (node.next, head);
-        if (res == null) return res;
-        else if (res.val == node.val) return (res.next == null ? res : res.next);
-        else return null;
+    	if (node == null) return head;
+        ListNode res = recurse (head, node.next);
+        if (res == null || res.val != node.val) return null;
+        else return (res.next == null) ? head : res.next;
     }
     
 }
