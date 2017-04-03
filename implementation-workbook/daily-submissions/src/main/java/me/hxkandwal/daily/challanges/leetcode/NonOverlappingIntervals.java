@@ -46,11 +46,11 @@ public class NonOverlappingIntervals extends AbstractCustomTestRunner {
 	}
 	
 	public int _eraseOverlapIntervals(Interval[] intervals) {
-		Arrays.sort (intervals, (a, b) -> a.start - b.start == 0 ? a.end - b.end : a.start - b.start);
+		Arrays.sort (intervals, (a, b) -> a.end - b.end);
         int rejects = 0, end = -1;
         for (Interval interval : intervals)
             if (end == -1 || end <= interval.start) end = interval.end;
-            else { end = Math.min (end, interval.end); rejects ++; }
+            else rejects ++;
         return rejects;
     }
 	
