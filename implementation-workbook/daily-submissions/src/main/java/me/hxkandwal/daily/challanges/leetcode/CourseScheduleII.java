@@ -1,9 +1,8 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -36,37 +35,37 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class CourseScheduleII extends AbstractCustomTestRunner {
 
-	public static class Node {
+	private static class Node {
         int val;
-        List<Node> in = new ArrayList<>();
+        Node (int val) { this.val = val; }
         List<Node> out = new ArrayList<>();
-        int indegree;
-        
-        public Node (int val) { this.val = val; }
+        List<Node> in = new ArrayList<>();
     }
     
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        List <Node> nodes = new ArrayList<>();
+        int [] ans = new int [numCourses];
+        List<Node> nodes = new ArrayList<>();
         for (int idx = 0; idx < numCourses; idx ++) nodes.add (new Node (idx));
-        
-        for (int[] pre : prerequisites) {
-            nodes.get (pre [0]).out.add (nodes.get (pre [1]));
-            nodes.get (pre [1]).in.add (nodes.get (pre [0]));
+        for (int [] prereq : prerequisites) {
+            int course = prereq [0], pre = prereq [1];
+            nodes.get (course).in.add (nodes.get (pre));
+            nodes.get (pre).out.add (nodes.get (course));
         }
         
-        Queue<Node> queue = new LinkedList<>();
-        for (Node node : nodes) 
-            if ((node.indegree = node.in.size()) == 0) queue.offer (node);
-            
-        int idx = numCourses - 1;
-        int[] ans = new int [numCourses]; 
-        while (!queue.isEmpty()) {
-            Node node = queue.poll ();
-            ans [idx --] = node.val;
-            for (Node otherNode : node.out) 
-                if (-- otherNode.indegree == 0) queue.offer (otherNode);
+        boolean foundCourse = true; int idx = 0;
+        while (foundCourse) {
+            foundCourse = false;
+            for (Iterator<Node> nodeIterator = nodes.iterator(); nodeIterator.hasNext();) {
+                Node node = nodeIterator.next();
+                if (node.in.size() == 0) { 
+                    foundCourse = true; ans [idx ++] = node.val; 
+                    for (Node dependentNode : node.out) dependentNode.in.remove (node);
+                    node.out.clear();
+                    nodeIterator.remove();
+                }
+            }
         }
-        return (idx < 0) ? ans : new int[] {};
+        return idx == numCourses ? ans : new int [] {};
     }
     
 }
