@@ -24,8 +24,7 @@ public class CopyListWithRandomPointer extends AbstractCustomTestRunner {
 	};
 		 
 	public RandomListNode copyRandomList(RandomListNode head) {
-        Map<RandomListNode, RandomListNode> seen = new HashMap<>();
-        return copyDeepRandomList (head, seen);
+        return copyDeepRandomList (head, new HashMap<>());
     }
     
     private RandomListNode copyDeepRandomList(RandomListNode node, Map<RandomListNode, RandomListNode> seen) {
