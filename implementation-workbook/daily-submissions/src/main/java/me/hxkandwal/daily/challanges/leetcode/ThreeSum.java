@@ -24,13 +24,27 @@ public class ThreeSum extends AbstractCustomTestRunner {
 
 	private static ThreeSum _instance = new ThreeSum();
 
-	private ThreeSum() {}
-
 	public List<List<Integer>> _threeSum(int[] nums) {
-		List<List<Integer>> answer = new ArrayList<>();
-		
-		
-		return answer;
+		List<List<Integer>> res =  new ArrayList<> ();
+        Arrays.sort (nums);
+        for (int idx = 0; idx < nums.length - 2; idx ++) {
+            if (idx == 0 || nums [idx - 1] != nums [idx]) {
+                int low = idx + 1, high = nums.length - 1, sum = -nums [idx];
+                
+                while (low < high) {
+                    if (nums [low] + nums [high] == sum) {
+                        res.add (Arrays.asList (nums [idx], nums [low], nums [high]));
+                        
+                        while (low < high && nums [low] == nums [low + 1]) low ++;
+                        while (low < high && nums [high] == nums [high - 1]) high --;
+                        low ++; high --;
+                    } 
+                    else if (nums [low] + nums [high] < sum) low ++;
+                    else high --;
+                }
+            }
+        }
+        return res;
 	}
 
 }
