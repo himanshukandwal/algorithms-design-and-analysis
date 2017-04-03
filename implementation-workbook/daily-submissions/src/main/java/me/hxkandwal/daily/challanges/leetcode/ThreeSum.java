@@ -22,8 +22,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class ThreeSum extends AbstractCustomTestRunner {
 
-	private static ThreeSum _instance = new ThreeSum();
-
 	public List<List<Integer>> _threeSum(int[] nums) {
 		List<List<Integer>> res =  new ArrayList<> ();
         Arrays.sort (nums);
