@@ -30,6 +30,6 @@ public class ComplexNumberMultiplication extends AbstractCustomTestRunner {
 	public String complexNumberMultiply(String a, String b) {
 		
 		return null;
-    }
+    }	
 
 }
