@@ -64,13 +64,11 @@ public class InsertDeleteGetRandomO1 extends AbstractCustomTestRunner {
     
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     public boolean remove(int val) {
-        if (!map.containsKey (val)) return false;
+    	if (!map.containsKey (val)) return false;
         int index = map.get (val);
-        if (index < data.size() - 1) {
-            int lastOne = data.get (data.size() - 1);
-            map.put (lastOne, index);
-            data.set (index, lastOne);
-        }
+        int lastOne = data.get (data.size() - 1);
+        map.put (lastOne, index);
+        data.set (index, lastOne);
         map.remove (val);
         data.remove (data.size () - 1);
         return true;
