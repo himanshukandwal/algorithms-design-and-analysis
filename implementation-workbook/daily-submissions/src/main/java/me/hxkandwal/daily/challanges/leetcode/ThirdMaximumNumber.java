@@ -39,24 +39,15 @@ public class ThirdMaximumNumber extends AbstractCustomTestRunner {
 	private ThirdMaximumNumber() {}
 	
     public int _thirdMax(int[] nums) {
-        Integer max1 = null, max2 = max1, max3 = max1;
+    	Integer max = null, smax = null, tmax = null;
         for (int num : nums) {
-        	if (max1 == null) { max1 = num; }
-        	else {
-        		if (max1 == null || num >= max1) { 
-        			if (num != max1)  { 
-        				max3 = (max2 != null ? max2 : max3); max2 = max1; max1 = num; 
-        			}
-        		} else if (max2 == null || num >= max2) {
-        			if (max2 == null) { max2 = num; }
-        			else if (num != max2)  { 
-        				max3 = max2; max2 = num; 
-        			}
-        		}
-        		else if (max3 == null || num >= max3) max3 = num;
-        	}
+            if (max == null || num > max) {
+                tmax = smax; smax = max; max = num;
+            } else if (num < max && (smax == null || num > smax)) {
+                tmax = smax; smax = num;
+            } else if (smax != null && num < smax && (tmax == null || num > tmax)) tmax = num;
         }
-    	return max3 == null ? max1 : max3;
+        return (tmax == null) ? max : tmax;
     }
     
 	// driver method
