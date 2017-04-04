@@ -18,8 +18,8 @@ public class MaximumProductSubarray extends AbstractCustomTestRunner {
         int max = nums [0], min = max, maxProduct = max;
         for (int idx = 1; idx < nums.length; idx ++) {
             int num = nums [idx], mx = max, mn = min;
-            max = Math.max (Math.max (mx * num, num), Math.max (mn * num, num)); 
-            min = Math.min (Math.min (mx * num, num), Math.min (mn * num, num)); 
+            max = Math.max (num, Math.max (mx * num, mn * num)); 
+            min = Math.min (num, Math.min (mx * num, mn * num)); 
             maxProduct = Math.max (maxProduct, max);
         }
         return maxProduct;
