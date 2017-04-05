@@ -2,9 +2,7 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -25,8 +23,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 public class LongestValidParentheses extends AbstractCustomTestRunner {
 	
 	private static LongestValidParentheses _instance = new LongestValidParentheses();
-	
-	public LongestValidParentheses() {}
 
 	public int _longestValidParentheses(String s) {
 		Stack<Integer> stk = new Stack<>();

@@ -1,5 +1,9 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -24,6 +28,45 @@ public class LongestSubstringWithAtLeastKRepeatingCharacters extends AbstractCus
 	
 	private static LongestSubstringWithAtLeastKRepeatingCharacters _instance = new LongestSubstringWithAtLeastKRepeatingCharacters();
 	
-	
+	/**
+	 * Concise python:
+	 * def longestSubstring(self, s, k):
+	 * 	for c in set(s):
+	 * 		if s.count(c) < k:
+	 * 			return max(self.longestSubstring(t, k) for t in s.split(c))
+	 *  return len(s)
+	 */
+	public int _longestSubstring(String s, int k) {
+		int [] map = new int [256];
+        for (char ch : s.toCharArray()) map [ch] ++;
+        int max = 0; boolean foundIncorrect = false;
+        int pidx = -1;
+        for (int idx = 0; idx < s.length(); idx ++) {
+            if (map [s.charAt (idx)] < k) {
+                foundIncorrect = true;
+                if (pidx >= 0) max = Math.max (max, _longestSubstring (s.substring (pidx, idx), k));
+                pidx = -1;
+            } else if (pidx == -1) pidx = idx;
+        }
+        if (!foundIncorrect) max = Math.max (max, s.length ());
+        else if (pidx >= 0) max = Math.max (max, _longestSubstring (s.substring (pidx, s.length ()), k));
+        return max;
+    }
 
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest("aaabb", 3, 3);
+		_instance.runTest("ababbc", 2, 5);
+		_instance.runTest("bbaaacbd", 3, 3);
+	}
+
+	public void runTest(final String s, final int k, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { s, k });
+
+		for (Object answer : answers)
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
+	}
+	
 }
