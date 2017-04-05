@@ -29,7 +29,7 @@ public class JSONtoXMLConverter extends AbstractCustomTestRunner {
 	public static class ConverterImpl implements IConverter {
 		
 		// state variables
-		StringTokenizer tokenizer;							// used to access json tokens in a consistent fashion.
+		private StringTokenizer tokenizer;					// used to access json tokens in a consistent fashion.
 		private StringBuilder ans = new StringBuilder();	// final answer build-up.
 		private String elementName;							// used to store the element-name that is being created during the marshaling process.
 		private int arraysOpen = 0;							// used to store the count of the nested array opened during the marshaling process.
