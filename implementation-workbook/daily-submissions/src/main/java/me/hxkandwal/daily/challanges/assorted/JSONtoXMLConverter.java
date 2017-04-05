@@ -157,16 +157,14 @@ public class JSONtoXMLConverter extends AbstractCustomTestRunner {
 		System.out.println(new ConverterImpl().convert("true"));
 		System.out.println(new ConverterImpl().convert(
 			"{ "
-				+ "\"organization\" : {"
-		        	+ "\"name\" : \"RiskSense\","
-			        + "\"type\" : \"Inc\","
-			        + "\"building_number\" : 4,"
-			        + "\"floating\" : -17.4,"
-			        + "\"null_test\": null" 
+				+ "\"work place\" : {"
+		        	+ "\"name\" : \"Himanshu\","
+			        + "\"type\" : \"Person\","
+			        + "\"age\" : 29," 
 			    + "}, "
-			    + "\"security_related\" : true,"
-			    + "\"array_example0\" : [\"red\", \"green\", \"blue\", \"black\"],"
-			    + "\"array_example1\" : [1, \"red\", [{ \"nested\" : true}], { \"obj\" : false}]"
+			    + "\"male\" : true,"
+			    + "\"array_0\" : [\"red\", \"green\", \"blue\", \"black\"],"
+			    + "\"array_1\" : [1, \"red\", [{ \"nested\" : true}], { \"obj\" : false}]"
 		   +"}"));
 	}
 	
