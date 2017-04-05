@@ -164,7 +164,7 @@ public class JSONtoXMLConverter extends AbstractCustomTestRunner {
 			    + "}, "
 			    + "\"male\" : true,"
 			    + "\"array_0\" : [\"red\", \"green\", \"blue\", \"black\"],"
-			    + "\"array_1\" : [1, \"red\", [{ \"nested\" : true}], { \"obj\" : false}]"
+			    + "\"array_1\" : [1, \"red\", [{ \"inner object\" : true}], { \"obj\" : false}]"
 		   +"}"));
 	}
 	
