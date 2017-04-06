@@ -27,40 +27,18 @@ public class IntersectionOfTwoArrays2 extends AbstractCustomTestRunner {
 	private static IntersectionOfTwoArrays2 _instance = new IntersectionOfTwoArrays2();
 
 	public int[] _intersection(int[] nums1, int[] nums2) {
-		if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0)
-			return new int[] {};
-		
-		Arrays.sort(nums1);
-		Arrays.sort(nums2);
-		
-		int idx1 = 0;
-		int idx2 = 0;
-		
-		List<Integer> same = new ArrayList<Integer>();
-		while (idx1 < nums1.length && idx2 < nums2.length) {
-			if (nums1[idx1] > nums2 [idx2])
-				idx2 ++;
-			else if (nums1[idx1] < nums2 [idx2])
-				idx1 ++;
-			else {
-				// check will work as the arrays are sorted. will keep unique things in the list. 
-				same.add(nums1[idx1]);
-				
-				idx1 ++;
-				idx2 ++;
-			}	
-		}
-		
-		if (same.size() == 0)
-			return new int[] {};
-		else {
-			int[] res = new int [same.size()];
-			int idx = 0;
-			for (Integer i : same) 
-				res [idx ++] = i;
-			
-			return res;
-		}
+		Arrays.sort (nums1);
+        Arrays.sort (nums2);
+        List<Integer> ans = new ArrayList<>();
+        int idx1 = 0, idx2 = 0;
+        while (idx1 < nums1.length && idx2 < nums2.length) {
+            if (nums1 [idx1] > nums2 [idx2]) idx2 ++;
+            else if (nums1 [idx1] < nums2 [idx2]) idx1 ++;
+            else { ans.add (nums1 [idx1]); idx1 ++; idx2 ++; }
+        }
+        int [] ansArr = new int [ans.size()];
+        for (int idx = 0; idx < ans.size(); idx ++) ansArr [idx] = ans.get (idx);
+        return ansArr;
 	}
 	
 	// driver method
