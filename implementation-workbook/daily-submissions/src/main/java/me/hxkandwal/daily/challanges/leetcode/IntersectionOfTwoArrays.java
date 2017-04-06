@@ -2,7 +2,6 @@ package me.hxkandwal.daily.challanges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,41 +22,18 @@ public class IntersectionOfTwoArrays extends AbstractCustomTestRunner {
 	private static IntersectionOfTwoArrays _instance = new IntersectionOfTwoArrays();
 
 	public int[] _intersection(int[] nums1, int[] nums2) {
-		if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0)
-			return new int[] {};
-		
-		Arrays.sort(nums1);
-		Arrays.sort(nums2);
-		
-		int idx1 = 0;
-		int idx2 = 0;
-		
-		List<Integer> same = new ArrayList<Integer>();
-		while (idx1 < nums1.length && idx2 < nums2.length) {
-			if (nums1[idx1] > nums2 [idx2])
-				idx2 ++;
-			else if (nums1[idx1] < nums2 [idx2])
-				idx1 ++;
-			else {
-				// check will work as the arrays are sorted. will keep unique things in the list. 
-				if (same.isEmpty() || same.get(same.size() -1) != nums1[idx1])
-					same.add(nums1[idx1]);
-				
-				idx1 ++;
-				idx2 ++;
-			}	
-		}
-		
-		if (same.size() == 0)
-			return new int[] {};
-		else {
-			int[] res = new int [same.size()];
-			int idx = 0;
-			for (Integer i : same) 
-				res [idx ++] = i;
-			
-			return res;
-		}
+		Arrays.sort (nums1);
+        Arrays.sort (nums2);
+        int count = 0;
+        for (int idx1 = 0; idx1 < nums1.length; idx1 ++)
+            if (idx1 == 0 || nums1 [idx1 - 1] != nums1 [idx1]) 
+                if (Arrays.binarySearch (nums2, nums1 [idx1]) >= 0) count ++;
+        
+        int [] ans = new int [count];
+        for (int idx1 = 0, idx = 0; idx1 < nums1.length; idx1 ++)
+            if (idx1 == 0 || nums1 [idx1 - 1] != nums1 [idx1]) 
+                if (Arrays.binarySearch (nums2, nums1 [idx1]) >= 0) ans [idx ++] = nums1 [idx1];
+        return ans;
 	}
 	
 	// driver method
