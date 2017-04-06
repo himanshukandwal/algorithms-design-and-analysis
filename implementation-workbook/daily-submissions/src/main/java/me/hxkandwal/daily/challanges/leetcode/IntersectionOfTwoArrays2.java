@@ -45,9 +45,6 @@ public class IntersectionOfTwoArrays2 extends AbstractCustomTestRunner {
 	public static void main(String[] args) {
 		_instance.runTest(new int[] {1, 2, 2, 1}, new int[] {2, 2}, new int[] {2, 2});
 		_instance.runTest(new int[] {1, 2, 3, 1}, new int[] {2, 3}, new int[] {2, 3});
-		_instance.runTest(null, new int[] {2, 3}, new int[] {});
-		_instance.runTest(null, null, new int[] {});
-		_instance.runTest(new int[] {}, null, new int[] {});
 		_instance.runTest(new int[] {}, new int[] {}, new int[] {});
 	}
 	
