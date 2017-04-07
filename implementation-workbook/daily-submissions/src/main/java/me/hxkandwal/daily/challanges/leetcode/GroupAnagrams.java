@@ -28,7 +28,6 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  */
 public class GroupAnagrams extends AbstractCustomTestRunner {
 	
-	// Simple usage of hashmap.
     public List<List<String>> _groupAnagrams(String[] strs) {
     	List<List<String>> answer = new ArrayList<>();
     	Map<Integer, List<String>> dp = new HashMap<>();
