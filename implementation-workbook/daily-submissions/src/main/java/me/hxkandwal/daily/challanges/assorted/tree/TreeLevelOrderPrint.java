@@ -24,8 +24,6 @@ public class TreeLevelOrderPrint extends AbstractCustomTestRunner {
 	
 	private static TreeLevelOrderPrint _instance = new TreeLevelOrderPrint();
 	
-	private TreeLevelOrderPrint() {}
-	
 	public static String _levelOrderPrinting(BinaryTree root) {
 		if (root == null)
 			return null;
