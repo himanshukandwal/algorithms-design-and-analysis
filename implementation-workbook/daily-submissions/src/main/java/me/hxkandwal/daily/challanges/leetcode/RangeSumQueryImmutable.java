@@ -19,11 +19,11 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-public class RangeSumQuery extends AbstractCustomTestRunner {
+public class RangeSumQueryImmutable extends AbstractCustomTestRunner {
 
 	private int[] nums;
 	
-	public RangeSumQuery (int[] nums) {
+	public RangeSumQueryImmutable (int[] nums) {
         this.nums = nums;
         for (int idx = 1; idx < nums.length; idx ++) nums [idx] += nums [idx - 1];
     }
