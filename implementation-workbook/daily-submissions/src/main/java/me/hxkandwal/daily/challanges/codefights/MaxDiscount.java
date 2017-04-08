@@ -2,6 +2,7 @@ package me.hxkandwal.daily.challanges.codefights;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
@@ -29,13 +30,17 @@ public class MaxDiscount extends AbstractCustomTestRunner {
 	private static MaxDiscount _instance = new MaxDiscount();
 
 	public int _maxDiscount(int[] prices) {
-		return maxDiscountInner(prices, 0);
+		int [] dp = new int [prices.length];
+		Arrays.fill(dp, -1);
+		return maxDiscountInner(prices, dp, 0);
 	}
 	
-	private static int maxDiscountInner (int [] prices, int index) {
+	private static int maxDiscountInner (int [] prices, int [] dp, int index) {
 		if (index + 2 >= prices.length) return 0;
+		if (dp [index] != -1) return dp [index];
 		int min = Math.min (prices [index], Math.min (prices [index + 1], prices [index + 2]));
-		return Math.max (min + maxDiscountInner (prices, index + 3), maxDiscountInner (prices, index + 1));
+		int max =  Math.max (min + maxDiscountInner (prices, dp, index + 3), maxDiscountInner (prices, dp, index + 1));
+		return dp [index] = max;
 	}
 	
     // driver method
