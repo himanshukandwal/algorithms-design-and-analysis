@@ -1,5 +1,9 @@
 package me.hxkandwal.daily.challanges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.List;
+
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
 /**
@@ -15,5 +19,37 @@ import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class IntegerBreak extends AbstractCustomTestRunner {
+	
+	private static IntegerBreak _instance = new IntegerBreak();
+	
+    public int _integerBreak(int n) {
+    	if (n <= 1) return 0;
+    	int [] dp = new int [n + 1];
+    	dp [1] = 1;
+        for (int idx = 2; idx <= n; idx ++) integerBreakInner (dp, idx);
+        return dp [n];
+    }
+    
+    private int integerBreakInner (int [] dp, int n) {
+        int ans = 0;
+        for (int idx = 1; idx <= n/2; idx ++)
+            ans = Math.max (ans, Math.max(idx, dp [idx]) * Math.max((n - idx), dp [n - idx]));    
+        return dp [n] = ans;
+    }
+
+    // driver method
+    public static void main(String[] args) {
+        _instance.runTest(10, 36);
+        _instance.runTest(8, 18);
+    }
+
+    public void runTest(final int n, final int expectedOutput) {
+        List<Object> answers = runAll(getClass(), new Object[] { n });
+
+        for (Object answer : answers)
+            assertThat((Integer) answer).isEqualTo(expectedOutput);
+
+        System.out.println("ok!");
+    }
 
 }
