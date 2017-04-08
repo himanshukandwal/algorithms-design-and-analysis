@@ -37,8 +37,6 @@ public class AlternatingCharacters extends AbstractCustomTestRunner {
 
     private static AlternatingCharacters _instance = new AlternatingCharacters();
 
-    private AlternatingCharacters() {}
-
     public static int _minDeletions(String input) {
         int deletions = 0; char previousChar = ' ';
         for (int idx = 0; idx < input.length(); idx ++) {
