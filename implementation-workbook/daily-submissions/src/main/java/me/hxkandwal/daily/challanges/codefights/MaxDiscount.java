@@ -29,25 +29,19 @@ public class MaxDiscount extends AbstractCustomTestRunner {
 	private static MaxDiscount _instance = new MaxDiscount();
 
 	public int _maxDiscount(int[] prices) {
-		int [] dp = new int [prices.length];
-		for (int idx = 0; idx < prices.length - 2; idx ++)
-			dp [idx] = Math.min (prices [idx], Math.min (prices [idx + 1], prices [idx + 2]));
-		
-		int idx = 0, max = 0;
-		while (idx < prices.length - 2) {
-			int lmax = Math.max (dp [idx], Math.max (dp [idx + 1], dp [idx + 2]));
-			if (lmax == dp [idx]) idx += 3;
-			else if (lmax == dp [idx + 1]) idx += 4;
-			else if (lmax == dp [idx + 2]) idx += 5;
-			max += lmax;
-		}
-		return max;
+		return maxDiscountInner(prices, 0);
+	}
+	
+	private static int maxDiscountInner (int [] prices, int index) {
+		if (index + 2 >= prices.length) return 0;
+		int min = Math.min (prices [index], Math.min (prices [index + 1], prices [index + 2]));
+		return Math.max (min + maxDiscountInner (prices, index + 3), maxDiscountInner (prices, index + 1));
 	}
 	
     // driver method
     public static void main(String[] args) {
-//    	_instance.runTest(new int [] { 1, 2, 7, 8, 10, 2 }, 7);
-//        _instance.runTest(new int [] { 10, 20, 17, 7, 16, 19, 16 }, 26);
+    	_instance.runTest(new int [] { 1, 2, 7, 8, 10, 2 }, 7);
+        _instance.runTest(new int [] { 10, 20, 17, 7, 16, 19, 16 }, 26);
         _instance.runTest(new int [] { 85, 23, 22, 94, 27, 23, 86, 25, 85, 90, 73, 67 }, 137);
     }
 
