@@ -3,11 +3,10 @@ package me.hxkandwal.daily.challanges.codefights;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+import java.util.Set;
 
 import me.hxkandwal.daily.challanges.AbstractCustomTestRunner;
 
@@ -31,51 +30,53 @@ public class StringsRearrangement extends AbstractCustomTestRunner {
 
 	public boolean _stringsRearrangement(String[] inputArray) {
 		if (inputArray.length == 0) return true;
+		int len = inputArray [0].length();
+		 
 		Map<String, Integer> map = new HashMap<>();
 		for (String str : inputArray) map.put(str, map.getOrDefault(str, 0) + 1);
 		
-		Queue<String> queue = new LinkedList<>();
-		for (Iterator<Map.Entry<String, Integer>> entryIterator = map.entrySet().iterator(); entryIterator.hasNext();) {
-			Map.Entry<String, Integer> entry = entryIterator.next();
-			if (entry.getValue() == 1) queue.offer(entry.getKey());
-		}
+		Map<String, Set<String>> graph = new HashMap<>();
+		for (String str : inputArray) graph.putIfAbsent(str, new HashSet<>());
 		
-		if (queue.isEmpty()) queue.offer(inputArray [0]);
-		while (!queue.isEmpty()) {
-			String start = queue.poll();
-			int len = start.length();
-			
-			Map<String, Integer> iMap = new HashMap<>(map);
-			iMap.put(start, map.get(start) - 1);
-			if (iMap.get(start) == 0) iMap.remove(start);
-			
-			boolean found = true;
-			while (found) {
-				found = false;
-				for (int idx = 0; idx < len; idx ++) {
-					for (int cs = 0; cs < 26; cs ++) {
-						char ch = (char) ('a' + cs);
-						String next = start.substring(0, idx) + ch + start.substring(idx + 1);
-						if (!next.equals(start) && iMap.containsKey(next)) {
-							if (iMap.put(next, iMap.get(next) - 1) == 1) iMap.remove(next);
-							start = next;
-							found = true;
-							break;
-						}
-					}
-					if (found) break;
+		for (String str : graph.keySet()) {
+			for (int idx = 0; idx < len; idx ++) {
+				for (int cs = 0; cs < 26; cs ++) {
+					char ch = (char) ('a' + cs);
+					if (ch == str.charAt(idx)) continue;
+					String next = str.substring(0, idx) + ch + str.substring(idx + 1);
+					if (graph.containsKey (next)) { graph.get(str).add(next); graph.get(next).add(str); }
 				}
 			}
-			if (iMap.size() == 0) return true; 
+		}
+		int size = inputArray.length;
+		
+		for (String str : graph.keySet()) {
+			Map<String, Integer> coverage = new HashMap<>();
+			for (String key : map.keySet()) coverage.put(key, 0);
+
+			String curr = str; int count = 1;
+			while (coverage.get(curr) < map.get(curr)) {
+				coverage.put(curr, coverage.get(curr) + 1);
+
+				for (String next : graph.get(curr)) {
+					if (coverage.get(next) < map.get(next)) {
+						curr = next; count ++;
+						break;
+					}
+				}
+			}
+			
+			if (count == size) return true;
 		}
 		return false;
 	}
-
+	
     // driver method
     public static void main(String[] args) {
     	_instance.runTest(new String[] { "q" }, true);
     	_instance.runTest(new String[] { "q", "q" }, false);
 		_instance.runTest(new String[] { "abc", "abx", "axx", "abx", "abc" }, true);
+		_instance.runTest(new String[] { "abc", "abx", "axx", "abc" }, false);
 		_instance.runTest(new String[] { "aba", "bbb", "bab" }, false);
 		_instance.runTest(new String[] { "ab", "bb", "aa" }, true);
 		_instance.runTest(new String[] { "zzzzab", "zzzzbb", "zzzzaa" }, true);
