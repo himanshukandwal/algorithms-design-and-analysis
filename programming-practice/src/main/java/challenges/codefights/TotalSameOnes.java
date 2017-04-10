@@ -34,30 +34,12 @@ public class TotalSameOnes extends AbstractCustomTestRunner {
 	private static TotalSameOnes _instance = new TotalSameOnes();
 
 	public int _totalSameOnes(int k) {
-		return combinations (8, count (k));
-	}
+		int n = 0, c = 0;
+		while (n++ < k)
+			if (Long.bitCount(n) == Long.bitCount(k))
+				c++;
 
-	int combinations (int n, int k) {
-		int ans = 1;
-		k = k > n - k ? n - k : k;
-		int j = 1;
-		for (; j <= k; j++, n--) {
-			if (n % j == 0) {
-				ans *= n / j;
-			} else if (ans % j == 0) {
-				ans = ans / j * n;
-			} else {
-				ans = (ans * n) / j;
-			}
-		}
-		return ans;
-	}
-	
-	private int count (int n) {
-	    int count = 0;
-	    for (int idx = 31; idx >= 0; idx --) 
-	        if ((n >> idx & 1) == 1) count ++;
-	    return count;
+		return c;
 	}
 	
     // driver method
