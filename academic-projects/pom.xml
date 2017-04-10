@@ -47,5 +47,6 @@
     <module>shortest-path-graph-algorithms</module>
     <module>minimum-spanning-tree-graph-algorithms</module>
     <module>eular-hierholzer-graph-algorithm</module>
+    <module>big-number-arithmetic</module>
   </modules>
 </project>

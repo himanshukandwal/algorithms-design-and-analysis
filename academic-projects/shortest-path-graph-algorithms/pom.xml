@@ -8,11 +8,10 @@
 		<artifactId>academic-projects</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>shortest-path-graph-algorithms</artifactId>
-	
 	<name>shortest-path-graph-algorithms</name>
-	<url>http://maven.apache.org</url>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

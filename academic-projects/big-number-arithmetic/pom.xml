@@ -8,11 +8,10 @@
 		<artifactId>academic-projects</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>eular-hierholzer-graph-algorithm</artifactId>
 
-	<name>eular-hierholzer-graph-algorithm</name>
+	<artifactId>big-number-arithmetic</artifactId>
+	<name>big-number-arithmetic</name>
 
-	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
