@@ -1,5 +1,9 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.List;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -23,9 +27,37 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class GuessNumberHigherOrLowerII extends AbstractCustomTestRunner {
+	
+	private static GuessNumberHigherOrLowerII _instance = new GuessNumberHigherOrLowerII();
 
-    public int getMoneyAmount(int n) {
-    	return 0;
+	public int _getMoneyAmount(int n) {
+		int [][] dp = new int [n + 1][n + 1];
+        return minimax (dp, 1, n);
     }
+    
+    private int minimax (int [][] dp, int start, int end) {
+        if (start >= end) return 0;
+        if (dp [start][end] != 0) return dp [start][end];
+        int res = Integer.MAX_VALUE;
+        for (int k = start; k <= end; k ++) {
+            int local = k + Math.max (minimax (dp, start, k - 1), minimax (dp, k + 1, end));
+            res = Math.min (res, local);
+        }   
+        return dp [start][end] = res;
+    }
+	
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(10, 16);
+	}
+
+	public void runTest(final int num, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { num });
+
+		for (Object answer : answers)
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
+	}
     
 }
