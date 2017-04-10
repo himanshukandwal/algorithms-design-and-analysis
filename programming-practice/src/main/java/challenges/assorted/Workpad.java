@@ -10,5 +10,7 @@ public class Workpad {
 		
 		System.out.println(Arrays.binarySearch(list.toArray(new Integer [0]), 3, (a, b) -> Integer.compare(a, b)));
 	
+		int num = 1;
+		System.out.println(num << 1);
 	}
 }
