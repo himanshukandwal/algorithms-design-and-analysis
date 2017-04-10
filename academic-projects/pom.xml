@@ -45,5 +45,6 @@
   <modules>
     <module>multi-dimensional-search-structure</module>
     <module>shortest-path-graph-algorithms</module>
+    <module>minimum-spanning-tree-graph-algorithms</module>
   </modules>
 </project>
