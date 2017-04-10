@@ -83,16 +83,16 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
         _instance.runTest(new int[] { -10 }, new long[] { -10, -10 });
         _instance.runTest(new int[] {1, -1, -1, -1, -1, 5}, new long[]{5, 6});
 
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-1.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-2.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-3.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-4.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-5.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-6.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-7.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-8.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-9.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarray-Big-10.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-1.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-2.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-3.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-4.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-5.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-6.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-7.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-8.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-9.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarray-Big-10.txt");
     }
 
     private static void testComplex(String filename) throws FileNotFoundException {

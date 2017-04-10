@@ -91,7 +91,7 @@ public class RotateFunction extends AbstractCustomTestRunner {
 		_instance.runTest(new int[] { }, 0);
 		_instance.runTest(new int[] { -2147483648, -2147483648 },  -2147483648);
 		
-        testComplex ("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/RotateFunction-1.txt", 1491052486);
+        testComplex ("/src/test/resources/challenges/leetcode/RotateFunction-1.txt", 1491052486);
     }
 
     private static void testComplex(String filename, final int expectedOutput) throws FileNotFoundException {

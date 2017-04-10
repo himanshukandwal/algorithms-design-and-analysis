@@ -58,7 +58,7 @@ public class BestTimeToBuyAndSellStockIV extends AbstractCustomTestRunner {
 		_instance.runTest(1, new int [] { 1, 2 }, 1);
 		_instance.runTest(2, new int[] { 6, 1, 3, 2, 4, 7 }, 7);
 		
-		testComplex("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/Best-Time-To-Buy-And-Sell-Stock-IV-1.txt", 1648961);
+		testComplex("/src/test/resources/challenges/leetcode/Best-Time-To-Buy-And-Sell-Stock-IV-1.txt", 1648961);
 	}
 	
 	private static void testComplex(final String filename, final int expectedOutput) throws FileNotFoundException {

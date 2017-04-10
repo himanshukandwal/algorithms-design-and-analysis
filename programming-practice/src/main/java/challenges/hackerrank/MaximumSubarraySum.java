@@ -64,16 +64,16 @@ public class MaximumSubarraySum extends AbstractCustomTestRunner {
     public static void main(String[] args) throws FileNotFoundException {
 //        _instance.runTest(new long[] { 3, 3, 9, 9, 5 }, 7, 6);
 
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-1.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-2.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-3.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-4.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-5.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-6.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-7.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-8.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-9.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MaximumSubarraySum-Big-10.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-1.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-2.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-3.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-4.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-5.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-6.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-7.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-8.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-9.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MaximumSubarraySum-Big-10.txt");
     }
 
     private static void testComplex(String filename) throws FileNotFoundException {

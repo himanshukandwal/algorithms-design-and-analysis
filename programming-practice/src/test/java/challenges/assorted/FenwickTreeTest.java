@@ -2,8 +2,6 @@ package challenges.assorted;
 
 import org.junit.Test;
 
-import me.hxkandwal.challenges.assorted.FenwickTree;
-
 public class FenwickTreeTest {
 
 	@Test

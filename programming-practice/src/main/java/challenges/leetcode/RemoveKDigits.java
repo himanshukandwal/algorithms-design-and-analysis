@@ -71,7 +71,7 @@ public class RemoveKDigits extends AbstractCustomTestRunner {
 		_instance.runTest("9", 1, "0");
 		_instance.runTest("112", 1, "11");
 		
-		testComplex("/src/test/resources/me/hxkandwal/daily/challanges/leetcode/Remove-K-Digits-1.txt");
+		testComplex("/src/test/resources/challenges/leetcode/Remove-K-Digits-1.txt");
     }
 
     private static void testComplex(final String filename) throws FileNotFoundException {

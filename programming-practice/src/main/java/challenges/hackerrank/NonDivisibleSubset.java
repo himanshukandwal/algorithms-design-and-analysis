@@ -68,8 +68,8 @@ public class NonDivisibleSubset extends AbstractCustomTestRunner {
 		_instance.runTest(new int[] { 1, 7, 2, 4 }, 3, 3);
 		_instance.runTest(new int[] { 1, 7, 2, 4 }, 2, 2);
 		
-		testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NonDivisibleSet-Big-1.txt");
-		testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NonDivisibleSet-Big-2.txt");
+		testComplex("/src/test/resources/challenges/hackerrank/NonDivisibleSet-Big-1.txt");
+		testComplex("/src/test/resources/challenges/hackerrank/NonDivisibleSet-Big-2.txt");
 	}
 	
 	private static void testComplex(String filename) throws FileNotFoundException {

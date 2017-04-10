@@ -58,32 +58,30 @@
 		</plugins>
 	</reporting>
 
-	<dependencyManagement>
-		<dependencies>
+	<dependencies>
 
-			<!-- TEST -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>${mockito.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.truth</groupId>
-				<artifactId>truth</artifactId>
-				<version>${truth.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.sonarsource.java</groupId>
-				<artifactId>sonar-jacoco-listeners</artifactId>
-				<version>3.8</version>
-				<scope>test</scope>
-			</dependency>
+		<!-- TEST -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.truth</groupId>
+			<artifactId>truth</artifactId>
+			<version>${truth.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.java</groupId>
+			<artifactId>sonar-jacoco-listeners</artifactId>
+			<version>3.8</version>
+			<scope>test</scope>
+		</dependency>
 
-		</dependencies>
-	</dependencyManagement>
+	</dependencies>
 </project>

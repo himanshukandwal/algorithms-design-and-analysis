@@ -66,8 +66,8 @@ public class FindCycleInAGraph extends AbstractCustomTestRunner {
 	
     // driver method
     public static void main(String[] args) throws FileNotFoundException {
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-1.txt", false);
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-find-cycle-1.txt", true);
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-topological-order-1.txt", false);
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-find-cycle-1.txt", true);
     }
 
     private static void testComplex(final String filename, final boolean expectedOutput) throws FileNotFoundException {

@@ -38,7 +38,7 @@ public class MinimumAbsoluteDifferenceInAnArray extends AbstractCustomTestRunner
 	public static void main(String[] args) throws FileNotFoundException {
 		_instance.runTest(new int[] { 3, -7, 0 }, 3);
 		
-		testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MinimumAbsoluteDifferenceInAnArray-1.txt");
+		testComplex("/src/test/resources/challenges/hackerrank/MinimumAbsoluteDifferenceInAnArray-1.txt");
     }
 
     private static void testComplex(String filename) throws FileNotFoundException {

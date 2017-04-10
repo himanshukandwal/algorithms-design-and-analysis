@@ -13,7 +13,7 @@ public class GraphTest {
 	@Test
 	public void testReadUndirectedGraph() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(System.getProperty("user.dir") + 
-					"/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-construction-sample.txt"));
+					"/src/test/resources/challenges/assorted/graph/graph-construction-sample.txt"));
 		
 		Graph graph = Graph.readGraph (sc, false);
 		
@@ -29,7 +29,7 @@ public class GraphTest {
 	@Test
 	public void testReadDirectedGraph() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(System.getProperty("user.dir") + 
-					"/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-construction-sample.txt"));
+					"/src/test/resources/challenges/assorted/graph/graph-construction-sample.txt"));
 		
 		Graph graph = Graph.readGraph (sc, true);
 		

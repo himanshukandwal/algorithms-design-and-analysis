@@ -82,16 +82,16 @@ public class NikitaAndTheGame extends AbstractCustomTestRunner {
         _instance.runTest(new int[] { 2, 2, 2, 2 }, 2);
         _instance.runTest(new int[] { 4, 1, 0, 1, 1, 0, 1 }, 3);
 
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-1.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-2.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-3.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-4.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-5.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-6.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-7.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-8.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-9.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/NikitaAndTheGame-Big-10.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-1.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-2.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-3.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-4.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-5.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-6.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-7.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-8.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-9.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/NikitaAndTheGame-Big-10.txt");
 
     }
 

@@ -57,11 +57,11 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 	
     // driver method
     public static void main(String[] args) throws FileNotFoundException {
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-1.txt", "7,6,5,4,2,3,1");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-2.txt", "5,4,3,1,2");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-3.txt", "2,5,4,3,1");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-topological-order-4.txt", "2,5,3,1,4");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/graph-find-cycle-1.txt", "");
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-topological-order-1.txt", "7,6,5,4,2,3,1");
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-topological-order-2.txt", "5,4,3,1,2");
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-topological-order-3.txt", "2,5,4,3,1");
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-topological-order-4.txt", "2,5,3,1,4");
+        testComplex("/src/test/resources/challenges/assorted/graph/graph-find-cycle-1.txt", "");
     }
 
     private static void testComplex(final String filename, final String expectedOutput) throws FileNotFoundException {

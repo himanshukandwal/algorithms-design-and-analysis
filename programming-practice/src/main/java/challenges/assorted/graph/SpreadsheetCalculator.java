@@ -60,7 +60,7 @@ public class SpreadsheetCalculator extends AbstractCustomTestRunner {
     }
 	
     public static void main(String args[] ) throws Exception {
-    	Scanner sc = new Scanner (new File(System.getProperty("user.dir") + "/src/test/resources/me/hxkandwal/daily/challanges/assorted/graph/spreadsheet-calculator-sample-4.txt"));
+    	Scanner sc = new Scanner (new File(System.getProperty("user.dir") + "/src/test/resources/challenges/assorted/graph/spreadsheet-calculator-sample-4.txt"));
         int cols = sc.nextInt();
         int rows = sc.nextInt();
         sc.nextLine();

@@ -74,16 +74,16 @@ public class MandragoraForest extends AbstractCustomTestRunner {
     public static void main(String[] args) throws FileNotFoundException {
         _instance.runTest(new int[] { 3, 2, 2 }, 10);
 
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-1.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-2.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-3.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-4.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-5.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-6.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-7.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-8.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-9.txt");
-        testComplex("/src/test/resources/me/hxkandwal/daily/challanges/hackerrank/MandragoraForest-Big-10.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-1.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-2.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-3.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-4.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-5.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-6.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-7.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-8.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-9.txt");
+        testComplex("/src/test/resources/challenges/hackerrank/MandragoraForest-Big-10.txt");
     }
 
     private static void testComplex(String filename) throws FileNotFoundException {
