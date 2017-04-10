@@ -48,5 +48,6 @@
     <module>minimum-spanning-tree-graph-algorithms</module>
     <module>eular-hierholzer-graph-algorithm</module>
     <module>big-number-arithmetic</module>
+    <module>maximal-matching-graph-algorithms</module>
   </modules>
 </project>
