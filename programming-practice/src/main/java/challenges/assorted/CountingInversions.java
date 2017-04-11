@@ -22,8 +22,8 @@ public class CountingInversions extends AbstractCustomTestRunner {
 		
 		int count = 0;
 		for (int idx = 0; idx < nums.length; idx ++) {
-			count += ft.sum (nums [idx]);
-			ft.add(nums [idx], 1);
+			count += ft.sum (nums [idx] - 1);
+			ft.add(nums [idx] - 1, 1);
 		}
 		
 		return count;
