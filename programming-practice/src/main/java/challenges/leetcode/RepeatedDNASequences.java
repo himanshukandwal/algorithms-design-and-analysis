@@ -2,11 +2,11 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -29,13 +29,12 @@ public class RepeatedDNASequences extends AbstractCustomTestRunner {
 	private static RepeatedDNASequences _instance = new RepeatedDNASequences();
 
 	public List<String> _findRepeatedDnaSequences(String s) {
-		Set<String> seen = new HashSet<>(), repeated = new HashSet<>();
-        for (int idx = 0; idx <= s.length() - 10; idx ++) {
-            String ten = s.substring(idx, idx + 10);
-            if (seen.contains(ten)) repeated.add (ten);
-            else seen.add (ten);
-        }
-        return new ArrayList<String>(repeated);
+		Map<String, Integer> map = new HashMap<>();
+	    for (int idx = 0; idx <= s.length() - 10; idx ++) {
+	        String str = s.substring (idx, idx + 10);
+	        map.put (str, map.getOrDefault (str, 0) + 1);
+	    }
+	    return map.entrySet().stream().filter (e -> e.getValue() > 1).map(e -> e.getKey()).sorted().collect(Collectors.toList());
 	}
     
 	// driver method

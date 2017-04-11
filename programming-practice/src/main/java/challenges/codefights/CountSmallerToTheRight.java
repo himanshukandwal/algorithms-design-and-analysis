@@ -88,7 +88,7 @@ public class CountSmallerToTheRight extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(new int[] { 3, 8, 4, 1 }, new int[] { 1, 2, 1, 0 } );
+		_instance.runTest(new int[] { 3, 8, 4, 1 }, new int[] { 1, 2, 1, 0 } );
 		_instance.runTest(new int[] { 5, 3, 2, 4, 4, 35, 1, 14, 38, 35, 2 }, new int[] { 6, 3, 1, 2, 2, 3, 0, 1, 2, 1, 0 } );
 	}
 
