@@ -1,4 +1,4 @@
-package challenges.leetcode;
+package challenges.codefights;
 
 import static com.google.common.truth.Truth.assertThat;
 
