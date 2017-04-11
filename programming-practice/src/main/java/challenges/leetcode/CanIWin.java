@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -40,23 +41,23 @@ public class CanIWin extends AbstractCustomTestRunner {
 	private static CanIWin _instance = new CanIWin();
 	
 	public boolean _canIWin(int maxChoosableInteger, int desiredTotal) {
-		if (desiredTotal <= 0) return true;
-		if (maxChoosableInteger * (maxChoosableInteger + 1) / 2 < desiredTotal) return false;
-		return canIWin (desiredTotal, maxChoosableInteger, 0, new HashMap<>());
-	}
-
-	private boolean canIWin(int total, int n, int state, HashMap<Integer, Boolean> hashMap) {
-		if (hashMap.containsKey (state)) return hashMap.get(state);
-		for (int i = 0; i < n; i++) {
-			if ((state & (1 << i)) != 0) continue;
-			if (total <= i + 1 || !canIWin(total - (i + 1), n, state | (1 << i), hashMap)) {
-				hashMap.put(state, true);
-				return true;
-			}
-		}
-		hashMap.put(state, false);
-		return false;
-	}
+		if (maxChoosableInteger >= desiredTotal) return true;
+        if (maxChoosableInteger * (maxChoosableInteger + 1)/2 < desiredTotal) return false;
+        return turn (new HashMap<>(), 0, maxChoosableInteger, desiredTotal);
+    }
+    
+    private boolean turn (Map<Integer, Boolean> map, int state, int n, int total) {
+        if (map.containsKey(state)) return map.get (state);
+        for (int idx = 0; idx < n; idx ++) {
+            if ((state & (1 << idx)) != 0) continue;
+            if (total <= idx + 1 || !turn (map, state | 1 << idx, n, total - (idx + 1))) { 
+                map.put (state, true); 
+                return true;
+            }
+        }
+        map.put (state, false);
+        return false;
+    }
 
 	// driver method
 	public static void main(String[] args) {
