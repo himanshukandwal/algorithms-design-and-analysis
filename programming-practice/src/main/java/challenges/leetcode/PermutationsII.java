@@ -4,7 +4,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -29,14 +31,11 @@ public class PermutationsII extends AbstractCustomTestRunner {
 	
 	private static PermutationsII _instance = new PermutationsII();
 	
-	private PermutationsII() {}
-	
 	public List<List<Integer>> _permuteUnique(int[] nums) {
 		List<List<Integer>> answer = new ArrayList<>();
-		if (nums != null && nums.length > 0) {
-			Arrays.sort (nums);
-			permuteUniqueJuggle(answer, nums, 0);
-		}
+		if (nums.length == 0) return answer;
+		Arrays.sort (nums);
+		permuteUniqueJuggle(answer, nums, 0);
 	    return answer;
     }
 	
@@ -45,13 +44,13 @@ public class PermutationsII extends AbstractCustomTestRunner {
 			List<Integer> response = new ArrayList<>();
 			for (int num : nums) response.add(num);
 			answer.add(response);
-			System.out.println(response);
 		} else {
+		    Set<Integer> set = new HashSet<>();
 			for (int idx = start; idx < nums.length; idx ++) {
-				if (idx > start && nums [idx] != nums [idx - 1]) {
-					swap (nums, idx, start);
-					permuteUniqueJuggle (answer, nums, start + 1);
-					swap (nums, start, idx);
+				if (set.add (nums [idx])) {
+				    swap (nums, idx, start);
+				    permuteUniqueJuggle (answer, nums, start + 1);
+				    swap (nums, start, idx);
 				}
 			}
 		}

@@ -3,6 +3,7 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -26,13 +27,11 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked" })
 public class Permutations extends AbstractCustomTestRunner {
 	
 	private static Permutations _instance = new Permutations();
 	
-	private Permutations() {}
-
 	/**
 	 * *********************** FROM START *********************** 
 	 */
@@ -90,19 +89,15 @@ public class Permutations extends AbstractCustomTestRunner {
     
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] { 1, 2, 3 }, new ArrayList() {{ add (new ArrayList() {{ add (1); add (2); add (3); }});
-												   					add (new ArrayList() {{ add (1); add (3); add (2); }});
-												   					add (new ArrayList() {{ add (2); add (1); add (3); }});
-												   					add (new ArrayList() {{ add (2); add (3); add (1); }});
-												   					add (new ArrayList() {{ add (3); add (1); add (2); }});
-												   					add (new ArrayList() {{ add (3); add (2); add (1); }}); }});
+		_instance.runTest(new int[] { 1, 2, 3 }, Arrays.asList(Arrays.asList(1, 2, 3), Arrays.asList(1, 3, 2), Arrays.asList(2, 1, 3),
+															   Arrays.asList(2, 3, 1), Arrays.asList(3, 2, 1), Arrays.asList(3, 1, 2)));
 	}
 
-	public void runTest(final int[] nums, final List<List<String>> expectedOutput) {
+	public void runTest(final int[] nums, final List<List<Integer>> expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { nums });
 
 		for (Object answer : answers)
-			assertThat((List<List<String>>) answer).isEqualTo(expectedOutput);
+			assertThat((List<List<Integer>>) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
 	}    
