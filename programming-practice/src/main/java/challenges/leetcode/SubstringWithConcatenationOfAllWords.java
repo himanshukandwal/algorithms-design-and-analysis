@@ -4,9 +4,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -27,59 +27,28 @@ public class SubstringWithConcatenationOfAllWords extends AbstractCustomTestRunn
 	
 	private static SubstringWithConcatenationOfAllWords _instance = new SubstringWithConcatenationOfAllWords();
 	
-	class Node {
-        char ch;
-        Node [] children = new Node [256];
-        boolean terminal;
-        
-        Node (char ch) { this.ch = ch; }
-        
-        public void add (String word) {
-            Node t = this;
-            for (char ch : word.toCharArray()) {
-                if (t.children [ch] == null) t.children [ch] = new Node (ch);
-                t = t.children [ch];
-            }
-            t.terminal = true;
-        }
-    }
-    
-    public List<Integer> _findSubstring(String s, String[] words) {
-        List<Integer> ans = new ArrayList<>();
-        Node r = new Node (' '), t = r;
-        for (String word : words) r.add (word);
-        Set<String> seen = new HashSet<>();
-        int start = 0, end = 0, wstart = 0;
-        while (end < s.length()) {
-            char ch = s.charAt (end ++);
-            if (t.children [ch] == null) { t = r; seen.clear(); start = wstart = end; }
-            else {
-                t = t.children [ch];
-                if (t.terminal) {
-                    if (!seen.add (s.substring (wstart, end))) { 
-                    	String lookupWord = s.substring (wstart, end); 
-                    	int nstart = start;
-                    	while (!s.substring(start, nstart).equals(lookupWord)) {
-                    		seen.remove(s.substring(start, nstart));
-                    		t = r; start = nstart;
-                    		while (!t.terminal) t = t.children [s.charAt(nstart ++)];
-                    	}
-                    	start = nstart; 
-                    }
-                    if (seen.size() == words.length) { 
-                    	ans.add (start); 
-                    	wstart = start; t = r; 
-                    	t = t.children [s.charAt(wstart ++)];
-                    	while (!t.terminal) t = t.children [s.charAt(wstart ++)];
-                    	seen.remove(s.substring(start, wstart));
-                    	start = wstart;
-                    }
-                    wstart = end; t = r;
-                }
-            }
-        }
-        return ans;
-    }
+	public List<Integer> _findSubstring(String s, String[] words) {
+		List<Integer> res = new ArrayList<Integer>();
+		if (s == null || words == null || words.length == 0) return res;
+		int len = words[0].length(); // length of each word
+
+		Map<String, Integer> map = new HashMap<String, Integer>(); // map for L
+		for (String word : words) map.put(word, map.getOrDefault(word, 0) + 1);
+
+		for (int i = 0; i <= s.length() - len * words.length; i ++) {
+			Map<String, Integer> copy = new HashMap<String, Integer>(map);
+			
+			for (int j = 0; j < words.length; j++) { // checkc if match
+				String str = s.substring(i + j * len, i + j * len + len); // next word
+				
+				if (copy.containsKey(str)) { // is in remaining words
+					if (copy.put(str, copy.get(str) - 1) == 1) copy.remove(str);
+					if (copy.isEmpty()) { /* matches */  res.add(i); break; }
+				} else break; // not in L
+			}
+		}
+		return res;
+	}
 
 	// driver method
 	public static void main(String[] args) {
