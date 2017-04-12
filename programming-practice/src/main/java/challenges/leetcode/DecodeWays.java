@@ -27,22 +27,20 @@ import challenges.AbstractCustomTestRunner;
 public class DecodeWays extends AbstractCustomTestRunner {
 	
 	private static DecodeWays _instance = new DecodeWays();
-	
-	private DecodeWays() {}
 			
     public static int _numDecodings(String s) {
-    	int n = s.length();
-        if (n == 0) return 0;
-        
-        int[] memo = new int [n+1];
-        memo [n]  = 1;
-        memo [n-1] = s.charAt (n-1) != '0' ? 1 : 0;
-        
-        for (int i = n - 2; i >= 0; i--)
-            if (s.charAt(i) == '0') continue;
-            else memo [i] = (Integer.parseInt(s.substring (i, i + 2)) <= 26) ? memo [i+1] + memo [i+2] : memo [i+1];
-        
-        return memo [0];
+    	if (s.length() == 0) return 0;
+    	int [] dp = new int [s.length () + 1];
+    	dp [s.length ()] = 1;
+    	
+        for (int idx = s.length() - 1; idx >= 0; idx --) {
+            int num = s.charAt (idx) - '0';
+            if (num != 0) {
+                if (idx == s.length () - 1) dp [idx] = 1;
+                else dp [idx] = dp [idx + 1] + ((Integer.valueOf(s.substring (idx, idx + 2)) <= 26) ?  dp [idx + 2] : 0); 
+            }
+        }
+        return dp [0];
     }
 	
 	// driver method
