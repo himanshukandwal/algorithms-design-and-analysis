@@ -21,6 +21,7 @@ public class MinimumWindowSubstring extends AbstractCustomTestRunner {
 	
 	private static MinimumWindowSubstring _instance = new MinimumWindowSubstring();
 	
+	// idea : https://discuss.leetcode.com/topic/30941/here-is-a-10-line-template-that-can-solve-most-substring-problems
 	public String _minWindow(String s, String t) {
 		int [] map = new int [256];
         for (char ch : t.toCharArray()) map [ch] ++;
