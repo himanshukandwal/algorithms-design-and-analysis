@@ -33,19 +33,19 @@ public class RestoreIPAddresses extends AbstractCustomTestRunner {
     
     private Set<String> dfs (Map<String, Set<String>> map, String s, int start, int end, int k) {
     	String key = start + ":" + end + ":" + k;
-    	if (map.containsKey(key)) return map.get(key);
-    	
-    	Set<String> ans = new HashSet<>();
-    	if (k == 0) { 
-    		String number = s.substring(start, end);
-    		map.put(key, ans);
-
-    		// main logic 
-    		if (start < end && end - start <= 3 && !(number.startsWith("0") && number.length() > 1) && Integer.valueOf(number) < 256)
-    			map.put(key, new HashSet<>(Arrays.asList (number))); 
-    		return map.get(key);
-    	}
-    	
+        if (map.containsKey(key)) return map.get (key);
+        
+        Set<String> ans = new HashSet<>();
+        if (k == 0) {
+            String number = s.substring (start, end);
+            map.put (key, ans);
+            
+            // main logic 
+            if (start < end && !(number.startsWith ("0") && number.length() > 1) && Integer.valueOf (number) < 256) 
+                ans.add (number);
+            return map.get (key);
+        }
+        
     	for (int idx = start; idx < end; idx ++) {
         	for (int k1 = 0; k1 <= k; k1 ++) {
         		int k2 = k - k1 - 1;
