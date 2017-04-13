@@ -34,25 +34,32 @@ public class WildcardMatching extends AbstractCustomTestRunner {
 
 	// grouping with starts or the specific char index
 	public boolean _isMatch(String s, String p) {
-		int [][] dp = new int [p.length() + 1][s.length() + 1];
-        for (int row = 0; row < p.length(); row ++) {
-            char pch = p.charAt (row);
-            for (int col = 0; col < s.length(); col ++) {
-                char sch = s.charAt (col);    
-                
-                if (pch == '*')
-                    dp [row + 1][col + 1] = (dp [row][col + 1] == row || dp [row][col] == row) ? row : -1;
-                else
-                    dp [row + 1][col + 1] = (dp [row][col] == row) ? row : -1;
+		int sidx = 0, pidx = 0, ssidx = 0, starIdx = -1;
+        while (sidx < s.length()) {
+            if (pidx < p.length() && (p.charAt(pidx) == '?' || p.charAt(pidx) == s.charAt (sidx))) { sidx ++; pidx ++; }
+            else if (pidx < p.length() && p.charAt (pidx) == '*') {
+                starIdx = pidx; ssidx = sidx;
+                pidx ++;
             }
+            else if (starIdx >= 0) {
+                pidx = starIdx + 1;
+                ssidx ++;
+                sidx = ssidx;
+            }
+            else return false;
         }
-        return dp [p.length()][s.length()] == p.length() -1;
+        while (pidx < p.length() && p.charAt (pidx) == '*') pidx ++;
+        return pidx == p.length();
     }
     
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest("a", "aa", false);
+		_instance.runTest("aa", "a", false);
 		_instance.runTest("aa", "aa", true);
 		_instance.runTest("aa", "*", true);
+		_instance.runTest("aa", "a*", true);
+		_instance.runTest("ddab", "*ab", true);
 		_instance.runTest("aaa", "aa", false);
 		_instance.runTest("ab", "?*", true);
 		_instance.runTest("ho", "ho**", true);
@@ -61,6 +68,7 @@ public class WildcardMatching extends AbstractCustomTestRunner {
 		_instance.runTest("c","*?*", true);
 		_instance.runTest("ab","*ab", true);
 		_instance.runTest("ddcab","*dd*b", true);
+		_instance.runTest("aab","c*a*b", false);
 	}
 
 	public void runTest(final String s, final String p, final boolean expectedOutput) {
