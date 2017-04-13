@@ -22,7 +22,7 @@ public class CountingInversions extends AbstractCustomTestRunner {
 		
 		int count = 0;
 		for (int idx = 0; idx < nums.length; idx ++) {
-			count += ft.sum (nums [idx] - 1);
+			count += ft.rangeSum (nums [idx] - 1, max - 1);
 			ft.add(nums [idx] - 1, 1);
 		}
 		
@@ -31,7 +31,7 @@ public class CountingInversions extends AbstractCustomTestRunner {
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int [] { 7, 6, 2, 3, 1, 4, 5 }, 8);
+		_instance.runTest(new int [] { 7, 6, 2, 3, 1, 4, 5 }, 13);
 	}
 
 	public void runTest(final int[] nums, final int expectedOutput) {
