@@ -27,8 +27,7 @@ public class RestoreIPAddresses extends AbstractCustomTestRunner {
 
 	public List<String> _restoreIpAddresses(String s) {
 		if (s.length() > 12) return new ArrayList<>();
-		Map<String, Set<String>> map = new HashMap<>();
-        return new ArrayList<>(dfs (map, s, 0, s.length(), 3));
+        return new ArrayList<>(dfs (new HashMap<>(), s, 0, s.length(), 3));
     }
     
     private Set<String> dfs (Map<String, Set<String>> map, String s, int start, int end, int k) {
