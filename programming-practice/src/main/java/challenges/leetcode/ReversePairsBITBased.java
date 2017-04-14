@@ -3,6 +3,7 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -23,89 +24,52 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-public class ReversePairs extends AbstractCustomTestRunner {
+public class ReversePairsBITBased extends AbstractCustomTestRunner {
 	
-	private static ReversePairs _instance = new ReversePairs();
+	private static ReversePairsBITBased _instance = new ReversePairsBITBased();
 
-	class Node {
-		long val, same = 1, big; 
-		Node left, right;
-		Node (int val) { this.val = val; }
-		
-		void add (int num) {
-			if (num  == this.val) this.same ++;
-			else if (num > this.val) {
-				this.big ++;
-				if (this.right == null) this.right = new Node (num);
-				else this.right.add(num);
-			} else {
-				if (this.left == null) this.left = new Node (num);
-				else this.left.add(num);
-			}
-		}
-		
-		int search (int num) {
-			int ret = 0;
-			if (2l * num <= val) 
-				ret = (int) (same + big + (2l * num == val ? -same : 0) + (left != null ? left.search(num) : 0));
-			else if (right != null) 
-				ret = right.search(num);
-			return ret;
-		}
-	}
-	
-    public int _reversePairs(int[] nums) {
-        if (nums.length == 0) return 0;
-        int count = 0;
-        Node r = new Node (nums [0]);
-        for (int idx = 1; idx < nums.length; idx ++) {
-        	count += r.search(nums [idx]);
-        	r.add (nums [idx]);
-        }
-    	return count;
-    }
-	
-    // other approach (https://discuss.leetcode.com/topic/79227/general-principles-behind-problems-similar-to-reverse-pairs)
-    class NodeOther {
-        int val, cnt = 1;
-        NodeOther left, right;
-            
-        NodeOther (int val) { this.val = val; }
-    }
-    
-    private int search(NodeOther root, long val) {
-        if (root == null) return 0;
-        else if (val == root.val) 
-        	return root.cnt;
-        else if (val < root.val)
-        	return root.cnt + search(root.left, val);
-        else
-        	return search(root.right, val);
-    }
-
-    private NodeOther insert(NodeOther root, int val) {
-        if (root == null) root = new NodeOther (val);
-        else if (val == root.val) 
-        	root.cnt ++;
-        else if (val < root.val) 
-        	root.left = insert(root.left, val);
-        else { 
-        	root.cnt ++; 
-        	root.right = insert(root.right, val); 
-        }
-        return root;
-    }
-    
-    public int _reversePairsBetter(int[] nums) {
-        int res = 0;
-        NodeOther root = null;
-        	
+	public int _reversePairs(int[] nums) {
+    	int res = 0;
+        int[] copy = Arrays.copyOf(nums, nums.length);
+        int[] bit = new int[copy.length + 1];
+        
+        Arrays.sort(copy);
+        
         for (int ele : nums) {
-            res += search (root, 2L * ele + 1);
-            root = insert (root, ele);
+            res += search(bit, index(copy, 2L * ele + 1));
+            insert(bit, index(copy, ele));
         }
         
         return res;
+    }
+    
+    private int search(int[] bit, int i) {
+        int sum = 0;
+        
+        while (i < bit.length) {
+            sum += bit[i];
+            i += i & -i;
+        }
+
+        return sum;
+    }
+
+    private void insert(int[] bit, int i) {
+        while (i > 0) {
+            bit[i] += 1;
+            i -= i & -i;
+        }
+    }
+    
+    private int index(int[] arr, long val) {
+        int l = 0, r = arr.length - 1, m = 0;
+        while (l <= r) {
+        	m = l + ((r - l) >> 1);
+        		
+        	if (arr[m] >= val) r = m - 1;
+        	else l = m + 1;
+        }
+        return l + 1;
     }
     
 	// driver method
