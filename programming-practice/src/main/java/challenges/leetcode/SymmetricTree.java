@@ -40,8 +40,6 @@ public class SymmetricTree extends AbstractCustomTestRunner {
 	
 	private static SymmetricTree _instance = new SymmetricTree();
 	
-	private SymmetricTree() {}
-	
 	public static class Node {
 		int value;
 		Node left;
@@ -64,10 +62,7 @@ public class SymmetricTree extends AbstractCustomTestRunner {
     public boolean isMirror(Node t1, Node t2) {
         if (t1 == null && t2 == null) return true;
         if (t1 == null || t2 == null) return false;
-        
-        return (t1.value == t2.value)
-            && isMirror(t1.right, t2.left)
-            && isMirror(t1.left, t2.right);
+        return (t1.value == t2.value) && isMirror(t1.right, t2.left) && isMirror(t1.left, t2.right);
     }
 	
     // logic borrowed and enhanced from BFSLevelPrintingAndGeneration program.
