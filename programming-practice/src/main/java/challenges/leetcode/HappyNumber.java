@@ -31,26 +31,23 @@ public class HappyNumber extends AbstractCustomTestRunner {
 	
 	private static HappyNumber _instance = new HappyNumber();
 	
-	private HappyNumber() {}
-
-	public static boolean _isHappyFloydCycleDetectionAlgorithm(int n) {
-		 int slow = digitSquareSum (n), fast = digitSquareSum (slow);
-		 while (slow != fast) {
-	        slow = digitSquareSum (slow);
-	        fast = digitSquareSum (digitSquareSum (fast));
-		 }
-		 return slow == 1;
+	public boolean _isHappyFloydCycleDetectionAlgorithm(int n) {
+		int slow = sqrtsum (n), fast = sqrtsum (slow);
+        while (fast != slow) {
+            slow = sqrtsum (slow);
+            fast = sqrtsum (sqrtsum (fast));
+        }
+        return slow == 1;
     }
-	
-	private static int digitSquareSum(int n) {
-	    int sum = 0, tmp;
-	    while (n > 0) {
-	        tmp = n % 10;
-	        sum += tmp * tmp;
-	        n /= 10;
-	    }
-	    return sum;
-	}
+
+    private int sqrtsum (int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += (num % 10) * (num % 10);
+            num /= 10;
+        }
+        return sum;
+    }
 	
 	// driver method
 	public static void main(String[] args) {
