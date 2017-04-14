@@ -1,7 +1,6 @@
 package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Matchers.isNotNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
