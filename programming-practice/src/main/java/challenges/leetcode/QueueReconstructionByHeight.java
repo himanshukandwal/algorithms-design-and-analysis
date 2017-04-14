@@ -33,6 +33,18 @@ public class QueueReconstructionByHeight extends AbstractCustomTestRunner {
 	
 	private static QueueReconstructionByHeight _instance = new QueueReconstructionByHeight();
 
+	/**
+	 * Pick out tallest group of people and sort them in a subarray (S). 
+	 * Since there's no other groups of people taller than them, therefore each guy's index will be just as same as his k value.
+	 * For 2nd tallest group (and the rest), insert each one of them into (S) by k value. So on and so forth.
+	 */
+	public int[][] _reconstructQueueFaster(int[][] people) {
+		Arrays.sort (people, (a, b) -> a[0] != b[0] ? b[0] - a[0] : a[1] - b[1]);
+		List<int[]> ans = new LinkedList<>();
+		for (int[] p : people) ans.add(p[1], p);
+		return ans.toArray(new int[0][0]);
+	}
+	
 	public int[][] _reconstructQueue(int[][] people) {
 		if (people.length == 0) return people;
 		
