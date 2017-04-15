@@ -22,19 +22,16 @@ public class CountPrimes extends AbstractCustomTestRunner {
 	
 	// (DP) sieve of Eratosthenes
 	public int _countPrimesOptimized(int n) {
-		if (n == 0) return 0;
-		boolean [] dp = new boolean [n]; 		// <<<<<<<<<<<<<<<<<<<<<<< for storing 1 to n - 1
-		Arrays.fill(dp, true);
-
-        int count = 0;        
-    	for (int idx = 2; idx < n; idx ++) {
-    		if (dp [idx]) {
-	    		count ++;
-	    		for (int mIdx = 1; mIdx * idx < n; mIdx ++) 
-	    			dp [mIdx * idx] = false;
-    		}
-    	}
-    	
+		if (n <= 1) return 0;
+        boolean [] primes = new boolean [n];
+        Arrays.fill (primes, true);
+        primes [0] = primes [1] = false;
+        for (int p = 2; p < n; p ++) 
+            if (primes [p])
+                for (int factor = 2 * p; factor < n; factor+= p) primes [factor] = false;
+        
+        int count = 0;
+        for (boolean prime : primes) if (prime) count ++;
         return count;
     }
 	
