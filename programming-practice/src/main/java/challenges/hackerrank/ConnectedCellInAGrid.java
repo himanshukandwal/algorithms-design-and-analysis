@@ -27,7 +27,7 @@ public class ConnectedCellInAGrid extends AbstractCustomTestRunner {
 	private static ConnectedCellInAGrid _instance = new ConnectedCellInAGrid();
 	
 	public static int _getBiggestRegion(int[][] matrix) {
-        int max = Integer.MIN_VALUE;
+        int max = 0;
         for (int row = 0; row < matrix.length; row ++)
             for (int col = 0; col < matrix [0].length; col ++)
                 if (matrix [row][col] == 1)
@@ -35,23 +35,33 @@ public class ConnectedCellInAGrid extends AbstractCustomTestRunner {
         return max;
     }
     
-    static int [] dir = new int [] { 0, 1, 0, -1, 0 };
+    static int [] rdir = new int [] { 0, 1, 0, -1, 1, -1,  1, -1 };
+    static int [] cdir = new int [] { 1, 0, -1, 0, 1, -1, -1,  1 };
     
     private static int dfsMatrix (int [][] matrix, int row, int col) {
         matrix [row][col] = 0;
         int count = 1;
-        for (int d = 0; d < dir.length - 1; d ++) {
-            if (row + dir [d] >= 0 && row + dir [d] < matrix.length && col + dir [d + 1] >= 0 
-            		&& col + dir [d + 1] < matrix [0].length && matrix[row + dir [d]][col + dir [d + 1]] == 1)
-                count += dfsMatrix (matrix, row + dir [d], col + dir [d + 1]);
+        for (int d = 0; d < rdir.length; d ++) {
+            if (row + rdir [d] >= 0 && row + rdir [d] < matrix.length 
+            		&& col + cdir [d] >= 0 && col + cdir [d] < matrix [0].length 
+            		&& matrix [row + rdir [d]][col + cdir [d]] == 1)
+                count += dfsMatrix (matrix, row + rdir [d], col + cdir [d]);
         }
         return count;
     }
 	
 	// driver method
     public static void main(String[] args) throws FileNotFoundException {
-		_instance.runTest(new int[][] { new int[] { 1, 1, 0, 0 }, new int[] { 0, 1, 1, 0 }, 
-										new int[] { 0, 0, 1, 0 }, new int[] { 1, 0, 0, 0 } }, 5);
+//		_instance.runTest(new int[][] { new int[] { 1, 1, 0, 0 }, 
+//										new int[] { 0, 1, 1, 0 }, 
+//										new int[] { 0, 0, 1, 0 }, 
+//										new int[] { 1, 0, 0, 0 } }, 5);
+		
+		_instance.runTest(new int[][] { new int[] { 0, 1, 1, 1, 1 }, 
+										new int[] { 1, 0, 0, 0, 1 },
+										new int[] { 1, 1, 0, 1, 0 },
+										new int[] { 0, 1, 0, 1, 1 },
+										new int[] { 0, 1, 1, 1, 0 }}, 15);		
     }
 
 	public void runTest(final int[][] matrix, final int expectedOutput) {
