@@ -28,53 +28,56 @@ public class ReversePairsBITBased extends AbstractCustomTestRunner {
 	
 	private static ReversePairsBITBased _instance = new ReversePairsBITBased();
 
-	public int _reversePairs(int[] nums) {
-    	int res = 0;
-        int[] copy = Arrays.copyOf(nums, nums.length);
-        int[] bit = new int[copy.length + 1];
+	class BIT {
+        int [] bit;
+        BIT (int size) { this.bit = new int [size]; }
         
-        Arrays.sort(copy);
-        
-        for (int ele : nums) {
-            res += search(bit, index(copy, 2L * ele + 1));
-            insert(bit, index(copy, ele));
+        void add (int idx, int val) {
+            while (idx < bit.length) {
+                bit [idx] += val;
+                idx += idx & -idx;
+            }
         }
         
+        int sum (int idx) {
+            int res = 0;
+            while (idx > 0) {
+                res += bit [idx];
+                idx -= idx & -idx;
+            }
+            return res;
+        }
+        
+        int sumBack (int idx) {
+            return sum (bit.length - 1) - sum (idx - 1);
+        }
+    }
+    
+    public int _reversePairs(int[] nums) {
+        int [] sorted =  Arrays.copyOf(nums, nums.length);
+        Arrays.sort (sorted);
+        BIT bit = new BIT (nums.length + 1);
+        
+        int res = 0;
+        for (int num : nums) {
+            res += bit.sumBack (index (sorted, 2l * num + 1));
+            bit.add (index (sorted, num), 1);
+        }
         return res;
     }
     
-    private int search(int[] bit, int i) {
-        int sum = 0;
-        
-        while (i < bit.length) {
-            sum += bit[i];
-            i += i & -i;
+    private int index (int [] sorted, long val) {
+        int lo = 0, hi = sorted.length - 1;
+        while (lo <= hi) {
+            int mid = (lo + hi) >> 1;
+            if (sorted [mid] >= val) hi = mid - 1;
+            else lo = mid + 1;
         }
-
-        return sum;
-    }
-
-    private void insert(int[] bit, int i) {
-        while (i > 0) {
-            bit[i] += 1;
-            i -= i & -i;
-        }
-    }
-    
-    private int index(int[] arr, long val) {
-        int l = 0, r = arr.length - 1, m = 0;
-        while (l <= r) {
-        	m = l + ((r - l) >> 1);
-        		
-        	if (arr[m] >= val) r = m - 1;
-        	else l = m + 1;
-        }
-        return l + 1;
+        return lo + 1;
     }
     
 	// driver method
     public static void main(String[] args) throws FileNotFoundException {
-    	_instance.runTest(new int[] {-5, -5 }, 1);
 		_instance.runTest(new int[] { 1, 3, 2, 3, 1 }, 2);
 		_instance.runTest(new int[] { 2, 4, 3, 5, 1 }, 3);
 		_instance.runTest(new int[] { 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647 }, 0);
