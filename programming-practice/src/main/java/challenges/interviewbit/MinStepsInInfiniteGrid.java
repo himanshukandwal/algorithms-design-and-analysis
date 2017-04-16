@@ -81,6 +81,22 @@ public class MinStepsInInfiniteGrid extends AbstractCustomTestRunner {
         
         return steps;
     }
+    
+    // when order is well defined.
+    private int minDistance (int x1, int y1, int x2, int y2) {
+        int xdiff = Math.abs (x1 - x2);
+        int ydiff = Math.abs (y1 - y2);
+        return Math.min (xdiff, ydiff) + Math.abs (xdiff - ydiff);
+    }
+    
+    public int coverPoints(List<Integer> X, List<Integer> Y) {
+        int steps = 0;
+        
+        for (int idx = 0; idx < X.size() - 1; idx ++)
+            steps += minDistance (X.get (idx), Y.get (idx), X.get (idx + 1), Y.get (idx + 1));
+        
+        return steps;
+    }
 
 	// driver method
 	public static void main(String[] args) {
