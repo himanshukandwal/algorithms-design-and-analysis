@@ -2,7 +2,9 @@ package challenges.interviewbit;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -22,27 +24,13 @@ public class LargestNumber extends AbstractCustomTestRunner {
 	private static LargestNumber _instance = new LargestNumber();
 
 	public String _largestNumber(final List<Integer> a) {
-		StringBuilder org = new StringBuilder ();
-	    for (Integer ai : a) org.append(ai.toString());
-	    return permutation(a, 0, org.toString());
-	}
-
-	private String permutation (List<Integer> a, int start, String best) {
-		if (start >= a.size()) {
-			StringBuilder itr = new StringBuilder ();
-		    for (Integer ai : a) itr.append(ai.toString());
-			return (best.compareTo(itr.toString()) < 0 ? itr.toString() : best);
-		}
-		for (int idx = start; idx < a.size(); idx ++) {
-			int startVal = a.get(start);
-			a.set(start, a.get(idx));
-			a.set(idx, startVal);
-			best = permutation(a, start + 1, best);
-			startVal = a.get(start);
-			a.set(start, a.get(idx));
-			a.set(idx, startVal);
-		}
-		return best;
+		List<String> strs = new ArrayList<>();
+		for (Integer ai : a) strs.add (ai.toString());
+		Collections.sort(strs, (x, y) -> (x + y).compareTo(y + x) >= 0 ? -1 : 1);
+		
+		StringBuilder ans = new StringBuilder ();
+	    for (String str : strs) ans.append(str);
+	    return ans.toString();
 	}
 	
 	// driver method
