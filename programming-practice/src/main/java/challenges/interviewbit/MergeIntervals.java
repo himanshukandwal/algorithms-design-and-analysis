@@ -66,7 +66,7 @@ public class MergeIntervals extends AbstractCustomTestRunner {
 			while (idx < intervals.size() && newInterval.end > intervals.get(idx).start) idx ++;
 			int end = idx == 0 ? newInterval.end : Math.max (newInterval.end, intervals.get(idx - 1).end);
 			ans.add (new Interval(start, end));
-		} else ans.add (newInterval);
+		} else ans.add 	(newInterval);
 		while (idx < intervals.size()) ans.add(intervals.get(idx ++));
 		
 		return ans;
