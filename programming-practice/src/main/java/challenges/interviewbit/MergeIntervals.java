@@ -56,27 +56,27 @@ public class MergeIntervals extends AbstractCustomTestRunner {
 	}
 	
 	public List<Interval> _insert(List<Interval> intervals, Interval newInterval) {
-        Collections.sort (intervals, (a, b) -> (a.start - b.start == 0 ? a.end - b.end : a.start - b.start));
-        if (newInterval.start > newInterval.end) newInterval = new Interval (newInterval.end, newInterval.start);
-        List <Interval> ans = new ArrayList<>();
-        
-        int idx = 0;
-        while (idx < intervals.size() && intervals.get(idx).end < newInterval.start) ans.add (intervals.get (idx ++)); 
-        if (idx < intervals.size()) {
-            int start = Math.min (newInterval.start,intervals.get (idx).start);
-            while (idx < intervals.size() && newInterval.end >= intervals.get(idx).start) idx ++;
-            int end = idx == 0 ? newInterval.end : Math.max (newInterval.end, intervals.get (idx - 1).end);
-            ans.add (new Interval (start, end));
-        } else ans.add (newInterval);
-        while (idx < intervals.size()) ans.add (intervals.get (idx ++));
-        return ans;
-    }
+		Collections.sort(intervals, (a, b) -> (a.start == b.start ? a.end - b.end : a.start - b.start));
+		List<Interval> ans = new ArrayList<>();
+		
+		int idx = 0;
+		while (idx < intervals.size() && intervals.get(idx).end < newInterval.start) ans.add(intervals.get(idx ++));
+		if (idx < intervals.size()) {
+			int start = Math.min (newInterval.start, intervals.get(idx).start);
+			while (idx < intervals.size() && newInterval.end > intervals.get(idx).start) idx ++;
+			int end = idx == 0 ? newInterval.end : Math.max (newInterval.end, intervals.get(idx - 1).end);
+			ans.add (new Interval(start, end));
+		} else ans.add (newInterval);
+		while (idx < intervals.size()) ans.add(intervals.get(idx ++));
+		
+		return ans;
+	}
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(Arrays.asList(new Interval(3, 6), new Interval(8, 10)), new Interval(1, 2), 
 				  Arrays.asList(new Interval(1, 2), new Interval(3, 6), new Interval(8, 10)));
-		_instance.runTest(Arrays.asList(new Interval(1, 2), new Interval(3, 6)), new Interval(10, 8), 
+		_instance.runTest(Arrays.asList(new Interval(1, 2), new Interval(3, 6)), new Interval(8, 10), 
 						  Arrays.asList(new Interval(1, 2), new Interval(3, 6), new Interval(8, 10)));
 		_instance.runTest(Arrays.asList(new Interval(1, 3), new Interval(6, 9)), new Interval(2, 5), Arrays.asList(new Interval(1, 5), new Interval(6, 9)));
 		_instance.runTest(Arrays.asList(new Interval(1, 2), new Interval(3, 5), new Interval(6, 7), new Interval(8, 10),
