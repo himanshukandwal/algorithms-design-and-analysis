@@ -31,36 +31,23 @@ public class SearchInRotatedSortedArrayII extends AbstractCustomTestRunner {
 	// try to move away from plateaus
     public boolean _search(int[] nums, int target) {
     	int low = 0, high = nums.length - 1;
-    	
-    	while (low <= high) {
-    		int mid = (low + high) >>> 1;
-    		if (nums [mid] == target) return true;
-    		
-    		int rmid = mid;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums [mid] == target) return true;
+            int rmid = mid;
     		while (rmid + 1 < nums.length && nums [rmid] == nums [rmid + 1]) rmid ++;
-    		
     		if (rmid == nums.length - 1) high = mid - 1;
     		else {
-    			if (nums [rmid] < nums [high]) {
-    				if (target > nums [rmid] && target <= nums [high])
-    					low = rmid + 1;
-    				else 
-    					high = mid - 1;
-    			} else {
-    				int lmid = mid;
-    				while (lmid - 1 >= 0 && nums [lmid] == nums [lmid - 1]) lmid --;
-    				
-    				if (lmid == 0) low = rmid + 1;
-    				else {
-    					if (target >= nums [low] && target < nums [lmid]) high = lmid - 1;
-    					else low = rmid + 1;
-    				}
-    			}
+                if (nums [mid] >= nums [low]) {
+                    if (nums [low] <= target && nums [mid] > target) high = mid - 1;
+                    else low = mid + 1;
+                } else {
+                    if (nums [high] >= target && nums [mid] < target) low = mid + 1;
+                    else high = mid - 1;
+                }
     		}
-    		
-    	}
-    	
-    	return false;
+         }
+        return false;
     }
 
     // Shorter code.
