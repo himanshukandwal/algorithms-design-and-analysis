@@ -34,8 +34,6 @@ public class BinaryTreeLevelOrderTraversalII extends AbstractCustomTestRunner {
 	
 	private static BinaryTreeLevelOrderTraversalII _instance = new BinaryTreeLevelOrderTraversalII();
 	
-	private BinaryTreeLevelOrderTraversalII() {}
-	
 	public static class TreeNode {
 		 int val;
 		 TreeNode left;
