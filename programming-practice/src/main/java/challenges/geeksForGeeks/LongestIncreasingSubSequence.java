@@ -30,8 +30,6 @@ public class LongestIncreasingSubSequence extends AbstractCustomTestRunner {
 	
 	private static LongestIncreasingSubSequence _instance = new LongestIncreasingSubSequence();
 	
-	public LongestIncreasingSubSequence() {}
-	
 	public static int[] _longestSubsequence(int[] array) {
 		int[] memoizedArray = new int [array.length];
 		
