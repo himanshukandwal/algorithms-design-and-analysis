@@ -3,9 +3,7 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -35,8 +33,6 @@ import challenges.AbstractCustomTestRunner;
 public class BinaryTreeLevelOrderTraversal extends AbstractCustomTestRunner {
 	
 	private static BinaryTreeLevelOrderTraversal _instance = new BinaryTreeLevelOrderTraversal();
-	
-	private BinaryTreeLevelOrderTraversal() {}
 
 	public static class TreeNode {
 		 int val;
@@ -47,24 +43,17 @@ public class BinaryTreeLevelOrderTraversal extends AbstractCustomTestRunner {
 	}
 	
 	public List<List<Integer>> _levelOrder(TreeNode root) {
-		List<List<Integer>> answer = new ArrayList<>();
-        if (root != null) innerRecursion(new LinkedList() {{ offer(root); }}, answer);
-		return answer;
+		List<List<Integer>> ans = new ArrayList<>();
+        levelOrderInner (root, ans, 1);
+        return ans;
     }
-
-	private static void innerRecursion (Queue<TreeNode> queue, List<List<Integer>> answer) {
-		List<Integer> levelAnswer = new ArrayList<>();
-		
-		int size = queue.size();
-		while (size -- > 0) {
-			TreeNode node = queue.poll();
-			levelAnswer.add(node.val);
-			
-			if (node.left != null) queue.offer(node.left);
-			if (node.right!= null) queue.offer(node.right);
-		}
-		answer.add(levelAnswer);
-		if (!queue.isEmpty()) innerRecursion(queue, answer);
+    
+    private void levelOrderInner (TreeNode root, List<List<Integer>> ans, int level) {
+        if (root == null) return;
+        while (ans.size () < level) ans.add (new ArrayList<>());
+        ans.get (level - 1).add (root.val);
+        levelOrderInner (root.left, ans, level + 1);
+        levelOrderInner (root.right, ans, level + 1);
     }
 	
 	// driver method

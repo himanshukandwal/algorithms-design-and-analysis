@@ -23,8 +23,7 @@ public class MinimumMovesToEqualArrayElementsII extends AbstractCustomTestRunner
     public int minMoves2(int[] nums) {
         if (nums.length == 1) return 0;
         int median = quickFind (nums, 0, nums.length - 1, nums.length/2), sum = 0;
-        for (int num : nums) 
-            sum += Math.abs (median - num);
+        for (int num : nums) sum += Math.abs (median - num);
         return sum;
     }
     
