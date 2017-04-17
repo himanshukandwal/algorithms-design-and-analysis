@@ -46,24 +46,23 @@ public class BinaryTreeLevelOrderTraversalII extends AbstractCustomTestRunner {
 	
 	// idea : store result in the collector while coming up.  (DFS while doing BFS)
 	public static List<List<Integer>> _levelOrderBottom(TreeNode root) {
-        List<List<Integer>> answer = new ArrayList<>();
-        if (root != null) innerRecursion(new LinkedList() {{ offer(root); }}, answer);
-		return answer;
-    }
-
-	private static void innerRecursion (Queue<TreeNode> queue, List<List<Integer>> answer) {
-		List<Integer> levelAnswer = new ArrayList<>();
-		
-		int size = queue.size();
-		while (size -- > 0) {
-			TreeNode node = queue.poll();
-			levelAnswer.add(node.val);
-			
-			if (node.left != null) queue.offer(node.left);
-			if (node.right!= null) queue.offer(node.right);
-		}
-		if (!queue.isEmpty()) innerRecursion(queue, answer);
-		answer.add(levelAnswer);
+		LinkedList<List<Integer>> ans = new LinkedList<>();
+        if (root == null) return ans;
+        
+        Queue <TreeNode> queue = new LinkedList<>();
+        queue.offer (root);
+        while (!queue.isEmpty ()) {
+            int size = queue.size ();
+            List<Integer> level = new ArrayList <>();
+            while (size -- > 0) {
+                TreeNode node = queue.poll ();
+                level.add (node.val);
+                if (node.left != null) queue.offer (node.left);
+                if (node.right != null) queue.offer (node.right);
+            }
+            ans.addFirst (level);
+        }
+        return ans;
 	}
 	
 	// driver method
