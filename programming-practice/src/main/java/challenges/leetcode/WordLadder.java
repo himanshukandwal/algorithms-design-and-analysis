@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,10 +38,11 @@ public class WordLadder extends AbstractCustomTestRunner {
 	
 	private static WordLadder _instance = new WordLadder();
 
-	public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> set = new HashSet<> ();
+	public int _ladderLength(String beginWord, String endWord, List<String> wordList) {
+		Set<String> set = new HashSet<> ();
         for (String word : wordList) set.add (word);
-        Queue <String> queue = new LinkedList();
+        if (!set.contains(endWord)) return 0;
+        Queue <String> queue = new LinkedList<>();
         queue.offer (beginWord);
         
         int layer = 1;
@@ -55,7 +57,7 @@ public class WordLadder extends AbstractCustomTestRunner {
                         if (word.charAt (idx) != ch) {
                             String transformed = word.substring (0, idx) + ch + word.substring (idx + 1);        
                             if (transformed.equals (endWord)) return layer + 1;
-                            if (set.contains (transformed)) queue.offer (transformed);
+                            if (set.contains (transformed)) { queue.offer (transformed); set.remove (transformed); }
                         }
                     }
                 }
@@ -64,18 +66,18 @@ public class WordLadder extends AbstractCustomTestRunner {
         }
         return 0;
     }
-	
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int [] { 1, 2, 1 }, 1, true);
+		_instance.runTest("hit", "cog", Arrays.asList("hot","dot","dog","lot","log"), 0);
+		_instance.runTest("hit", "cog", Arrays.asList("hot","dot","dog","lot","log","cog"), 5);
 	}
 
-	public void runTest(final int[] nums, final int target, final boolean expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { nums, target });
+	public void runTest(final String beginWord, final String endWord, final List<String> wordList, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { beginWord, endWord, wordList });
 
 		for (Object answer : answers)
-			assertThat((Boolean) answer).isEqualTo(expectedOutput);
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
 
 		System.out.println("ok!");
 	}
