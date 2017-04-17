@@ -40,8 +40,6 @@ import challenges.AbstractCustomTestRunner;
 public class FreedomTrail extends AbstractCustomTestRunner {
 	
 	private static FreedomTrail _instance = new FreedomTrail();
-	
-	public FreedomTrail() {}
 
 	public int _findRotateSteps(String ring, String key) {
 		int n = ring.length();
