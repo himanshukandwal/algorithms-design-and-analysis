@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -30,14 +31,21 @@ public class SearchInsertPosition extends AbstractCustomTestRunner {
 	private SearchInsertPosition() {}
 
     public int _searchInsert(int[] nums, int target) {
-    	int start = 0, end = nums.length - 1;
-        while (start <= end) {
-            int mid = (start + end) >>> 1;
-            if (nums [mid] == target) return mid;
-            else if (nums [mid] > target) end = mid - 1;
-            else start = mid + 1;
+    	int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (nums [mid] > target) right = mid - 1;
+            else if (nums [mid] < target) left = mid + 1;
+            else return mid;
         }
-        return start;
+        return left;
+    }
+    
+    // using library.
+    public int _searchInsertShorter(int[] nums, int target) {
+        int idx = Arrays.binarySearch (nums, target);
+        if (idx < 0) idx = -(idx + 1);
+        return idx;
     }
     
 	// driver method
