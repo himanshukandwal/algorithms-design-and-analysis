@@ -1,5 +1,9 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.List;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -25,6 +29,8 @@ import challenges.AbstractCustomTestRunner;
  */
 public class WordSearch extends AbstractCustomTestRunner {
 	
+	private static WordSearch _instance = new WordSearch();
+	
     public boolean exist(char[][] board, String word) {
         if (board.length == 0) return word.length() == 0;
         if (word.length() == 0) return true;
@@ -49,4 +55,20 @@ public class WordSearch extends AbstractCustomTestRunner {
         board [row][col] = ch;
         return res;
     }
+    
+    // driver method
+ 	public static void main(String[] args) {
+ 		_instance.runTest(new char[][] { "ABCE".toCharArray(), "SFCS".toCharArray(), "ADEE".toCharArray() }, "ABCCED", true);
+ 		_instance.runTest(new char[][] { "ABCE".toCharArray(), "SFCS".toCharArray(), "ADEE".toCharArray() }, "SEE", true);
+ 		_instance.runTest(new char[][] { "ABCE".toCharArray(), "SFCS".toCharArray(), "ADEE".toCharArray() }, "ABCB", false);
+ 	}
+
+ 	public void runTest(char[][] board, String word, final boolean expectedOutput) {
+ 		List<Object> answers = runAll(getClass(), new Object[] { board, word });
+
+ 		for (Object answer : answers)
+ 			assertThat((Boolean) answer).isEqualTo(expectedOutput);
+
+ 		System.out.println("ok!");
+ 	}    
 }
