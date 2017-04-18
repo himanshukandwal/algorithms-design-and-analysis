@@ -51,25 +51,19 @@ public class SearchInRotatedSortedArrayII extends AbstractCustomTestRunner {
     }
 
     // Shorter code.
-    public boolean _searchShorter(int[] A, int key) {
-    	int l = 0, r = A.length - 1;
-    	
-        while (l <= r) {
-            int m = l + (r - l)/2;
-            if (A[m] == key) return true; //return m in Search in Rotated Array I
-            if (A[l] < A[m]) { //left half is sorted
-                if (A[l] <= key && key < A[m])
-                    r = m - 1;
-                else
-                    l = m + 1;
-            } else if (A[l] > A[m]) { //right half is sorted
-                if (A[m] < key && key <= A[r])
-                    l = m + 1;
-                else
-                    r = m - 1;
-            } else l++;                // line which made all effects.
+    public boolean _searchShorter(int[] nums, int target) {
+    	int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right)/2;
+            if (nums [mid] == target) return true;
+            if (nums [left] < nums [mid]) {
+                if (nums [left] <= target && nums [mid] > target) right = mid - 1;
+                else left = mid + 1;
+            } else if (nums [left] > nums [mid]) {
+                if (nums [right] >= target && nums [mid] < target) left = mid + 1;
+                else right = mid - 1;
+            } else left ++;
         }
-        
         return false;
     }
     
