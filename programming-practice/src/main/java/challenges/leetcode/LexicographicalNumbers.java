@@ -23,8 +23,20 @@ public class LexicographicalNumbers extends AbstractCustomTestRunner {
 	
 	private static LexicographicalNumbers _instance = new LexicographicalNumbers();
 
-	public List<Integer> _lexicalOrder(int n) {
+	public List<Integer> _lexicalOrderFaster(int n) {
         List<Integer> ans = new ArrayList<>();
+        for (int idx = 1; idx < 10; idx ++) dfs (idx, n, ans);
+        return ans;
+    }
+    
+    private void dfs (int curr, int max, List<Integer> ans) {
+        if (curr > max) return;
+        ans.add (curr);
+        for (int idx = 0; idx < 10; idx ++) dfs (curr * 10 + idx, max, ans);
+    }
+    
+	public List<Integer> _lexicalOrder(int n) {
+		List<Integer> ans = new ArrayList<>();
         for (int idx = 1; idx <= n; idx ++) ans.add (idx);
         Collections.sort (ans, (a, b) -> {
             String astr = String.valueOf(a), bstr = String.valueOf(b);
@@ -35,7 +47,7 @@ public class LexicographicalNumbers extends AbstractCustomTestRunner {
                     if (astr.charAt (idx) > bstr.charAt (idx)) return 1;
                     else if (astr.charAt (idx) < bstr.charAt (idx)) return -1;
                 }
-                return 1;
+                return (astr.length() > bstr.length() ? 1 : -1);
             }
         });
         return ans;
