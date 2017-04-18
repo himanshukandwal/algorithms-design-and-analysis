@@ -44,7 +44,11 @@ public class Search2DMatrix extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest(new int[][] { new int[] { 1, 3, 5, 7 },
+										new int[] { 10, 11, 16, 20 },
+										new int[] { 23, 30, 34, 50 }}, 3, true);
 		_instance.runTest(new int[][] { new int[] { 1, 3, 5 } }, 0, false);
+		_instance.runTest(new int[][] { new int[] { 1, 3, 5 } }, 1, true);
 	}
 
 	public void runTest(final int[][] matrix, final int target, final boolean expectedOutput) {
