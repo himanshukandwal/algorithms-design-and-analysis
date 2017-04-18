@@ -24,11 +24,8 @@ public class FindCycleInAGraph extends AbstractCustomTestRunner {
 	
 	private static FindCycleInAGraph _instance = new FindCycleInAGraph();
 	
-	private FindCycleInAGraph() {}
-	
 	public static boolean _hasCycle(Graph graph) {
-		
-		for (Vertex vertex : graph.getVertices()) { 
+		for (Vertex vertex : graph.getVertices()) {
 			if (!vertex.isSeen() && vertex.getRevAdjacentEdges().size() == 0) {
 				Set<Integer> recordedVertices = new HashSet<>();
 				recordedVertices.add(vertex.getName());
@@ -37,19 +34,16 @@ public class FindCycleInAGraph extends AbstractCustomTestRunner {
 					return true;
 			}
 		}
-		
 		return false;
 	}
 	
 	private static boolean performDFS(Vertex vertex, Set<Integer> recordedVertices) {
-		if (vertex.getAdjacentEdges().size() == 0)
-				vertex.setSeen(true);
+		if (vertex.getAdjacentEdges().size() == 0) vertex.setSeen(true);
 		else {
 			for (Edge edge : vertex.getAdjacentEdges()) {
 				Vertex otherVertex = edge.otherEnd(vertex);
 				
-				if (recordedVertices.contains(otherVertex.getName()))
-					return true;
+				if (recordedVertices.contains(otherVertex.getName())) return true;
 				
 				if (!otherVertex.isSeen())  {
 					recordedVertices.add(otherVertex.getName());

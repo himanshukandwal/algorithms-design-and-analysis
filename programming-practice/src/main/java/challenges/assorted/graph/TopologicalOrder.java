@@ -26,8 +26,6 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 	
 	private static TopologicalOrder _instance = new TopologicalOrder();
 	
-	private TopologicalOrder() {}
-	
 	public String _topologicalOrdering(Graph graph) {
 		Stack<Vertex> orderedStack = new Stack<>();
 		
@@ -39,20 +37,17 @@ public class TopologicalOrder extends AbstractCustomTestRunner {
 	}
 	
 	private void performDFS(Vertex vertex, Stack<Vertex> collector) {
-		if (vertex.getAdjacentEdges().size() == 0) {
-			collector.push(vertex);
-			vertex.setSeen(true);
-		} else {
+		if (vertex.getAdjacentEdges().size() > 0) {
 			for (Edge edge : vertex.getAdjacentEdges()) {
 				Vertex otherVertex = edge.otherEnd(vertex);
 				
 				if (!otherVertex.isSeen())
 					performDFS (otherVertex, collector);
 			}
-			
-			vertex.setSeen(true);
-			collector.push(vertex);
 		}
+		
+		collector.push(vertex);
+		vertex.setSeen(true);
 	}
 	
     // driver method
