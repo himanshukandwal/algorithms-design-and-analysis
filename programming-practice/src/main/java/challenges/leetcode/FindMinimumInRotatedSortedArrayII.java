@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import java.util.Arrays;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -30,4 +32,16 @@ public class FindMinimumInRotatedSortedArrayII extends AbstractCustomTestRunner 
         return nums [start];
     }
 
+	public int findMinLibrary(int[] nums) {
+        int [] ans = new int [nums.length];
+        int len = 0;
+        for (int num : nums) {
+            int index = Arrays.binarySearch (ans, 0, len, num);
+            if (index < 0) index = -(index + 1);
+            ans [index] = num;
+            if (index == len) len ++;
+        }
+        return ans [0];
+    }
+	
 }
