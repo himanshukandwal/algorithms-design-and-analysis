@@ -34,11 +34,8 @@ public class PathSum extends AbstractCustomTestRunner {
 	
 	public boolean hasPathSum(TreeNode root, int sum) {
 		if (root == null) return false;
-        if (root.left == null && root.right == null) return root.val == sum;
-        boolean hasSum = false;
-        if (root.left != null) hasSum = hasPathSum (root.left, sum - root.val);
-        if (root.right != null) hasSum = hasSum || hasPathSum (root.right, sum - root.val);
-        return hasSum;
+        if (root.val == sum && root.left == null && root.right == null) return true;
+        return hasPathSum (root.left, sum - root.val) || hasPathSum (root.right, sum - root.val);
 	}
 
 }
