@@ -18,25 +18,17 @@ public class ReverseWordsInAString extends AbstractCustomTestRunner {
 	private static ReverseWordsInAString _instance = new ReverseWordsInAString();
 	
 	public String _reverse (String input) {
-		String[] parts = input.trim().split("\\s+");
-		StringBuilder out = new StringBuilder();
-		for (int i = parts.length - 1; i > 0; i--) out .append(parts [i]).append(" ");
-		return out.append(parts [0]).toString();
-	}
-	
-	public String _reverseWords(String s) {
-        if (s.length() == 0) return s;
-        StringBuilder ans = new StringBuilder();
-        StringBuilder local = new StringBuilder();
-        int idx = 0;
-        while (idx < s.length()) {
-            if (s.charAt(idx) == ' ') {
-                if (local.length() > 0) { ans.append (local.reverse().toString()).append(' '); local.setLength(0); }
-            } else local.append (s.charAt(idx));
-            idx ++;
+		StringBuilder ans = new StringBuilder();
+        input = " " + input.trim();
+        int start = input.length ();
+        for (int idx = input.length () - 1; idx >= 0; idx --) {
+            if (input.charAt(idx) == ' ') {
+                if (start != idx + 1)
+                    ans.append(input.substring (idx + 1, start)).append (" ");
+                start = idx;
+            }
         }
-        if (local.length() > 0) ans.append (local.reverse().toString());
-        return ans.reverse().toString().trim();
+        return ans.toString().trim();
     }
 	
 	// driver method
