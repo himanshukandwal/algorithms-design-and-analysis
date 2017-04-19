@@ -30,8 +30,6 @@ public class Combinations extends AbstractCustomTestRunner {
 	
 	private static Combinations _instance = new Combinations();
 	
-	private Combinations() {}
-	
 	// more optimal answer than boolean matrix one.
 	public List<List<Integer>> _combineWithoutBooleanMatrix (int n, int k) {
     	List<List<Integer>> answer = new ArrayList<>();
