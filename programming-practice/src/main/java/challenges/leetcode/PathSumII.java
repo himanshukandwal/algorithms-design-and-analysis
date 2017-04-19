@@ -29,7 +29,6 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class PathSumII extends AbstractCustomTestRunner {
 	
 	public static class TreeNode {
@@ -41,25 +40,20 @@ public class PathSumII extends AbstractCustomTestRunner {
 	}
 	
 	public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> answer = new ArrayList<>();
-        if (root == null) return answer;
-        recurser (answer, new ArrayList<>(), root, sum);
-        return answer;
+		List<List<Integer>> ans = new ArrayList<> ();
+        searchSum (ans, new ArrayList<>(), root, sum);
+        return ans;
     }
     
-    private void recurser (List<List<Integer>> answer, List<Integer> build, TreeNode node, int sum) {
-        if (node.left == null && node.right == null) {
-            if (node.val == sum) {
-                build.add (node.val);
-                answer.add (new ArrayList(build));
-                build.remove(build.size() - 1);
-            }
-        } else {
-            build.add (node.val);
-            if (node.left != null) recurser (answer, build, node.left, sum - node.val);    
-            if (node.right != null) recurser (answer, build, node.right, sum - node.val);    
-            build.remove (build.size() - 1);
+    private void searchSum (List<List<Integer>> ans, List<Integer> build, TreeNode node, int sum) {
+        if (node == null) return;
+        build.add (node.val);
+        if (node.val == sum && node.left == null && node.right == null) ans.add (new ArrayList<> (build));
+        else {
+            searchSum (ans, build, node.left, sum - node.val);
+            searchSum (ans, build, node.right, sum - node.val);
         }
+        build.remove (build.size() - 1);
     }
 
 }
