@@ -16,18 +16,14 @@ public class MaximalSumSubarray extends AbstractCustomTestRunner {
 	
 	private static MaximalSumSubarray _instance = new MaximalSumSubarray();
 	
-	private MaximalSumSubarray() {}
-	
 	// sliding window (MaximalWidthSubarray) works only on positive numbers, to handle totally negative numbers (test case 2), 
 	// we used this algorithm 
 	public static int _maxSubarraySum(int[] array) {
 	    int maxSum = Integer.MIN_VALUE, localSum = 0;
 	    
 	    for (int idx = 0; idx < array.length; idx ++) {
-			localSum += array [idx];
-			
-			localSum = Math.max(array [idx], localSum);
-			maxSum = Math.max(maxSum, localSum);
+			localSum = Math.max (array [idx], localSum + array [idx]);
+			maxSum = Math.max (maxSum, localSum);
 		}
 		
 	    return maxSum;
