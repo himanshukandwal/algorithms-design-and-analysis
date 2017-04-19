@@ -38,7 +38,7 @@ public class Permutations extends AbstractCustomTestRunner {
 	// juggle technique (from start)
     public List<List<Integer>> _permuteStart (int[] nums) {
     	List<List<Integer>> answer = new ArrayList<>();
-    	if (nums != null && nums.length > 0) juggleStart(answer, nums, 0);
+    	juggleStart(answer, nums, 0);
     	return answer;
     }
     
