@@ -1,5 +1,11 @@
 package challenges.leetcode;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -28,4 +34,35 @@ import challenges.AbstractCustomTestRunner;
  */
 public class ReconstructItinerary extends AbstractCustomTestRunner {
 
+	/**
+	 * 		 > B
+	 * 		/	 \>
+	 * 	   D <--  C
+	 * 	   ^  \/  ^
+	 * 	   | </\> |
+	 * 	  JFK --> A
+	 * 
+	 * From JFK we first visit JFK -> A -> C -> D -> A. There we're stuck, so we write down A as the end of the route and retreat back to D. 
+	 * There we see the unused ticket to B and follow it: D -> B -> C -> JFK -> D. Then we're stuck again, retreat and write down the airports 
+	 * while doing so: Write down D before the already written A, then JFK before the D, etc. When we're back from our cycle at D, the written 
+	 * route is D -> B -> C -> JFK -> D -> A. Then we retreat further along the original path, prepending C, A and finally JFK to the route, 
+	 * ending up with the route JFK -> A -> C -> D -> B -> C -> JFK -> D -> A.
+	 */
+	// pseudo-topological ordering.
+	public List<String> findItinerary(String[][] tickets) {
+        Map <String, PriorityQueue<String>> map = new HashMap<> ();
+        for (String [] ticket : tickets)  {
+            if (!map.containsKey (ticket [0])) map.put (ticket [0], new PriorityQueue<> ());
+            map.get (ticket [0]).offer (ticket [1]);
+        }
+        LinkedList<String> ans = new LinkedList<> ();
+        dfs (map, ans, "JFK");
+        return ans;
+    }
+    
+    private void dfs (Map<String, PriorityQueue <String>> map, LinkedList<String> ans, String start) {
+        while (map.containsKey (start) && !map.get (start).isEmpty())
+            dfs (map, ans, map.get (start).poll ());
+        ans.addFirst (start);
+    }
 }
