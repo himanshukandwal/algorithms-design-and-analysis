@@ -51,10 +51,9 @@ public class ReconstructItinerary extends AbstractCustomTestRunner {
 	// pseudo-topological ordering.
 	public List<String> findItinerary(String[][] tickets) {
         Map <String, PriorityQueue<String>> map = new HashMap<> ();
-        for (String [] ticket : tickets)  {
-            if (!map.containsKey (ticket [0])) map.put (ticket [0], new PriorityQueue<> ());
-            map.get (ticket [0]).offer (ticket [1]);
-        }
+        for (String [] ticket : tickets) 
+        	map.computeIfAbsent(ticket[0], k -> new PriorityQueue<>()).add(ticket[1]);
+        
         LinkedList<String> ans = new LinkedList<> ();
         dfs (map, ans, "JFK");
         return ans;

@@ -1,7 +1,10 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import challenges.AbstractCustomTestRunner;
@@ -94,4 +97,28 @@ public class LFUCache extends AbstractCustomTestRunner {
         min = 1;
     }
     
+    // driver method
+ 	public static void main(String[] args) {
+ 		LFUCache cache = new LFUCache(2);
+ 		cache.put(1, 1);
+ 		cache.put(2, 2);
+ 		System.out.println(cache.get(1));
+ 		cache.put(3, 3);
+ 		System.out.println(cache.get(2));
+ 		System.out.println(cache.get(3));
+ 		cache.put(4, 4);
+ 		System.out.println(cache.get(1));
+ 		System.out.println(cache.get(3));
+ 		System.out.println(cache.get(4));
+ 	}
+
+ 	public void runTest(final int[] coins, final int amount, final int expectedOutput) {
+ 		List<Object> answers = runAll(getClass(), new Object[] { coins, amount });
+
+ 		for (Object answer : answers)
+ 			assertThat((Integer) answer).isEqualTo(expectedOutput);
+ 		
+ 		System.out.println("ok!");
+ 	}
+     
 }
