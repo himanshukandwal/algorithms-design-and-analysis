@@ -21,22 +21,17 @@ public class SquarerootOfANumber extends AbstractCustomTestRunner {
 	
 	private static SquarerootOfANumber _instance = new SquarerootOfANumber();
 	
-	private SquarerootOfANumber() {}
-
 	public static int _findSqrt(int num) {
 		if (num == 1) return num;
 		int low = 0, high = num;
-		
-		while (high > low) {
+		while (low + 1 < high) {
 			int mid = (low + high) >>> 1;
 			
-			if (low == mid) return mid;
 			if ((mid * mid) > num) high = mid;
 			else if ((mid * mid) < num) low = mid;
 			else return mid;
 		}
-		
-		return 0;
+		return low;
 	}
 
 	// newton's method
