@@ -26,22 +26,25 @@ public class MedianOfTwoSortedArrays extends AbstractCustomTestRunner {
 	private static MedianOfTwoSortedArrays _instance = new MedianOfTwoSortedArrays();
 
 	public double _findMedianSortedArrays(int[] nums1, int[] nums2) {
-		int n = nums1.length, m = nums2.length;
-    	int mid1 = (n + m + 1) / 2, mid2 = (n + m + 2) / 2;
-    	return (getKth (nums1, 0, m, nums2, 0, n, mid1) + getKth (nums1, 0, m, nums2, 0, n, mid2)) / 2;  
-    }
-    
-    private int getKth(int[] nums1, int start1, int end1, int[] nums2, int start2, int end2, int k) {
-//    	if (end1 > end2) return getKth (nums2, start2, end2, nums1, start1, end1, k);
-        if (end1 == 0) return nums2 [start2 + k - 1];
-        if (k == 1) return Math.min (nums1 [start1], nums2 [start2]);
+        int m = nums1.length, n = nums2.length;
+        if (n > m) return _findMedianSortedArrays (nums2, nums1);
+        if (n == 0) return ((double) nums1 [(m - 1)/2] + (double) nums1 [m/2]) * 0.5d;
         
-        int i = Math.min (end2, k / 2), j = Math.min (end1, k / 2);
-        if (nums1 [start1 + i - 1] < nums2 [start2 + j - 1]) {
-            return getKth(nums1, start1 + i, end1 - i, nums2, start2, end2, k - i);
-        } else {
-            return getKth(nums1, start1, end1, nums2, start2 + j, end2 - j, k - j);
+        int low = 0, high = 2 * n;
+        while (low <= high) {
+            int mid2 = (low + high)/2;
+            int mid1 = m + n - mid2;
+            
+            double l1 = (mid1 == 0) ? Integer.MIN_VALUE : nums1 [(mid1 - 1)/2];
+            double l2 = (mid2 == 0) ? Integer.MIN_VALUE : nums2 [(mid2 - 1)/2];
+            double r1 = (mid1 == 2 * m) ? Integer.MAX_VALUE : nums1 [mid1/2];
+            double r2 = (mid2 == 2 * n) ? Integer.MAX_VALUE : nums2 [mid2/2];
+            
+            if (l1 > r2) low = mid2 + 1;		
+            else if (l2 > r1) high = mid2 - 1;	
+            else return (Math.max(l1, l2) + Math.min(r1, r2)) / 2;
         }
+        return -1;
     }
 
 	// driver method
