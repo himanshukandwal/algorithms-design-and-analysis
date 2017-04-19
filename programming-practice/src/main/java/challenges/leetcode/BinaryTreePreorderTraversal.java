@@ -42,8 +42,7 @@ public class BinaryTreePreorderTraversal extends AbstractCustomTestRunner {
 		stk.push(root);
 		while (!stk.isEmpty()) {
 			TreeNode node = stk.pop();
-			if (node == null)
-				continue;
+			if (node == null) continue;
 			ans.add(node.val);
 			stk.push(node.right);
 			stk.push(node.left);
