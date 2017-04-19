@@ -31,54 +31,42 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class CombinationSumII extends AbstractCustomTestRunner {
 	
 	private static CombinationSumII _instance = new CombinationSumII();
 	
-	private CombinationSumII() {}
-	
     public List<List<Integer>> _combinationSum2(int [] candidates, int target) {
-        List<List<Integer>> answer = new ArrayList<>();
-        
-        if (candidates != null && candidates.length != 0) {
-        	Arrays.sort(candidates);                                      // <<<<<<<<<< sort it first, so that we can handle duplicates
-        	answer = combinationSum2Indexed (candidates, target, 0);
-        }
-        
-        return answer;
-    }		
+    	Arrays.sort (candidates);
+    	return combine (candidates, target, 0);
+    }
     
-    public List<List<Integer>> combinationSum2Indexed (int [] candidates, int target, int index) {
-    	List<List<Integer>> answer = new ArrayList<>();
-    	
-    	for (int idx = index; idx < candidates.length; idx ++) {
-    		if (idx > index && (candidates [idx] == candidates [idx - 1])) continue; // <<<<<<<<<< stop processing duplicates
-    		
-    		if (candidates [idx] < target) {
-    			for (List<Integer> response : combinationSum2Indexed (candidates, target - candidates [idx], idx + 1)) {
-    				response.add(candidates [idx]);
-    				answer.add (response);
-	    		}
-	    	} else if (candidates [idx] == target) {
-	    		List<Integer> ansItem = new ArrayList<>();
-	    		ansItem.add(candidates [idx]);
-	    		answer.add(ansItem);
-	    	}
-    	}
-    	
-    	return answer;
+    private List<List<Integer>> combine (int [] candidates, int target, int start) {
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        for (int idx = start; idx < candidates.length; idx ++) {
+            if (idx > start && candidates [idx] == candidates [idx - 1]) continue;
+            if (target < candidates [idx]) break;
+            if (target == candidates [idx]) { 
+                List<Integer> build = new ArrayList<> (); 
+                build.add (candidates [idx]);
+                ans.add (build);
+                break;
+            }  
+            for (List<Integer> res : combine (candidates, target - candidates [idx], idx + 1)) {
+                res.add (candidates [idx]);
+                ans.add (res);
+            } 
+        }
+        return ans;
     }
     
    	// driver method
    	public static void main(String[] args) {
-		_instance.runTest(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8, new ArrayList() {{  add (new ArrayList() {{ add(1); add(1); add(6); }});
-   																		   			 add (new ArrayList() {{ add(1); add(2); add(5); }});
-   																		   			 add (new ArrayList() {{ add(1); add(7); }});
-   																		   			 add (new ArrayList() {{ add(2); add(6); }});
-																				 }});
+		_instance.runTest(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8, Arrays.asList(Arrays.asList(6, 1, 1), Arrays.asList(5, 2, 1), 
+				Arrays.asList(7, 1), Arrays.asList(6, 2)));
    	}
 
+   	@SuppressWarnings("unchecked")
    	public void runTest(final int[] candidates, final int target, final List<List<Integer>> expectedOutput) {
    		List<Object> answers = runAll(getClass(), new Object[] { candidates, target });
 
