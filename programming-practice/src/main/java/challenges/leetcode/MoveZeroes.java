@@ -24,9 +24,9 @@ public class MoveZeroes extends AbstractCustomTestRunner {
 	private static MoveZeroes _instance = new MoveZeroes();
 
 	public void _moveZeroes(int[] nums) {
-		int uIdx = -1;
-        for (int idx = 0; idx < nums.length; idx ++) if (nums [idx] != 0) nums [ ++ uIdx] = nums [idx];
-        for (int idx = uIdx + 1; idx < nums.length; idx ++) nums [idx] = 0;
+		int uidx = 0;
+        for (int idx = 0; idx < nums.length; idx ++)
+            if (nums [idx] != 0) {  int val = nums [idx]; nums [idx] = 0; nums [uidx ++] = val; }
 	}
 
 	// driver method
