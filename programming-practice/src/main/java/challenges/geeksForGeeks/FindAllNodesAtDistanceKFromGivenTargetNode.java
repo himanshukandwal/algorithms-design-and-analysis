@@ -25,8 +25,6 @@ public class FindAllNodesAtDistanceKFromGivenTargetNode extends AbstractCustomTe
 	
 	private static FindAllNodesAtDistanceKFromGivenTargetNode _instance = new FindAllNodesAtDistanceKFromGivenTargetNode();
 	
-	private FindAllNodesAtDistanceKFromGivenTargetNode() {}
-	
 	// data structure
 	public static class Node {
 		int data;
