@@ -31,7 +31,12 @@ public class StudentAttendanceRecord extends AbstractCustomTestRunner {
 	
 	private static StudentAttendanceRecord _instance = new StudentAttendanceRecord();
 
-	public boolean checkRecord(String s) {
+	// faster
+	public boolean _checkRecordFaster(String s) {
+	    return !s.matches(".*LLL.*|.*A.*A.*");
+	}
+	
+	public boolean _checkRecord(String s) {
        int acount = 0, lcount = 0, prevL = -1;
        for (int idx = 0; idx < s.length(); idx ++) {
            char c = s.charAt (idx);
@@ -49,7 +54,7 @@ public class StudentAttendanceRecord extends AbstractCustomTestRunner {
  	public static void main(String[] args) {
  		_instance.runTest("PPALLP", true);
  		_instance.runTest("PPALLL", false);
- 		_instance.runTest("LLPPALL", false);
+ 		_instance.runTest("LLPPALL", true);
  	}
 
  	public void runTest(final String s, final boolean expectedOutput) {
