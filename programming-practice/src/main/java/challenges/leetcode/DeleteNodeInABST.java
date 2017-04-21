@@ -1,7 +1,6 @@
 package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
-import challenges.leetcode.BinaryTreeZigzagLevelOrderTraversal.TreeNode;
 
 /**
  * 450. Delete Node in a BST
