@@ -84,7 +84,7 @@ public class OnesAndZeroes extends AbstractCustomTestRunner {
     
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(new String [] { "10", "1", "0" }, 1, 1, 2);
+		_instance.runTest(new String [] { "10", "1", "0" }, 1, 1, 2);
 		_instance.runTest(new String [] { "10", "0001", "111001", "1", "0" }, 5, 3, 4);
 		_instance.runTest(new String [] { "10", "0001", "111001", "1", "0" }, 4, 3, 3);
 		_instance.runTest(new String[] { "0", "11", "1000", "01", "0", "101", "1", "1", "1", "0", "0", "0", "0", "1",
