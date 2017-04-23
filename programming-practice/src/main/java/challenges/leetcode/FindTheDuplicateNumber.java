@@ -24,8 +24,6 @@ public class FindTheDuplicateNumber extends AbstractCustomTestRunner {
 	
 	private static FindTheDuplicateNumber _instance = new FindTheDuplicateNumber();
 	
-	private FindTheDuplicateNumber() {}
-	
 	/**
 	 * The main idea is the same with problem Linked List Cycle II,https://leetcode.com/problems/linked-list-cycle-ii/. 
 	 * Use two pointers the fast and the slow. The fast one goes forward two steps each time, while the slow one goes only 
