@@ -51,12 +51,12 @@ public class SumOfPairwiseHammingDistance extends AbstractCustomTestRunner {
             for (int j = 0; j < 32; j ++)
                 ones[j] += (A.get (i) >> j) & 1;
         
-        int sum = 0;
+        long sum = 0;
         for (int count : ones) {
-            sum += count * (len - count);
+            sum += 2l * count * (len - count);
             sum %= 1000000007;
         }
-        return (2 * sum) % 1000000007;
+        return (int)(sum % 1000000007);
     }
 
 	// driver method
