@@ -23,12 +23,7 @@ public class RemoveLinkedListElements extends AbstractCustomTestRunner {
 		int val;
 		ListNode next;
 		
-		ListNode(int x) { val = x; }
-		
-		@Override
-		public String toString() {
-			return "(" + val + ")";
-		}
+		ListNode (int x) { val = x; }
 	}
 	
     public ListNode _removeElements(ListNode head, int val) {
