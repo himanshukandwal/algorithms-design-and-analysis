@@ -22,7 +22,34 @@ public class CopyListWithRandomPointer extends AbstractCustomTestRunner {
 		RandomListNode next, random;
 		RandomListNode(int x) { this.label = x; }
 	};
-		 
+	
+	// O (1) space
+	public RandomListNode copyRandomListBetter(RandomListNode head) {
+        if (head == null) return null;
+        RandomListNode node = head;
+        while (node != null) {
+            RandomListNode copy = new RandomListNode (node.label);
+            copy.next = node.next;
+            node.next = copy;
+            node = copy.next;
+        }
+        node = head;
+        while (node != null) {
+            if (node.random != null) node.next.random = node.random.next;
+            node = node.next.next;
+        }
+        node = head;
+        RandomListNode newHead = null, traverser = null;
+        while (node != null) {
+            if (newHead == null) traverser = newHead = node.next;
+            else traverser = traverser.next = node.next;
+            RandomListNode future = node.next.next;
+            node = node.next = future;
+        }
+        return newHead;
+    }
+	
+	// O (n) space
 	public RandomListNode copyRandomList(RandomListNode head) {
         return copyDeepRandomList (head, new HashMap<>());
     }
