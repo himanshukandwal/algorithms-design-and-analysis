@@ -22,56 +22,40 @@ import challenges.AbstractCustomTestRunner;
  */
 public class LRUCache extends AbstractCustomTestRunner {
 
-	private static class Node {
-        int key;
-        int value;
-        Node () { this (0, 0); }
+	class Node {
+        int key, value;
+        Node next, prev;
+        Node () { key = 0; value = 0; }
         Node (int key, int value) { this.key = key; this.value = value; }
-        Node next;
-        Node prev;
     }
     
-    Map <Integer, Node> map = new HashMap<>();
-    Node head;  Node tail;
-    int size = 0; int capacity = 0;
+    private int capacity;
+    private Map <Integer, Node> map = new HashMap<>();
+    private Node head, tail;
     
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        head = new Node ();
-        tail = new Node ();
-        head.next = tail;
+        this.head = new Node ();
+        this.tail = new Node ();
+        head.next = tail; 
         tail.prev = head;
     }
     
     public int get(int key) {
-        Node node = map.get (key);
-        if (node == null) return -1;
-        update (node);
-        return node.value;
+        if (!map.containsKey(key)) return -1;
+        update (map.get (key));
+        return map.get (key).value;
     }
     
     public void put(int key, int value) {
-        Node node = map.get (key);
-        if (node == null) {
-            node = new Node (key, value);
-            if (size + 1 > capacity) remove (head.next);
-            add (node);
-        } else { update (node); node.value = value; }
+        if (map.containsKey(key)) remove (map.get (key));
+        else if (map.size() == capacity) remove (head.next);    
+        add (key, value);
     }
     
     private void update (Node node) {
         remove (node);
-        add (node);
-    }
-    
-    private void add (Node node) {
-        Node before = tail.prev;
-        before.next = node;
-        node.prev = before;
-        node.next = tail;
-        tail.prev = node;
-        map.put (node.key, node);
-        size ++;
+        add (node.key, node.value);
     }
     
     private void remove (Node node) {
@@ -79,7 +63,15 @@ public class LRUCache extends AbstractCustomTestRunner {
         node.next.prev = node.prev;
         node.prev = node.next = null;
         map.remove (node.key);
-        size --;
+    }
+    
+    private void add (int key, int value) {
+        Node node = new Node (key, value);
+        node.prev = tail.prev;
+        tail.prev.next = node;
+        node.next = tail;
+        tail.prev = node;
+        map.put (key, node);
     }
     
 	// driver method
