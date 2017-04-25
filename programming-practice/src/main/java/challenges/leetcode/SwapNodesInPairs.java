@@ -31,67 +31,21 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 		int val;
 		ListNode next;
 		public ListNode(int x) { val = x; }
-		@Override public String toString() { return "(" + val + ")"; }
 	}
 
 	// method 1 : manage links.
 	public ListNode _swapperManagingLinks(ListNode head) {
-		if (head == null || head.next == null) return head;
-        ListNode follower = head, traverser = head.next, start = null, prev = null;
-        while (traverser != null) {
-            ListNode future = traverser.next;
-            if (start == null) start = traverser;
-            follower.next = future;
-            traverser.next = follower;
-            if (prev != null) prev.next = traverser;
-            
-            if (follower.next != null) {
-            	prev = follower;
-                traverser = follower.next.next;
-                follower = follower.next;
-            } else break;
-        }
-        return start;
-	}
-	
-	// method 2 : copy values.
-	public ListNode swapperCopyingValues(ListNode head) {
-		if (head == null)
-			return head;
-		
-		int idx = 0;
-	
-		ListNode prev = null;
-		ListNode current = head;
-		
-		while (current.next != null) {
-			prev = current;
-			current = current.next;
-			idx ++;
-			
-			if (idx % 2 == 1) {
-				int tempVal = prev.val;
-				prev.val = current.val;
-				current.val = tempVal;
-			}
-		}
-		
-		return head;
-	}
-	
-	// method 3 : recursion.
-	public ListNode swapperUsingRecursion(ListNode head) {
-		if (head == null || head.next == null)
-			return head;
-		
-		ListNode nextNode = head.next;
-		ListNode futureNextNode = nextNode.next;
-		
-		nextNode.next = head;
-		head.next = (futureNextNode != null) ? swapperUsingRecursion(futureNextNode) : futureNextNode;
-		
-		return nextNode;
-	}
+		return swapper (head);
+    }
+    
+    private ListNode swapper (ListNode node) {
+        if (node == null || node.next == null) return node;
+        ListNode future = node.next.next;
+        node.next.next = node;
+        ListNode head = node.next;
+        node.next = swapper (future);
+        return head;
+    }
 	
 	// driver method
 	public static void main(String[] args) {
