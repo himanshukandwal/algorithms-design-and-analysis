@@ -19,8 +19,6 @@ public class RemoveLinkedListElements extends AbstractCustomTestRunner {
 	
 	private static RemoveLinkedListElements _instance = new RemoveLinkedListElements();
 	
-	private RemoveLinkedListElements() {}
-	
 	public static class ListNode {
 		int val;
 		ListNode next;
@@ -34,19 +32,13 @@ public class RemoveLinkedListElements extends AbstractCustomTestRunner {
 	}
 	
     public ListNode _removeElements(ListNode head, int val) {
-    	if (head == null) return head;
     	ListNode traverser = null, traverserHead = head;
-    	
     	while (traverserHead != null && traverserHead.val == val) traverserHead = traverserHead.next;
-    	if (traverserHead != null) {
-    		traverser = traverserHead;
-    		
-    		while (traverser.next != null) {
-    			if (traverser.next.val == val)
-    				traverser.next = traverser.next.next;
-    			else traverser = traverser.next;
-    		}
-    	}
+    	traverser = traverserHead;
+    	while (traverser != null) {
+            while (traverser.next != null && traverser.next.val == val) traverser.next = traverser.next.next;
+            traverser = traverser.next;
+        }
     	return traverserHead;
     }
     
