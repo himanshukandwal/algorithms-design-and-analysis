@@ -26,8 +26,6 @@ public class RemoveNthNodeFromEndOfList extends AbstractCustomTestRunner {
 
 	private static RemoveNthNodeFromEndOfList _instance = new RemoveNthNodeFromEndOfList();
 	
-	private RemoveNthNodeFromEndOfList() {}
-	
 	public class ListNode {
 		int val;
 		ListNode next;
@@ -36,29 +34,15 @@ public class RemoveNthNodeFromEndOfList extends AbstractCustomTestRunner {
 	
 	// method : let the forward pointer pass 'n' places and the start the node pointer till the forward pointer reaches end.
 	public ListNode _removeNthFromEnd(ListNode head, int n) {
-		if (head == null)
-			return head;
-		
-		ListNode forwardnode = head, node = null;
-		int counter = 0;
-		
-		for (; forwardnode != null && counter < n - 1; counter++, forwardnode = forwardnode.next);
-		
-		if (counter == (n - 1)) {
-			while (forwardnode != null && forwardnode.next != null) {
-				forwardnode = forwardnode.next;
-				node = (node == null) ? head : node.next;
-			}
-			
-			if (node != null) {
-				ListNode nodeToRemove = node.next;
-				if (nodeToRemove != null)
-					node.next = nodeToRemove.next;				
-			} else 
-				head = head.next;
-		}
-		
-		return head;
+		ListNode traverser = head, forward = head;
+        while (n -- > 0) {
+            if (forward != null) forward = forward.next;
+            else return head;
+        }
+        if (forward == null) return head.next;
+        while (forward.next != null) { forward = forward.next; traverser = traverser.next; }
+        traverser.next = traverser.next.next;
+        return head;
 	}
 
 	// driver method
