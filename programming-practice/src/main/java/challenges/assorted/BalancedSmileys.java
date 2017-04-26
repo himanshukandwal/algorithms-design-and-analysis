@@ -2,15 +2,17 @@ package challenges.assorted;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import challenges.AbstractCustomTestRunner;
 
 /**
  * Balance Smileys
+ * 
+ * Facebook hackercup.
+ * 
+ * https://www.facebook.com/hackercup/problem/403525256396727/
+ * https://www.facebook.com/notes/598486173500621
  * 
  * @author Hxkandwal
  */
@@ -23,40 +25,22 @@ public class BalancedSmileys extends AbstractCustomTestRunner {
         int itr = 0;
         while (itr < expression.length) {
             String expr = expression [itr];
-            boolean balanced = true;
            
             // processing logic
-            Character prev = null;
-            Stack<Integer> stack = new Stack<>();
-            List<Integer> hpair = new ArrayList<>();
-            List<Integer> fpair = new ArrayList<>();
-            
+            int maxOpen = 0, minOpen = 0;
             for (int idx = 0; idx < expr.length(); idx ++) {
-                char ch = expr.charAt (idx);
-                if (ch == '(') {
-                    if (prev != null && prev == ':') fpair.add (idx - 1);
-                    else stack.push (idx);
-                } else if (ch == ')') {
-                    if (prev != null && prev == ':') hpair.add (idx - 1);
-                    else {
-                        if (!stack.isEmpty()) stack.pop();
-                        else if (fpair.size() == 0)  { balanced = false; break; }
-                        else fpair.remove(fpair.size() - 1);
-                    }
-                }
-                prev = ch;
+            	char ch = expr.charAt(idx);
+            	if (ch == '(') {
+            		maxOpen ++;
+            		if (idx == 0 || expr.charAt(idx - 1) != ':') minOpen ++;
+            	} else if (ch == ')') {
+            		minOpen = Math.max (0, minOpen - 1);
+            		if (idx == 0 || expr.charAt(idx - 1) != ':') maxOpen --;
+            		if (maxOpen < 0) break;
+            	}
             }
             
-            for (int openIdx : stack) {
-                for (Iterator <Integer> iterator = hpair.iterator(); iterator.hasNext();) {
-                    int start = iterator.next();
-                    if (start < openIdx) iterator.remove ();
-                    else break;
-                }
-                if (hpair.size() > 0) hpair.remove(0);
-                else { balanced = false; break; }
-            }
-            ans [itr] = (balanced ? "YES" : "NO");
+            ans [itr] = (maxOpen >= 0 && minOpen == 0 ? "YES" : "NO");
             itr ++;
         }
         return ans;
