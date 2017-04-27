@@ -6,6 +6,7 @@ import java.util.Queue;
 public class Workpad {
 
 	public static void main(String[] args) {
+		System.out.println(-1 % 20);
 		System.out.println(maxSubsequenceAfterSwap(new int[] { 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1 }, 3));
 	}
 	

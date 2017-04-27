@@ -24,6 +24,15 @@ public class Pow extends AbstractCustomTestRunner {
         return n < 0 ? 1.0 / result : result;
     }
 	
+	public int _myPow(int x, int n, int d) {
+	    long result = 1l;
+	    long base = x;
+        for (int i = n; i != 0; i /= 2, base = (base * base) % d)
+            if (i % 2 != 0) result = (result * base) % d;
+        result = (result + d) % d;
+        return (int) (n < 0 ? 1 / result : result) % d;
+	}
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(2, 5, 32);
