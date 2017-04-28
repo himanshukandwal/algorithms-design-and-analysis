@@ -26,7 +26,6 @@ public class JumpGameII extends AbstractCustomTestRunner {
 	private static JumpGameII _instance = new JumpGameII();
 	
 	public int _jump(int[] nums) {
-		if (nums.length == 1) return 0;
         int farIndex = 0, count = 0, best = nums [0];
         for (int idx = 0; idx < nums.length && farIndex < nums.length - 1; idx ++) {
             best = Math.max (best, idx + nums [idx]);
