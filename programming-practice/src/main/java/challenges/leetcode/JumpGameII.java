@@ -29,6 +29,7 @@ public class JumpGameII extends AbstractCustomTestRunner {
         int [] dp = new int [nums.length];
         for (int idx = 0; idx < nums.length; idx ++) {
             int jump = nums [idx];
+            
             for (int iidx = idx + 1; iidx <= idx + jump && iidx < nums.length; iidx ++) {
                 if (dp [iidx] == 0)  dp [iidx] = dp [idx] + 1;
                 if (iidx == nums.length - 1) return dp [iidx];
