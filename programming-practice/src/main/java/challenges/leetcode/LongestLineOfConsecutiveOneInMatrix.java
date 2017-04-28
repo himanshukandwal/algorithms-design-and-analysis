@@ -2,7 +2,6 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -37,20 +36,18 @@ public class LongestLineOfConsecutiveOneInMatrix extends AbstractCustomTestRunne
         int max = 0;
         
         int [][][] dp = new int [M.length][M [0].length][4];
-        for (int row = 0; row < M.length; row ++) 
-            for (int col = 0; col < M [0].length; col ++)  
-                Arrays.fill (dp [row][col], -1);
                 
         for (int row = 0; row < M.length; row ++)
             for (int col = 0; col < M [0].length; col ++)
                 if (M [row][col] == 1)
                     for (int idx = 0; idx < 4; idx ++) max = Math.max (max, dfs (M, dp, row, col, idx));
+        
         return max;
     }
     
     private int dfs (int [][] M, int [][][] dp, int row, int col, int idx) {
         if (row < 0 || row >= M.length || col < 0 || col >= M [0].length || M [row][col] != 1) return 0;
-        if (dp [row][col][idx] != -1) return dp [row][col][idx];
+        if (dp [row][col][idx] != 0) return dp [row][col][idx];
         int count = 1;
         count += dfs (M, dp, row + rdir [idx], col + cdir [idx], idx);
         return dp [row][col][idx] = count;
