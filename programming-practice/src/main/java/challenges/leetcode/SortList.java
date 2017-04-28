@@ -17,77 +17,47 @@ import challenges.AbstractCustomTestRunner;
 public class SortList extends AbstractCustomTestRunner {
 	
 	private static SortList _instance = new SortList();
-	
-	private SortList() {}
 
 	public static class ListNode {
 		int val;
 		ListNode next;
-		
 		public ListNode(int x) { val = x; next = null; } 
-		
-		public String toString() { return String.valueOf(val); }
+		public String toString() { return "" + val; }
 	}
 	
-    public ListNode _sortList(ListNode head) {
-    	if (head != null && head.next != null) 
-    		return mergeSort(head, null);
-    	return head;
-    }
-    
-    private ListNode mergeSort (ListNode start, ListNode end) {
-    	if (start != end && start.next != end) {
-    		ListNode mid = getMidElement(start, end);
-    		
-    		mergeSort(start, mid);
-    		mergeSort(mid.next, end);
-    		return merge (start, mid, end);
-    	}
-    	return start;
-    }
-    
-    private ListNode merge (ListNode start, ListNode mid, ListNode end) {
-    	ListNode head = null, builder = null;
-    	
-    	while (start != mid && mid != end) {
-    		if (start.val <= mid.val) { 
-    			if (head == null) head = builder = start; 
-    			else builder.next = start;
-    			
-    			start = start.next;
-    			builder.next = null;
-    		} else {
-    			ListNode previous = start;
-    			while (previous.next != mid) previous = previous.next;
-    			
-    			if (head == null) head = builder = previous.next;
-    			else builder.next = previous.next;
-    			
-    			mid = mid.next;
-    			builder.next = null;
-    			previous.next = mid;
-    		}
-    	}
-    	
-    	if (start == mid) builder.next = mid;
-    	if ( mid == end) builder.next = start;
-    	
-    	return head;
-    }
-    
-    private ListNode getMidElement(ListNode node, ListNode end) {
-		ListNode slow = node, fast = node;
-		while (fast != end && (end == null || (end != null && fast != end.next))) {
-			fast = fast.next;
-			if (fast == null || fast.next == null) break;
-			else {
-				fast = fast.next;
-				slow = slow.next;
-			}
+	public ListNode _sortList(ListNode head) {
+		if (head == null || head.next == null) return head;
+		
+		// step 1. cut the list to two halves
+		ListNode prev = null, slow = head, fast = head;
+		while (fast != null && fast.next != null) {
+			prev = slow;
+			slow = slow.next;
+			fast = fast.next.next;
 		}
-		return slow;
+		prev.next = null;
+		
+		// step 2. sort each half
+		ListNode l1 = _sortList(head), l2 = _sortList(slow);
+		    
+		// step 3. merge l1 and l2
+		return merge(l1, l2);
 	}
-
+	
+	private ListNode merge(ListNode l1, ListNode l2) {
+		ListNode l = new ListNode(0), p = l;
+		
+		while (l1 != null && l2 != null) {
+			if (l1.val < l2.val) { p.next = l1; l1 = l1.next; } 
+			else { p.next = l2; l2 = l2.next; }
+			p = p.next;
+		}
+		
+		if (l1 != null) p.next = l1;
+		if (l2 != null) p.next = l2;
+		return l.next;
+	}
+    
 	// driver method
 	public static void main(String[] args) {
 		ListNode head = new ListNode(2);

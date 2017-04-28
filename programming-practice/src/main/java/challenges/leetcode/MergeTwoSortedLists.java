@@ -21,8 +21,6 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 
 	private static MergeTwoSortedLists _instance = new MergeTwoSortedLists();
 	
-	private MergeTwoSortedLists() {}
-	
 	public class ListNode {
 		int val;
 		ListNode next;
