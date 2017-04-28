@@ -38,60 +38,10 @@ public class FindAllAnagramsInAString extends AbstractCustomTestRunner {
 	
 	private static FindAllAnagramsInAString _instance = new FindAllAnagramsInAString();
 	
-	private FindAllAnagramsInAString() {}
-	
-	// more so sliding window ideology.
-	public List<Integer> _findAnagrams(String s, String p) {
-		List<Integer> result = new ArrayList<>();
-		
-		int[] alphabets = new int [26];
-		for (int idx = 0; idx < p.length(); idx ++) 
-			alphabets [p.charAt(idx) - 'a'] ++;
-		
-		boolean found = false;
-		for (int idx = 0; idx < s.length() - p.length() + 1; idx ++) {
-			if (found) { 
-				if (s.charAt(idx + p.length() - 1) == s.charAt(idx - 1))
-					result.add(idx);
-				else {
-					found = false;
-					if (alphabets [s.charAt(idx + p.length() - 1) - 'a'] == 0)
-						idx += (p.length() - 1);
-				}
-			} else {
-				int[] localAlphabets = new int [26];
-				for (int innerIdx = 0; innerIdx < p.length(); innerIdx ++) {
-					if (alphabets [s.charAt(idx + innerIdx) - 'a'] == 0)
-						break;
-					else
-						localAlphabets [s.charAt(idx + innerIdx) - 'a'] ++;
-				}
-				
-				if (isEqual(alphabets, localAlphabets)) 
-					found = result.add(idx);
-			}
-		}		
-		
-		return result;
-    }
-	
-	private static boolean isEqual(int[] pattern, int[] detected) {
-		for (int idx = 0; idx < detected.length; idx ++) 
-			if (pattern [idx] != detected [idx])
-				return false;
-		
-		return true;
-	}
-	
 	public List<Integer> _findAnagrams2(String s, String p) {
 	    List<Integer> list = new ArrayList<>();
-	    
-	    if (s == null || s.length() == 0 || p == null || p.length() == 0) return list;
-	    
-	    int[] hash = new int[256]; //character hash
-	    
-	    //record each character in p to hash
-	    for (char c : p.toCharArray()) hash [c] ++;
+	    int[] hash = new int[256];
+	    for (char ch : p.toCharArray()) hash [ch] ++;
 	    
 	    //two points, initialize count to p's length
 	    int left = 0, right = 0, count = p.length();
