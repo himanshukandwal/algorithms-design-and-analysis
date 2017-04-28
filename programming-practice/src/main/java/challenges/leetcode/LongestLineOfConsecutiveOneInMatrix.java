@@ -29,10 +29,10 @@ public class LongestLineOfConsecutiveOneInMatrix extends AbstractCustomTestRunne
 	
 	private static LongestLineOfConsecutiveOneInMatrix _instance = new LongestLineOfConsecutiveOneInMatrix();
 	
-	int [] rdir = new int [] { 0, 1, 1, -1 };
+	int [] rdir = new int [] { 0, 1, 1,  1 };
     int [] cdir = new int [] { 1, 1, 0, -1 };
     
-    public int longestLine(int[][] M) {
+    public int _longestLine(int[][] M) {
         if (M.length == 0) return 0;
         int max = 0;
         
@@ -58,15 +58,16 @@ public class LongestLineOfConsecutiveOneInMatrix extends AbstractCustomTestRunne
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(3, Arrays.asList("((()))", "(()())", "(())()", "()(())", "()()()"));
+		_instance.runTest(new int [][] { new int [] { 0, 1, 1, 0 },
+						 				 new int [] { 1, 1, 1, 0 },
+						 				 new int [] { 0, 0, 0, 1 }}  ,3);
 	}
 
-	@SuppressWarnings("unchecked")
-	public void runTest(final int number, final List<String> expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { number });
+	public void runTest(final int[][] M, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { M });
 
 		for (Object answer : answers)
-			assertThat((List<String>) answer).isEqualTo(expectedOutput);
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
 	}
