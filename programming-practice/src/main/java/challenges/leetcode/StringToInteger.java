@@ -24,23 +24,20 @@ public class StringToInteger extends AbstractCustomTestRunner {
 
 	private static StringToInteger _instance = new StringToInteger();
 	
-	private StringToInteger() {}
-	
 	public int _myAtoi(String str) {
-		if ((str = str.trim()).length() == 0) return 0;
-        boolean isNeg = (str.charAt(0) == '-');
-        if (str.charAt(0) == '+' || str.charAt(0) == '-') str = str.substring(1); 
-        	
-        long value = 0;
-        for (int idx = 0; idx < str.length(); idx ++) {
-            if (Character.isDigit (str.charAt(idx))) { 
-                value = 10 * value + (str.charAt(idx) - '0'); 
-                if (value > Integer.MAX_VALUE)
-                    return (isNeg) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-            }
-            else break;
+		str = str.trim ();
+        if (str.length() == 0) return 0;
+        long res = 0; 
+        boolean neg = (str.charAt (0) == '-');
+        for (int idx = (neg || str.charAt (0) == '+' ? 1 : 0); idx < str.length (); idx ++) {
+            char ch = str.charAt (idx);
+            if (ch >= '0' && ch <= '9') {
+                res = 10 * res + (ch - '0');
+                if (res > Integer.MAX_VALUE) { res = (neg ? Integer.MIN_VALUE : Integer.MAX_VALUE); break; }
+            } else { if (ch == '+') return 0; else break; }
         }
-        return ((int) value) * (isNeg ? -1 : 1);
+        res = (neg ? -1 : 1) * res;
+        return (int) res;
 	}
 	
 	// driver method
