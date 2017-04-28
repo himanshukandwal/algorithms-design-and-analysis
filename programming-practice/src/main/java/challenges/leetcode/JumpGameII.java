@@ -26,16 +26,13 @@ public class JumpGameII extends AbstractCustomTestRunner {
 	private static JumpGameII _instance = new JumpGameII();
 	
 	public int _jump(int[] nums) {
-        int [] dp = new int [nums.length];
-        for (int idx = 0; idx < nums.length; idx ++) {
-            int jump = nums [idx];
-            
-            for (int iidx = idx + 1; iidx <= idx + jump && iidx < nums.length; iidx ++) {
-                if (dp [iidx] == 0)  dp [iidx] = dp [idx] + 1;
-                if (iidx == nums.length - 1) return dp [iidx];
-            }
+		if (nums.length == 1) return 0;
+        int farIndex = 0, count = 0, best = nums [0];
+        for (int idx = 0; idx < nums.length && farIndex < nums.length - 1; idx ++) {
+            best = Math.max (best, idx + nums [idx]);
+            if (farIndex == idx) { farIndex = best; count ++; best = 0; }
         }
-        return 0;
+        return count;
     }
 
 	// driver method
