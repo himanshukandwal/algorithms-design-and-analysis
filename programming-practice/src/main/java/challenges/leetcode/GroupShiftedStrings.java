@@ -39,32 +39,27 @@ public class GroupShiftedStrings extends AbstractCustomTestRunner {
 	private static GroupShiftedStrings _instance = new GroupShiftedStrings();
 
 	public List<List<String>> _groupStrings(String[] strings) {
-		List<List<String>> result = new ArrayList<>();
-		Map<String, List<String>> map = new HashMap<>();
-		
-		for (String string : strings) {
-			String key = getBitMap (string);
-			map.computeIfAbsent(key, k -> new ArrayList<>()).add(string);
-		}
-		
-		for (String key : map.keySet()) {
-			List<String> list = map.get (key);
-			Collections.sort(list);
-			result.add(list);
-		}
-		
-		return result;
-	}
-
-	private String getBitMap(String s) {
-		int[] arr = new int [s.length()];
-		arr[0] = 0;
-		for (int idx = 1; idx < s.length(); idx ++) {
-			arr[idx] = s.charAt(idx) - s.charAt(0) < 0 ? ((s.charAt(idx) - s.charAt(0)) % 26 + 26)
-					: (s.charAt(idx) - s.charAt(0));
-		}
-		return Arrays.toString(arr);
-	}
+		List<List<String>> ans = new ArrayList<List<String>> ();
+        Map <String, List<String>> map = new HashMap<>();
+        for (String str : strings) 
+            map.computeIfAbsent (getBitMap (str), k -> new ArrayList<>()).add (str);
+        
+        for (String key : map.keySet()) {
+            List<String> list = map.get (key);
+            Collections.sort (list);
+            ans.add (list);
+        }
+        return ans;
+    }
+    
+    private String getBitMap (String string) {
+        int [] bit = new int [string.length ()];
+        bit [0] = 0;
+        for (int idx = 1; idx < string.length(); idx ++) {
+            bit [idx] = (string.charAt (idx) - string.charAt(0) < 0) ? (string.charAt (idx) - string.charAt(0) + 26) : string.charAt (idx) - string.charAt(0);
+        }
+        return Arrays.toString (bit);
+    }
 
 	// driver method
 	public static void main(String[] args) {
