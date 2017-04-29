@@ -20,18 +20,10 @@ public class ReorderList extends AbstractCustomTestRunner {
 	
 	private static ReorderList _instance = new ReorderList();
 	
-	private ReorderList() {}
-	
 	public static class ListNode {
 		int val;
 		ListNode next;
-		
 		ListNode(int x) { val = x; }
-		
-		@Override
-		public String toString() {
-			return "(" + val + ")";
-		}
 	}
 	
     public void _reorderList(ListNode head) {
@@ -55,6 +47,26 @@ public class ReorderList extends AbstractCustomTestRunner {
     	}
     }
 
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null) return;
+        ListNode trv = head, future = trv.next, last = null;
+        
+        while ((last = getLast (future)) != null) {
+            trv.next = last;
+            last.next = future;
+            trv = future;
+            future = future.next;
+        }
+    }
+    
+    private ListNode getLast (ListNode node) {
+        if (node == null || node.next == null) return null;
+        ListNode trv = node, prev = null;
+        while (trv.next != null) { prev = trv; trv = trv.next; }
+        prev.next = null;
+        return trv;
+    }
+    
 	// driver method
 	public static void main(String[] args) {
 		ListNode head = new ListNode(1);
