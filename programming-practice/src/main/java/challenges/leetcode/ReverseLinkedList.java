@@ -21,6 +21,19 @@ public class ReverseLinkedList extends AbstractCustomTestRunner {
 		ListNode(int x) { val = x; }
 	}
 	
+	public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode prev = head, trv = head.next;
+        head.next = null;
+        while (trv != null) {
+            ListNode future = trv.next;
+            trv.next = prev;
+            prev = trv;
+            trv = future;
+        }
+        return prev;
+    }
+	
     public ListNode _reverseList(ListNode head) {
         if (head == null || head.next == null) return head;
         ListNode passed = head.next;
