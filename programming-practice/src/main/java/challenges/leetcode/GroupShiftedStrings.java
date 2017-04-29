@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,8 +35,10 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class GroupShiftedStrings extends AbstractCustomTestRunner {
+	
+	private static GroupShiftedStrings _instance = new GroupShiftedStrings();
 
-	public List<List<String>> groupStrings(String[] strings) {
+	public List<List<String>> _groupStrings(String[] strings) {
 		List<List<String>> result = new ArrayList<>();
 		Map<String, List<String>> map = new HashMap<>();
 		
@@ -53,13 +57,31 @@ public class GroupShiftedStrings extends AbstractCustomTestRunner {
 	}
 
 	private String getBitMap(String s) {
-		int[] arr = new int[s.length()];
+		int[] arr = new int [s.length()];
 		arr[0] = 0;
-		for (int i = 1; i < s.length(); i++) {
-			arr[i] = s.charAt(i) - s.charAt(0) < 0 ? ((s.charAt(i) - s.charAt(0)) % 26 + 26)
-					: (s.charAt(i) - s.charAt(0));
+		for (int idx = 1; idx < s.length(); idx ++) {
+			arr[idx] = s.charAt(idx) - s.charAt(0) < 0 ? ((s.charAt(idx) - s.charAt(0)) % 26 + 26)
+					: (s.charAt(idx) - s.charAt(0));
 		}
 		return Arrays.toString(arr);
 	}
 
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(new String [] { "abc", "bcd", "acef", "xyz", "az", "ba", "a", "z" }, Arrays.asList(Arrays.asList("abc","bcd","xyz"),
+																							   Arrays.asList("a","z"),
+																							   Arrays.asList("az","ba"), 
+																							   Arrays.asList("acef")));
+	}
+
+	@SuppressWarnings("unchecked")
+	public void runTest(final String[] strings, final List<List<String>> expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { strings });
+
+		for (Object answer : answers)
+			assertThat((List<List<String>>) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
+	}
+	
 }
