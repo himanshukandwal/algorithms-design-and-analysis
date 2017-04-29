@@ -25,46 +25,40 @@ public class ReorderList extends AbstractCustomTestRunner {
 		ListNode next;
 		ListNode(int x) { val = x; }
 	}
-	
-    public void _reorderList(ListNode head) {
-    	if (head != null && head.next != null) {
-	    	ListNode startTraverser = head, endGoalFollower = head, endGoal = null;
-	    	while (endGoalFollower.next != endGoal) endGoalFollower = endGoalFollower.next;
-	    	endGoal = endGoalFollower;
-	    	endGoalFollower = head;
-	    	
-	    	while (startTraverser != endGoal) {
-	    		while (endGoalFollower.next != endGoal) endGoalFollower = endGoalFollower.next;
-	    		if (endGoalFollower == startTraverser) break;
-	    		
-	    		ListNode future = startTraverser.next;
-	    		startTraverser.next = endGoalFollower.next;
-	    		startTraverser.next.next = future;
-	    		endGoalFollower.next = null;
-	    		endGoal = endGoalFollower;
-	    		startTraverser = endGoalFollower = future;
-	    	}
-    	}
-    }
 
     public void reorderList(ListNode head) {
         if (head == null || head.next == null) return;
-        ListNode trv = head, future = trv.next, last = null;
+        ListNode slow = head, fast = head;
+        // 1. get the mid point.
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next; fast = fast.next.next;
+        }
         
-        while ((last = getLast (future)) != null) {
-            trv.next = last;
-            last.next = future;
-            trv = future;
-            future = future.next;
+        // 2. reverse from the mid point
+        ListNode t2 = reversal (slow.next);
+        slow.next = null;
+        
+        // 3. stitch the lists.
+        ListNode t1 = head;
+        while (t1 != null && t2 != null) {
+            ListNode future1 = t1.next, future2 = t2.next;
+            t1 = t1.next = t2;
+            t1 = t1.next = future1;
+            t2 = future2;
         }
     }
     
-    private ListNode getLast (ListNode node) {
-        if (node == null || node.next == null) return null;
-        ListNode trv = node, prev = null;
-        while (trv.next != null) { prev = trv; trv = trv.next; }
-        prev.next = null;
-        return trv;
+    private ListNode reversal (ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode prev = head, trv = head.next;
+        head.next = null;
+        while (trv != null) {
+            ListNode future = trv.next;
+            trv.next = prev;
+            prev = trv;
+            trv = future;
+        }
+        return prev;
     }
     
 	// driver method
@@ -72,7 +66,7 @@ public class ReorderList extends AbstractCustomTestRunner {
 		ListNode head = new ListNode(1);
 		head.next = new ListNode(2);
 		head.next.next = new ListNode(3);
-		_instance._reorderList(head);
+		_instance.reorderList(head);
 		
 		assertThat(head.next.val).isEqualTo(3);
 		System.out.println("ok!");
