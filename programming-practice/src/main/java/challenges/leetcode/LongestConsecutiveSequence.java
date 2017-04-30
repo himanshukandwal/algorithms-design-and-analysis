@@ -2,8 +2,10 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import challenges.AbstractCustomTestRunner;
@@ -26,43 +28,62 @@ public class LongestConsecutiveSequence extends AbstractCustomTestRunner {
 	
 	private static LongestConsecutiveSequence _instance = new LongestConsecutiveSequence();
 	
-	private LongestConsecutiveSequence() {}
-	
 	// expand window as much as possible, and find the max-size window, 
     public static int longestConsecutive(int[] nums) {
-    	if (nums.length == 0)
-    		return 0;
-    	
+    	if (nums.length == 0) return 0;
     	Set<Integer> set = new HashSet<Integer>();
     	int max = 1;
      
     	// add all
-    	for (int e : nums)
-    		set.add(e);
-     
+    	for (int e : nums) set.add(e);
+    	
     	for (int e : nums) {
-    		int left = e - 1;
-    		int right = e + 1;
-    		int count = 1;
+    		int left = e - 1, right = e + 1, count = 1;
      
     		// eat till extreme left
     		while (set.contains(left)) {
-    			count++;
+    			count ++;
     			set.remove(left);
-    			left--;
+    			left --;
     		}
     		
     		// eat till extreme right     
     		while (set.contains(right)) {
-    			count++;
+    			count ++;
     			set.remove(right);
-    			right++;
+    			right ++;
     		}
      
-    		max = Math.max(count, max);
+    		max = Math.max (count, max);
     	}
      
     	return max;
+    }
+    
+    public int _longestConsecutive(int[] nums) {
+        if (nums.length == 0) return 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        Set<Integer> seen = new HashSet<>();
+        int max = 1;
+        
+        for (int num : nums) {
+            if (seen.contains(num)) continue;
+            
+            if (map.containsKey (num - 1) && map.containsKey (num + 1)) {
+                int sval = map.remove (num - 1);
+                int rval = map.remove (num + 1);
+                map.put (sval, rval);
+                map.put (rval, sval);
+                max = Math.max (max, Math.abs (rval - sval) + 1);   
+            } else if (map.containsKey (num - 1) || map.containsKey (num + 1)) {
+                int val = map.containsKey (num - 1) ? map.remove (num - 1) : map.remove (num + 1);
+                map.put (val, num); 
+                map.put (num, val);
+                max = Math.max (max, Math.abs (num - val) + 1);   
+            } else map.put (num, num);
+            seen.add (num);
+        }
+        return max;
     }
     
 	// driver method
