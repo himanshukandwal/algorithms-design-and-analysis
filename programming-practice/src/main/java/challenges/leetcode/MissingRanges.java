@@ -24,24 +24,36 @@ public class MissingRanges extends AbstractCustomTestRunner {
 	private static MissingRanges _instance = new MissingRanges();
 
 	public List<String> _findMissingRanges(int[] nums, int lower, int upper) {
-        List<String> ans = new ArrayList<>();
-        if (nums.length == 0) return ans;
-        
-        int start = lower, idx = 0;
-        while (idx < nums.length) {
-            if (start == nums [idx]) start ++; 
-            else {
-            	if (nums [idx] - 1 == start) ans.add(String.valueOf(start));
-            	else ans.add(start + "->" + (nums [idx] - 1));
-            	start = nums [idx] + 1;
+		List<String> res = new ArrayList<>();
+        for (int n : nums) {
+            if (n == Integer.MIN_VALUE) {
+                lower = n + 1; 
+                continue;
             }
-            idx ++;
+            if (lower == n - 1) res.add("" + lower);
+            else if (lower < n - 1)   res.add(lower + "->" + (n - 1)); 
+            if (n == Integer.MAX_VALUE)     return res; // added
+            lower = n + 1;
         }
-        
-        if (start == upper - 1) ans.add(String.valueOf(start));
-        else ans.add(start + "->" + (upper));
-        return ans;
+        if (lower == upper) res.add("" + lower);
+        else if (lower < upper)   res.add(lower + "->" + upper);
+        return res;
     }
+	
+	// solution without considering boundary level cases.
+	public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+		List<String> list = new ArrayList<String>();
+		for (int n : nums) {
+			int justBelow = n - 1;
+			if (lower == justBelow) list.add (lower + "");
+			else if (lower < justBelow) list.add (lower + "->" + justBelow);
+			lower = n + 1;
+		}
+		
+		if (lower == upper) list.add (lower + "");
+		else if (lower < upper) list.add (lower + "->" + upper);
+		return list;
+	}
 	
 	// driver method
 	public static void main(String[] args) {
