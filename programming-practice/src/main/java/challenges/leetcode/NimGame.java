@@ -54,7 +54,7 @@ public class NimGame extends AbstractCustomTestRunner {
      *
      */
     public boolean _canWinNimFaster(int n) {
-        if (n <= 0) {return false;}
+        if (n <= 0) return false;
         return n % 4 != 0;
     }
 	
