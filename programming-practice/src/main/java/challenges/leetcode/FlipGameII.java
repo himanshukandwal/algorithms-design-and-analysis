@@ -1,5 +1,8 @@
 package challenges.leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
