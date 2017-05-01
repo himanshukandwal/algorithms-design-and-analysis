@@ -1,7 +1,9 @@
 package challenges.leetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -22,6 +24,31 @@ import challenges.AbstractCustomTestRunner;
  */
 public class FlipGameII extends AbstractCustomTestRunner {
 	
+	/**
+	 * Read about S-G functions.
+	 **/
+	// solution 1
+	public boolean canWinFaster(String s) {
+        return canWinFaster (new HashMap<>(), s);
+    }
+    
+    private boolean canWinFaster (Map<String, Boolean> map, String s) {
+        if (map.containsKey(s)) return map.get (s);
+        List<Integer> indexes = new ArrayList <>();
+        for (int idx = 0; idx < s.length() - 1; idx ++)
+            if (s.charAt (idx) == '+' && s.charAt (idx + 1) == '+') indexes.add (idx);
+        
+        if (indexes.size () == 0) { map.put (s, false); return false; }
+        
+        boolean result = false;
+        for (int index : indexes)
+            if (result = !canWinFaster (map, s.substring (0, index) + "--" + s.substring (index + 2))) break;
+
+        map.put (s, result);
+        return result;
+    }
+    
+    // solution 2
 	public boolean canWin(String s) {
         List<Integer> indexes = new ArrayList <>();
         for (int idx = 0; idx < s.length() - 1; idx ++)
@@ -32,5 +59,5 @@ public class FlipGameII extends AbstractCustomTestRunner {
             if (!canWin (s.substring (0, index) + "--" + s.substring (index + 2))) return true;
         return false;
     }
-
+	
 }

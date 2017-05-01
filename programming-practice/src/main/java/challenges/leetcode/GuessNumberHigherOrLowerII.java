@@ -32,18 +32,16 @@ public class GuessNumberHigherOrLowerII extends AbstractCustomTestRunner {
 
 	public int _getMoneyAmount(int n) {
 		int [][] dp = new int [n + 1][n + 1];
-        return minimax (dp, 1, n);
+        return getMoney (dp, 1, n);
     }
     
-    private int minimax (int [][] dp, int start, int end) {
-        if (start >= end) return 0;
+    private int getMoney (int [][] dp, int start, int end) {
+        if (end <= start) return 0;
         if (dp [start][end] != 0) return dp [start][end];
-        int res = Integer.MAX_VALUE;
-        for (int k = start; k <= end; k ++) {
-            int local = k + Math.max (minimax (dp, start, k - 1), minimax (dp, k + 1, end));
-            res = Math.min (res, local);
-        }   
-        return dp [start][end] = res;
+        int min = Integer.MAX_VALUE;
+        for (int idx = start; idx <= end; idx ++)
+            min = Math.min (min, idx + Math.max (getMoney (dp, start, idx - 1), getMoney (dp, idx + 1, end)));
+        return dp [start][end] = min;
     }
 	
 	// driver method
