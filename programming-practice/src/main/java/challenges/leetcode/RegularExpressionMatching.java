@@ -28,7 +28,6 @@ import challenges.AbstractCustomTestRunner;
  * 			isMatch("aab", "c*a*b") = true
  * 
  * @author Hxkandwal
- *
  */
 public class RegularExpressionMatching extends AbstractCustomTestRunner {
 	
