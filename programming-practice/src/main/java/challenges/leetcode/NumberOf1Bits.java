@@ -22,11 +22,8 @@ public class NumberOf1Bits extends AbstractCustomTestRunner {
 	private NumberOf1Bits() {}
 	
     public static int _hammingWeight(int n) {
-        int count = 0;
-        
-        for (int pos = 31; pos >= 0; pos --)
-			count += (n >>> pos & 1) == 1 ? 1 : 0;
-        
+    	int count = 0;
+        for (int idx = 31; idx >= 0; idx --) count += (n >> idx & 1);
         return count;
     }
     
