@@ -37,36 +37,42 @@ public class RegularExpressionMatching extends AbstractCustomTestRunner {
 	public RegularExpressionMatching() {}
 	
 	public static boolean _isMatch(String s, String p) {
-		return isMatchInner(s, 0, p, 0, null);
-    }
-	
-	private static boolean isMatchInner(String s, int sIdx, String p, int pIdx, Character previouslyIdentified) {
-		if (sIdx >= s.length() && ((pIdx == p.length() - 1 && p.charAt(pIdx) == '*') || (pIdx >= p.length())))
-				return true;
-		
-		if ((sIdx >= s.length() && pIdx < p.length()) || (pIdx >= p.length() && sIdx < s.length()))
-			return false;
-		
-		if (p.charAt(pIdx) == '.' || p.charAt(pIdx) == s.charAt(sIdx))
-			return isMatchInner(s, sIdx + 1, p, pIdx + 1, s.charAt(sIdx));
-		else if ((p.charAt(pIdx) == '*') && (s.charAt(sIdx) == previouslyIdentified)) 
-			return isMatchInner (s, sIdx + 1, p, pIdx, previouslyIdentified) || isMatchInner (s, sIdx + 1, p, pIdx + 1, previouslyIdentified);
-		else
-			return isMatchInner(s, sIdx, p, pIdx + 1, p.charAt(pIdx));
+		if (p.length () == 0) return s.length() == 0;
+        
+        boolean [][] dp = new boolean [s.length() + 1][p.length() + 1];
+        dp [0][0] = true;
+        
+        for (int col = 1; col < p.length(); col ++) 
+            dp [0][col + 1] = p.charAt (col) == '*' && dp [0][col - 1];
+            
+        for (int row = 0; row < s.length (); row ++) {
+            char rch = s.charAt (row);
+            for (int col = 0; col < p.length (); col ++) {
+                char cch = p.charAt (col);    
+                
+                if (cch == '*') {
+                    boolean case1 = dp [row + 1][col - 1];
+                    boolean case2 = (p.charAt (col - 1) == '.' || p.charAt (col - 1) == rch) && dp [row][col + 1];
+                    dp [row + 1][col + 1] = case1 || case2;
+                    
+                } else dp [row + 1][col + 1] = (rch == cch || cch == '.') && dp [row][col];
+            }
+        }
+        return dp [s.length ()][p.length()];
 	}
 	
 	// driver method
     public static void main(String[] args) throws FileNotFoundException {
+    	_instance.runTest("aa", "a*", true);
     	_instance.runTest("aa", "a", false);
     	_instance.runTest("aa","aa", true);
 		_instance.runTest("aaa", "aa", false);
 		_instance.runTest("aaaaaaaaaaaaaaa", "a*", true);
 		_instance.runTest("aaaaaaaaaaaaaaabbbbbbb", "a*b*", true);
 		_instance.runTest("aaaaaaaaaaaaaaacbbbbbbb", "a*cb*", true);
-		_instance.runTest("aa", "a*", true);
 		_instance.runTest("aa", "ab", false);
 		_instance.runTest("aa", ".*", true);
-		_instance.runTest("ab", ".*", false);
+		_instance.runTest("ab", ".*", true);
 		_instance.runTest("aab", "c*a*b", true);
 		_instance.runTest("abcd", "d*", false);
     }
