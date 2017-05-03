@@ -23,15 +23,10 @@ public class ReverseBits extends AbstractCustomTestRunner {
 	
 	private static ReverseBits _instance = new ReverseBits();
 	
-	private ReverseBits() {}
-	
 	public static int _reverseBits(int n) {
-		int result = 0;
-		
-		for (int pos = 31; pos >= 0; pos --)
-			result += (n >>> pos & 1) << (31 - pos);
-		
-		return result;
+		int ans = 0;
+        for (int idx = 31; idx >= 0; idx --) ans |= (n >>> idx & 1) << (31 - idx);
+        return ans;
     }
 
 	// driver method
