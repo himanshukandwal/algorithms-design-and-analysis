@@ -23,26 +23,24 @@ import challenges.AbstractCustomTestRunner;
 public class ThreeSum extends AbstractCustomTestRunner {
 
 	public List<List<Integer>> _threeSum(int[] nums) {
-		List<List<Integer>> res =  new ArrayList<> ();
-        Arrays.sort (nums);
-        for (int idx = 0; idx < nums.length - 2; idx ++) {
-            if (idx == 0 || nums [idx - 1] != nums [idx]) {
-                int low = idx + 1, high = nums.length - 1, sum = -nums [idx];
-                
-                while (low < high) {
-                    if (nums [low] + nums [high] == sum) {
-                        res.add (Arrays.asList (nums [idx], nums [low], nums [high]));
-                        
-                        while (low < high && nums [low] == nums [low + 1]) low ++;
-                        while (low < high && nums [high] == nums [high - 1]) high --;
-                        low ++; high --;
-                    } 
-                    else if (nums [low] + nums [high] < sum) low ++;
-                    else high --;
+		Arrays.sort (nums);
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        for (int i = 0; i < nums.length - 2; i ++) {
+            if (i == 0 || nums [i - 1] != nums [i]) {
+                int left = i + 1, right = nums.length - 1, target = -nums [i];
+                while (left < right) {
+                    if (nums [left] + nums [right] < target) left ++;
+                    else if (nums [left] + nums [right] > target) right --;
+                    else { 
+                        ans.add (Arrays.asList (nums [i], nums [left], nums [right])); 
+                        while (left < right && nums [left] == nums [left + 1]) left ++;
+                        while (left < right && nums [right] == nums [right - 1]) right --;
+                        left ++; right --;
+                    }
                 }
             }
         }
-        return res;
+        return ans;
 	}
 
 }
