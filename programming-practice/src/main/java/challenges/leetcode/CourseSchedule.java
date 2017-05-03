@@ -33,47 +33,39 @@ import challenges.AbstractCustomTestRunner;
 public class CourseSchedule extends AbstractCustomTestRunner {
 	
 	// DFS solution
-	public static class Node {
-        int val;
-        Set<Node> in = new HashSet<>();
-        Set<Node> out = new HashSet<>();
-        boolean seen, visited;
-        int indegree;       // needed as dont want to remove the links directly.
+	public class Node {
+        int label;
+        boolean seen;
+        List<Node> prereq = new ArrayList<>();
+        List<Node> dependent = new ArrayList<>();
         
-        public Node (int val) { this.val = val; }
+        public Node (int label) { this.label = label; }
     }
     
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        List<Node> nodes = new ArrayList<>();
-        for (int idx = 0; idx < numCourses; idx ++) nodes.add (new Node (idx));
-        
-        for (int[] pre : prerequisites) {
-            // checking immediate dependencies.
-            if (nodes.get (pre [0]).in.contains (nodes.get (pre [1]))) return false;
-            nodes.get (pre [0]).out.add (nodes.get (pre [1]));
-            nodes.get (pre [1]).in.add (nodes.get (pre [0]));
+        Node [] nodes = new Node [numCourses];
+        for (int idx = 0; idx < numCourses; idx ++) nodes [idx] = new Node (idx);
+        for (int [] prerequisite : prerequisites) {
+            nodes [prerequisite [0]].prereq.add (nodes [prerequisite [1]]);
+            nodes [prerequisite [1]].dependent.add (nodes [prerequisite [0]]);
         }
         
-        // check cyclicity.
-        for (Node node : nodes) {
-            if (node.in.size() == 0) {
-                node.visited = node.seen = true;
-                if (checkCycle (node)) return false;
-                node.seen = false;
-            }
-        }
-        for (Node node : nodes) if (!node.visited) return false;
-        return true;
+        for (Node node : nodes)
+            if (node.dependent.size() == 0 && !dfs (new HashSet<> (), node)) return false; 
+        
+        return nodes [0].seen;
     }
     
-    public boolean checkCycle (Node node) {
-        for (Node other : node.out) {
-            if (other.seen) return true;
-            other.visited = other.seen = true;
-            if (checkCycle (other)) return true;
-            other.seen = false;
-        }
-        return false;
+    private boolean dfs (Set<Node> chained, Node node) {
+        if (node.seen) return true;
+        if (chained.contains (node)) return false;
+        chained.add (node);
+        
+        for (Node dependsOn : node.prereq)
+            if (!dfs (chained, dependsOn)) return false;
+            
+        chained.remove (node);
+        return node.seen = true;
     }
 
     // BFS Solution
