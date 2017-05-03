@@ -89,6 +89,8 @@ public class CompareVersionNumbers extends AbstractCustomTestRunner {
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("1.1", "1", 1);
+		_instance.runTest("1.0.0.0", "1", 0);
+		_instance.runTest("1.0.0.1", "1", 1);
 		_instance.runTest("1.2", "1.10", -1);
 		_instance.runTest("1.1", "1.1", 0);
 	}
