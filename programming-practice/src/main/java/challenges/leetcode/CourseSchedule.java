@@ -2,9 +2,7 @@ package challenges.leetcode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 import challenges.AbstractCustomTestRunner;
@@ -32,7 +30,6 @@ import challenges.AbstractCustomTestRunner;
  */
 public class CourseSchedule extends AbstractCustomTestRunner {
 	
-	// DFS solution
 	public class Node {
         int label;
         boolean seen;
@@ -66,34 +63,6 @@ public class CourseSchedule extends AbstractCustomTestRunner {
             
         chained.remove (node);
         return node.seen = true;
-    }
-
-    // BFS Solution
-    public boolean canFinishBFS(int numCourses, int[][] prerequisites) {
-        List<Node> nodes = new ArrayList<>();
-        for (int idx = 0; idx < numCourses; idx ++) nodes.add (new Node (idx));
-        
-        for (int[] pre : prerequisites) {
-            // checking immediate dependencies.
-            if (nodes.get (pre [0]).in.contains (nodes.get (pre [1]))) return false;
-            nodes.get (pre [0]).out.add (nodes.get (pre [1]));
-            nodes.get (pre [1]).in.add (nodes.get (pre [0]));
-        }
-        
-        for (Node node : nodes) node.indegree = node.in.size();
-        Queue<Node> queue = new LinkedList<>();
-        for (Node node : nodes) if (node.indegree == 0) queue.offer (node);
-        
-        int processedNodes = 0;
-        while (! queue.isEmpty()) {
-            Node node = queue.poll ();
-            processedNodes ++;
-            
-            for (Node outNode : node.out)
-                if (-- outNode.indegree == 0) queue.offer (outNode);
-        }
-        
-        return processedNodes == numCourses;
     }
     
 }
