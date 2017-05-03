@@ -45,22 +45,14 @@ public class FindBottomLeftTreeValue extends AbstractCustomTestRunner {
 	}
 	
 	public int findBottomLeftValue(TreeNode root) {
-        int[] ans = findval (root.left, new int[] { 0, root.val }, 1);
-        ans = findval (root.right, ans, 1);
-        return ans [1];
+		return find (root, 0, new int [] { root.val, 0 })[0];
     }
     
-    private int[] findval (TreeNode node, int[] bestAnswer, int depth) {
-        if (node == null) return bestAnswer;
-        if (node.left == null && node.right == null) { 
-            if (depth > bestAnswer [0])
-                return new int [] { depth, node.val };
-            return bestAnswer;
-        } 
-        
-        int [] ans = findval (node.left, bestAnswer, depth + 1);
-        ans = findval (node.right, ans, depth + 1);
-        return ans;
+    private int [] find (TreeNode node, int level, int [] prev) {
+        if (node == null) return prev;
+        int [] ret = find (node.left, level + 1, prev [1] < level ? new int [] { node.val, level } : prev);
+        ret = find (node.right, level + 1, ret);
+        return ret;
     }
     
 }
