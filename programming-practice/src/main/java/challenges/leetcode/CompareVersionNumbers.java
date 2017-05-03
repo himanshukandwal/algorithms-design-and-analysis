@@ -68,7 +68,7 @@ public class CompareVersionNumbers extends AbstractCustomTestRunner {
     }
     
     // with using Integer parsing.
-    public int compareVersion(String version1, String version2) {
+    public int _compareVersionInteger(String version1, String version2) {
         String [] levels1 = version1.split ("\\.");
         String [] levels2 = version2.split ("\\.");
         
@@ -83,6 +83,24 @@ public class CompareVersionNumbers extends AbstractCustomTestRunner {
         	for (int idx = m; idx < n; idx ++) 
         		if (Integer.valueOf (levels2 [idx]) > 0) return -1;
         }
+        return 0;
+    }
+    
+    // with using Integer parsing (Solution 2) - more optimistic
+    public int _compareVersionIntegerAnother(String version1, String version2) {
+        String[] levels1 = version1.split("\\.");
+        String[] levels2 = version2.split("\\.");
+        
+        int length = Math.max(levels1.length, levels2.length);
+        for (int i=0; i<length; i++) {
+        	Integer v1 = i < levels1.length ? Integer.parseInt(levels1[i]) : 0;
+        	Integer v2 = i < levels2.length ? Integer.parseInt(levels2[i]) : 0;
+        	int compare = v1.compareTo(v2);
+        	if (compare != 0) {
+        		return compare;
+        	}
+        }
+        
         return 0;
     }
     
