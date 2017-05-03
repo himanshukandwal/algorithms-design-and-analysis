@@ -53,11 +53,11 @@ public class MaxPointsOnALine extends AbstractCustomTestRunner {
 	 * codirectional instead of collinear, therefore mapped to the same entry.
 	 */
 	public int maxPoints(Point[] points) {
-        if (points.length == 0) return 0;
+		if (points.length == 0) return 0;
         int result = 0;
         Map <String, Integer> map = new HashMap <>();
         for (int idx = 0; idx < points.length; idx ++) {
-            map.clear (); int same = 0, max = 0;
+            map.clear (); int same = 1, max = 0;
             
             for (int iidx = idx + 1; iidx < points.length; iidx ++) {
                 if (points [iidx].x == points [idx].x && points [iidx].y == points [idx].y) { same ++; continue; }
@@ -71,7 +71,7 @@ public class MaxPointsOnALine extends AbstractCustomTestRunner {
                 map.put (key, map.getOrDefault (key, 0) + 1);
                 max = Math.max (max, map.get (key));
             }
-            result = Math.max (result, max + same + 1);
+            result = Math.max (result, max + same);
         }
         return result;
     }
