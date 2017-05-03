@@ -67,6 +67,25 @@ public class CompareVersionNumbers extends AbstractCustomTestRunner {
         return 0;
     }
     
+    // with using Integer parsing.
+    public int compareVersion(String version1, String version2) {
+        String [] levels1 = version1.split ("\\.");
+        String [] levels2 = version2.split ("\\.");
+        
+        int m = levels1.length, n = levels2.length, cmp = 0;
+        for (int idx = 0; idx < Math.min (m, n); idx ++) 
+            if  ((cmp = (Integer.valueOf (levels1 [idx]) - Integer.valueOf (levels2 [idx]))) != 0) return cmp > 0 ? 1 : -1;
+        
+        if (m > n) {
+        	for (int idx = n; idx < m; idx ++) 
+        		if (Integer.valueOf (levels1 [idx]) > 0) return 1;
+        } else if (m < n) {
+        	for (int idx = m; idx < n; idx ++) 
+        		if (Integer.valueOf (levels2 [idx]) > 0) return -1;
+        }
+        return 0;
+    }
+    
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("1.1", "1", 1);
