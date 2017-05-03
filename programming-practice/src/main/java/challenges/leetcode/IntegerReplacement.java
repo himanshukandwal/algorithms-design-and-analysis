@@ -47,8 +47,9 @@ public class IntegerReplacement extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(8, 3);
+		_instance.runTest(3, 2);
 		_instance.runTest(7, 4);
+		_instance.runTest(8, 3);
 		_instance.runTest(2147483647, 32);
 	}
 	
