@@ -17,20 +17,10 @@ import challenges.AbstractCustomTestRunner;
  */
 public class PartitionList extends AbstractCustomTestRunner {
 	
-	private static PartitionList _instance = new PartitionList();
-	
-	public PartitionList() {}
-	
 	public static class ListNode {
 		int val;
 		ListNode next;
-		
 		ListNode(int x) { val = x; }
-		
-		@Override
-		public String toString() {
-			return "(" + val + ")";
-		}
 	}
 	
     public ListNode _partition (ListNode head, int x) {
