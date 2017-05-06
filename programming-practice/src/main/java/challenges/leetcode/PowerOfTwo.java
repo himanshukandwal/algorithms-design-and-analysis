@@ -17,8 +17,6 @@ public class PowerOfTwo extends AbstractCustomTestRunner {
 	
 	private static PowerOfTwo _instance = new PowerOfTwo();
 	
-	private PowerOfTwo() {}
-	
 	// bit manipulation trick
 	public static boolean _isPowerOfTwoOptimal(int n) {
 		 return n > 0 && (n & n-1) == 0;

@@ -23,17 +23,12 @@ public class PowerOfFour extends AbstractCustomTestRunner {
 	
 	private static PowerOfFour _instance = new PowerOfFour();
 	
-	private PowerOfFour() {}
-	
 	public static boolean _isPowerOfFour(int num) {
 		int onesCount = 0, zerosCount = 0;
 		
 		while (num > 0) {
-			if (num % 2 == 1)
-				onesCount ++;
-			else
-				zerosCount ++;
-			
+			if (num % 2 == 1) onesCount ++;
+			else zerosCount ++;
 			num /= 2;
 		}
 		
