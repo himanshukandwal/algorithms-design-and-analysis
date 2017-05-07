@@ -39,8 +39,6 @@ public class NextGreaterElementI extends AbstractCustomTestRunner {
 	
 	private static NextGreaterElementI _instance = new NextGreaterElementI();
 	
-	public NextGreaterElementI() {}
-	
 	public static int[] _nextGreaterElement(int[] findNums, int[] nums) {
 		int[] answer = new int [findNums.length];
 		for (int idx = 0; idx < answer.length; idx ++) answer [idx] = -1;
