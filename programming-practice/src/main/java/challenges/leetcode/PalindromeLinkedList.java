@@ -17,7 +17,7 @@ public class PalindromeLinkedList extends AbstractCustomTestRunner {
 		int val;
 		ListNode next;
 		
-		public ListNode(int x) { val = x; next = null; } 
+		public ListNode (int x) { val = x; next = null; } 
 	}
 	
 	public boolean isPalindrome(ListNode head) {
