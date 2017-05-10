@@ -15,10 +15,6 @@ import challenges.AbstractCustomTestRunner;
  */
 public class MinimumSizeSubarraySum extends AbstractCustomTestRunner {
 	
-	private static MinimumSizeSubarraySum _instance = new MinimumSizeSubarraySum();
-	
-	private MinimumSizeSubarraySum() {}
-	
     public int _minSubArrayLen(int s, int[] nums) {
     	int min = Integer.MAX_VALUE, localsum = 0;
         for (int idx = 0, start = 0; idx < nums.length; idx ++) {
