@@ -12,7 +12,7 @@ import challenges.AbstractCustomTestRunner;
  */
 public class SingleNumberII extends AbstractCustomTestRunner {
 
-	// further reading: https://discuss.leetcode.com/topic/2031/challenge-me-thx/33
+	// further reading: https://discuss.leetcode.com/topic/43166/java-o-n-easy-to-understand-solution-easily-extended-to-any-times-of-occurance
     public int singleNumber(int[] nums) {
         int res = 0;
         for (int pos = 31; pos >= 0; pos --) {
