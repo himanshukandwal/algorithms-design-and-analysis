@@ -1,6 +1,7 @@
 package challenges.leetcode;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -47,4 +48,18 @@ public class MinimumTimeDifference extends AbstractCustomTestRunner {
         return Math.min (minDiff, points [0].getDiff(points [points.length - 1]) + 1440) ;
     }
     
+    // simpler.
+    private int getSeconds(String timePoint) {
+        String[] splittedTimePoint = timePoint.split(":");
+        return Integer.parseInt(splittedTimePoint[0]) * 60 + Integer.parseInt(splittedTimePoint[1]);
+    }
+    
+    public int findMinDifferenceSimpler(List<String> timePoints) {
+        Collections.sort(timePoints);
+        int minDiff = Integer.MAX_VALUE;
+        for (int i = 1; i < timePoints.size(); ++i) {
+            minDiff = Math.min(minDiff, getSeconds(timePoints.get(i)) - getSeconds(timePoints.get(i - 1)));
+        }
+        return Math.min(minDiff, getSeconds(timePoints.get(0)) + 1440 - getSeconds(timePoints.get(timePoints.size() - 1)));
+    }
 }
