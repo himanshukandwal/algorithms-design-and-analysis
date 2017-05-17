@@ -32,7 +32,7 @@ public class ValidWordAbbreviation extends AbstractCustomTestRunner {
 	
 	private static ValidWordAbbreviation _instance = new ValidWordAbbreviation();
 
-	public boolean validWordAbbreviation(String word, String abbr) {
+	public boolean _validWordAbbreviation(String word, String abbr) {
         if (word.length() == 0) return abbr.length() == 0;
         int idx = 0, aidx = 0;
         while (idx < word.length() && aidx < abbr.length ()) {
@@ -50,6 +50,11 @@ public class ValidWordAbbreviation extends AbstractCustomTestRunner {
     
     private boolean isNumber (char ch) {
         return ch >= '0' && ch <= '9';
+    }
+    
+    // Much nicer, I just turn an abbreviation like "i12iz4n" into a regular expression like "i.{12}iz.{4}n". Duh.
+    public boolean _validWordAbbreviationSimple(String word, String abbr) {
+        return word.matches(abbr.replaceAll("[1-9]\\d*", ".{$0}"));
     }
     
 	// driver method
