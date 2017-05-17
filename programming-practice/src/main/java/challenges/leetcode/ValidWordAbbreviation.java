@@ -52,6 +52,25 @@ public class ValidWordAbbreviation extends AbstractCustomTestRunner {
         return ch >= '0' && ch <= '9';
     }
     
+    // another nice answer.
+    public boolean _validWordAbbreviationNice(String word, String abbr) {
+        if (word == null || abbr == null) return false;
+        int num = 0, idx = 0;
+        
+		for (char c : abbr.toCharArray()) {
+            if (c == '0' && num == 0) return false;
+            if (c >= '0' && c <= '9') {
+				num = num * 10 + (c - '0');
+			} else {
+                idx += num;
+				if (idx >= word.length() || c != word.charAt(idx)) return false;
+                num = 0; idx++;
+            }
+        }
+		
+		return idx + num == word.length() ? true : false;
+    }
+    
     // Much nicer, I just turn an abbreviation like "i12iz4n" into a regular expression like "i.{12}iz.{4}n". Duh.
     public boolean _validWordAbbreviationSimple(String word, String abbr) {
         return word.matches(abbr.replaceAll("[1-9]\\d*", ".{$0}"));
