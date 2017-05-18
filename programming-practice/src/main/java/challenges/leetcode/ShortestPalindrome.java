@@ -24,6 +24,18 @@ public class ShortestPalindrome extends AbstractCustomTestRunner {
 	
 	private static ShortestPalindrome _instance = new ShortestPalindrome();
 
+	// https://discuss.leetcode.com/topic/27261/clean-kmp-solution-with-super-detailed-explanation
+	public String _shortestPalindromeKMP(String s) {
+		if (s.length() <= 1) return s;
+        String str = s + "#" + new StringBuilder (s).reverse ().toString ();
+        int [] pi = new int [str.length ()];
+        for (int i = 0, j = 1; j < str.length (); j ++) {
+            while (i > 0 && str.charAt (i) != str.charAt (j)) i = pi [i - 1];
+            if (str.charAt (i) == str.charAt (j)) pi [j] = ++ i;
+        }
+        return new StringBuilder (s.substring (pi [pi.length - 1])).reverse().toString() + s;
+	}
+	
 	public String _shortestPalindrome(String s) {
         if (s.length() == 0) return s;
         String ans = s;
