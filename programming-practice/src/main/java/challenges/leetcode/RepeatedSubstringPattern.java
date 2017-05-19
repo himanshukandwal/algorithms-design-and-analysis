@@ -33,13 +33,12 @@ public class RepeatedSubstringPattern extends AbstractCustomTestRunner {
 	private static RepeatedSubstringPattern _instance = new RepeatedSubstringPattern();
 
     public boolean _repeatedSubstringPattern(String s) {
-        int [] pfx = new int [s.length()];
-        for (int fdx = 0, idx = 1; idx < s.length(); idx ++) {
-        	while (fdx > 0 && s.charAt(fdx) != s.charAt(idx)) fdx = pfx [fdx - 1]; 
-            pfx [idx] = (s.charAt(fdx) == s.charAt(idx)) ? fdx ++ + 1 : 0;
+    	int [] pi = new int [s.length()];
+        for (int i = 0, j = 1; j < s.length(); j ++) {
+            while (i > 0 && s.charAt (i) != s.charAt (j)) i = pi [i - 1];
+            if (s.charAt (i) == s.charAt (j)) pi [j] = ++ i;
         }
-        int len = pfx [s.length() - 1];
-        return len > 0 && (s.length() % (s.length() - len) == 0);
+        return pi [pi.length - 1] > 0 && s.length () % (s.length() - pi [pi.length - 1]) == 0;
     }
     
 	// driver method
