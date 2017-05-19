@@ -33,8 +33,6 @@ public class RepeatedString extends AbstractCustomTestRunner {
 	
 	private static RepeatedString _instance = new RepeatedString();
 	
-	private RepeatedString() {}
-	
 	public long _getAcount(String input, long repeatedLength) {
 		long count = 0;
 		for (int idx = 0; idx < Math.min(input.length(), repeatedLength); idx ++)
