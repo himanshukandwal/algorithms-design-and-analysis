@@ -16,8 +16,6 @@ import challenges.AbstractCustomTestRunner;
 public class OneEditDistance extends AbstractCustomTestRunner {
 	
 	private static OneEditDistance _instance = new OneEditDistance();
-	
-	private OneEditDistance() {}
 
 	// using basic Levenshtein distance idea
 	public boolean _isOneEditDistance(String s, String t) {
