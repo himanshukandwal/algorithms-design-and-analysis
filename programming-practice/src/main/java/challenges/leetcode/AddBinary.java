@@ -24,8 +24,6 @@ public class AddBinary extends AbstractCustomTestRunner {
 	
 	private static AddBinary _instance = new AddBinary();
 	
-	private AddBinary() {}
-	
     public String _addBinary(String a, String b) {
         StringBuilder sb = new StringBuilder();
         
