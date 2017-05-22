@@ -23,8 +23,6 @@ public class AddStrings extends AbstractCustomTestRunner {
 	
 	private static AddStrings _instance = new AddStrings();
 	
-	private AddStrings() {}
-	
     public static String _addStrings(String num1, String num2) {
     	StringBuilder answer = new StringBuilder();
     	int idx1 = num1.length() - 1, idx2 = num2.length() - 1, carry = 0;
