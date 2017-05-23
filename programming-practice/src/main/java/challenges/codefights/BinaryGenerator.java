@@ -20,12 +20,12 @@ import challenges.AbstractCustomTestRunner;
  */
 public class BinaryGenerator extends AbstractCustomTestRunner {
 
-	String[] binaryGenerator(String s) {
+	public String[] binaryGenerator(String s) {
 	    List<String> ans = binaryGeneratorInner(s, 0);
 	    return ans.toArray (new String [0]);
 	}
 
-	List<String> binaryGeneratorInner (String s, int index) {
+	public List<String> binaryGeneratorInner (String s, int index) {
 	    List<String> ans = new ArrayList<>();
 	    if (index < s.length()) {
 	        List<String> next = binaryGeneratorInner (s, index + 1);
