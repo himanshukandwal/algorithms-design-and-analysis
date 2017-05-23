@@ -2,6 +2,8 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,28 @@ public class TwoSum extends AbstractCustomTestRunner {
     		map.put (nums [idx], idx);
     	}
         return new int [] {};
+    }
+    
+    public int[] _twoSumOther(int[] numbers, int target) {
+        Integer [] index = new Integer [numbers.length];
+        for (int idx = 0; idx < numbers.length; idx ++) {
+            index [idx] = idx;
+        }
+        
+        Arrays.sort (index, new Comparator<Integer>() {
+			public int compare(Integer a, Integer b) {
+				return numbers [a] - numbers [b];
+			}
+		});
+        
+        int start = 0, end = numbers.length - 1;
+        int [] ans = null;
+        while (start < end) {
+            if (numbers [index [start]] + numbers [index [end]] > target) end --;
+            else if (numbers [index [start]] + numbers [index [end]] < target) start ++;
+            else { ans = new int [] { index [start], index [end] }; break; }
+        }
+        return ans;
     }
     
 	// driver method
