@@ -34,6 +34,33 @@ public class NutsAndBoltsProblem extends AbstractCustomTestRunner {
 		 public int cmp(String a, String b);
 	}
 	
+	/**
+	 * Examples of first binding to understand the meaning of problems, problems matching nuts and bolts to the present, 
+	 * entitled, but the need to subject the comparison function is provided, and between the nuts and the nuts elements 
+	 * not directly comparable, compare only performed between the nuts and bolts. First, we consider if there is no limit 
+	 * comparison function, then we are on the nuts and bolts can be sorted, because it is eleven pairs, so drained after 
+	 * the order to complete the pairing. So how can only be completed in sorting it by comparing the relative size of the 
+	 * other elements of that?
+	 * 
+	 * We readily by reference to a set of elements traversed obtained twenty-two equal elements, so that in the worst case 
+	 * time complexity of O (n2) O (n ^ 2) O (n2), equivalent bubble sort . O (nlogn) O (n \ log n) O (nlogn), that is to 
+	 * say that this question should be further optimized based on a comparison of the best sort of time complexity of the 
+	 * algorithm is based on the theory known sorting algorithm. Memories of the comparison based sorting algorithms relationship, 
+	 * to achieve O (nlogn) O (n \ log n) with a stack row (nlogn) time complexity from O, quick sort and merge sort, since 
+	 * here only obtained by comparing the relative magnitudes , it is possible to think of the quick sort.
+	 * 
+	 * The core is the quick sort of set benchmarks, divided intervals. Because here only as a reference to the other elements, 
+	 * it is only after a trip divided sections obtained position of the reference element either sort, that by the introduction 
+	 * of O (n) O (n) additional space O (n) to have been how to mark the reference element processing performed it? This method 
+	 * is more difficult to implement, because only one of the elements of the division range, while the other elements can not 
+	 * be divided into sections leading to recursion can not be normal.
+	 * 
+	 * Failure looms, vista. Because only by comparing each other, so the need to cooperate with each other partition operations 
+	 * (this point is really difficult to think of). The core comprising: first nuts used in reference to a certain element as a 
+	 * partition for the operation of bolts, the bolts are subsequently obtained for a reference element as a reference for nuts 
+	 * partition operation.
+	 * 
+	 */
 	public void sortNutsAndBolts(String[] nuts, String[] bolts, final NBComparator compare) {
 		if (nuts == null || bolts == null) return;
 		if (nuts.length != bolts.length) return;
