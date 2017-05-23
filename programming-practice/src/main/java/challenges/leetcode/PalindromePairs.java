@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,8 +29,10 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class PalindromePairs extends AbstractCustomTestRunner {
+	
+	private static PalindromePairs _instance = new PalindromePairs();
 
-	public List<List<Integer>> palindromePairs(String[] words) {
+	public List<List<Integer>> _palindromePairs(String[] words) {
         Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < words.length; i++) map.put(words[i], i);
         
@@ -55,5 +59,19 @@ public class PalindromePairs extends AbstractCustomTestRunner {
         while (i < j && str.charAt (i) == str.charAt (j)) { i ++; j --; }
         return (i == j || i > j);
     }
-	
+    
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(new String[] { "bat", "tab", "cat" }, Arrays.asList(Arrays.asList(1, 0), Arrays.asList(0, 1)));
+	}
+
+	public void runTest(final String[] words, final List<List<Integer>> expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { words });
+
+		for (Object answer : answers)
+				assertThat((List<List<Integer>>) answer).isEqualTo(expectedOutput);
+
+		System.out.println("ok!");
+	}
+		
 }
