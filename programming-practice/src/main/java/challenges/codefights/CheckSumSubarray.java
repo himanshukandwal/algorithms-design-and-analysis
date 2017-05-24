@@ -26,11 +26,11 @@ public class CheckSumSubarray extends AbstractCustomTestRunner {
 	private static CheckSumSubarray _instance = new CheckSumSubarray();
 
 	public boolean _checkSumSub(int[] arr, int k) {
-	    int s = 0, z = 0;
-	    Set<Integer> set = new HashSet<>();
-	    for (int e : arr)
-			z |= set.add(s += e) & set.remove(s - k) | s == k ? 1 : 0;
-	    return z != 0;
+		int sum = 0;
+		Set<Integer> set = new HashSet<>();
+		for (int e : arr)
+			if (set.add(sum += e) && set.remove(sum - k) || sum == k) return true;
+		return false;
 	}
 
 	// driver method
