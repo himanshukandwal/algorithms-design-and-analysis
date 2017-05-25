@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +23,32 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class ThreeSum extends AbstractCustomTestRunner {
+	
+	private static ThreeSum _instance = new ThreeSum ();
 
 	public List<List<Integer>> _threeSum(int[] nums) {
+		Arrays.sort (nums);
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        for (int idx = 0; idx < nums.length - 2; idx ++) {
+            if (idx == 0 || nums [idx] != nums [idx - 1]) {
+                for (int jdx = idx + 1; jdx < nums.length - 1; jdx ++) {
+                    if (jdx == idx + 1 || nums [jdx] != nums [jdx - 1]) {    
+                        int search = -(nums [idx] + nums [jdx]);
+                        int lo = jdx + 1, hi = nums.length - 1;
+                        while (lo <= hi) {
+                            int m = (lo + hi) >>> 1;
+			                if (nums [m] > search) hi = m - 1;
+			                else if (nums [m] < search) lo = m + 1;
+                            else { ans.add (Arrays.asList (nums [idx], nums [jdx], nums [m])); break; }
+                        }
+                    }
+                }
+            }
+        }
+        return ans;
+	}
+	
+	public List<List<Integer>> _threeSumOther(int[] nums) {
 		Arrays.sort (nums);
         List<List<Integer>> ans = new ArrayList<List<Integer>>();
         for (int i = 0; i < nums.length - 2; i ++) {
@@ -43,4 +69,19 @@ public class ThreeSum extends AbstractCustomTestRunner {
         return ans;
 	}
 
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(new int[] { -1, 0, 1, 2, -1, -4 }, Arrays.asList(Arrays.asList(-1, -1, 2), Arrays.asList(-1, 0, 1)));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void runTest(final int[] nums, final List<List<Integer>> expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { nums });
+		
+		for (Object answer : answers) 
+			assertThat((List<List<Integer>>) answer).isEqualTo(expectedOutput);
+		
+		System.out.println("ok!");
+	}
+	
 }
