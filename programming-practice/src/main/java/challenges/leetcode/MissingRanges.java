@@ -24,20 +24,17 @@ public class MissingRanges extends AbstractCustomTestRunner {
 	private static MissingRanges _instance = new MissingRanges();
 
 	public List<String> _findMissingRanges(int[] nums, int lower, int upper) {
-		List<String> res = new ArrayList<>();
-        for (int n : nums) {
-            if (n == Integer.MIN_VALUE) {
-                lower = n + 1; 
-                continue;
-            }
-            if (lower == n - 1) res.add("" + lower);
-            else if (lower < n - 1)   res.add(lower + "->" + (n - 1)); 
-            if (n == Integer.MAX_VALUE)     return res; // added
-            lower = n + 1;
+        List<String> ans = new ArrayList<>();
+        int min = lower;
+        for (int num : nums) {
+            if (num == Integer.MIN_VALUE) { min = num + 1; continue; }
+            if (num != min && min <= upper)
+                ans.add (min + (num - 1 > min ? "->" + (num - 1) : ""));
+            if (num == Integer.MAX_VALUE) return ans;
+            else min = num + 1;
         }
-        if (lower == upper) res.add("" + lower);
-        else if (lower < upper)   res.add(lower + "->" + upper);
-        return res;
+        if (min <= upper) ans.add (min + (upper > min ? "->" + upper : ""));
+        return ans;
     }
 	
 	// solution without considering boundary level cases.
