@@ -78,6 +78,7 @@ public class StrobogrammaticNumberII extends AbstractCustomTestRunner {
 		_instance.runTest(2, Arrays.asList("69", "96", "11", "88"));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void runTest(final int n, final List<String> expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { n });
 
