@@ -1,5 +1,10 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -14,5 +19,43 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class ThreeSumClosest extends AbstractCustomTestRunner {
+	
+	private static ThreeSumClosest _instance = new ThreeSumClosest();
 
+	public int _threeSumClosest(int[] nums, int target) {
+		Arrays.sort (nums);
+        int closest = nums [0] + nums [1] + nums [2];
+        for (int idx = 0; idx < nums.length - 2; idx ++) {
+            for (int jdx = idx + 1; jdx < nums.length - 1; jdx ++) {
+                int low = jdx + 1, high = nums.length - 1;
+                while (low <= high) {
+                    int m = (low + high)/2;
+                    int sum = nums [idx] + nums [jdx] + nums [m];
+                    
+                    if (Math.abs (target - closest) > Math.abs (target - sum)) closest = sum;
+                    
+                    if (sum > target) high = m - 1;
+                    else if (sum < target) low = m + 1;
+                    else break;
+                }
+            }
+        }
+        return closest;
+    }
+
+	// driver method
+	public static void main(String[] args) {
+		_instance.runTest(new int [] { 0, 0, 0 }, 1 , 0);
+		_instance.runTest(new int[] { -1, 2, 1, -4 }, 1, 2);
+	}
+
+	public void runTest(final int[] nums, int target, final int expectedOutput) {
+		List<Object> answers = runAll(getClass(), new Object[] { nums, target });
+
+		for (Object answer : answers)
+			assertThat((Integer) answer).isEqualTo(expectedOutput);
+
+		System.out.println("ok!");
+	}	
+	
 }
