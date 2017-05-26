@@ -24,54 +24,56 @@ public class LRUCache extends AbstractCustomTestRunner {
 
 	class Node {
         int key, value;
-        Node next, prev;
-        Node () { key = 0; value = 0; }
-        Node (int key, int value) { this.key = key; this.value = value; }
+        Node prev, next;
+        public Node () {}
+        public Node (int key, int value) { this.key = key; this.value = value; }
     }
     
-    private int capacity;
     private Map <Integer, Node> map = new HashMap<>();
+    private int capacity;
     private Node head, tail;
     
     public LRUCache(int capacity) {
         this.capacity = capacity;
         this.head = new Node ();
         this.tail = new Node ();
-        head.next = tail; 
+        head.next = tail;
         tail.prev = head;
     }
     
     public int get(int key) {
-        if (!map.containsKey(key)) return -1;
-        update (map.get (key));
-        return map.get (key).value;
+        Node node = null;
+        if ((node = map.get (key)) != null) {
+            update (node);
+            return node.value;
+        }
+        return -1;
     }
     
     public void put(int key, int value) {
-        if (map.containsKey(key)) remove (map.get (key));
-        else if (map.size() == capacity) remove (head.next);    
-        add (key, value);
+        if (map.containsKey (key)) delete (map.get (key));
+        else if (map.size() == capacity) delete (head.next);
+        add (new Node (key, value));    
     }
     
-    private void update (Node node) {
-        remove (node);
-        add (node.key, node.value);
+    public void update (Node node) {
+        delete (node);
+        add (node);
     }
     
-    private void remove (Node node) {
+    public void delete (Node node) {
+        map.remove (node.key);
         node.prev.next = node.next;
         node.next.prev = node.prev;
-        node.prev = node.next = null;
-        map.remove (node.key);
+        node.next = node.prev = null;
     }
     
-    private void add (int key, int value) {
-        Node node = new Node (key, value);
+    public void add (Node node) {
+        map.put (node.key, node);
+        node.next = tail;
         node.prev = tail.prev;
         tail.prev.next = node;
-        node.next = tail;
         tail.prev = node;
-        map.put (key, node);
     }
     
 	// driver method
