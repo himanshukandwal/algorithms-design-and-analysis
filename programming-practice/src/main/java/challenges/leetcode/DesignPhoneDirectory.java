@@ -46,47 +46,43 @@ import challenges.AbstractCustomTestRunner;
  */
 public class DesignPhoneDirectory extends AbstractCustomTestRunner {
 	
-	Set<Integer> usedNumbers = new HashSet<>();
-    final int maxNumbers;
-    int sequence = 0;
-    PriorityQueue<Integer> released = new PriorityQueue<>();
+	Set<Integer> dict = new HashSet<>();
+    PriorityQueue<Integer> numbers = new PriorityQueue<>();
     
     /** Initialize your data structure here
         @param maxNumbers - The maximum numbers that can be stored in the phone directory. */
     public DesignPhoneDirectory(int maxNumbers) {
-        this.maxNumbers = maxNumbers;
+        for (int idx = 0; idx < maxNumbers; idx ++) numbers.offer (idx);
     }
     
     /** Provide a number which is not assigned to anyone.
         @return - Return an available number. Return -1 if none is available. */
     public int get() {
-        int number = -1;
-        if (sequence < maxNumbers) number = sequence ++;
-        else if (released.size() > 0) number = released.poll();
-        if (number != -1) usedNumbers.add(number);
-        return number;
+    	if (numbers.size() == 0) return -1;
+        dict.add (numbers.peek ());
+        return numbers.poll ();
     }
     
     /** Check if a number is available or not. */
     public boolean check(int number) {
-        return !usedNumbers.contains (number);
+    	return !dict.contains (number);
     }
     
     /** Recycle or release a number. */
     public void release(int number) {
-        if (usedNumbers.contains (number)) {
-            usedNumbers.remove(number);
-            released.offer (number);
+    	if (dict.contains (number)) {
+            dict.remove (number);
+            numbers.offer (number);
         }
     }
 
 }
 
+@SuppressWarnings("serial")
 class PhoneDirectoryBetter extends TreeSet<Integer> {
 
     public PhoneDirectoryBetter (int maxNumbers) {
-        for (int i=0; i<maxNumbers; i++)
-            add(i);
+		for (int i = 0; i < maxNumbers; i++) add(i);
     }
     
     public int get() {
@@ -106,8 +102,8 @@ class PhoneDirectoryBetter extends TreeSet<Integer> {
 class PhoneDirectory {
 
     BitSet bitset;
-    int max; // max limit allowed
-    int smallestFreeIndex; // current smallest index of the free bit
+    int max; 				// max limit allowed
+    int smallestFreeIndex; 	// current smallest index of the free bit
 
     public PhoneDirectory(int maxNumbers) {
         this.bitset = new BitSet(maxNumbers);
@@ -116,11 +112,11 @@ class PhoneDirectory {
 
     public int get() {
         // handle bitset fully allocated
-        if(smallestFreeIndex == max) {
-            return -1;
-        }
+		if (smallestFreeIndex == max) return -1;
+		
         int num = smallestFreeIndex;
         bitset.set(smallestFreeIndex);
+        
         //Only scan for the next free bit, from the previously known smallest free index
         smallestFreeIndex = bitset.nextClearBit(smallestFreeIndex);
         return num;
@@ -132,11 +128,8 @@ class PhoneDirectory {
 
     public void release(int number) {
         //handle release of unallocated ones
-        if(bitset.get(number) == false)
-            return;
+		if (bitset.get(number) == false) return;
         bitset.clear(number);
-        if(number < smallestFreeIndex) {
-            smallestFreeIndex = number;
-        }
+		if (number < smallestFreeIndex) smallestFreeIndex = number;
     }
 }
