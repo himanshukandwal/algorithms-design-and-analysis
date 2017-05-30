@@ -102,4 +102,22 @@ public class KillProcess extends AbstractCustomTestRunner {
 		return res;
 	}
 	
+	// another way.
+	public List<Integer> killProcessFaster(List<Integer> pid, List<Integer> ppid, int kill) {
+        Map<Integer, List<Integer>> map = new HashMap<> ();
+        for (int idx = 0; idx < pid.size (); idx ++)
+            map.computeIfAbsent (ppid.get (idx), k -> new ArrayList<>()).add (pid.get (idx));
+        List<Integer> ans = new ArrayList<>();
+        ans.add (kill);
+        dfs (map, ans, kill);
+        return ans;
+    }
+    
+    private void dfs (Map<Integer, List<Integer>> map, List<Integer> ans, int id) {
+        if (map.containsKey (id))
+            for (int i : map.get (id)) {
+                dfs (map, ans, i);
+                ans.add (i);
+            }
+    }
 }
