@@ -33,6 +33,17 @@ public class SummaryRanges extends AbstractCustomTestRunner {
         return ans;
     }
 	
+	public List<String> summaryRanges(int[] nums) {
+        List<String> ans = new ArrayList<>();
+        int idx = 0;
+        while (idx < nums.length) {
+            int sval = nums [idx ++], eval = sval;
+            while (idx < nums.length && nums [idx] == eval + 1) eval = nums [idx ++];
+            ans.add (sval + (sval == eval ? "" : "->" + eval));
+        }
+        return ans;
+    }
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 0, 1, 2, 4, 5, 7 }, Arrays.asList("0->2", "4->5", "7"));
