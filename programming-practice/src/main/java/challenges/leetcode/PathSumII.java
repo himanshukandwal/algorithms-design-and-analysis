@@ -49,10 +49,8 @@ public class PathSumII extends AbstractCustomTestRunner {
         if (node == null) return;
         build.add (node.val);
         if (node.val == sum && node.left == null && node.right == null) ans.add (new ArrayList<> (build));
-        else {
-            searchSum (ans, build, node.left, sum - node.val);
-            searchSum (ans, build, node.right, sum - node.val);
-        }
+        searchSum (ans, build, node.left, sum - node.val);
+        searchSum (ans, build, node.right, sum - node.val);
         build.remove (build.size() - 1);
     }
 
