@@ -24,10 +24,6 @@ import challenges.AbstractCustomTestRunner;
  */
 public class SumRootToLeafNumbers extends AbstractCustomTestRunner {
 	
-	private static SumRootToLeafNumbers _instance = new SumRootToLeafNumbers();
-	
-	public SumRootToLeafNumbers() {}
-	
 	public static class TreeNode {
 		int val;
 		TreeNode left;
@@ -38,13 +34,13 @@ public class SumRootToLeafNumbers extends AbstractCustomTestRunner {
 
 	// better approach, without extra memory.
 	public int sumNumbers(TreeNode root) {
-		return sum(root, 0);
+		return sum (root, 0);
 	}
 
-	public int sum(TreeNode n, int s){
+	public int sum(TreeNode n, int s) {
 		if (n == null) return 0;
 		if (n.right == null && n.left == null) return s * 10 + n.val;
-		return sum (n.left, s*10 + n.val) + sum (n.right, s*10 + n.val);
+		return sum (n.left, s * 10 + n.val) + sum (n.right, s * 10 + n.val);
 	}
 	
 	// my take
