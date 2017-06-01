@@ -1,14 +1,5 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -30,8 +21,6 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class BinaryTreeMaximumPathSum extends AbstractCustomTestRunner {
-	
-	private static BinaryTreeMaximumPathSum _instance = new BinaryTreeMaximumPathSum();
 
 	public static class TreeNode {
 		int val;
@@ -40,43 +29,20 @@ public class BinaryTreeMaximumPathSum extends AbstractCustomTestRunner {
 		
 		public TreeNode(int x) { val = x; }
 	}
-	
-	public int maxPathSum(TreeNode root) {
-		TreeNode dummyHead = new TreeNode(0);
-		Map<TreeNode, List<Set<Integer>>> map = new HashMap<>();
-		map.put(dummyHead, Arrays.asList(new HashSet<>(Arrays.asList(0)), new HashSet<>()));
-		return maxPathSumInner(map, dummyHead, root, Integer.MIN_VALUE);
-	}
-	    
-    private int maxPathSumInner (Map<TreeNode, List<Set<Integer>>> map, TreeNode parent, TreeNode node, int max) {
-        if (node == null) return max;
-        Set<Integer> fset = new HashSet<>(), sset = new HashSet<>();
-        max = Math.max(max, node.val);
-        sset.add (node.val);
-        
-        for (Integer p : map.get (parent).get (0)) { 
-            fset.add (p + node.val); max = Math.max (max, p + node.val);
-        }
-        
-        map.put (node, Arrays.asList (fset, sset));
-        max = maxPathSumInner (map, node, node.left, max);
-        if (node.left != null) {
-        	for (Integer p : map.get (node.left).get (1)) { 
-        		sset.add (p + node.val);
-        		fset.add (p + node.val);
-        		max = Math.max (max, p + node.val);
-        	}
-        }
-        max = maxPathSumInner (map, node, node.right, max);
-        return max;
-    }
 
-    // driver method
- 	public static void main(String[] args) {
- 		TreeNode root = new TreeNode(-2);
- 		root.left = new TreeNode(1);
- 		assertThat(_instance.maxPathSum(root)).isEqualTo(1);
- 		System.out.println("ok!");
- 	}
+	public int maxPathSum(TreeNode root) {
+		int [] max = new int [1];
+		max [0] = Integer.MIN_VALUE;
+		maxPathSum (max, root);
+		return max [0];
+	}
+
+	private int maxPathSum(int[] max, TreeNode root) {
+		if (root == null) return 0;
+		int leftMax = Math.max (0, maxPathSum (max, root.left));
+		int rightMax = Math.max (0, maxPathSum (max, root.right));
+		max [0] = Math.max (max [0], root.val + leftMax + rightMax);
+		return root.val + Math.max (leftMax, rightMax);
+	}
  	
 }
