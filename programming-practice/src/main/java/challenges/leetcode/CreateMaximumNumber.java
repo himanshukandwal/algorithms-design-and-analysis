@@ -41,8 +41,6 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	
 	private static CreateMaximumNumber _instance = new CreateMaximumNumber();
 	
-	private CreateMaximumNumber() {}
-	
 	public static int[] _maxNumber(int[] nums1, int[] nums2, int k) {
 		int n = nums1.length;
 	    int m = nums2.length;
