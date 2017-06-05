@@ -31,13 +31,10 @@ public class Triangle extends AbstractCustomTestRunner {
 	private static Triangle _instance = new Triangle();
 
 	public int _minimumTotal(List<List<Integer>> triangle) {
-        int [] sum = new int [triangle.size()];
-        for (int idx = 0; idx < sum.length; idx ++) sum [idx] = triangle.get (triangle.size() - 1).get (idx);
-        
-        if (triangle.size() > 1)
-        	for (int idx = triangle.get (triangle.size() - 2).size() - 1; idx >= 0; idx --)
-        		for (int col = 0; col < triangle.get (idx).size(); col ++)
-        			sum [col] = triangle.get (idx).get (col) + Math.min (sum [col], sum [col + 1]);
+		int [] sum = new int [triangle.size() + 1];
+        for (int idx = triangle.get (triangle.size() - 1).size() - 1; idx >= 0; idx --)
+            for (int col = 0; col < triangle.get (idx).size(); col ++)
+                sum [col] = triangle.get (idx).get (col) + Math.min (sum [col], sum [col + 1]);
         return sum [0];
     }
 	
