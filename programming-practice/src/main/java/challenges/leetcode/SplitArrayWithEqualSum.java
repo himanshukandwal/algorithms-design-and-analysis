@@ -2,7 +2,6 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -40,20 +39,22 @@ public class SplitArrayWithEqualSum extends AbstractCustomTestRunner {
 	private static SplitArrayWithEqualSum _instance = new SplitArrayWithEqualSum();
 
 	public boolean _splitArray(int[] nums) {
-        if (nums.length < 7) return false;
+		if (nums.length < 7) return false;
         int [] sums = new int [nums.length];
         sums [0] = nums [0];
         for (int idx = 1; idx < nums.length; idx ++) sums [idx] += sums [idx - 1] + nums [idx];
         
         for (int idx1 = 1; idx1 < nums.length - 5; idx1 ++) {
-            int s1 = sums [idx1 - 1] - sums [0];
-            for (int idx2 = idx1 + 2; idx2 < nums.length - 3; idx2 ++) {
-                int s2 = sums [idx2 - 1] - sums [idx1 + 1];    
-                if (s1 == s2) {
-                    for (int idx3 = idx2 + 2; idx3 < nums.length - 1; idx3 ++) {
-                        int s3 = sums [idx3 - 1] - sums [idx2 + 1];        
-                        int s4 = sums [sums.length - 1] - sums [idx3 + 1];    
-                        if (s2 == s3 && s3 == s4) return true;
+            if (idx1 == 1 || sums [idx1 - 2] != sums [idx1 - 1]) {
+                int s1 = sums [idx1 - 1];
+                for (int idx2 = idx1 + 2; idx2 < nums.length - 3; idx2 ++) {
+                    int s2 = sums [idx2 - 1] - sums [idx1];    
+                    if (s1 == s2) {
+                        for (int idx3 = idx2 + 2; idx3 < nums.length - 1; idx3 ++) {
+                            int s3 = sums [idx3 - 1] - sums [idx2];        
+                            int s4 = sums [sums.length - 1] - sums [idx3];    
+                            if (s2 == s3 && s3 == s4) return true;
+                        }
                     }
                 }
             }
