@@ -39,7 +39,6 @@ public class IsSubsequence extends AbstractCustomTestRunner {
 		int sidx = 0;
         for (int idx = 0; idx < t.length() && sidx < s.length(); idx ++)
             if (s.charAt(sidx) == t.charAt (idx)) sidx ++;
-		
         return sidx == s.length();
     }
 	
