@@ -65,29 +65,21 @@ public class UTF8Validation extends AbstractCustomTestRunner {
         return count == 0;
     }
 	
+	// cleaner and better.
 	public boolean _validUtf8(int[] data) {
         int idx = 0;
         while (idx < data.length) {
-            int [] bv = binaryValue (data [idx ++]);
-            if (bv [0] == 0) continue;
-            if (bv [0] == 1 && bv [1] == 0) return false;
-            
-            int bitcount = 0;
-            for (int jdx = 0; jdx < bv.length; jdx ++) if (bv [jdx] == 1) bitcount ++; else break;
-            if (bitcount > 4 || bitcount > (data.length - idx + 1)) return false;
-            
-            for (int jdx = 1; jdx < bitcount; jdx ++) {
-                bv = binaryValue (data [idx ++]);
-                if (!(bv [0] == 1 && bv [1] == 0)) return false;
-            }
+            int followers = count (data [idx ++]) - 1;
+            if (followers == 0 || followers >= 4) return false;
+            while (followers -- > 0) if (idx == data.length || count (data [idx ++]) != 1) return false;
         }
         return true;
     }
     
-    private int [] binaryValue (int dataItem) {
-        int [] bv = new int [8];
-        for (int idx = 7; idx >= 0; idx --) bv [7 - idx] = (dataItem >> idx) & 1;
-        return bv;
+    private int count (int num) {
+        int bits = 0;
+        for (int idx = 7; idx >= 0; idx --) if ((num >> idx & 1) == 0) break; else bits ++;
+        return bits;
     }
     
 	// driver method
