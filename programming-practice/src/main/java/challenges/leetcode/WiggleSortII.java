@@ -27,11 +27,16 @@ public class WiggleSortII extends AbstractCustomTestRunner {
 	private static WiggleSortII _instance = new WiggleSortII();
 
 	public int[] _wiggleSort(int[] nums) {
-		for (int idx = 1, oidx = 0; idx < nums.length; idx ++) {
-			while (idx < nums.length - 1 && (nums [oidx] == nums [idx] || (oidx % 2 == 1) == (nums [oidx] < nums [idx]))) idx ++;
-			swap (nums, idx, oidx + 1);
-			idx = ++ oidx;
-        }
+		for (int idx = 0; idx < nums.length - 1; idx ++) {
+			if (nums [idx] == nums [idx + 1]) {
+    			int next = idx + 2;
+				while (next < nums.length && nums [next] == nums [idx]) next ++;
+    			if (next >= nums.length) return nums;
+    			else swap (nums, idx + 1, next);
+    		}
+			
+			if ((idx % 2 == 1) == (nums[idx] < nums[idx + 1])) swap (nums, idx, idx + 1);
+    	}
         return nums;
     }
     
@@ -43,8 +48,8 @@ public class WiggleSortII extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] { 1, 3, 2, 2, 3, 1 }, new int[] { 2, 3, 1, 3, 1, 2 });
-		_instance.runTest(new int[] { 4, 5, 5, 6 }, new int[] { 4, 5, 6, 5 });	
+		_instance.runTest(new int[] { 1, 3, 2, 2, 3, 1 }, new int[] { 1, 3, 2, 3, 1, 2 });
+		_instance.runTest(new int[] { 4, 5, 5, 6 }, new int[] { 5, 6, 4, 5 });	
 		_instance.runTest(new int[] { 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 2 }, new int[] { 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2 });
 	}
 
