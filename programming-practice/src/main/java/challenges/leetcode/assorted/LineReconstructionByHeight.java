@@ -34,8 +34,6 @@ public class LineReconstructionByHeight extends AbstractCustomTestRunner {
 	
 	private static LineReconstructionByHeight _instance = new LineReconstructionByHeight();
 	
-	private LineReconstructionByHeight() {}
-	
 	public List<int[]> _getOrder (int[][] items) {
 		List<int[]> answer = new ArrayList<>();
 		
