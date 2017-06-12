@@ -39,18 +39,12 @@ public class LongestSubstringWithAtLeastKRepeatingCharacters extends AbstractCus
 	public int _longestSubstring(String s, int k) {
 		int [] map = new int [256];
         for (char ch : s.toCharArray()) map [ch] ++;
-        int max = 0; boolean foundIncorrect = false;
-        int pidx = -1;
-        for (int idx = 0; idx < s.length(); idx ++) {
+        for (int idx = 0, ans = 0; idx < s.length(); idx ++)
             if (map [s.charAt (idx)] < k) {
-                foundIncorrect = true;
-                if (pidx >= 0) max = Math.max (max, _longestSubstring (s.substring (pidx, idx), k));
-                pidx = -1;
-            } else if (pidx == -1) pidx = idx;
-        }
-        if (!foundIncorrect) max = Math.max (max, s.length ());
-        else if (pidx >= 0) max = Math.max (max, _longestSubstring (s.substring (pidx, s.length ()), k));
-        return max;
+                for (String str : s.split (String.valueOf (s.charAt (idx)))) ans = Math.max (ans, _longestSubstring (str, k));
+                return ans;
+            }
+        return s.length();
     }
 
 	// driver method
