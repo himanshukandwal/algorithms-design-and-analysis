@@ -4,8 +4,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -31,10 +32,11 @@ public class IncreasingSubsequences extends AbstractCustomTestRunner {
 	
 	private static IncreasingSubsequences _instance = new IncreasingSubsequences();
 
+	// iterative solution
 	public List<List<Integer>> _findSubsequences(int[] nums) {
 		List<List<List<Integer>>> dp = new ArrayList<>();
         for (int idx = 0; idx < nums.length; idx ++) {
-        	List<List<Integer>> list = new LinkedList<> ();
+        	List<List<Integer>> list = new ArrayList<> ();
         	list.add(Arrays.asList(nums [idx]));
         	dp.add (list);
         }
@@ -53,6 +55,24 @@ public class IncreasingSubsequences extends AbstractCustomTestRunner {
         List<List<Integer>> ans = new ArrayList<List<Integer>>();
         for (int idx = 0; idx < nums.length; idx ++) for (List<Integer> li : dp.get(idx)) if (li.size() > 1) ans.add (li);
         return ans;
+    }
+	
+	// dfs solution
+	public List<List<Integer>> findSubsequencesDFS(int[] nums) {
+        Set<List<Integer>> ans = new HashSet<List<Integer>> ();
+        dfs (ans, new ArrayList<>(), nums, 0);
+        return new ArrayList<> (ans);
+    }
+    
+    public void dfs (Set<List<Integer>> ans, List<Integer> build, int [] nums, int index) {
+        if (build.size() > 1) ans.add (new ArrayList<> (build));
+        for (int idx = index; idx < nums.length; idx ++) {
+            if (build.size() == 0 || build.get (build.size() - 1) <= nums [idx]) {
+                build.add (nums [idx]);
+                dfs (ans, build, nums, idx + 1);
+                build.remove (build.size() - 1);
+            }
+        }
     }
 
    	// driver method
