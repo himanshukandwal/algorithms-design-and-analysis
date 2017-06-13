@@ -57,7 +57,24 @@ public class NestedListWeightSum extends AbstractCustomTestRunner {
 	}
 
 	// Iterative solution
-	public int depthSum(List<NestedInteger> nestedList) {
+	public int depthSumIterative(List<NestedInteger> nestedList) {
+        int sum = 0;
+        Stack<Iterator<NestedInteger>> stack = new Stack<>();
+        stack.push (nestedList.iterator());
+        
+        while (!stack.isEmpty()) {
+            Iterator<NestedInteger> itr = stack.peek ();
+            if (!itr.hasNext()) stack.pop();
+            else {
+                NestedInteger in = itr.next ();
+                if (in.isInteger()) sum += stack.size() * in.getInteger();
+                else stack.push (in.getList().iterator());
+            }
+        }
+        return sum;
+    }
+	
+	public int depthSumIterative2(List<NestedInteger> nestedList) {
 		int res = 0;
 		Stack<Iterator<NestedInteger>> stk = new Stack<>();
 		stk.push(nestedList.iterator());
