@@ -83,7 +83,8 @@ public class FunTricks {
          */
         
         // Following below logic is core for Wiggle Sort II.
-        IntStream.rangeClosed(0, 10).forEach(index -> System.out.println((1 + 2 * index) % (10 | 1)));
+        IntStream.rangeClosed(0, 9).forEach(index -> System.out.println((1 + 2 * index) % (10 | 1)));
+        IntStream.rangeClosed(0, 10).forEach(index -> System.out.println((1 + 2 * index) % (11 | 1)));
 	}
 
 }
