@@ -25,37 +25,53 @@ public class NestedListWeightSum extends AbstractCustomTestRunner {
 	// This is the interface that allows for creating nested lists.
 	// You should not implement it, or speculate about its implementation
 	public class NestedInteger {
-		
+
 		// @return true if this NestedInteger holds a single integer, rather than a nested list.
-		public boolean isInteger() { return false; }
+		public boolean isInteger() {
+			return false;
+		}
 
 		// @return the single integer that this NestedInteger holds, if it holds a single integer
 		// Return null if this NestedInteger holds a nested list
-		public Integer getInteger() { return null; }
-		
+		public Integer getInteger() {
+			return null;
+		}
+
 		// @return the nested list that this NestedInteger holds, if it holds a nested list
 		// Return null if this NestedInteger holds a single integer
-		public List<NestedInteger> getList() { return null; }
-	 }
+		public List<NestedInteger> getList() {
+			return null;
+		}
+	}
 	
-	 public int depthSum(List<NestedInteger> nestedList) {
-        int res = 0;
-        Stack<Iterator<NestedInteger>> stk = new Stack<>();
-        stk.push (nestedList.iterator());
-        
-        while (!stk.isEmpty()) {
-            Iterator<NestedInteger> itr = stk.peek ();
-            while (itr.hasNext()) {
-                NestedInteger n = itr.next();
-                if (n.isInteger()) res += n.getInteger() * stk.size ();
-                else {
-                    stk.push (n.getList().iterator());
-                    break;
-                }
-            }
-            if (!stk.peek ().hasNext()) stk.pop ();
-        }
-        return res;
-    }
-	 
+	// recursive solution
+	public int depthSumRecursive(List<NestedInteger> nestedList) {
+		return depthSum(nestedList, 1);
+	}
+
+	public int depthSum(List<NestedInteger> nestedList, int depth) {
+		int sum = 0;
+		for (NestedInteger in : nestedList)
+			sum += (in.isInteger()) ? depth * in.getInteger() : depthSum(in.getList(), depth + 1);
+		return sum;
+	}
+
+	// Iterative solution
+	public int depthSum(List<NestedInteger> nestedList) {
+		int res = 0;
+		Stack<Iterator<NestedInteger>> stk = new Stack<>();
+		stk.push(nestedList.iterator());
+
+		while (!stk.isEmpty()) {
+			Iterator<NestedInteger> itr = stk.peek();
+			while (itr.hasNext()) {
+				NestedInteger n = itr.next();
+				if (n.isInteger()) res += n.getInteger() * stk.size();
+				else { stk.push(n.getList().iterator()); break; }
+			}
+			if (!stk.peek().hasNext()) stk.pop();
+		}
+		return res;
+	}
+ 
 }
