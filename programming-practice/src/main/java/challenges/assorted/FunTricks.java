@@ -1,5 +1,7 @@
 package challenges.assorted;
 
+import java.util.stream.IntStream;import org.omg.Messaging.SyncScopeHelper;
+
 /**
  * a collection of cool tricks.
  * 
@@ -79,7 +81,9 @@ public class FunTricks {
          * 				http://www.robertdickau.com/delannoy.html#schroeder 	<-- extra direction.
          * 				http://mathcircle.berkeley.edu/BMC6/pdf0607/catalan.pdf
          */
-
+        
+        // Following below logic is core for Wiggle Sort II.
+        IntStream.rangeClosed(0, 10).forEach(index -> System.out.println((1 + 2 * index) % (10 | 1)));
 	}
 
 }
