@@ -41,6 +41,7 @@ public class LinkedListRandomNode extends AbstractCustomTestRunner {
     private List <Integer> reservoir = new ArrayList<>();
     private final int max = 1000;
     private Random rand = new Random();
+    private int numItemsSeen = 0;
     
     /** @param head The linked list's head.
         Note that the head is guaranteed to be not null, so it contains at least one node. */
@@ -49,24 +50,19 @@ public class LinkedListRandomNode extends AbstractCustomTestRunner {
     }
     
     /** Returns a random node's value. */
+    // read : https://github.com/twitter/commons/blob/master/src/java/com/twitter/common/stats/ReservoirSampler.java
     public int getRandom() {
-        if (reservoir.size() < max) {
-            if (head != null) { reservoir.add (head.val); head = head.next; }
-            return reservoir.get (rand.nextInt (reservoir.size()));
-        } else {
-            if (head == null) return reservoir.get (rand.nextInt (reservoir.size()));
+        if (head != null) {
+            if (reservoir.size() < max) reservoir.add (head.val);
             else {
                 int val = head.val; 
-                head = head.next;
-                if (rand.nextDouble() < (1d/max)) return val;
-                else {
-                    int idx = rand.nextInt (reservoir.size());
-                    int ret = reservoir.get (idx);
-                    reservoir.set (idx, val);
-                    return ret;   
-                }
+                int rIndex = rand.nextInt(numItemsSeen + 1);
+                if (rIndex < max) { reservoir.set(rIndex, val); return val; } 
             }
+            head = head.next;  
+            numItemsSeen ++; 
         }
+        return reservoir.get (rand.nextInt (reservoir.size()));
     }
 
    	// driver method
