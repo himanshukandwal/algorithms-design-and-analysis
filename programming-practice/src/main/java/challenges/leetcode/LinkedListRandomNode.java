@@ -1,7 +1,5 @@
 package challenges.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import challenges.AbstractCustomTestRunner;
@@ -31,6 +29,8 @@ import challenges.AbstractCustomTestRunner;
  */
 public class LinkedListRandomNode extends AbstractCustomTestRunner {
 
+	// read : https://github.com/twitter/commons/blob/master/src/java/com/twitter/common/stats/ReservoirSampler.java
+	
 	public static class ListNode {
 		int val;
 		ListNode next;
@@ -38,10 +38,7 @@ public class LinkedListRandomNode extends AbstractCustomTestRunner {
 	}
 	
 	private ListNode head;
-    private List <Integer> reservoir = new ArrayList<>();
-    private final int max = 1000;
     private Random rand = new Random();
-    private int numItemsSeen = 0;
     
     /** @param head The linked list's head.
         Note that the head is guaranteed to be not null, so it contains at least one node. */
@@ -50,19 +47,21 @@ public class LinkedListRandomNode extends AbstractCustomTestRunner {
     }
     
     /** Returns a random node's value. */
-    // read : https://github.com/twitter/commons/blob/master/src/java/com/twitter/common/stats/ReservoirSampler.java
     public int getRandom() {
-        if (head != null) {
-            if (reservoir.size() < max) reservoir.add (head.val);
-            else {
-                int val = head.val; 
-                int rIndex = rand.nextInt(numItemsSeen + 1);
-                if (rIndex < max) { reservoir.set(rIndex, val); return val; } 
+        ListNode tr = head, ans = null;
+        ListNode [] buffer = new ListNode [100];
+        
+        for (int before = 0; tr != null; before += 100) {
+            int now = 0;
+            while (tr != null && now < 100) {
+                buffer [now ++] = tr;
+                tr = tr.next;
             }
-            head = head.next;  
-            numItemsSeen ++; 
+            int rIdx = rand.nextInt (before + now);
+            
+            if (rIdx < now) ans = buffer [rIdx];
         }
-        return reservoir.get (rand.nextInt (reservoir.size()));
+        return ans.val;
     }
 
    	// driver method
@@ -72,8 +71,6 @@ public class LinkedListRandomNode extends AbstractCustomTestRunner {
    		head.next.next = new ListNode(3);
    		
    		LinkedListRandomNode node = new LinkedListRandomNode(head);
-   		System.out.println(node.getRandom());
-   		System.out.println(node.getRandom());
    		System.out.println(node.getRandom());
    		System.out.println(node.getRandom());
    		System.out.println(node.getRandom());
