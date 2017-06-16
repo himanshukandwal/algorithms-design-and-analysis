@@ -89,6 +89,32 @@ public class TheMaze extends AbstractCustomTestRunner {
         return false;
     }
     
+    // more optimal (space-wise)
+    public boolean _hasPathOptimal(int[][] maze, int[] start, int[] destination) {
+        boolean[][] seen = new boolean [maze.length][maze [0].length];
+        return roll (seen, maze, start, destination);
+    }
+    
+    private boolean roll (boolean[][] seen, int[][] maze, int[] start, int[] destination) {
+        if (seen [start [0]][start [1]]) return false;
+        if (start [0] == destination [0] && start [1] == destination [1]) return true;
+        
+        seen [start [0]][start [1]] = true;
+        for (int idx = 0; idx < 4; idx ++) {
+            if (maze [start [0]][start [1]] == 1) continue;
+            int [] next = new int [] { start [0], start [1] };
+                
+            while (next [0] >= 0 && next [0] < maze.length && next [1] >= 0 && next [1] < maze[0].length 
+                    && maze [next [0]][next [1]] == 0)  {
+                next [0] += rowdir [idx]; next [1] += coldir [idx];
+            }
+            next [0] -= rowdir [idx]; next [1] -= coldir [idx];
+                
+            if (roll (seen, maze, next, destination)) return true;
+        }
+        return false;
+    }    
+    
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [][] {{ 0, 0, 1, 0, 0 }, 
