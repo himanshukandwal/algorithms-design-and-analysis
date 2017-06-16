@@ -67,8 +67,8 @@ public class TheMaze extends AbstractCustomTestRunner {
         return roll (map, maze, start, destination);
     }
     
-    int [] rowdir = { 0, 1,  0, -1 };
-    int [] coldir = { 1, 0, -1,  0 };
+	private int [] rowdir = { 0, 1,  0, -1 };
+	private int [] coldir = { 1, 0, -1,  0 };
     
     private boolean roll (boolean[][][] map, int[][] maze, int[] start, int[] destination) {
         for (int idx = 0; idx < 4; idx ++) {
