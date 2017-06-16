@@ -79,18 +79,11 @@ public class TheMaze extends AbstractCustomTestRunner {
                 
                 while (next [0] >= 0 && next [0] < maze.length && next [1] >= 0 && next [1] < maze[0].length 
                         && maze [next [0]][next [1]] == 0)  {
-                	next [0] += rowdir [idx]; 
-                	next [1] += coldir [idx];
+                	next [0] += rowdir [idx];  next [1] += coldir [idx];
                 }
+                next [0] -= rowdir [idx]; next [1] -= coldir [idx];
                 
-                next [0] = Math.max (0, next [0]);
-                next [1] = Math.max (0, next [1]);
-                next [0] = Math.min (maze.length - 1, next [0]);
-                next [1] = Math.min (maze [0].length - 1, next [1]);
-                
-                if (maze [next [0]][next [1]] == 1) { next [0] -= rowdir [idx]; next [1] -= coldir [idx]; }
-                if ((next [0] == destination [0] && next [1] == destination [1]) 
-                   || (roll (map, maze, next, destination))) return true;
+                if ((next [0] == destination [0] && next [1] == destination [1]) || (roll (map, maze, next, destination))) return true;
             }
         }
         return false;
