@@ -30,40 +30,37 @@ public class MinimumFactorization extends AbstractCustomTestRunner {
 	private static MinimumFactorization _instance = new MinimumFactorization();
 	
 	public int _smallestFactorization(int a) {
-		if (a <= 1) return a;
-		
-		int n = a + (a == Integer.MAX_VALUE ? 0 : 1);
-        boolean primes [] = new boolean [n];
-        Arrays.fill (primes, true);
-        primes [0] = primes [1] = false;
+        if (a <= 1) return a;
+        long ans = Long.MAX_VALUE;
         
-        for (int idx = 2; idx < n; idx ++) 
-        	if (primes [idx] && (primes [idx] = (a % idx == 0)))
-        		for (int jdx = 2; jdx * idx < n; jdx ++) primes [jdx * idx] = true;
+        boolean [] map = new boolean [10];
+        Arrays.fill (map, true);
+        map [0] = map [1] = false;
         
-		int ans = Integer.MAX_VALUE;
-		for (int idx = 0; idx < n; idx ++) {
-			if (primes [idx]) {
-				int div = idx;
-				while (a % div == 0) {
-					if (div <= 9 && (a / div) <= 9)
-						ans = Math.min (ans, (a / div) == 1 ? div : Math.min (div * 10 + (a / div), (a / div) * 10 + div));
-					div *= idx;
-				}
-			}
-		}	
-		return (ans == Integer.MAX_VALUE) ? 0 : ans;
+        for (int idx = 9; idx > 1; idx --) 
+            if (map [idx] && a % idx == 0) {
+            	int val = _smallestFactorization (a/idx);
+                if (val > 0) ans = Math.min (ans, val == 1 ? idx : 10l * val + idx);
+                
+                for (int jdx = 2; jdx < idx; jdx ++) if (map [jdx]) map [jdx] = idx % jdx != 0;
+            }
+        
+        return (ans == Long.MAX_VALUE || ans > Integer.MAX_VALUE) ? 0 : (int) ans;
     }
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(1, 1);
 		_instance.runTest(3, 3);
-		_instance.runTest(4, 4);
 		_instance.runTest(6, 6);
 		_instance.runTest(48, 68);
 		_instance.runTest(15, 35);
 		_instance.runTest(128, 288);
+		_instance.runTest(22, 0);
+		_instance.runTest(3000000, 355555588);
+		_instance.runTest(18000000, 0);
+		_instance.runTest(134217728, 888888888);
+		_instance.runTest(150994944, 888888889);
 	}
 
 	public void runTest(final int a, final int expectedOutput) {
