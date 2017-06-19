@@ -33,7 +33,7 @@ public class TaskScheduler extends AbstractCustomTestRunner {
 	
 	private static TaskScheduler _instance = new TaskScheduler();
 
-	public int _leastInterval(char[] tasks, int n) {
+	public int _leastIntervalMath(char[] tasks, int n) {
 		int [] map = new int[26];
 		for (char ch : tasks) map [ch - 'A'] ++;
 		
@@ -43,6 +43,23 @@ public class TaskScheduler extends AbstractCustomTestRunner {
 		int maxfrequency = 0;
 		for (int i : map)  if (i == max) maxfrequency ++;
 		return Math.max (tasks.length, (max - 1) * (n + 1) + maxfrequency);
+    }
+	
+	public int _leastIntervalBrilliant (char[] tasks, int n) {
+		int [] map = new int [26], build = new int [26];
+        for (char ch : tasks) map [ch - 'A'] ++;
+        int ans = 0, num = tasks.length;
+        
+        while (num > 0) {
+            ans ++;				// records the idle cases too. 
+            int maxIdx = -1;
+            for (int idx = 0; idx < map.length; idx ++) 
+                if ((build [idx] == 0 || ans - build [idx] > n) && map [idx] > 0)
+                    if (maxIdx == -1 || map [maxIdx] < map [idx]) maxIdx = idx;
+                    
+            if (maxIdx != -1) { build [maxIdx] = ans; map [maxIdx] --; num --; }
+        }
+        return ans;
     }
 
 	// driver method
