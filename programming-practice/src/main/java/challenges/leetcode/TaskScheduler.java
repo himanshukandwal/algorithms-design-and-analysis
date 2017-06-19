@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -51,14 +52,30 @@ public class TaskScheduler extends AbstractCustomTestRunner {
         int ans = 0, num = tasks.length;
         
         while (num > 0) {
-            ans ++;				// records the idle cases too. 
+            ans ++;				 
             int maxIdx = -1;
             for (int idx = 0; idx < map.length; idx ++) 
-                if ((build [idx] == 0 || ans - build [idx] > n) && map [idx] > 0)
+                if ((build [idx] == 0 || ans - build [idx] > n) && map [idx] > 0)	// magic happens here.
                     if (maxIdx == -1 || map [maxIdx] < map [idx]) maxIdx = idx;
                     
             if (maxIdx != -1) { build [maxIdx] = ans; map [maxIdx] --; num --; }
         }
+        return ans;
+    }
+	
+	public int _leastIntervalTowers (char[] tasks, int n) {
+        int [] map = new int [26], towers = new int [26];
+        for (char ch : tasks) map [ch - 'A'] ++;
+        Arrays.sort (map);
+        for (int idx = 25, m = n + 1; idx >= 0; idx --) {
+            int val = map [idx], jdx = 0;
+            while (val -- > 0) {
+                while (towers [jdx] == m) jdx ++; 
+                towers [jdx ++] ++;
+            }
+        }
+        int ans = 0;
+        for (int idx = 0; idx < towers.length; idx ++) ans += towers [idx];
         return ans;
     }
 
