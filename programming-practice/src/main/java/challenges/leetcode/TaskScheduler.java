@@ -2,10 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -37,33 +34,24 @@ public class TaskScheduler extends AbstractCustomTestRunner {
 	private static TaskScheduler _instance = new TaskScheduler();
 
 	public int _leastInterval(char[] tasks, int n) {
-		Map<Character, Integer> map = new HashMap<>();
-		for (char ch : tasks) map.put (ch, map.getOrDefault (ch, 0) + 1);
-		char maxch = tasks [0];
-        for (Character ch : map.keySet()) if (map.get(ch) > map.get(maxch)) maxch = ch;
-        
-        int ans = 0;
-        while (map.size() > 0) {
-        	if (!map.containsKey(maxch)) maxch = map.keySet().iterator().next();
-        	if (map.put (maxch, map.get (maxch) - 1) == 1) map.remove (maxch);
-        	ans ++;
-        	int itr = 0;
-            for (Iterator <Character> it = map.keySet().iterator(); it.hasNext() && itr < n;) {
-                Character ch = it.next ();
-                if (ch == maxch) continue;
-                if (map.put (ch, map.get (ch) - 1) == 1) it.remove ();
-                itr ++;
-            }
-            ans += itr + (map.size() > 0 ? n - itr : 0);
-        }
-        return ans;
+		int [] map = new int[26];
+		for (char ch : tasks) map [ch - 'A'] ++;
+		
+		int max = 0;
+		for (int val : map) max = Math.max (max, val);
+
+		int maxfrequency = 0;
+		for (int i : map)  if (i == max) maxfrequency ++;
+		return Math.max (tasks.length, (max - 1) * (n + 1) + maxfrequency);
     }
 
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new char[] { 'A', 'B', 'B' }, 2, 4);
 		_instance.runTest(new char[] { 'A', 'B', 'B', 'C' }, 2, 4);
+		_instance.runTest(new char[] { 'A', 'B', 'B', 'B', 'C' }, 1, 5);
 		_instance.runTest(new char[] { 'A', 'A', 'A', 'B', 'B', 'B' }, 0, 6);
+		_instance.runTest(new char[] { 'A', 'A', 'A', 'B', 'B', 'C' }, 0, 6);
 		_instance.runTest(new char[] { 'A', 'A', 'A', 'B', 'B', 'B' }, 2, 8);
 	}
 
