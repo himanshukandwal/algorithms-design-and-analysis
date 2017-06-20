@@ -26,34 +26,28 @@ import challenges.AbstractCustomTestRunner;
  */
 public class BombEnemy extends AbstractCustomTestRunner {
 
-	public int maxKilledEnemiesOptimal(char[][] grid) {
+	public int maxKilledEnemiesFaster (char[][] grid) {
         if (grid.length == 0) return 0;
-        int rows = grid.length, cols = grid [0].length;
-        int [] colsum = new int [cols];
-        int maxKill = 0, rowsum = 0;
+        int [] colsum = new int [grid [0].length];
+        int rowsum = 0, max = 0;
         
-        for (int row = 0; row < rows; row ++) {
-            for (int col = 0; col < cols; col ++) { 
-                 if (col == 0 || grid [row][col - 1] == 'W') {
-                     rowsum = 0;
-                     for (int k = col; k < cols; k ++)  {
-                        if (grid [row][k] == 'W') break;
-                        if (grid [row][k] == 'E') rowsum ++;
-                     }
-                 }
-                 if (row == 0 || grid [row - 1][col] == 'W') {
-                     colsum [col] = 0;
-                     for (int k = row; k < rows; k ++)  {
-                        if (grid [k][col] == 'W') break;
-                        if (grid [k][col] == 'E') colsum [col] ++;
-                     }
-                 }
-                 
-                 if (grid [row][col] == '0')
-                    maxKill = Math.max (maxKill, rowsum + colsum [col]);
+        for (int row = 0; row < grid.length; row ++) {
+            for (int col = 0; col < grid [0].length; col ++) {
+                if (col == 0 || grid [row][col - 1] == 'W') {
+                    rowsum = 0;
+                    for (int k = col; k < grid [0].length && grid [row][k] != 'W'; k ++) if (grid [row][k] == 'E') rowsum ++;
+                }
+                
+                if (row == 0 || grid [row - 1][col] == 'W') {
+                    colsum [col] = 0;
+                    for (int k = row; k < grid.length && grid [k][col] != 'W'; k ++) if (grid [k][col] == 'E') colsum [col] ++;
+                }
+                
+                if (grid [row][col] == '0') max = Math.max (max, rowsum + colsum [col]);
             }
         }
-        return maxKill;
+        
+        return max;
     }
 	
 	public int maxKilledEnemies(char[][] grid) {
