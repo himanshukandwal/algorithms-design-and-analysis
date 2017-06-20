@@ -63,22 +63,6 @@ public class TaskScheduler extends AbstractCustomTestRunner {
         return ans;
     }
 	
-	public int _leastIntervalTowers (char[] tasks, int n) {
-        int [] map = new int [26], towers = new int [26];
-        for (char ch : tasks) map [ch - 'A'] ++;
-        Arrays.sort (map);
-        for (int idx = 25, m = n + 1; idx >= 0; idx --) {
-            int val = map [idx], jdx = 0;
-            while (val -- > 0) {
-                while (towers [jdx] == m) jdx ++; 
-                towers [jdx ++] ++;
-            }
-        }
-        int ans = 0;
-        for (int idx = 0; idx < towers.length; idx ++) ans += towers [idx];
-        return ans;
-    }
-
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new char[] { 'A', 'B', 'B' }, 2, 4);
