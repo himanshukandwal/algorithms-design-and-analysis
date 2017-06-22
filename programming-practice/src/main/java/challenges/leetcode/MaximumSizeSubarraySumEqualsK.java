@@ -11,7 +11,8 @@ import challenges.AbstractCustomTestRunner;
 /**
  * 325. Maximum Size Subarray Sum Equals k
  * 
- * Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
+ * Given an array nums and a target value k, find the maximum length of a subarray that sums to k. 
+ * If there isn't one, return 0 instead.
  * 
  * Note: The sum of the entire nums array is guaranteed to fit within the 32-bit signed integer range.
  * 
@@ -64,7 +65,7 @@ public class MaximumSizeSubarraySumEqualsK extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(new int[] { -2, -1, 2, 1 }, 1, 2);
+		_instance.runTest(new int[] { -2, -1, 2, 1 }, 1, 2);
 		_instance.runTest(new int[] { 1, -1, 5, -2, 3 }, 3, 4);
 	}
 
