@@ -30,8 +30,6 @@ public class MaximumSizeSubarraySumEqualsK extends AbstractCustomTestRunner {
 	
 	private static MaximumSizeSubarraySumEqualsK _instance = new MaximumSizeSubarraySumEqualsK();
 	
-	private MaximumSizeSubarraySumEqualsK() {}
-	
 	// O(n) solution : Two Sum philosophy
 	public int _maxSubArrayLen(int[] nums, int k) {
 		int max = 0, localsum = 0;
@@ -39,11 +37,8 @@ public class MaximumSizeSubarraySumEqualsK extends AbstractCustomTestRunner {
         for (int idx = 0; idx < nums.length; idx ++) { 
             localsum += nums [idx];
             
-            if (localsum == k) 
-                max = Math.max (max, idx + 1);
-            else if (map.containsKey(-(k - localsum)))
-                    max = Math.max (max, idx - map.get(-(k - localsum)));            // <<<<<<<<<<<<<<<<<<<<<<<< this is same as (localsum - k)
-                    
+            if (localsum == k)  max = Math.max (max, idx + 1);
+            else if (map.containsKey(localsum - k)) max = Math.max (max, idx - map.get(localsum - k));            // <<<<<<<<<<<<<<<<<<<<<<<< this is same as (localsum - k)
             map.putIfAbsent(localsum, idx);
         }
         
@@ -65,6 +60,7 @@ public class MaximumSizeSubarraySumEqualsK extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest(new int[] { -1 }, -1, 1);
 		_instance.runTest(new int[] { -2, -1, 2, 1 }, 1, 2);
 		_instance.runTest(new int[] { 1, -1, 5, -2, 3 }, 3, 4);
 	}
