@@ -22,6 +22,7 @@ public class IntegerBreak extends AbstractCustomTestRunner {
 	
 	private static IntegerBreak _instance = new IntegerBreak();
 	
+	// Recursive
     public int _integerBreak(int n) {
     	if (n <= 1) return 0;
     	int [] dp = new int [n + 1];
@@ -36,7 +37,29 @@ public class IntegerBreak extends AbstractCustomTestRunner {
             ans = Math.max (ans, Math.max(idx, dp [idx]) * Math.max((n - idx), dp [n - idx]));    
         return dp [n] = ans;
     }
-
+    
+    // Iterative
+    public int _integerBreakIterative (int n) {
+        int [] dp = new int [n + 1];
+        for (int idx = 2; idx <= n; idx ++) {
+            for (int jdx = 1; jdx <= idx/2; jdx ++) {
+                dp [idx] = Math.max (dp [idx], dp [jdx] * dp [idx - jdx]);
+                dp [idx] = Math.max (dp [idx], jdx * dp [idx - jdx]);
+                dp [idx] = Math.max (dp [idx], dp [jdx] * (idx - jdx));
+                dp [idx] = Math.max (dp [idx], jdx * (idx - jdx));
+            }
+        }
+        return dp [n];
+    }
+    
+    public int _integerBreakIterativeConcise (int n) {
+        int [] dp = new int [n + 1];
+        for (int idx = 2; idx <= n; idx ++)
+            for (int jdx = 1; jdx <= idx/2; jdx ++)
+                dp [idx] = Math.max (dp [idx], Math.max (jdx, dp [jdx]) * Math.max ((idx - jdx), dp [idx - jdx]));
+        return dp [n];
+    }
+    
     // driver method
     public static void main(String[] args) {
         _instance.runTest(10, 36);
