@@ -34,6 +34,13 @@ public class LongestCommonPrefix extends AbstractCustomTestRunner {
         return ans.toString();
 	}
 	
+	public String _longestCommonPrefixBetter (String[] strs) {
+        if (strs.length == 0) return "";
+        StringBuilder ans = new StringBuilder (strs [0]);
+        for (String str : strs) while (!str.startsWith (ans.toString())) ans.deleteCharAt (ans.length () - 1);
+        return ans.toString();
+    }
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new String[] {}, "");
