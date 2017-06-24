@@ -68,36 +68,32 @@ public class TheMazeII extends AbstractCustomTestRunner {
 
 	public int _shortestDistance(int[][] maze, int[] start, int[] destination) {
 		int [][] dp = new int [maze.length][maze [0].length];
-        return dfs (dp, maze, start, destination);
+		dp [start [0]][start [1]] = 1;
+        dfs (dp, maze, start, destination);
+        return dp [destination [0]][destination [1]] - 1;
     }
     
     private int [] rowdir =  { 0, 1, 0, -1 };
     private int [] coldir =  { 1, 0, -1, 0 };
     
-    private int dfs (int [][] dp, int [][] maze, int [] start, int [] destination) {
-        if (dp [start [0]][start [1]] != 0) return dp [start [0]][start [1]];
+    private void dfs (int [][] dp, int [][] maze, int [] start, int [] destination) {
+        if (start [0] == destination [0] && start [1] == destination [1]) return;
         
-        int ans = Integer.MAX_VALUE;
-        dp [start [0]][start [1]] = Integer.MIN_VALUE;
         for (int idx = 0; idx < 4; idx ++) {
             int [] next = { start [0] + rowdir [idx], start [1] + coldir [idx] };
-            
-            int distance = 0;
+       
+            int distance = dp [start [0]][start [1]];
             while (next [0] >= 0 && next [0] < maze.length && next [1] >= 0 && next [1] < maze [0].length && maze [next [0]][next [1]] == 0) {
-                        next [0] += rowdir [idx];
-                        next [1] += coldir [idx];
-                        distance ++;
-                    }
-            if (distance == 0) continue;
-            
+            	next [0] += rowdir [idx];
+                next [1] += coldir [idx];
+                distance ++;
+            }
             next [0] -= rowdir [idx]; next [1] -= coldir [idx];
-            if (next [0] == destination [0] && next [1] == destination [1]) { ans = distance; break; }
             
-            int ahead = dfs (dp, maze, next, destination);
-            if (ahead > 0) ans = Math.min (ans, distance + ahead);
+            if (dp [next [0]][next [1]] > 0 && distance >= dp [next [0]][next [1]]) continue;
+            dp [next [0]][next [1]] = distance;
+            dfs (dp, maze, next, destination);
         }
-        
-        return dp [start [0]][start [1]] = ans == Integer.MAX_VALUE ? -1 : ans;
     }	
 
 	// driver method
