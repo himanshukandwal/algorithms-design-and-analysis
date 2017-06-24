@@ -2,7 +2,6 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -68,43 +67,37 @@ public class TheMazeII extends AbstractCustomTestRunner {
 	private static TheMazeII _instance = new TheMazeII();
 
 	public int _shortestDistance(int[][] maze, int[] start, int[] destination) {
-        int [][] dp = new int [maze.length][maze [0].length];
-        for (int row = 0; row < maze.length; row ++) Arrays.fill (dp [row], -1);
-        int res = roll (dp, maze, start, destination);
-        return (res == Integer.MAX_VALUE) ? -1 : res;
+		int [][] dp = new int [maze.length][maze [0].length];
+        return dfs (dp, maze, start, destination);
     }
     
-    private int [] rowdir = { 0, 1, 0, -1 };
-    private int [] coldir = { 1, 0, -1, 0 };
+    private int [] rowdir =  { 0, 1, 0, -1 };
+    private int [] coldir =  { 1, 0, -1, 0 };
     
-    private int roll (int [][] dp, int [][] maze, int [] start, int [] destination) {
-        if (dp [start [0]][start [1]] != -1) return dp [start [0]][start [1]];
+    private int dfs (int [][] dp, int [][] maze, int [] start, int [] destination) {
+        if (dp [start [0]][start [1]] != 0) return dp [start [0]][start [1]];
         
-        dp [start [0]][start [1]] = Integer.MAX_VALUE;
+        int ans = Integer.MAX_VALUE;
+        dp [start [0]][start [1]] = Integer.MIN_VALUE;
         for (int idx = 0; idx < 4; idx ++) {
-        	int distance = 0;
             int [] next = { start [0] + rowdir [idx], start [1] + coldir [idx] };
             
-            while (next [0] >= 0 && next [0] < maze.length && next [1] >= 0 && next [1] < maze [0].length
-                    && maze [next [0]][next [1]] == 0) {
-            	if (dp [next [0]][next [1]] != -1) { distance = 0; break; }
-                next [0] += rowdir [idx]; 
-                next [1] += coldir [idx];
-                distance ++;
-            }
-            
+            int distance = 0;
+            while (next [0] >= 0 && next [0] < maze.length && next [1] >= 0 && next [1] < maze [0].length && maze [next [0]][next [1]] == 0) {
+                        next [0] += rowdir [idx];
+                        next [1] += coldir [idx];
+                        distance ++;
+                    }
             if (distance == 0) continue;
             
-            next [0] -= rowdir [idx]; 
-            next [1] -= coldir [idx];
+            next [0] -= rowdir [idx]; next [1] -= coldir [idx];
+            if (next [0] == destination [0] && next [1] == destination [1]) { ans = distance; break; }
             
-            if (next [0] == destination [0] && next [1] == destination [1]) return  dp [start [0]][start [1]] = distance;
-            
-            int nextRet = roll (dp, maze, next, destination);
-            if (nextRet != Integer.MAX_VALUE) dp [start [0]][start [1]] = Math.min (dp [start [0]][start [1]], nextRet + distance);
+            int ahead = dfs (dp, maze, next, destination);
+            if (ahead > 0) ans = Math.min (ans, distance + ahead);
         }
         
-        return dp [start [0]][start [1]];
+        return dp [start [0]][start [1]] = ans == Integer.MAX_VALUE ? -1 : ans;
     }	
 
 	// driver method
