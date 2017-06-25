@@ -23,6 +23,17 @@ import challenges.AbstractCustomTestRunner;
  */
 public class ShortestUnsortedContinuousSubarray extends AbstractCustomTestRunner {
 
+	public int findUnsortedSubarrayBest (int[] nums) {
+        int start = -1, end = -2, min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int idx = 0; idx < nums.length; idx ++) {
+            max = Math.max (max, nums [idx]);
+            min = Math.min (min, nums [nums.length - 1 - idx]);
+            if (nums [idx] < max) end = idx;
+            if (nums [nums.length - 1 - idx] > min) start = nums.length - 1 - idx;
+        }
+        return end - start + 1;
+    }
+	
 	// get narrower and narrower
 	public int findUnsortedSubarray(int[] nums) {
         int start = 0, end = nums.length - 1;
