@@ -25,8 +25,6 @@ public class LongestSubstringWithoutRepeatingCharacters extends AbstractCustomTe
 	
 	private static LongestSubstringWithoutRepeatingCharacters _instance = new LongestSubstringWithoutRepeatingCharacters();
 	
-	private LongestSubstringWithoutRepeatingCharacters() {}
-
 	// sliding window checking.
 	public static int _lengthOfLongestSubstring(String s) {
 		int [] map = new int [256];
