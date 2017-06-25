@@ -37,7 +37,7 @@ import challenges.AbstractCustomTestRunner;
  */
 public class DesignCompressedStringIterator extends AbstractCustomTestRunner {
 	
-	private Queue <Object[]> queue = new LinkedList<>();
+	private Queue <int []> queue = new LinkedList<>();
     
     public DesignCompressedStringIterator (String compressedString) {
         for (int idx = 0; idx < compressedString.length();) {
@@ -45,15 +45,14 @@ public class DesignCompressedStringIterator extends AbstractCustomTestRunner {
             int val = 0;
             while (idx < compressedString.length() && Character.isDigit (compressedString.charAt (idx))) 
                 val = 10 * val + (compressedString.charAt (idx ++) - '0');
-            queue.offer (new Object [] { ch, val });
+            queue.offer (new int [] { ch, val });
         }
     }
     
     public char next() {
         if (queue.isEmpty ()) return ' ';
         char ch = (char) queue.peek () [0];
-        if ((int) queue.peek () [1] == 1) queue.poll ();
-        else queue.peek () [1] = ((int) queue.peek () [1]) - 1; 
+        if (-- queue.peek () [1] == 0) queue.poll ();
         return ch;
     }
     
