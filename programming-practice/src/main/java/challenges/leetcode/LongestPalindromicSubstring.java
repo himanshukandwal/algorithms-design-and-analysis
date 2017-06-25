@@ -45,27 +45,23 @@ public class LongestPalindromicSubstring extends AbstractCustomTestRunner {
         return ans;
     }
 
-	// another appraoch.
-	private int lo, maxLen;
-
+	// another approach.
 	public String longestPalindrome(String s) {
-		int len = s.length();
-		if (len < 2) return s;
-		
-		for (int i = 0; i < len - 1; i++) {
-	     	extendPalindrome (s, i, i);  //assume odd length, try to extend Palindrome as possible
-	     	extendPalindrome (s, i, i+1); //assume even length.
-	    }
-	    return s.substring(lo, lo + maxLen);
-	}
-
-	private void extendPalindrome(String s, int j, int k) {
-		while (j >= 0 && k < s.length() && s.charAt(j) == s.charAt(k)) { j --; k ++; }
-		if (maxLen < k - j - 1) {
-			lo = j + 1;
-			maxLen = k - j - 1;
-		}
-	}
+        int [] info = { 0, 1 };
+        for (int idx = 0; idx < s.length (); idx ++) {
+            extendPalindrome (info, s, idx, idx);
+            extendPalindrome (info, s, idx, idx + 1);
+        }
+        return s.substring (info [0], info [0] + info [1]);
+    }
+    
+    private void extendPalindrome (int [] info, String s, int j, int k) {
+        while (j >=0 && k < s.length() && s.charAt (j) == s.charAt (k)) { j --; k ++; }
+        if (info [1] < k - j - 1) {
+            info [0] = j + 1;
+            info [1] = k - j - 1;
+        }
+    }
 	
 	// driver method
 	public static void main(String[] args) {
