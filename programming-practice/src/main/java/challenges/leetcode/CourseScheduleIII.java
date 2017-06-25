@@ -39,16 +39,15 @@ public class CourseScheduleIII extends AbstractCustomTestRunner {
 	private static CourseScheduleIII _instance = new CourseScheduleIII();
 
 	public int _scheduleCourse(int[][] courses) {
-		Arrays.sort(courses, (a, b) -> a[1] - b[1]);
-        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();        
-        int s = 0;
-		for (int idx = 0; idx < courses.length; idx ++) {
-        	int [] course = courses [idx];
-        	s += course [0];
-        	pq.add (- course [0]);
-			while (s > course [1]) s += pq.poll();
+		Arrays.sort (courses, (a, b) -> a [1] - b [1]);
+        int size = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue <>();
+        for (int [] course : courses) {
+            size += course [0];
+            pq.offer (- course [0]);
+            while (size > course [1]) size += pq.poll ();
         }
-        return pq.size();
+        return pq.size ();
     }
 
 	// driver method
