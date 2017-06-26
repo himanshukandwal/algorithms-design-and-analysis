@@ -1,11 +1,5 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -37,68 +31,36 @@ import challenges.AbstractCustomTestRunner;
  */
 public class WaterAndJugProblem extends AbstractCustomTestRunner {
 	
-	private static WaterAndJugProblem _instance = new WaterAndJugProblem();
-	
-	private WaterAndJugProblem() {}
-	
-	// this data structure is created to ensure we do not traverse same state twice. 
-	public static class State {
-		int xfill;
-		int yfill;
-		
-		public State(int xfill, int yfill) {
-			this.xfill = xfill;
-			this.yfill = yfill;
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof State)
-				return ((State) obj).xfill == this.xfill && ((State) obj).yfill == this.yfill;
-			return false;
-		}
-		
-		@Override
-		public int hashCode() {
-			return xfill * 31 + yfill;
-		}
-	}
-
-	public boolean _canMeasureWater(int x, int y, int z) {
-		if (x % 2 == 0 && y % 2 == 0 && z % 2 != 0)
-			return false;
-		
-		Set<State> cachedStates = new HashSet<>();
-		State initialState = new State(0, 0);
-		cachedStates.add(initialState);
-		
-		return (x + y == z) ? true : canMeasureWaterRecursively(x, y, z, initialState, cachedStates);
-	}
-
-	public boolean canMeasureWaterRecursively(int x, int y, int z, State state, Set<State> cachedStates) {
-		// base case. (avoid looping)
-		if (cachedStates.contains(state))
-			return false;
-		
-		if (state.xfill + state.yfill == z) 
-			return true;
-		
-		
-		return false;
-	}
-	
-	// driver method
-	public static void main(String[] args) {
-		_instance.runTest(3, 5, 4, true);
-		_instance.runTest(2, 6, 5, false);
-	}
-	
-	public void runTest(final int x, final int y, final int z, final boolean expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { x, y, z });
-		
-		for (Object answer : answers) 
-			assertThat((boolean) answer).isEqualTo(expectedOutput);
-		
-		System.out.println("ok!");
-	}
+	/**
+	 * The basic idea is to use the property of Bézout's identity and check if z is a multiple of GCD(x, y)
+	 * Bézout's identity (also called Bézout's lemma) is a theorem in the elementary theory of numbers:
+	 * 	let a and b be nonzero integers and let d be their greatest common divisor. Then there exist integers x
+	 * 	and y such that ax+by=d
+	 * 
+	 * In addition, the greatest common divisor d is the smallest positive integer that can be written as ax + by
+	 * every integer of the form ax + by is a multiple of the greatest common divisor d. If a or b is negative 
+	 * this means we are emptying a jug of x or y gallons respectively.
+	 * 
+	 * Similarly if a or b is positive this means we are filling a jug of x or y gallons respectively.
+	 * x = 4, y = 6, z = 8.
+	 * GCD(4, 6) = 2
+	 * 8 is multiple of 2
+	 * 
+	 * so this input is valid and we have:	-1 * 4 + 6 * 2 = 8
+	 * In this case, there is a solution obtained by filling the 6 gallon jug twice and emptying the 4 gallon jug once. 
+	 * 
+	 * Solution. Fill the 6 gallon jug and empty 4 gallons to the 4 gallon jug. Empty the 4 gallon jug. 
+	 * 			 Now empty the remaining two gallons from the 6 gallon jug to the 4 gallon jug. Next refill the 6 gallon jug. 
+	 * 			 This gives 8 gallons in the end.
+	 */
+	public boolean canMeasureWater(int x, int y, int z) {
+        if (x + y < z) return false;
+        if (x == z || y == z || x + y == z) return true;
+        return z % gcd (x, y) == 0;
+    }
+    
+    private int gcd (int a, int b) {
+        if (a == 0) return b;
+        return gcd (b % a, a);
+    }
 }
