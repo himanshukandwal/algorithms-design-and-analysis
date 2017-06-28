@@ -2,13 +2,8 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -29,22 +24,20 @@ public class LineReflection extends AbstractCustomTestRunner {
 	private static LineReflection _instance = new LineReflection();
 
 	public boolean _isReflected(int[][] points) {
-        if (points.length == 0) return true;
-        int sum = 0;
-        Map<Integer, List<Set<Integer>>> map = new HashMap<>();
-        for (int [] point : points) { 
-            map.computeIfAbsent(point [0], k -> new ArrayList<Set<Integer>> ()).addAll(Arrays.asList(new HashSet<>(), new HashSet<>()));
-            if (map.get (point [0]).get(point [1] >= 0 ? 0 : 1).add(point [1])) sum += point [0];
-        }
-        double mid = sum * 1d/points.length;
-        for (int key : map.keySet ()) {
-            double dist = Math.abs (mid - key);
-            if (!(map.containsKey ((int) (mid + dist)) 
-                && map.containsKey ((int) (mid - dist)) 
-                && map.get ((int) (mid + dist)).get(0).size() == map.get ((int) (mid - dist)).get(0).size()
-                && map.get ((int) (mid + dist)).get(1).size() == map.get ((int) (mid - dist)).get(1).size())) return false;
-        }
-        return true;
+		int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+	    HashSet<String> set = new HashSet<>();
+		for (int[] p : points) {
+			max = Math.max (max, p [0]);
+			min = Math.min (min, p [0]);
+	        String str = p [0] + "a" + p [1];
+	        set.add (str);
+	    }
+		int sum = max + min;
+		for (int [] p : points) {
+			String str = (sum - p [0]) + "a" + p [1];
+			if (!set.contains (str)) return false;
+	    }
+	    return true;
     }
 
 	// driver method
