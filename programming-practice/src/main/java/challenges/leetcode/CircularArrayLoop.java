@@ -29,8 +29,6 @@ import challenges.AbstractCustomTestRunner;
 public class CircularArrayLoop extends AbstractCustomTestRunner {
 	
 	private static CircularArrayLoop _instance = new CircularArrayLoop();
-	
-	private CircularArrayLoop() {}
 		
 	public static boolean _circularArrayLoop(int[] nums) {
 		int index = 0;
