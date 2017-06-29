@@ -26,42 +26,33 @@ public class MaximumXOROf2ElementsInArray extends AbstractCustomTestRunner {
 	
 	private static MaximumXOROf2ElementsInArray _instance = new MaximumXOROf2ElementsInArray();
 	
-	private MaximumXOROf2ElementsInArray() {}
+	public class Node {
+        private Node [] children = new Node [2];
+       
+        public void add (int num, int pos) {
+           if (pos < 0) return;
+           int child = (num >> pos) & 1;
+           if (children [child] == null) children [child] = new Node();
+           children [child].add (num,  pos - 1);
+        }
+       
+        public int xorTree (int num, int pos, int ans) {
+           if (pos < 0) return ans;
+           Node node = null;
+           if ((node = children [Math.abs(((num >> pos) & 1) - 1)]) != null) ans |= (1 << pos);
+           else node = children [(num >> pos) & 1];
+           return node != null ? node.xorTree (num, pos - 1, ans) : ans;
+        }
+	}
 
-	public static int _getMaxXORof2Elements(int[] nums) {
-		if (nums == null || nums.length == 0) return 0;
-		
-		// trie root.
-		Object[] root = { null, null };
-		
-		// trie population.
-		for (int number : nums) {
-			Object [] currentNode = root;
-			
-			for (int pos = 31; pos >= 0; pos --) {
-				int currentBit = (number >>> pos) & 1;
-				currentNode = (Object[]) (currentNode [currentBit] = (currentNode [currentBit] == null) ? new Object[] { null, null } : currentNode [currentBit]);
-			}
-		}
-        
-		int max = Integer.MIN_VALUE;
-		for (int number : nums) {
-			int negElementReconstructed = 0;
-			Object [] currentNode = root;
-			
-			for (int pos = 31; pos >= 0; pos --) {
-				int currentBit = (number >>> pos) & 1;
-				
-				if (currentNode [currentBit ^ 1] != null) {
-					negElementReconstructed += (1 << pos);
-					currentNode = (Object[]) currentNode [currentBit ^ 1];
-				} else
-					currentNode = (Object[]) currentNode [currentBit];
-			}
-			
-			max = Math.max (max, negElementReconstructed);
-		}
-		
+	// remember to walk from MSB to LSB, to attain right solution.
+	public int _findMaximumXOR(int[] nums) {
+        Node root = new Node ();
+        int max = 0;
+        for (int num : nums) {
+               root.add(num, 31);			// add first so that we always have some path to fall back while processing XOR tree.
+               max = Math.max (max, root.xorTree(num, 31, 0));
+        }
         return max;
 	}
 	
