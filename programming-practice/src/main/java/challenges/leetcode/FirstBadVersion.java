@@ -19,19 +19,13 @@ package challenges.leetcode;
 public class FirstBadVersion {
     
     public int findFirstBadVersion2(int n) {
-        if (n == 0) return -1;
-        int start = 1, end = n;
-        
-        // the while loop will break when start and end are next to each other. Then check just start and end.
-        while (start + 1 < end) {
-            int mid = (start + end) >>> 1;
-            if (!isBadVersion(mid)) start = mid;
-            else end = mid;
-        }
-
-        if (isBadVersion(start)) return start;
-        else if (isBadVersion(end)) return end;
-        else return -1; // not found
+    	 int start = 1, end = n;
+         while (start < end) {
+             int mid = start + (end-start) / 2;
+             if (isBadVersion (mid)) end = mid;
+             else start = mid + 1;
+         }
+         return start;
     }
     
     // mocked API method.
