@@ -2,9 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -36,69 +34,40 @@ public class NumberOfIslands extends AbstractCustomTestRunner {
 	
 	private static NumberOfIslands _instance = new NumberOfIslands();
 	
-	private NumberOfIslands() {}
-	
+    private int [] rdir = { 1, 0, -1, 0 };
+    private int [] cdir = { 0, 1, 0, -1 };
+    
 	// better approach
-	public int _numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0) return 0;
+	public int numIslands(char[][] grid) {
+        if (grid.length == 0) return 0;
         int count = 0;
-        for (int row = 0; row < grid.length; row ++)
-            for (int col = 0; col < grid [0].length; col ++)
-                if (grid [row][col] == '1') 
-                    count += sink (grid, row, col);
+        for (int r = 0; r < grid.length; r ++) 
+            for (int c = 0; c < grid [0].length; c ++) if (grid [r][c] == '1') { count ++; dfs (grid, r, c); }
         return count;
     }
     
-    public int sink (char [][] g, int r, int c) {
-        if (r >= g.length || r < 0 || c < 0 || c >= g[0].length || g [r][c] == '0') return 0;
-        g [r][c] = '0';
-        
-        int[] d = new int [] { 0, 1, 0, -1, 0 };    
-        
-        // or could be used something like : sink(i+1, j); sink(i-1, j); sink(i, j+1); sink(i, j-1);
-        for (int k = 0; k < 4; k ++) 
-            sink (g, r + d [k], c + d [k + 1]);
-        
-        return 1;
+    private void dfs (char [][] grid, int row, int col) {
+        if (row < 0 || row >= grid.length || col < 0 || col >= grid [0].length || grid [row][col] == '0') return;
+        grid [row][col] = '0';
+        for (int idx = 0; idx < 4; idx ++) dfs (grid, row + rdir [idx], col + cdir [idx]);
     }
 	
     // conventional approach
-	public int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0) return 0;
-        boolean [][] seen = new boolean [grid.length][grid[0].length];
-        
+    public int _numIslandsConventional (char[][] grid) {
+        if (grid.length == 0) return 0;
+        boolean [][] seen = new boolean [grid.length][grid [0].length];
         int count = 0;
-        for (int row = 0; row < grid.length; row ++) {
-            for (int col = 0; col < grid [0].length; col ++) {
-                if (grid [row][col] == '1' && !seen [row][col]) {
-                    count ++;
-                    visit (grid, seen, row, col);
-                }
-            }
-        }
+        for (int r = 0; r < grid.length; r ++) 
+            for (int c = 0; c < grid [0].length; c ++) 
+                if (!seen [r][c] && grid [r][c] == '1') { count ++; dfs (seen, grid, r, c); }
         return count;
     }
     
-    public void visit(char[][] grid, boolean [][] seen, int row, int col) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer (new int[] { row, col });
-        
-        while (! queue.isEmpty()) {
-            int[] point = queue.poll();
-            seen [point[0]][point[1]] = true;
-            
-            if (point[0] + 1 < grid.length && !seen[point[0] + 1][point[1]] && grid [point[0] + 1][point[1]] == '1')
-                queue.offer (new int [] { point[0] + 1, point[1] });
-                
-            if (point[0] - 1 >= 0 && !seen[point[0] - 1][point[1]] && grid [point[0] - 1][point[1]] == '1')
-                queue.offer (new int [] { point[0] - 1, point[1] });                
-            
-            if (point[1] + 1 < grid[0].length && !seen [point[0]][point[1] + 1] && grid [point[0]][point[1] + 1] == '1')
-                queue.offer (new int [] { point[0], point[1] + 1 });
-
-            if (point[1] - 1 >= 0 && !seen [point[0]][point[1] - 1] && grid [point[0]][point[1] - 1] == '1')
-                queue.offer (new int [] { point[0], point[1] - 1 });                
-        }
+    private void dfs (boolean [][] seen, char [][] grid, int row, int col) {
+        if (row < 0 || row >= seen.length || col < 0 || col >= grid [0].length 
+            || grid [row][col] == '0' || seen [row][col]) return;
+        seen [row][col] = true;
+        for (int idx = 0; idx < 4; idx ++) dfs (seen, grid, row + rdir [idx], col + cdir [idx]);
     }
     
     // driver method
