@@ -44,49 +44,38 @@ import challenges.AbstractCustomTestRunner;
  */
 public class DesignLogStorageSystem extends AbstractCustomTestRunner {
 
-    private class Node {
-        private List<Integer> ids = new ArrayList<>();		// shared resource (distributed) between all the children
-        private Map<Integer, Node> children = new HashMap<>();
-        
-        public void add (String [] parts, int id, int idx) {
-            if (idx >= parts.length) return;
-            Integer part = Integer.valueOf(parts [idx]);
-            children.put (part, children.getOrDefault (part, new Node ()));
-            children.get(part).ids.add (id);
-            children.get(part).add (parts, id, idx + 1);
-        }
-        
-        public void find (List<Integer> ans, String [] parts1, String [] parts2, int idx, int level) {
-        	if (idx == level) ans.addAll(ids);
-        	else 
-        		for (int p = Integer.valueOf(parts1 [idx]); p <= Integer.valueOf(parts2 [idx]); p ++)
-        			if (children.containsKey (p)) children.get (p).find (ans, parts1, parts2, idx + 1, level);
-        }
-    }
-    
-    private Node root = new Node ();
-    private Map<String, Integer> granularity = new HashMap<>();
-    
-    public DesignLogStorageSystem() {
-        granularity.put ("Year", 1);
-        granularity.put ("Month", 2);
-        granularity.put ("Day", 3);
-        granularity.put ("Hour", 4);
-        granularity.put ("Minute", 5);
-        granularity.put ("Second", 6);
-    }
-    
+	Map<Integer, String> map = new HashMap<>();
+	
+    public DesignLogStorageSystem () {}
+
     public void put(int id, String timestamp) {
-        String [] parts = timestamp.split(":");
-        root.add (parts, id, 0);
-    }
-    
-    public List<Integer> retrieve(String s, String e, String gra) {
-        List<Integer> ans = new ArrayList<> ();
-        root.find (ans, s.split (":"), e.split (":"), 0, granularity.get (gra));
-        return ans;
+        map.put (id, timestamp);
     }
 
+    public List<Integer> retrieve(String s, String e, String gra) {
+        s = process (s, gra, "0000:00:00:00:00:00");
+        e = process (e, gra, "9999:12:31:23:59:59");
+        
+        List<Integer> result = new ArrayList<>();
+        for (Map.Entry<Integer, String> entry : map.entrySet())
+            if (s.compareTo(entry.getValue()) <= 0 && e.compareTo(entry.getValue()) >= 0) 
+            	result.add(entry.getKey());
+        
+        return result;
+    }
+
+    private String process(String s, String gra, String remain) {
+        switch (gra) {
+            case "Year": 	return s.substring(0, 4) + remain.substring(4);
+            case "Month": 	return s.substring(0, 7) + remain.substring(7);
+            case "Day": 	return s.substring(0, 10) + remain.substring(10);
+            case "Hour": 	return s.substring(0, 13) + remain.substring(13);
+            case "Minute": 	return s.substring(0, 16) + remain.substring(16);
+            case "Second": 	return s.substring(0, 19) + remain.substring(19);
+        }
+        throw new RuntimeException();
+    }
+   
     // driver method
    	public static void main(String[] args) {
    		testCase1 ();
@@ -108,8 +97,8 @@ public class DesignLogStorageSystem extends AbstractCustomTestRunner {
    		fileSystem.put(1, "2017:01:01:23:59:59");
    		fileSystem.put(2, "2017:01:01:22:59:59");
    		fileSystem.put(3, "2016:01:01:00:00:00");
-   		assertThat(fileSystem.retrieve("2016:01:01:01:01:01","2017:01:01:23:00:00","Year")).isEqualTo(Arrays.asList(3, 1, 2));
-   		assertThat(fileSystem.retrieve("2016:01:01:01:01:01","2017:01:01:23:00:00","Hour")).isEqualTo(Arrays.asList(2, 1));
+   		assertThat(fileSystem.retrieve("2016:01:01:01:01:01","2017:01:01:23:00:00","Year")).isEqualTo(Arrays.asList(1, 2, 3));
+   		assertThat(fileSystem.retrieve("2016:01:01:01:01:01","2017:01:01:23:00:00","Hour")).isEqualTo(Arrays.asList(1, 2));
    	}
    	
    	private static void testCase3() {
