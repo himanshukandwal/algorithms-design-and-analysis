@@ -20,5 +20,16 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class FindTheDerangementOfAnArray extends AbstractCustomTestRunner {
-
+	 
+	// d (n) = (n - 1) [d (n - 1) + d (n - 2)]
+	public int findDerangement(int n) {
+		long a = 0, b = 1, i = 3, c;
+		for (; i <= n + 1; i ++) {
+			c = (i - 1) * (a + b) % 1000000007;
+			a = b;
+			b = c;
+		}
+		return (int) a;
+	}
+	
 }
