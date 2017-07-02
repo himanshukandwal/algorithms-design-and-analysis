@@ -66,12 +66,12 @@ public class DesignLogStorageSystem extends AbstractCustomTestRunner {
 
     private String process(String s, String gra, String remain) {
         switch (gra) {
-            case "Year": 	return s.substring(0, 4) + remain.substring(4);
-            case "Month": 	return s.substring(0, 7) + remain.substring(7);
-            case "Day": 	return s.substring(0, 10) + remain.substring(10);
-            case "Hour": 	return s.substring(0, 13) + remain.substring(13);
-            case "Minute": 	return s.substring(0, 16) + remain.substring(16);
-            case "Second": 	return s.substring(0, 19) + remain.substring(19);
+            case "Year"		: return s.substring(0, 4) + remain.substring(4);
+            case "Month"	: return s.substring(0, 7) + remain.substring(7);
+            case "Day"		: return s.substring(0, 10) + remain.substring(10);
+            case "Hour"		: return s.substring(0, 13) + remain.substring(13);
+            case "Minute"	: return s.substring(0, 16) + remain.substring(16);
+            case "Second"	: return s.substring(0, 19) + remain.substring(19);
         }
         throw new RuntimeException();
     }
