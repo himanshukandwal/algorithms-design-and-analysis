@@ -47,6 +47,7 @@ public class SmallestRange extends AbstractCustomTestRunner {
                 if (pos == 0) end = Math.max (end, nums.get (idx).get (pos));
                 else if (pos == nums.get (idx).size ()) start = Math.min (start, nums.get (idx).get (pos - 1));
                 else {
+                	
                 	if (nums.get (idx).get (pos) - val > val - nums.get (idx).get (pos - 1))
                 		start = Math.min (start, nums.get (idx).get (pos - 1));
                 	else end = Math.max (end, nums.get (idx).get (pos));
@@ -63,9 +64,9 @@ public class SmallestRange extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(Arrays.asList(Arrays.asList (4, 10, 15, 24, 26), 
-										Arrays.asList (0, 9, 12, 20), 
-										Arrays.asList (5, 18, 22, 30)), new int [] { 20, 24 });
+//		_instance.runTest(Arrays.asList(Arrays.asList (4, 10, 15, 24, 26), 
+//										Arrays.asList (0, 9, 12, 20), 
+//										Arrays.asList (5, 18, 22, 30)), new int [] { 20, 24 });
 		
 		_instance.runTest(Arrays.asList(Arrays.asList (11, 38, 83, 84, 84, 85, 88, 89, 89, 92),
 										Arrays.asList (28, 61, 89),
