@@ -29,11 +29,32 @@ public class BinaryTreeInorderTraversal extends AbstractCustomTestRunner {
 	
 	public static class TreeNode {
 		int val;
-		TreeNode left;
-		TreeNode right;
-		
+		TreeNode left, right;
 		public TreeNode(int x) { val = x; }
 	}
+	
+	// Morris Traversal : http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/
+	public List<Integer> inorderTraversalBetter (TreeNode root) {
+        List<Integer> ans = new ArrayList<Integer>();
+        if (root == null) return ans;
+        TreeNode current = root;
+        while (current != null) {
+            if (current.left == null) { ans.add (current.val); current = current.right; }
+            else {
+                TreeNode predecessor = current.left;
+                while (predecessor.right != null && predecessor.right != current) predecessor = predecessor.right;
+                if (predecessor.right == null) {
+                    predecessor.right = current;
+                    current = current.left;
+                } else {
+                    predecessor.right = null; 
+                    ans.add (current.val); 
+                    current = current.right; 
+                }
+            }
+        }
+        return ans;
+    }
 	
 	public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> answer = new ArrayList<>();
