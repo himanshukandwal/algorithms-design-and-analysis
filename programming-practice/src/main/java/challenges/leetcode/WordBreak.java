@@ -9,7 +9,7 @@ import java.util.Set;
 import challenges.AbstractCustomTestRunner;
 
 /**
- * Word Break II
+ * 140. Word Break II
  * 
  * Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated 
  * sequence of one or more dictionary words. You may assume the dictionary does not contain duplicate words.
@@ -26,8 +26,6 @@ public class WordBreak extends AbstractCustomTestRunner {
 	
 	private static WordBreak _instance = new WordBreak();
 	
-	public WordBreak() {}
-
     public static boolean _wordBreak(Set<String> hash, String s) {
     	boolean[] f = new boolean [s.length() + 1];
     	f [0] = true;
