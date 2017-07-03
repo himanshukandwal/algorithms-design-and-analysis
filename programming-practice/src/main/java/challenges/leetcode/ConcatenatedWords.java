@@ -3,6 +3,7 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,86 +34,65 @@ import challenges.AbstractCustomTestRunner;
  *
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class ConcatenatedWords extends AbstractCustomTestRunner {
 	
 	private static ConcatenatedWords _instance = new ConcatenatedWords();
-	
-	private ConcatenatedWords() {}
 
 	// basic trie data structure.
-	public static class Trie {
-		char ch;
-		Trie[] children = new Trie [256];
-		boolean isTerminal;
-		
-		public Trie(char ch) {
-			this.ch = ch;
-		}
-		
-		public Trie getItem(String word) {
-			Trie node = this;
-			for (int idx = 0; idx < word.length(); idx ++) {
-				char ch = word.charAt(idx);
-				node = node.children [ch] = (node.children [ch] == null) ? new Trie(ch) : node.children [ch];
-			}
-			node.isTerminal = true;
-			return node;
-		}
-		
-		public List<String> getPrefixes(String word) {
-			List<String> prefixes = new ArrayList<>();
-			Trie node = this;
-			StringBuilder builder = new StringBuilder();
-			
-			for (int idx = 0; idx < word.length(); idx ++) {
-				char ch = word.charAt(idx);
-				
-				if (node.children [ch] == null)  return prefixes;
-				
-				builder.append(ch);
-				node = node.children [ch];
-				if (node.isTerminal)
-					prefixes.add(builder.toString()); 
-			}
-			
-			return prefixes;
-		}
-	}
-	
-	public static List<String> findAllConcatenatedWordsInADict(String[] words) {
-        Trie root = new Trie(' ');
-        List<String> answer = new ArrayList<>();
+	public class Node {
+        private char ch;
+        private boolean terminal;
+        private Node[] children = new Node [256];
         
-        // populate data-structure
-        for (String word : words) 
-        	root.getItem(word);
+        public Node (char ch) { this.ch = ch; }
         
-        Queue<String> queue = new LinkedList<>();
-        for (String word : words) { 
-        	List<String> prefixes = root.getPrefixes(word);
-        	
-        	for (String prefix : prefixes)
-        		if (prefix.length() < word.length())
-        			queue.add(word.substring(prefix.length()));
-        	
-        	while (!queue.isEmpty()) {
-        		String suffix = queue.poll();
-        		List<String> suffixPrefixes = root.getPrefixes(suffix);
-        		
-        		for (String suffixPrefix : suffixPrefixes) {
-        			if (suffixPrefix.length() == suffix.length()) {
-        				answer.add(word);
-        				queue.clear();
-        				break;
-        			} else 
-        				queue.add(suffix.substring(suffixPrefix.length()));
-        		}
-        	}
+        public void add (String str) {
+            Node t = this;
+            for (char ch : str.toCharArray()) {
+                if (t.children [ch] == null) t.children [ch] = new Node (ch);
+                t = t.children [ch];
+            }
+            t.terminal = true;
         }
         
-        answer.stream().forEach(System.out::println);
-		return answer;
+        public List<String> findPrefixes (String word) {
+            Node t = this;
+            List<String> ans = new ArrayList<>();
+            for (int idx = 0; idx < word.length() - 1; idx ++) {
+                char ch = word.charAt (idx);
+                if (t.children [ch] == null) return ans; else t = t.children [ch];
+                if (t.terminal) ans.add (word.substring (0, idx + 1));
+            }
+            return ans;
+        }
+        
+        public boolean find (String word) {
+            Node t = this;
+            for (char ch : word.toCharArray()) if (t.children [ch] == null) return false; else t = t.children [ch];
+            return t.terminal;
+        }
+        
+    }
+    
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        Set<String> ans = new HashSet<>();
+        Node root = new Node (' ');
+        for (String word : words) root.add (word);
+        
+        Queue<String[]> queue = new LinkedList<>();
+        for (String word : words) {
+            for (String prefix : root.findPrefixes (word)) 
+                queue.offer (new String [] { prefix, word.substring (prefix.length ()) });
+            
+            while (!queue.isEmpty()) {
+                String processed = queue.peek () [0], suffix = queue.poll ()[1];
+                if (root.find (suffix)) ans.add (processed + suffix);
+                else for (String prefix : root.findPrefixes (suffix)) 
+                    	queue.offer (new String [] { processed + prefix, suffix.substring (prefix.length ()) });
+            }
+        }
+        
+        return new ArrayList<String>(ans);
     }
 	
 	public static List<String> _findAllConcatenatedWordsInADictOptimized(String[] words) {
@@ -142,14 +122,12 @@ public class ConcatenatedWords extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new String[] { "" }, new ArrayList());
-		
-		_instance.runTest(new String[] { "a","b","ab","abc" }, new ArrayList() {{ add ("ab"); }});
-		
+		_instance.runTest(new String[] { "a","b","ab","abc" }, Arrays.asList ("ab"));
 		_instance.runTest(new String[] { "cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat" }, 
-						  new ArrayList() {{ add ("catsdogcats"); add ("dogcatsdog"); add ("ratcatdogcat"); }});
+				 Arrays.asList ("catsdogcats", "dogcatsdog", "ratcatdogcat"));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void runTest(final String[] words, final List<String> expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { words });
 
