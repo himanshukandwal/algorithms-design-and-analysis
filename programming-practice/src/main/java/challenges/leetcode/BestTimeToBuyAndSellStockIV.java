@@ -10,6 +10,8 @@ import java.util.Scanner;
 import challenges.AbstractCustomTestRunner;
 
 /**
+ * 188. Best Time to Buy and Sell Stock IV
+ * 
  * Say you have an array for which the ith element is the price of a given stock on day i.
  * 
  * Design an algorithm to find the maximum profit. You may complete at most k transactions.
@@ -22,10 +24,8 @@ public class BestTimeToBuyAndSellStockIV extends AbstractCustomTestRunner {
 	
 	private static BestTimeToBuyAndSellStockIV _instance = new BestTimeToBuyAndSellStockIV();
 	
-	private BestTimeToBuyAndSellStockIV() {}
-	
     public int _maxProfit(int k, int[] prices) {
-    	if (prices == null || prices.length <= 1) return 0;
+    	if (prices.length == 0) return 0;
   
     	// case : if k >= n/2, then you can make maximum number of transactions.
     	if (k >= prices.length / 2) {
@@ -39,7 +39,6 @@ public class BestTimeToBuyAndSellStockIV extends AbstractCustomTestRunner {
     	
     	// else build dp
         int [][] dp = new int [k + 1][prices.length];
-        
         for (int transaction = 1; transaction <= k; transaction ++) {
         	int maxDiff = - prices [0];
         	
