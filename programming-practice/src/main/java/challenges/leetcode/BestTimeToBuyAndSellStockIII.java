@@ -19,8 +19,25 @@ public class BestTimeToBuyAndSellStockIII extends AbstractCustomTestRunner {
 	
 	private static BestTimeToBuyAndSellStockIII _instance = new BestTimeToBuyAndSellStockIII();
 	
-	private BestTimeToBuyAndSellStockIII() {}
-	
+	// using MCM rule.
+	public int _maxProfitMCM(int[] prices) {
+        if (prices.length == 0) return 0;
+        int min = prices [0], ans = 0;
+        for (int idx = 1; idx < prices.length; idx ++) 
+            if (min > prices [idx]) min = prices [idx];
+            else ans = Math.max (ans, prices [idx] - min + max (prices, idx, prices.length - 1));
+        return ans;
+    }
+    
+	// simple hook for the MCM engine.
+    private int max (int [] prices, int start, int end) {
+        int min = prices [start], ans = 0;
+        for (int idx = start; idx <= end; idx ++)
+            if (min > prices [idx]) min = prices [idx];
+            else ans = Math.max (ans, prices [idx] - min);
+        return ans;
+    }
+    
     public int _maxProfit(int[] prices) {
     	if (prices == null || prices.length <= 1) return 0;
     	
