@@ -22,12 +22,8 @@ public class BestTimeToBuyAndSellStockII extends AbstractCustomTestRunner {
 	
 	private static BestTimeToBuyAndSellStockII _instance = new BestTimeToBuyAndSellStockII();
 	
-	private BestTimeToBuyAndSellStockII() {}
-	
     public static int _maxProfit (int[] prices) {
-    	if (prices == null || prices.length == 0)
-    		return 0;
-    	
+    	if (prices == null || prices.length == 0) return 0;
     	int [] dp = new int [prices.length];
         
     	for (int idx = 1; idx < prices.length; idx ++)
