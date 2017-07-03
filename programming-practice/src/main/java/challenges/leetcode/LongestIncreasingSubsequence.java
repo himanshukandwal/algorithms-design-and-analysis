@@ -31,25 +31,23 @@ public class LongestIncreasingSubsequence extends AbstractCustomTestRunner {
         int[] dp = new int[nums.length];
         int len = 0;
 
-        for(int x : nums) {
-            int i = Arrays.binarySearch(dp, 0, len, x);
+        for (int x : nums) {
+            int i = Arrays.binarySearch (dp, 0, len, x);
 			if (i < 0) i = -(i + 1);
             dp [i] = x;
-			if (i == len) len++;
+			if (i == len) len ++;
         }
         return len;
     }
 	
 	public int _lengthOfLIS(int[] nums) {
-        if (nums.length == 0) return 0;
+		if (nums.length == 0) return 0;
         int [] dp = new int [nums.length];
         Arrays.fill (dp, 1);
         int max = 1;
-        for (int idx = 1; idx < nums.length; idx ++) {
-            int mmax = dp [idx];
-            for (int iidx = 0; iidx < idx; iidx ++)  if (nums [idx] > nums [iidx]) mmax = Math.max (mmax, dp [iidx] + 1);
-            max = Math.max (max, dp [idx] = mmax);
-        }
+        for (int idx = 0; idx < nums.length; idx ++)
+            for (int jdx = idx + 1; jdx < nums.length; jdx ++)
+                if (nums [jdx] > nums [idx]) max = Math.max (max, dp [jdx] = Math.max (dp [jdx], dp [idx] + 1));
         return max;
     }
 
