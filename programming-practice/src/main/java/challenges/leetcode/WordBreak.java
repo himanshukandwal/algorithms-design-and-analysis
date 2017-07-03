@@ -26,14 +26,14 @@ public class WordBreak extends AbstractCustomTestRunner {
 	private static WordBreak _instance = new WordBreak();
 	
 	public boolean _wordBreak(String s, List<String> wordDict) {
-        Set<String> set = new HashSet<>();
+		Set<String> set = new HashSet<>();
         for (String str : wordDict) set.add (str);
         boolean [] f = new boolean [s.length() + 1];
         f [0] = true;
-        for (int idx = 1; idx <= s.length (); idx ++) {
+        for (int idx = 1; idx <= s.length (); idx ++)
             for (int jdx = 0; jdx < idx; jdx ++)
-                if (f [jdx]) f [idx] |= set.contains (s.substring (jdx, idx));
-        }
+                if (f [jdx] && (f [idx] = set.contains (s.substring (jdx, idx)))) break;
+        
         return f [s.length()];
     }
 
