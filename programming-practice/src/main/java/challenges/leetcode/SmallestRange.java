@@ -3,8 +3,8 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -36,37 +36,38 @@ public class SmallestRange extends AbstractCustomTestRunner {
 	private static SmallestRange _instance = new SmallestRange();
 
 	public int[] _smallestRange(List<List<Integer>> nums) {
-        int [] ans = { Integer.MIN_VALUE, Integer.MAX_VALUE };
-        for (int val : nums.get (0)) {
-            int start = val, end = val;
-            
-            for (int idx = 1; idx < nums.size(); idx ++) {
-                int pos = Collections.binarySearch (nums.get (idx), val);
-                if (pos >= 0) continue; else pos = -pos - 1;
-                
-                if (pos == 0) end = Math.max (end, nums.get (idx).get (pos));
-                else if (pos == nums.get (idx).size ()) start = Math.min (start, nums.get (idx).get (pos - 1));
-                else {
-                	
-                	if (nums.get (idx).get (pos) - val > val - nums.get (idx).get (pos - 1))
-                		start = Math.min (start, nums.get (idx).get (pos - 1));
-                	else end = Math.max (end, nums.get (idx).get (pos));
+		int minx = 0, miny = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        int[] next = new int[nums.size()];
+        boolean flag = true;
+        PriorityQueue < Integer > min_queue = new PriorityQueue < Integer > ((i, j) -> nums.get (i).get (next[i]) - nums.get (j).get (next[j]));
+        for (int i = 0; i < nums.size(); i++) {
+            min_queue.offer(i);
+            max = Math.max (max, nums.get (i).get (0));
+        }
+        for (int i = 0; i < nums.size() && flag; i ++) {
+            for (int j = 0; j < nums.get (i).size() && flag; j ++) {
+                int min_i = min_queue.poll();
+                if (miny - minx > max - nums.get (min_i).get (next[min_i])) {
+                    minx = nums.get (min_i).get (next[min_i]);
+                    miny = max;
                 }
-            }
-            
-            if (Long.valueOf (end) - Long.valueOf (start) < Long.valueOf (ans [1]) - Long.valueOf (ans [0])) { 
-                ans [0] = start;
-                ans [1] = end;
+                next[min_i]++;
+                if (next[min_i] == nums.get (min_i).size()) {
+                    flag = false;
+                    break;
+                }
+                min_queue.offer(min_i);
+                max = Math.max(max, nums.get (min_i).get (next[min_i]));
             }
         }
-        return ans;
+        return new int[] { minx, miny };
     }
 
 	// driver method
 	public static void main(String[] args) {
-//		_instance.runTest(Arrays.asList(Arrays.asList (4, 10, 15, 24, 26), 
-//										Arrays.asList (0, 9, 12, 20), 
-//										Arrays.asList (5, 18, 22, 30)), new int [] { 20, 24 });
+		_instance.runTest(Arrays.asList(Arrays.asList (4, 10, 15, 24, 26), 
+										Arrays.asList (0, 9, 12, 20), 
+										Arrays.asList (5, 18, 22, 30)), new int [] { 20, 24 });
 		
 		_instance.runTest(Arrays.asList(Arrays.asList (11, 38, 83, 84, 84, 85, 88, 89, 89, 92),
 										Arrays.asList (28, 61, 89),
