@@ -39,24 +39,11 @@ public class IntegerBreak extends AbstractCustomTestRunner {
     }
     
     // Iterative
-    public int _integerBreakIterative (int n) {
-        int [] dp = new int [n + 1];
-        for (int idx = 2; idx <= n; idx ++) {
-            for (int jdx = 1; jdx <= idx/2; jdx ++) {
-                dp [idx] = Math.max (dp [idx], dp [jdx] * dp [idx - jdx]);
-                dp [idx] = Math.max (dp [idx], jdx * dp [idx - jdx]);
-                dp [idx] = Math.max (dp [idx], dp [jdx] * (idx - jdx));
-                dp [idx] = Math.max (dp [idx], jdx * (idx - jdx));
-            }
-        }
-        return dp [n];
-    }
-    
     public int _integerBreakIterativeConcise (int n) {
         int [] dp = new int [n + 1];
         for (int idx = 2; idx <= n; idx ++)
             for (int jdx = 1; jdx <= idx/2; jdx ++)
-                dp [idx] = Math.max (dp [idx], Math.max (jdx, dp [jdx]) * Math.max ((idx - jdx), dp [idx - jdx]));
+                dp [idx] = Math.max (dp [idx], Math.max (jdx, dp [jdx]) * Math.max (idx - jdx, dp [idx - jdx]));
         return dp [n];
     }
     
