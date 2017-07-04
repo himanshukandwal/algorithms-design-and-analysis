@@ -32,55 +32,50 @@ public class WordSearchII extends AbstractCustomTestRunner {
 	
 	private static WordSearchII _instance = new WordSearchII();
 	
-	class Trie {
-        char ch;
-        Trie [] children = new Trie [256];
-        boolean terminal;
+	public class Node {
+		private char ch;
+        private Node [] children = new Node [256];
+        private String word;
+        public Node (char ch) { this.ch = ch; }
         
-        Trie (char ch) { this.ch = ch; }
-        
-        void add (String word) {
-            Trie t = this;
-            for (char c : word.toCharArray()) {
-                if (t.children [c] == null) t.children [c] = new Trie (c);
-                t = t.children [c];
+        public void add (String word) {
+            Node t = this;
+            for (char ch : word.toCharArray ()) {
+                if (t.children [ch] == null) t.children [ch] = new Node (ch);
+                t = t.children [ch];
             }
-            t.terminal = true;
+            t.word = word;
         }
+    
     }
     
-    public List<String> _findWords(char[][] board, String[] words) {
-        List<String> answer = new ArrayList<>();
-        if (board.length == 0 || words.length == 0) return answer;
-        Trie root = new Trie (' ');
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> ans = new ArrayList<>();
+        Node root = new Node (' ');
         for (String word : words) root.add (word);
-        
-        for (int row = 0; row < board.length; row ++) {
-            for (int col = 0; col < board [0].length; col ++) {
-                char ch = board [row][col];
-                if (root.children [ch] != null) 
-                    dfs (board, root.children [ch], answer, String.valueOf(ch), row, col);
-            }
-        }
-        return answer;
+        for (int row = 0; row < board.length; row ++)
+            for (int col = 0; col < board [0].length; col ++)
+                dfs (board, root, ans, row, col);
+        return ans;   
     }
     
-    int [] rdir = new int [] { 0, 1, 0, -1 };
-    int [] cdir = new int [] { 1, 0, -1, 0 };
+    private int [] rdir = { 1, 0, -1, 0 };
+    private int [] cdir = { 0, 1, 0, -1 };
     
-    private void dfs (char [][] board, Trie node, List<String> ans, String build, int row, int col) {
-        if (node.terminal) { ans.add (build); node.terminal = false; }
-        char old = board [row][col];
+    private void dfs (char [][] board, Node node, List<String> ans, int row, int col) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board [0].length || board [row][col] == '*' || node.children [board [row][col]] == null) return;
+        
+        if (node.children [board [row][col]].word != null) {
+            ans.add (node.children [board [row][col]].word);
+            node.children [board [row][col]].word = null;
+        }
+        
+        char ch = board [row][col];
         board [row][col] = '*';
-        
-        for (int idx = 0; idx < 4; idx ++) {
-            int nrow = row + rdir [idx], ncol = col + cdir [idx];
-            if (nrow < 0 || nrow >= board.length || ncol < 0 || ncol >= board [0].length) continue;
-            char ch = board [nrow][ncol];
-            if (node.children [ch] != null) dfs (board, node.children [ch], ans, build + ch, nrow, ncol);
-        }
-        board [row][col] = old;
-    }
+        for (int idx = 0; idx < 4; idx ++)
+            dfs (board, node.children [ch], ans, row + rdir [idx], col + cdir [idx]); 
+        board [row][col] = ch;
+    } 
     
     // driver method
  	public static void main(String[] args) {
