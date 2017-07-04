@@ -3,7 +3,10 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -29,9 +32,7 @@ public class IsomorphicStrings extends AbstractCustomTestRunner {
 
 	private static IsomorphicStrings _instance = new IsomorphicStrings();
 
-	private IsomorphicStrings() {}
-
-	public static boolean isIsomorphic(String s, String t) {
+	public static boolean isIsomorphicWay1(String s, String t) {
         int [] sArr = new int [256], tArr = new int [256];
         for (int idx = 0; idx < s.length(); idx ++) {
             char sch = s.charAt (idx), tch = t.charAt (idx);
@@ -39,6 +40,25 @@ public class IsomorphicStrings extends AbstractCustomTestRunner {
             sArr [sch] = idx + 1;
             tArr [tch] = idx + 1;
         }
+        return true;
+    }
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public boolean isIsomorphicWay2(String s, String t) {
+        if (s.length() != t.length()) return false;
+        Map map = new HashMap();
+        for (int idx = 0; idx < s.length(); idx ++) 
+            if (!Objects.equals (map.put (s.charAt (idx), idx), map.put (t.charAt (idx) + "", idx))) return false;
+        return true;
+    }
+	
+	// same as way1
+	public boolean isIsomorphicWay3(String s, String t) {
+        if (s.length() != t.length()) return false;
+        Map<Character, Integer> map = new HashMap<>();
+        Map<Character, Integer> rmap = new HashMap<>();
+        for (int idx = 0; idx < s.length(); idx ++) 
+            if (!Objects.equals (map.put (s.charAt (idx), idx), rmap.put (t.charAt (idx), idx))) return false;
         return true;
     }
 	
