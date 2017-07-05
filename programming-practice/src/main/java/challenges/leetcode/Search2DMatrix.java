@@ -42,6 +42,17 @@ public class Search2DMatrix extends AbstractCustomTestRunner {
         return false;
     }
 
+	public boolean _searchMatrixCleaner(int[][] matrix, int target) {
+        if (matrix.length == 0) return false;
+        int col = 0, row = matrix.length - 1;
+        while (col < matrix [0].length && row >= 0) {
+            if (matrix [row][col] > target) row --;
+            else if (matrix [row][col] < target) col ++;
+            else return true;
+        }
+        return false;
+    }
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[][] { new int[] { 1, 3, 5, 7 },
