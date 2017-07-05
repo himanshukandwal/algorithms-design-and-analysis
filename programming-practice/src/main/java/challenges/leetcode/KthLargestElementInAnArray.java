@@ -23,36 +23,30 @@ public class KthLargestElementInAnArray extends AbstractCustomTestRunner {
 	
 	private static KthLargestElementInAnArray _instance = new KthLargestElementInAnArray();
 	
-	private KthLargestElementInAnArray() {}
-	
-    public int _findKthLargest(int[] nums, int k) {
-    	return quickFind (nums, k - 1, 0, nums.length - 1);
+	public int _findKthLargest(int[] nums, int k) {
+        return find (nums, k - 1, 0, nums.length - 1);
     }
     
-    public int quickFind (int[] nums, int k, int start, int end) {
-    	if (start >= end) return nums [start];
-    	
-    	// get random pivot.
-    	int pivotIdx = (start + end) >>> 1;
-    	swap(nums, pivotIdx, end);
-    	
-    	int left = start, right = end - 1;
-    	while (left < right) {
-    		if (nums [left] > nums [end]) left ++;
-    		else { swap (nums, left, right); right --; }
-    	}
-    	if (nums [right] <= nums [end]) swap (nums, right, end);
-    	else swap (nums, ++ right, end);
-    	
-    	if (right == k) return nums [right];
-    	else if (right > k) return quickFind (nums, k, start, right - 1);
-    	else return quickFind (nums, k, right + 1, end);
+    private int find (int [] nums, int k, int start, int end) {
+        if (start >= end) return nums [start];
+        
+        int r = end, low = start, high = end - 1;
+        while (low < high) {
+            if (nums [low] > nums [r]) low ++;
+            else swap (nums, low, high --);
+        }
+        r = low + (nums [low] > nums [r] ? 1 : 0);
+        swap (nums, r, end);
+        
+        if (r > k)  return find (nums, k, start, r - 1);
+        else if (r < k) return find (nums, k, r + 1, end);
+        else return nums [r];
     }
     
     private void swap (int [] nums, int from, int to) {
-    	int temp = nums [from];
-    	nums [from] = nums [to];
-    	nums [to] = temp;
+        int num = nums [from];
+        nums [from] = nums [to];
+        nums [to] = num;
     }
     
    	// driver method
