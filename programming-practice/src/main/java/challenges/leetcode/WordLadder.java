@@ -39,30 +39,27 @@ public class WordLadder extends AbstractCustomTestRunner {
 	private static WordLadder _instance = new WordLadder();
 
 	public int _ladderLength(String beginWord, String endWord, List<String> wordList) {
-		Set<String> set = new HashSet<> ();
+		Set<String> set = new HashSet<>();
         for (String word : wordList) set.add (word);
-        if (!set.contains(endWord)) return 0;
+        if (!set.contains (endWord)) return 0;
         Queue <String> queue = new LinkedList<>();
         queue.offer (beginWord);
         
-        int layer = 1;
-        boolean found = false;
-        while (!queue.isEmpty() && !found) {
+        int dist = 1;
+        while (!queue.isEmpty()) {
+            dist ++;
             int size = queue.size();
-            while (size -- > 0 ) {
+            while (size -- > 0) {
                 String word = queue.poll ();
-                for (int idx = 0; idx < word.length(); idx ++) {
-                    for (int iidx = 0; iidx < 26; iidx ++) {
-                        char ch = ((char) ('a' + iidx));
-                        if (word.charAt (idx) != ch) {
-                            String transformed = word.substring (0, idx) + ch + word.substring (idx + 1);        
-                            if (transformed.equals (endWord)) return layer + 1;
-                            if (set.contains (transformed)) { queue.offer (transformed); set.remove (transformed); }
-                        }
+                for (int idx = 0; idx < word.length (); idx ++) {
+                    for (char ch = 'a'; ch <= 'z'; ch ++) {
+                        if (ch == word.charAt (idx)) continue;
+                        String transformed = word.substring (0, idx) + ch + word.substring (idx + 1);
+                        if (endWord.equals (transformed)) return dist;
+                        if (set.contains (transformed)) { queue.offer (transformed); set.remove (transformed); }
                     }
                 }
             }
-            layer ++;
         }
         return 0;
     }
