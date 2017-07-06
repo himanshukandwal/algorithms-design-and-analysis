@@ -27,8 +27,6 @@ public class BasicCalculator extends AbstractCustomTestRunner {
 	
 	private static BasicCalculator _instance = new BasicCalculator();
 	
-	private BasicCalculator() {}
-	
 	/* *
 	 * Principle:
 	 * 		(Sign before '+'/'-') = (This context sign);
