@@ -48,7 +48,10 @@ import challenges.AbstractCustomTestRunner;
 public class ShoppingOffers extends AbstractCustomTestRunner {
 
 	public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
-        return dfs (new HashMap<> (), price, special, needs);
+        int calculatedSum = dfs (new HashMap<> (), price, special, needs);
+        int regularSum = 0;
+        for (int idx = 0; idx < needs.size(); idx ++) regularSum += needs.get (idx) * price.get (idx);
+        return Math.min (calculatedSum, regularSum);
     }
     
     private int dfs (Map<String, Integer> map, List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
