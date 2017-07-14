@@ -31,36 +31,21 @@ public class ZigZagConversion extends AbstractCustomTestRunner {
 	
 	private static ZigZagConversion _instance = new  ZigZagConversion();
 	
-	private ZigZagConversion() {}
-	
 	public String _convert(String s, int numRows) {
-		if (numRows <= 1 || s.length() <= numRows)
-			return s;
-		
-		char[] result = new char [s.length()];
-		
-		boolean toggle = false; 	// to toggle between lower and upper wave. (false : lower, true : upper)
-		int idx = 0, mover = 0;
-		
-		for (int row = 0; row < numRows && idx < s.length(); row ++, toggle = false, mover = row) {
-			result [idx ++] = s.charAt(mover);
-			
-			int delta = 0;
-			while (mover < s.length()) {
-				if (toggle = !toggle) // automatic computation + evaluation
-					delta = 2 * (numRows - row - 1);
-				else
-					delta = (row + row);
-				
-				if (delta > 0) {
-					mover += delta;
-					if (mover < s.length())
-						result [idx ++] = s.charAt(mover);
-				}
-			}
-		}
-		
-		return String.valueOf(result);
+		if (numRows == 1) return s;
+        StringBuilder ans = new StringBuilder ();
+        int n = 0, sIdx = 0, jump = numRows + numRows - 2, mid = jump;
+        while (n < numRows) {
+            int idx = sIdx ++;
+            while (idx < s.length()) {
+                ans.append (s.charAt (idx));
+                if (mid != jump && mid != 0 && idx + mid < s.length ()) ans.append (s.charAt (idx + mid));
+                idx += jump;
+            }
+            n ++;
+            mid -= 2;
+        }
+        return ans.toString();
     }
 	
 	// driver method
