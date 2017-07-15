@@ -9,7 +9,25 @@ import java.util.List;
 import challenges.AbstractCustomTestRunner;
 
 /**
- * Word Squares
+ * 425. Word Squares
+ * 
+ * Given a set of words (without duplicates), find all word squares you can build from them.
+ * A sequence of words forms a valid word square if the kth row and column read the exact same 
+ * string, where 0 ≤ k < max(numRows, numColumns).
+ * 
+ * For example, the word sequence ["ball","area","lead","lady"] forms a word square because each 
+ * word reads the same both horizontally and vertically.
+ * 
+ * 		b a l l
+ * 		a r e a
+ * 		l e a d
+ * 		l a d y
+ * 
+ * Note:
+ * 	-	There are at least 1 and at most 1000 words.
+ * 	-	All words will have the exact same length.
+ * 	-	Word length is at least 1 and at most 5.
+ * 	-	Each word contains only lowercase English alphabet a-z.
  * 
  * @author Hxkandwal
  */
@@ -17,77 +35,62 @@ public class WordSquares extends AbstractCustomTestRunner {
 	
 	private static WordSquares _instance = new WordSquares();
 	
-    public class Trie  {
-        char ch;
-        Trie [] children = new Trie [256];
-        boolean isTerminal;
+	public class Node {
+        private char ch;
+        private Node [] children = new Node [256];
+        private String word;
         
-        public Trie (char ch) {
-            this.ch = ch;
-        }
+        public Node (char ch) { this.ch = ch; }
         
-        public void add (String word) {
-            Trie node = this;
-            for (char c : word.toCharArray()) {
-                if (node.children [c] == null) node.children [c] = new Trie (c);
-                node = node.children [c];
+        public void add (String s) {
+            Node t = this;
+            for (char ch : s.toCharArray ()) {
+                if (t.children [ch] == null) t.children [ch] = new Node (ch);
+                t = t.children [ch];
             }
-            node.isTerminal = true;
+            t.word = s;
         }
         
-        public List<String> getPrefixes (String str) {
+        public List<String> getWords (String prefix) {
             List<String> ans = new ArrayList<>();
-            StringBuilder sb = new StringBuilder();
-            
-            Trie node = this;
-            for (char c : str.toCharArray()) {
-                if (node.children [c] == null) return ans;
-                node = node.children [c];
-                sb.append (c);
+            Node t = this;
+            for (char ch : prefix.toCharArray ()) {
+                if (t.children [ch] == null) return ans;
+                t = t.children [ch];
             }
-            dfs (node, sb, ans);
+            dfs (ans, t);
             return ans;
         }
         
-        private void dfs (Trie node, StringBuilder sb, List<String> ans) {
-            if (node.isTerminal) ans.add (sb.toString());
-            
-            for (Trie child : node.children) {
-                if (child != null) {
-                    sb.append (child.ch);
-                    dfs (child, sb, ans);
-                    sb.deleteCharAt(sb.length() - 1);
-                }
-            }    
+        private void dfs (List<String> ans, Node node) {
+            if (node.word != null) ans.add (node.word);
+            for (Node c : node.children) 
+                if (c != null) dfs (ans, c);
         }
     }
     
-    public List<List<String>> _wordSquares(String[] words) {
-        List<List<String>> ans = new ArrayList<>();
-        if (words == null || words.length == 0) return ans;
-        
-        Trie root = new Trie (' ');
-        for (String word : words) root.add (word);
-        
-        List<String> res = new ArrayList<>();
-        for (String word : words) {
-            res.add (word);
-            search (ans, res, root);
-            res.remove (res.size() - 1);
+    public List<List<String>> wordSquares(String[] words) {
+        List<List<String>> ans = new ArrayList<List<String>> ();
+        if (words.length == 0) return ans;
+        Node root = new Node (' ');
+        for (String w : words) root.add (w);
+        for (String w : words) {
+            List<String> build = new ArrayList<>();
+            build.add (w);
+            dfs (root, ans, build);
         }
         return ans;
     }
     
-    private void search (List<List<String>> ans, List<String> res, Trie node) {
-        if (res.size() == res.get(0).length()) ans.add (new ArrayList<>(res));
+    private void dfs (Node root, List<List<String>> ans, List<String> build) {
+        if (build.size () == build.get (0).length ()) ans.add (new ArrayList<>(build));
         else {
-            StringBuilder sb = new StringBuilder();
-            int index = res.size();
-            for (String str : res) sb.append (str.charAt(index));
-            for (String matchedWord : node.getPrefixes (sb.toString())) {
-                res.add (matchedWord);
-                search (ans, res, node);
-                res.remove (res.size() - 1);
+            StringBuilder pre = new StringBuilder ();
+            for (int jdx = 0; jdx < build.size(); jdx ++) pre.append (build.get (jdx).charAt (build.size ()));
+            for (String ps : root.getWords (pre.toString ())) {
+                build.add (ps);
+                dfs (root, ans, build);
+                build.remove (build.size () - 1);
             }
         }
     }	
