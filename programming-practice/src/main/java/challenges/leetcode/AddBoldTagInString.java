@@ -2,7 +2,6 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -35,59 +34,21 @@ public class AddBoldTagInString extends AbstractCustomTestRunner {
 	
 	private static AddBoldTagInString _instance = new AddBoldTagInString();
 
-	public class Node {
-        private char ch;
-        private Node [] children = new Node [256];
-        private boolean terminal;
+	public String _addBoldTag(String s, String[] dict) {
+        boolean [] map = new boolean [s.length ()];
+        for (String str : dict)
+            for (int idx = 0; idx <= s.length () - str.length (); idx ++) 
+                if (s.substring (idx, idx + str.length ()).equals (str))
+                    for (int jdx = idx; jdx < idx + str.length (); jdx ++) map [jdx] = true;
         
-        public Node (char ch) { this.ch = ch; }
-        
-        public void add (String word) {
-            Node t = this;
-            for (char ch : word.toCharArray()) {
-                if (t.children [ch] == null) t.children [ch] = new Node (ch);
-                t = t.children [ch];
-            }
-            t.terminal = true;
-        }
-        
-        public int maxLen (String s, int start) {
-            int len = 0;
-            Node t = this;
-            for (int idx = start; idx < s.length (); idx ++) {
-                char c = s.charAt (idx);
-                if (t.children [c] == null) return len;
-                t = t.children [c];
-                if (t.terminal) len = Math.max (len, idx - start + 1);
-            }
-            return len;
-        }
-        
-    }
-    
-    public String _addBoldTag(String s, String[] dict) {
-    	Node root = new Node (' ');
-        for (String str : dict) root.add (str);
-        int idx = 0;
-        List<Integer> markers = new ArrayList<>();
-        while (idx < s.length ()) {
-            int len = root.maxLen (s, idx);
-            int end = idx + len;
-            idx ++;
-            if (len > 0) {
-                if (markers.size() == 0 || markers.get (markers.size () - 1) != idx - 1) markers.add (idx - 1);
-                else markers.remove (markers.size () - 1);
-                while (idx < end) end = Math.max (end, idx + root.maxLen (s, idx ++));
-                markers.add (idx);
-            }
-        }
         StringBuilder ans = new StringBuilder ();
-        
-        if (markers.size() > 0) ans.append (s.substring (0, markers.get (0)));
-        else ans.append (s);
-        for (int i = 0; i < markers.size() - 1; i ++)
-            ans.append ((i % 2 == 0 ? "<b>" : "</b>") + s.substring (markers.get (i), markers.get (i + 1)));
-        if (markers.size() > 0) ans.append ("</b>" + s.substring (markers.get (markers.size () - 1)));
+        boolean found = false;
+        for (int idx = 0; idx < s.length(); idx ++) {
+            if (map [idx] && !found) { ans.append ("<b>"); found = true; }
+            if (!map [idx] && found) { ans.append ("</b>"); found = false; }
+            ans.append (s.charAt (idx));
+        }
+        if (found) ans.append ("</b>");
         return ans.toString();
     }
 
