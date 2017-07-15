@@ -46,18 +46,9 @@ public class ValidWordSquare extends AbstractCustomTestRunner {
 
 	public boolean _validWordSquare(List<String> words) {
 		if (words.size () == 0) return true;
-        int [] size = new int [words.size()];
-        for (int idx = 0; idx < words.size(); idx ++) {
-            if (words.get (idx).length () > words.size()) return false;
-            size [idx] += words.get (idx).length ();
-            for (int i = 0; i < words.get (idx).length (); i ++) size [i] --;
-        }
-        for (int val : size) if (val != 0) return false;
-        
-        int idx = -1;
-        while ( ++ idx < words.size ()) 
-            for (int i = idx; i < words.get (idx).length (); i ++)
-                if (words.get (idx).charAt (i) != words.get (i).charAt (idx)) return false;
+        for (int idx = 0, n = words.size(); idx < n; idx ++) 
+            for (int i = 0; i < words.get (idx).length (); i ++)
+                if (i >= n || idx >= words.get (i).length () || words.get (idx).charAt (i) != words.get (i).charAt (idx)) return false;
         return true;
     }
 
