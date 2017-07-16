@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -115,22 +116,29 @@ public class DesignSearchAutocompleteSystem extends AbstractCustomTestRunner {
     
     private Node root = new Node (' ');
     private StringBuilder build = new StringBuilder ();
+    private List<String> answers = new ArrayList<String> ();
     
     public DesignSearchAutocompleteSystem (String[] sentences, int[] times) {
         for (int idx = 0; idx < sentences.length; idx ++) root.add (sentences [idx], times [idx]);
     }
     
     public List<String> input(char c) {
-        List<String> ans = new ArrayList<String> ();
-        if (c == '#') { root.add (build.toString (), -1); build.setLength (0);} 
+        List<String> ans = new ArrayList<>();
+        if (c == '#') { root.add (build.toString (), -1); build.setLength (0); answers.clear(); } 
         else {
             build.append (c);
-            List <Node> res = root.getWords (build.toString());
-            if (res.size() == 0) return ans;
-            Collections.sort (res,  (a, b) -> (a.val == b.val) ? a.word.compareTo (b.word) : b.val - a.val);
-        
-            int idx = 0;
-            while (idx < 3 && res.size () > idx) ans.add (res.get (idx ++).word);
+            if (build.length () == 1) {
+                List <Node> res = root.getWords (build.toString());
+                if (res.size() == 0) return ans;
+                Collections.sort (res,  (a, b) -> (a.val == b.val) ? a.word.compareTo (b.word) : b.val - a.val);
+                for (Node node : res) answers.add (node.word);
+            } else {
+                for (Iterator <String> itr = answers.iterator (); itr.hasNext();) {
+                    String str = itr.next ();
+                    if (!str.startsWith (build.toString ())) itr.remove ();
+                }
+            }
+            for (int idx = 0; idx < 3 && idx < answers.size(); idx ++) ans.add (answers.get (idx));
         }
         return ans;
     }
