@@ -31,20 +31,39 @@ public class MaximumAverageSubarrayII extends AbstractCustomTestRunner {
 	
 	private static MaximumAverageSubarrayII _instance = new MaximumAverageSubarrayII();
 
-	public double _findMaxAverage(int[] nums, int k) {
-		double ans = Integer.MIN_VALUE;
-        
-        int [][] dp = new int [nums.length][nums.length];
-        for (int r = 0; r < nums.length; r ++) {
-            int sum = 0;
-            for (int c = r; c < nums.length; c ++)  dp [r][c] = (sum += nums [c]);
+	public double findMaxAverage(int[] nums, int k) {
+        double max_val = Integer.MIN_VALUE;
+        double min_val = Integer.MAX_VALUE;
+        for (int n: nums) {
+            max_val = Math.max(max_val, n);
+            min_val = Math.min(min_val, n);
         }
-        
-        for (;k <= nums.length; k ++)
-            for (int idx = 0; idx + k  - 1 < nums.length; idx ++)
-                ans = Math.max (ans, dp [idx][idx + k - 1] * 1d/k);
-        
-        return ans; 
+        double prev_mid = max_val, error = Integer.MAX_VALUE;
+        while (error > 0.00001) {
+            double mid = (max_val + min_val) * 0.5;
+            if (check(nums, mid, k))
+                min_val = mid;
+            else
+                max_val = mid;
+            error = Math.abs(prev_mid - mid);
+            prev_mid = mid;
+        }
+        return min_val;
+    }
+    public boolean check(int[] nums, double mid, int k) {
+        double sum = 0, prev = 0, min_sum = 0;
+        for (int i = 0; i < k; i++)
+            sum += nums[i] - mid;
+        if (sum >= 0)
+            return true;
+        for (int i = k; i < nums.length; i++) {
+            sum += nums[i] - mid;
+            prev += nums[i - k] - mid;
+            min_sum = Math.min(prev, min_sum);
+            if (sum >= min_sum)
+                return true;
+        }
+        return false;
     }
 
 	// driver method
