@@ -5,8 +5,10 @@ import static com.google.common.truth.Truth.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -77,68 +79,32 @@ import challenges.AbstractCustomTestRunner;
  */
 public class DesignSearchAutocompleteSystem extends AbstractCustomTestRunner {
 
-	public class Node {
-        private char ch;
-        private Node [] children = new Node [256];
-        private String word;
-        private int val;
-        
-        public Node (char ch) { this.ch = ch; }
-        
-        public void add (String s, int val) {
-            Node t = this;
-            for (char ch : s.toCharArray ()) {
-                if (t.children [ch] == null) t.children [ch] = new Node (ch);
-                t = t.children [ch];
-            }
-            t.word = s;
-            if (val < 0) t.val ++;
-            else t.val = val;
-        }
-        
-        public List<Node> getWords (String prefix) {
-            List<Node> ans = new ArrayList<>();
-            Node t = this;
-            for (char ch : prefix.toCharArray ()) {
-                if (t.children [ch] == null) return ans;
-                t = t.children [ch];
-            }
-            dfs (ans, t);
-            return ans;
-        }
-        
-        private void dfs (List<Node> ans, Node node) {
-            if (node.word != null) ans.add (node);
-            for (Node c : node.children) 
-                if (c != null) dfs (ans, c);
-        }
-    }
-    
-    private Node root = new Node (' ');
+	private Map<String, Integer> map = new HashMap<>();
     private StringBuilder build = new StringBuilder ();
-    private List<String> answers = new ArrayList<String> ();
+    private List<Map.Entry<String, Integer>> answers = new ArrayList<> ();
     
     public DesignSearchAutocompleteSystem (String[] sentences, int[] times) {
-        for (int idx = 0; idx < sentences.length; idx ++) root.add (sentences [idx], times [idx]);
+        for (int idx = 0; idx < sentences.length; idx ++) map.put (sentences [idx], times [idx]);
     }
     
     public List<String> input(char c) {
         List<String> ans = new ArrayList<>();
-        if (c == '#') { root.add (build.toString (), -1); build.setLength (0); answers.clear(); } 
-        else {
+        if (c == '#') {  
+            map.put (build.toString (), map.getOrDefault (build.toString (), 0) + 1); 
+            build.setLength (0); 
+            answers.clear(); 
+        } else {
             build.append (c);
             if (build.length () == 1) {
-                List <Node> res = root.getWords (build.toString());
-                if (res.size() == 0) return ans;
-                Collections.sort (res,  (a, b) -> (a.val == b.val) ? a.word.compareTo (b.word) : b.val - a.val);
-                for (Node node : res) answers.add (node.word);
+                for (Map.Entry<String, Integer> e : map.entrySet ())  
+                    if (e.getKey ().startsWith (build.toString ())) answers.add (e);
+                
+                Collections.sort (answers,  (a, b) -> (a.getValue() == b.getValue()) ? a.getKey ().compareTo (b.getKey ()) : b.getValue() - a.getValue());
             } else {
-                for (Iterator <String> itr = answers.iterator (); itr.hasNext();) {
-                    String str = itr.next ();
-                    if (!str.startsWith (build.toString ())) itr.remove ();
-                }
+                for (Iterator <Map.Entry <String, Integer>> itr = answers.iterator (); itr.hasNext();) 
+                    if (!itr.next().getKey().startsWith (build.toString ())) itr.remove ();
             }
-            for (int idx = 0; idx < 3 && idx < answers.size(); idx ++) ans.add (answers.get (idx));
+            for (int idx = 0; idx < 3 && idx < answers.size(); idx ++) ans.add (answers.get (idx).getKey ());
         }
         return ans;
     }
@@ -158,5 +124,5 @@ public class DesignSearchAutocompleteSystem extends AbstractCustomTestRunner {
 		assertThat(searchAutocompleteSystem.input('i')).isEqualTo(Arrays.asList("i love you", "island", "i love leetcode"));
 		assertThat(searchAutocompleteSystem.input(' ')).isEqualTo(Arrays.asList("i love you", "i love leetcode"));
 		assertThat(searchAutocompleteSystem.input('a')).isEqualTo(Arrays.asList());
- 	}   
+ 	}
 }
