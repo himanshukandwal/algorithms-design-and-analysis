@@ -27,8 +27,6 @@ public class Base7 extends AbstractCustomTestRunner {
 	
 	private static Base7 _instance = new Base7();
 	
-	private Base7() {}
-	
     public String _convertToBase7(int num) {
     	boolean isNegative = (num < 0);
     	StringBuilder ans = new StringBuilder();
