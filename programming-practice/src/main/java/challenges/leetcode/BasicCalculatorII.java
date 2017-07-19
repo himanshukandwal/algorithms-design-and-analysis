@@ -27,8 +27,6 @@ public class BasicCalculatorII extends AbstractCustomTestRunner {
 	
 	private static BasicCalculatorII _instance = new BasicCalculatorII();
 	
-	private BasicCalculatorII() {}
-
 	public int _calculate(String s) {
 		int len;
 		if (s == null || (len = s.length()) == 0) return 0;
