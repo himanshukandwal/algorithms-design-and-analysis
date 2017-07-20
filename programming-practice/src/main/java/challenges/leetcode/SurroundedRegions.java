@@ -2,10 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -33,37 +30,31 @@ public class SurroundedRegions extends AbstractCustomTestRunner {
 	
 	private static SurroundedRegions _instance = new SurroundedRegions();
 	
-	public char[][] _solve(char[][] board) {
-        if (board.length == 0) return board;
+	public void solve(char[][] board) {
+        if (board.length == 0) return;
+        for (int r = 0; r < board.length; r ++) if (board [r][0] == 'O') dfs (board, r, 0);
+        for (int c = 0; c < board [0].length; c ++) if (board [0][c] == 'O') dfs (board, 0, c);
+        for (int r = 0; r < board.length; r ++) if (board [r][board [0].length - 1] == 'O') dfs (board, r, board [0].length - 1);
+        for (int c = 0; c < board [0].length; c ++) if (board [board.length - 1][c] == 'O') dfs (board, board.length - 1, c);
+        
         for (int r = 0; r < board.length; r ++)
             for (int c = 0; c < board [0].length; c ++)
-                if (board [r][c] == 'O') bfs (board, r, c);
-        return board;
+                if (board [r][c] == 'S') board [r][c] = 'O';
+                else if (board [r][c] == 'O') board [r][c] = 'X';
     }
     
     int [] rowdir = { 0, 1, 0, -1 };
     int [] coldir = { 1, 0, -1, 0 };
     
-    private void bfs (char [][] board, int row, int col) {
-        List<int []> cluster = new ArrayList <>();
-        boolean safe = false;
-        Queue<int []> queue = new LinkedList<>();
-        queue.offer (new int [] { row, col });
-        while (!queue.isEmpty ()) {
-            int size = queue.size ();
-            while (size -- > 0) {
-                int r = queue.peek () [0], c = queue.peek () [1];
-                cluster.add (queue.poll ());
-                board [r][c] = '-';
-                
-                for (int idx = 0; idx < 4; idx ++) {
-                    int rr = r + rowdir [idx], cc = c + coldir [idx];
-                    if (rr < 0 || rr >= board.length || cc < 0 || cc >= board [0].length) { safe = true; continue; }
-                    if (board [rr][cc] == 'O') queue.offer (new int [] { rr, cc });
-                }
-            }
+    private void dfs (char [][] board, int row, int col) {
+        board [row][col] = 'S';
+        for (int idx = 0; idx < 4; idx ++) {
+            int r = row + rowdir [idx], c = col + coldir [idx];
+            // do not let it make calls to edge again.
+            if (r < 1 || r >= board.length - 1 || c < 1 || c >= board [0].length - 1 || board [r][c] != 'O') continue;
+            System.out.println("r : " + r + ", c : " + c);
+            dfs (board, r, c);
         }
-        for (int [] n : cluster) board [n [0]][n [1]] = !safe ? 'X' : 'O';
     }
 
 	// driver method
