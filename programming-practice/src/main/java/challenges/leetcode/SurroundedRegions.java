@@ -52,7 +52,6 @@ public class SurroundedRegions extends AbstractCustomTestRunner {
             int r = row + rowdir [idx], c = col + coldir [idx];
             // do not let it make calls to edge again.
             if (r < 1 || r >= board.length - 1 || c < 1 || c >= board [0].length - 1 || board [r][c] != 'O') continue;
-            System.out.println("r : " + r + ", c : " + c);
             dfs (board, r, c);
         }
     }
