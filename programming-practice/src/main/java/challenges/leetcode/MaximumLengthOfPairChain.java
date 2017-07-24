@@ -30,6 +30,18 @@ import challenges.AbstractCustomTestRunner;
 public class MaximumLengthOfPairChain extends AbstractCustomTestRunner {
 	
 	private static MaximumLengthOfPairChain _instance = new MaximumLengthOfPairChain();
+	
+	// using exclusion principle
+	public int findLongestChain(int[][] pairs) {
+        Arrays.sort (pairs, (a, b) -> a [1] - b [1]);
+        int sum = 0, idx = -1;
+        while ( ++ idx < pairs.length) {
+            sum ++;
+            int end = pairs [idx][1];
+            while (idx + 1 < pairs.length && pairs [idx + 1][0] <= end) idx ++;
+        }
+        return sum;
+    }
 
 	public int _findLongestChain(int[][] pairs) {
         Arrays.sort (pairs, (a, b) -> a [0] - b [0]);
@@ -60,5 +72,6 @@ public class MaximumLengthOfPairChain extends AbstractCustomTestRunner {
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
-	}    
+	}
+
 }
