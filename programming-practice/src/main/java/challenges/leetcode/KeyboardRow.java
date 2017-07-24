@@ -29,41 +29,9 @@ public class KeyboardRow extends AbstractCustomTestRunner {
 	private KeyboardRow() {}
 
     public static String[] _findWords(String[] words) {
-        List<String> ans = new ArrayList<>();
-        char[][] keyboard = new char[][] { {'q', 'w', 'e', 'r', 't', 'y' , 'u', 'i', 'o', 'p' }, 
-        								   { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l' }, 
-        								   { 'z', 'x', 'c', 'v', 'b', 'n', 'm' } };
-        for (String word : words) {
-			char ch = Character.toLowerCase (word.charAt(0));
-			
-			int row = 0; boolean found = false; 
-			for (row = 0; row < keyboard.length && !found; row ++)
-				for (int col = 0; col < keyboard[row].length; col ++)
-					if (found = keyboard [row][col] == ch) break;
-			
-			row --;
-			for (int idx = 1; idx < word.length(); idx ++) {
-				char och = Character.toLowerCase (word.charAt(idx));
-				found = false;
-				for (int col = 0; col < keyboard [row].length; col ++)
-					if (keyboard [row][col] == och) { found = true; break; }
-				
-				if (!found) break;
-			}
-			
-			if (found) ans.add(word);
-		}
-        
-    	return ans.toArray(new String[0]);
-    }
-    
-    public static String[] _findWordsRegex(String[] words) {
-        List<String> ans = new ArrayList<>();
-        
-        for (String word : words) 
-        	if (word.toLowerCase().matches("[qwertyuiop]*|[asdfghjkl]*|[zxcvbnm]*")) ans.add(word);
-        
-    	return ans.toArray(new String[0]);
+    	List<String> ans = new ArrayList<>();
+        for (String w : words) if (w.matches ("[qwertyuiop]*|[asdfghjkl]*|[zxcvbnm]*")) ans.add (w);
+        return ans.toArray(new String [0]);
     }
     
 	// driver method
