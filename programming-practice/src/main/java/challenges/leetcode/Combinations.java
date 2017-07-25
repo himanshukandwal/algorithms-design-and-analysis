@@ -1,7 +1,5 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +23,7 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class Combinations extends AbstractCustomTestRunner {
-	
-	private static Combinations _instance = new Combinations();
 	
 	// more optimal answer than boolean matrix one.
 	public List<List<Integer>> _combineWithoutBooleanMatrix (int n, int k) {
@@ -46,6 +41,24 @@ public class Combinations extends AbstractCustomTestRunner {
     		combineWithoutBoolean(answer, build, n - 1, k - 1);
     		build.remove(build.size() - 1);
     	}	
+    }
+    
+    // another best.
+    public List<List<Integer>> _combine(int n, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs (ans, new ArrayList<>(), 1, n, k);
+        return ans;
+    }
+    
+    private void dfs (List<List<Integer>> ans, List<Integer> build, int start, int n, int k) {
+        if (k == 0) ans.add (new ArrayList<>(build));
+        else if (k <= n) {
+            for (int idx = start; idx <= n; idx ++) {
+                build.add (idx);
+                dfs (ans, build, idx + 1, n, k - 1);
+                build.remove (build.size() - 1);
+            }
+        }
     }
     
     // Balaji Sirs method. 
@@ -69,23 +82,4 @@ public class Combinations extends AbstractCustomTestRunner {
     	}	
     }
 	
-	// driver method
-	public static void main(String[] args) {
-		_instance.runTest(4, 2, new ArrayList() {{ add (new ArrayList() {{ add (2); add (4); }});
-												   add (new ArrayList() {{ add (3); add (4); }});
-												   add (new ArrayList() {{ add (2); add (3); }});
-												   add (new ArrayList() {{ add (1); add (2); }});
-												   add (new ArrayList() {{ add (1); add (3); }});
-												   add (new ArrayList() {{ add (1); add (4); }});}});
-	}
-
-	public void runTest(final int n, int k, final List<List<String>> expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { n, k });
-
-		for (Object answer : answers)
-			assertThat((List<List<String>>) answer).isEqualTo(expectedOutput);
-		
-		System.out.println("ok!");
-	}    
-    
 }
