@@ -58,4 +58,25 @@ public class BeautifulArrangement extends AbstractCustomTestRunner {
         arr [to] = val;
     }
     
+    // backtracking
+    public int countArrangementBackTracking(int N) {
+        boolean [] seen = new boolean [N];
+        return dfs (seen, 0);
+    }
+    
+    public int dfs (boolean [] seen, int pos) {
+        int ans = 0;
+        if (pos == seen.length) ans ++;
+        else {
+            for (int idx = 0; idx < seen.length; idx ++) {
+                if (!seen [idx] && ((idx + 1) % (pos + 1) == 0 || (pos + 1) % (idx + 1) == 0)) {
+                    seen [idx] = true;
+                    ans += dfs (seen, pos + 1);
+                    seen [idx] = false;
+                } 
+            }
+        }
+        return ans;
+    }
+    
 }
