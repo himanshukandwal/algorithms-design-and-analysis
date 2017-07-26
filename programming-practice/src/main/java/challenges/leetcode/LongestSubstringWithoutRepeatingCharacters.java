@@ -28,15 +28,12 @@ public class LongestSubstringWithoutRepeatingCharacters extends AbstractCustomTe
 	// sliding window checking.
 	public static int _lengthOfLongestSubstring(String s) {
 		int [] map = new int [256];
-        int max = 0, start = 0;
-        for (int idx = 0; idx < s.length(); idx ++) {
-            if (map [s.charAt (idx)] ++ > 0) {
-                while (s.charAt (start) != s.charAt (idx)) map [s.charAt (start ++)] --;
-                map [s.charAt (start ++) ] --;
-            }
-            max = Math.max (max, idx - start  + 1);
+        int ans = 0;
+        for (int idx = 0, start = 0; idx < s.length (); idx ++) {
+            if (map [s.charAt (idx)] ++ > 0) while (map [s.charAt (start ++)]-- == 1);
+            ans = Math.max (ans, idx - start + 1);
         }
-        return max;
+        return ans;
     }
 	
 	// driver method
