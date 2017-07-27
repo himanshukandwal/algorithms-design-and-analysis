@@ -40,6 +40,24 @@ public class StringToInteger extends AbstractCustomTestRunner {
         return (int) res;
 	}
 	
+	// another approach
+	public int _myAtoiOther(String str) {
+        str = str.trim ();
+        int idx = 0, sign = 1;
+        long ans = 0;
+        while (idx < str.length () && (str.charAt (idx) < '0' || str.charAt (idx) > '9')) idx ++;
+        if (idx > 1 || (idx == 1 && str.charAt (0) != '+' && str.charAt (0) != '-')) return 0;
+        if (idx == 1 && str.charAt (0) == '-') sign = -1;
+        while (idx < str.length ()) {
+            if (str.charAt (idx) >= '0' && str.charAt (idx) <= '9') ans = 10l * ans + (str.charAt (idx) - '0');
+            else break;
+            if (ans > Integer.MAX_VALUE) break;
+            idx ++;
+        }
+        ans = sign * ans;
+        return ans < Integer.MIN_VALUE ? Integer.MIN_VALUE : (ans > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) ans);
+    }
+	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("+", 0);
