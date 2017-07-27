@@ -1,7 +1,5 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,51 +22,30 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class LetterCombinationsOfAPhoneNumber extends AbstractCustomTestRunner {
 	
-	private static LetterCombinationsOfAPhoneNumber _instance = new LetterCombinationsOfAPhoneNumber();
-	
-	private LetterCombinationsOfAPhoneNumber() {}
-	
-    public List<String> _letterCombinations(String digits) {
-    	if (digits == null || digits.length() == 0) return new ArrayList<>();
-    	
-    	Map<Character, List<String>> dict = new HashMap<>();
-    	dict.put('1', new ArrayList<>());
-    	dict.put('2', Arrays.asList("a", "b", "c"));
-    	dict.put('3', Arrays.asList("d", "e", "f"));
-    	dict.put('4', Arrays.asList("g", "h", "i"));
-    	dict.put('5', Arrays.asList("j", "k", "l"));
-    	dict.put('6', Arrays.asList("m", "n", "o"));
-    	dict.put('7', Arrays.asList("p", "q", "r", "s"));
-    	dict.put('8', Arrays.asList("t", "u", "v"));
-    	dict.put('9', Arrays.asList("w", "x", "y", "z"));
-    	return letterCombinationsRecursion(dict, digits, 0);
+	public List<String> _letterCombinations(String digits) {
+        if (digits.length () == 0) return Arrays.asList();
+        Map<Character, List<String>> map = new HashMap<>();
+        map.put ('0', Arrays.asList(""));
+        map.put ('1', Arrays.asList(""));
+        map.put ('2', Arrays.asList("a", "b", "c"));
+        map.put ('3', Arrays.asList("d", "e", "f"));
+        map.put ('4', Arrays.asList("g", "h", "i"));
+        map.put ('5', Arrays.asList("j", "k", "l"));
+        map.put ('6', Arrays.asList("m", "n", "o"));
+        map.put ('7', Arrays.asList("p", "q", "r", "s"));
+        map.put ('8', Arrays.asList("t", "u", "v"));
+        map.put ('9', Arrays.asList("w", "x", "y", "z"));
+        return dfs (map, digits, 0);
     }
     
-    public List<String> letterCombinationsRecursion (Map<Character, List<String>> dict, String digits, int idx) {
-    	List<String> answer = new ArrayList<>();
-    	if (idx == digits.length() - 1) return dict.get(digits.charAt(digits.length() - 1));
-    	
-    	for (String next : letterCombinationsRecursion(dict, digits, idx + 1))
-    		for (String current : dict.get(digits.charAt(idx)))  answer.add(current + next);
-    	
-    	return answer;
+    private List<String> dfs (Map<Character, List<String>> map, String digits, int idx) {
+        if (idx == digits.length ()) return Arrays.asList("");
+        List<String> ans = new ArrayList<>();
+        for (String str : dfs (map, digits, idx + 1)) 
+            for (String pre : map.get (digits.charAt (idx))) ans.add (pre + str);
+        return ans;
     }
-
-	// driver method
-	public static void main(String[] args) {
-		_instance.runTest("23", new ArrayList() {{ add ("ab"); }});
-	}
-
-	public void runTest(final String digits, final List<String> expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { digits });
-
-		for (Object answer : answers)
-			assertThat((List<String>) answer).isEqualTo(expectedOutput);
-		
-		System.out.println("ok!");
-	}
 	
 }
