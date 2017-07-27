@@ -25,17 +25,15 @@ public class MergeKSortedLists extends AbstractCustomTestRunner {
 	}
 	
 	public ListNode _mergeKLists(ListNode[] lists) {
-		ListNode dummyHead = new ListNode (0), dummy = dummyHead;
-        
-        PriorityQueue<ListNode> minHeap = new PriorityQueue<> ((a, b) -> a.val - b.val);
-        for (ListNode list : lists) if (list != null) minHeap.offer (list);
-        
-        while (!minHeap.isEmpty()) {
-            ListNode min = minHeap.poll ();
-            dummy = dummy.next = min;
-            if (min.next != null) minHeap.offer (min.next);
+		ListNode dh = new ListNode (0), dt = dh;
+        PriorityQueue<ListNode> heap = new PriorityQueue<>((a, b) -> a.val - b.val);
+        for (ListNode list : lists) if (list != null) heap.offer (list);
+        while (!heap.isEmpty()) {
+            ListNode node = heap.poll ();
+            dt = dt.next = node;
+            if (node.next != null) heap.offer (node.next);
         }
-        return dummyHead.next;
+        return dh.next;
     }
     
 	// driver method
