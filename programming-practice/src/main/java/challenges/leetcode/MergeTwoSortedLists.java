@@ -27,7 +27,7 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 		public ListNode(int x) { val = x; }
 	}
 	
-	public ListNode _mergeTwoListsBook(ListNode l1, ListNode l2) {
+	public ListNode _mergeTwoLists(ListNode l1, ListNode l2) {
 		ListNode dummyHead = new ListNode(0);
 		ListNode p = dummyHead;
 		while (l1 != null && l2 != null) {
@@ -38,21 +38,6 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 		p.next = (l1 != null) ? l1 : l2;
 		return dummyHead.next;
 	}
-    
-	public ListNode _mergeTwoLists(ListNode l1, ListNode l2) {
-		ListNode dh = new ListNode (0), dt = dh;
-        while (l1 != null && l2 != null) {
-            if (l1.val > l2.val) { dt = dt.next = l2; l2 = l2.next; dt.next = null; }
-            else if (l1.val < l2.val) { dt = dt.next = l1; l1 = l1.next; dt.next = null; }
-            else {
-                dt = dt.next = l1; l1 = l1.next; dt.next = null;
-                dt = dt.next = l2; l2 = l2.next; dt.next = null;
-            }
-        }
-        if (l1 != null) dt.next = l1;
-        if (l2 != null) dt.next = l2;
-        return dh.next;
-    }
     
 	// driver method
 	public static void main(String[] args) {
