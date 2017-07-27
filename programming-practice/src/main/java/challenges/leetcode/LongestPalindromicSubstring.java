@@ -31,7 +31,6 @@ public class LongestPalindromicSubstring extends AbstractCustomTestRunner {
 			
 	// diagonal matching, right to left information storing (not propagating)
 	public static String _longestPalindrome(String s) {
-		if (s.length() == 0) return "";
         int[][] dp = new int [s.length() + 1][s.length() + 1];
         
         String ans = "";
