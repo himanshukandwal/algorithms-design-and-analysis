@@ -40,24 +40,18 @@ public class MergeTwoSortedLists extends AbstractCustomTestRunner {
 	}
     
 	public ListNode _mergeTwoLists(ListNode l1, ListNode l2) {
-		ListNode traverser1 = l1, traverser2 = l2, ans = null, traverser3 = null;
-        while (traverser1 != null && traverser2 != null) {
-            if (traverser1.val > traverser2.val) {
-                if (ans == null) traverser3 = ans = traverser2;
-                else traverser3 = traverser3.next = traverser2;
-                traverser2 = traverser2.next;
-                traverser3.next = null;
-            } 
+		ListNode dh = new ListNode (0), dt = dh;
+        while (l1 != null && l2 != null) {
+            if (l1.val > l2.val) { dt = dt.next = l2; l2 = l2.next; dt.next = null; }
+            else if (l1.val < l2.val) { dt = dt.next = l1; l1 = l1.next; dt.next = null; }
             else {
-                if (ans == null) traverser3 = ans = traverser1;
-                else traverser3 = traverser3.next = traverser1;
-                traverser1 = traverser1.next;
-                traverser3.next = null;
+                dt = dt.next = l1; l1 = l1.next; dt.next = null;
+                dt = dt.next = l2; l2 = l2.next; dt.next = null;
             }
         }
-        if (traverser3 != null) traverser3.next = (traverser1 != null) ? traverser1 : traverser2;
-        else ans = (traverser1 != null) ? traverser1 : traverser2;
-        return ans;
+        if (l1 != null) dt.next = l1;
+        if (l2 != null) dt.next = l2;
+        return dh.next;
     }
     
 	// driver method
