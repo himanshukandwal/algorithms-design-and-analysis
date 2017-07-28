@@ -20,17 +20,16 @@ public class PascalsTriangleII extends AbstractCustomTestRunner {
 
 	public List<Integer> getRow (int rowIndex) {
 		List<Integer> ans = new ArrayList<Integer>();
-        rowIndex ++;
-        while (rowIndex -- > 0) {
-            int size = ans.size();
-            if (size >= 2)
-                for (int idx = 1, prev = ans.get (0); idx < size; idx ++) {
-                    int val = ans.get (idx);
-                    ans.set (idx, prev + val);
-                    prev = val;
-                }
-            ans.add (1);
-        }
-        return ans;
+		ans.add (1);
+		while (rowIndex -- > 0) {
+			for (int idx = 1, val = ans.get (0); idx < ans.size (); idx ++) {
+				int n = ans.get (idx);
+				ans.set (idx, val + n);
+				val = n;
+			}
+			ans.add (1);
+		}
+		return ans;
     }
+	
 }
