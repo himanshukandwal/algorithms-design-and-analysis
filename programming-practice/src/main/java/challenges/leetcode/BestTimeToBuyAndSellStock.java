@@ -32,21 +32,15 @@ public class BestTimeToBuyAndSellStock extends AbstractCustomTestRunner {
 	
 	private static BestTimeToBuyAndSellStock _instance = new BestTimeToBuyAndSellStock();
 	
-	private BestTimeToBuyAndSellStock() {}
-	
 	public static int _maxProfit(int[] prices) {
-		int result = 0;
-		int minIdx = 0;
-		
-		for (int idx = 1; idx < prices.length; idx ++) {
-			if (prices [idx] > prices [minIdx])
-				result = Math.max (result, prices [idx] - prices [minIdx]);
-			
-			if (prices [idx] < prices [minIdx])
-				minIdx = idx;
-		}
-		
-		return result;
+		int ans = 0;
+        if (prices.length > 0) {
+            for (int idx = 1, min = prices [0]; idx < prices.length; idx ++) {
+                min = Math.min (min, prices [idx]);
+                ans = Math.max (ans, prices [idx] - min);
+            }
+        }
+        return ans;
     }
 	
 	// driver method
