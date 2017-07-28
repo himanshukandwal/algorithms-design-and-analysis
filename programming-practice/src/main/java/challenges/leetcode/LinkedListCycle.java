@@ -6,35 +6,33 @@ import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
 
+/**
+ * 141. Linked List Cycle
+ * 
+ * Given a linked list, determine if it has a cycle in it.
+ * 
+ * Follow up: Can you solve it without using extra space?
+ * 
+ * @author Hxkandwal
+ */
 public class LinkedListCycle extends AbstractCustomTestRunner {
 
-private static LinkedListCycle _instance = new LinkedListCycle();
-	
-	private LinkedListCycle() {}
+	private static LinkedListCycle _instance = new LinkedListCycle();
 	
 	public static class ListNode {
 		int val;
 		ListNode next;
-		
 		public ListNode(int x) { val = x; next = null; } 
-		
-		public String toString() { return String.valueOf(val); }
 	}
 	
-	// works perfectly.
     public boolean _hasCycle(ListNode head) {
-    	if (head != null && head.next != null) {
-    		ListNode slow = head, fast = head;
-    		
-    		while (fast != null && fast.next != null) {
-    			slow = slow.next;
-    			fast = fast.next.next;
-    			
-    			if (fast == slow) return true;
-    		}
-    	}
-    	
-    	return false;
+    	if (head == null || head.next == null) return false;
+        ListNode slow = head, fast = slow.next;
+        while (fast.next != null && fast.next.next != null && fast != slow) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return fast == slow;
     }
 	
 	// driver method
