@@ -47,30 +47,27 @@ public class EncodeAndDecodeTinyURL extends AbstractCustomTestRunner {
 	}
     
     public class CodecUsingMaps {
-    	String input = "1234567890abcdefghijklmnopqrstuvwxyz";
     	
-    	Map<String, String> url2Code = new HashMap<>();
-    	Map<String, String> code2Url = new HashMap<>();
-    	
-    	// Encodes a URL to a shortened URL.
-	    public String encode(String longUrl) {
-	    	if (url2Code.containsKey(longUrl)) return url2Code.get(longUrl);
-	    	
-	    	StringBuilder sb = new StringBuilder();
-	    	while (true) {
-	    		for (int idx = 0; idx < 6; idx ++) sb.append(input.charAt(new Random().nextInt(input.length())));
-	    		if (!code2Url.containsKey(sb.toString())) break;
-	    	}
-	    	
-	    	code2Url.put(sb.toString(), longUrl);
-	    	url2Code.put(longUrl, sb.toString());
-	        return sb.toString();
-	    }
-	
-	    // Decodes a shortened URL to its original URL.
-	    public String decode(String shortUrl) {
-	        return code2Url.get(shortUrl);
-	    }
+    	private String charset = "abcdefghijklmnopqrstuvwxyz1234567890";
+        private Map<String, String> map = new HashMap<>();
+        
+        // Encodes a URL to a shortened URL.
+        public String encode(String longUrl) {
+            Random r = new Random();
+            StringBuilder key = new StringBuilder ();
+            while (true) {
+                key.setLength (0);
+                for (int idx = 0; idx < 6; idx ++) key.append (charset.charAt (r.nextInt (charset.length ())));
+                if (!map.containsKey (key.toString ())) break;
+            }
+            map.put (key.toString (), longUrl);
+            return key.toString ();
+        }
+
+        // Decodes a shortened URL to its original URL.
+        public String decode(String shortUrl) {
+            return map.get (shortUrl);
+        }
     }
 
 }
