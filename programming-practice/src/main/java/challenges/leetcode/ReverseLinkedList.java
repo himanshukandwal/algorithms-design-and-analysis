@@ -34,11 +34,10 @@ public class ReverseLinkedList extends AbstractCustomTestRunner {
 	
     public ListNode _reverseList(ListNode head) {
     	if (head == null || head.next == null) return head;
-        ListNode next = head.next;
-        ListNode ans = reverseList (next);
+        ListNode ret = reverseList (head.next);
+        head.next.next = head;
         head.next = null;
-        if (next != null) next.next = head;
-        return ans;
+        return ret;
     }
 
 	// driver method
