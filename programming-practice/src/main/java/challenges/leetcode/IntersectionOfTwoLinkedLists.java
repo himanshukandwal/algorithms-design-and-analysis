@@ -33,20 +33,16 @@ public class IntersectionOfTwoLinkedLists extends AbstractCustomTestRunner {
 	}
 	
 	public ListNode _getIntersectionNode(ListNode headA, ListNode headB) {
-        int lenA = 0, lenB = 0;
-        ListNode traverserA = headA, traverserB = headB;
-        while (traverserA != null) { lenA ++; traverserA = traverserA.next; }
-        while (traverserB != null) { lenB ++; traverserB = traverserB.next; }
+		int lenA = 0, lenB = 0;
+        for (ListNode traverser = headA; traverser != null; traverser = traverser.next) lenA ++;
+        for (ListNode traverser = headB; traverser != null; traverser = traverser.next) lenB ++;
         int diff = Math.abs (lenA - lenB);
-        
         ListNode larger = (lenA > lenB) ? headA : headB;
         ListNode smaller = (larger == headA) ? headB : headA;
+        
         while (diff -- > 0) larger = larger.next;
-        while (larger != smaller) {
-            larger = larger.next;
-            smaller = smaller.next;
-        }
-        return larger;
+        while (larger != smaller) { larger = larger.next; smaller = smaller.next; }
+        return larger; 
     }
 
 }
