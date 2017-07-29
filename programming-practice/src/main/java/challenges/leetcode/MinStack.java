@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.Stack;
 
 import challenges.AbstractCustomTestRunner;
@@ -28,7 +30,7 @@ import challenges.AbstractCustomTestRunner;
  */
 public class MinStack extends AbstractCustomTestRunner {
 	
-	public class Implementation1 {
+	public static class Implementation1 {
 		private Node head;
 		
 		public void push(int x) {
@@ -48,9 +50,9 @@ public class MinStack extends AbstractCustomTestRunner {
 		}
 	}
     
-	public class Implementation2 {
+	public static class Implementation2 {
 		public Stack<Integer> stack = new Stack<> ();
-	    public Integer min = Integer.MAX_VALUE;
+	    public int min = Integer.MAX_VALUE;
 	    
 	    public void push(int x) {
 	        if (x <= min) { stack.push (min); min = x; }  
@@ -62,7 +64,7 @@ public class MinStack extends AbstractCustomTestRunner {
 	    public int getMin() { return min; }
 	}
 	
-	public class Implementation3 {
+	public static class Implementation3 {
 		public Stack<Long> stack = new Stack<> ();
 	    public Long min = null;
 	    
@@ -83,4 +85,20 @@ public class MinStack extends AbstractCustomTestRunner {
 	}
 	
 	
+	// driver method
+	public static void main(String[] args) {
+		Implementation2 impl = new Implementation2 ();
+		impl.push(512); impl.push(-1024);
+		impl.push(-1024); impl.push(512);
+		
+		impl.pop();
+		assertThat(impl.getMin()).isEqualTo(-1024);
+		impl.pop();
+		assertThat(impl.getMin()).isEqualTo(-1024);
+		impl.pop();
+		assertThat(impl.getMin()).isEqualTo(512);
+		
+		System.out.println("ok!");
+	}
+		
 }
