@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import java.util.Stack;
+
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -26,71 +28,59 @@ import challenges.AbstractCustomTestRunner;
  */
 public class MinStack extends AbstractCustomTestRunner {
 	
-	private static MinStack _instance = new MinStack();
+	public class Implementation1 {
+		private Node head;
+		
+		public void push(int x) {
+			head = (head == null) ? new Node(x, x) : new Node(x, Math.min(x, head.min), head);
+		}
+		
+		public void pop() { head = head.next; }
+		public int top() { return head.val; }
+		public int getMin() { return head.min; }
+		
+		private class Node {
+			int val, min;
+			Node next;
+			
+			public Node(int val, int min) { this (val, min, null); }
+			public Node(int val, int min, Node next) { this.val = val; this.min = min; this.next = next; }
+		}
+	}
+    
+	public class Implementation2 {
+		public Stack<Integer> stack = new Stack<> ();
+	    public Integer min = Integer.MAX_VALUE;
+	    
+	    public void push(int x) {
+	        if (x <= min) { stack.push (min); min = x; }  
+	        stack.push (x);
+	    }
+	    
+	    public void pop() { if (stack.pop () == min) min = stack.pop (); }
+	    public int top() { return stack.peek(); }
+	    public int getMin() { return min; }
+	}
 	
-	private Node head;
-    
-	public void push(int x) {
-        head = (head == null) ? new Node(x, x) : new Node(x, Math.min(x, head.min), head);
-    }
-
-    public void pop() {
-        head = head.next;
-    }
-
-    public int top() {
-        return head.val;
-    }
-
-    public int getMin() {
-        return head.min;
-    }
-    
-    private class Node {
-        int val;
-        int min;
-        Node next;
-        
-        private Node(int val, int min) {
-            this(val, min, null);
-        }
-        
-        private Node(int val, int min, Node next) {
-            this.val = val;
-            this.min = min;
-            this.next = next;
-        }
-    }
-    
-    // Also good approach, keeping min values next while change.
-    
-    /**
-     * class MinStack {
-     *    int min = Integer.MAX_VALUE;
-     *   Stack<Integer> stack = new Stack<Integer>();
-     *    public void push(int x) {
-     *        // only push the old minimum value when the current 
-     *        // minimum value changes after pushing the new value x
-     *        if(x <= min){          
-     *            stack.push(min);
-     *            min=x;
-     *        }
-     *        stack.push(x);
-     *    }
-     *
-     *    public void pop() {
-     *        // if pop operation could result in the changing of the current minimum value, 
-     *        // pop twice and change the current minimum value to the last minimum value.
-     *        if(stack.pop() == min) min=stack.pop();
-     *    }
-     *
-     *    public int top() {
-     *        return stack.peek();
-     *    }
-     *
-     *    public int getMin() {
-     *        return min;
-     *    }
-     *}
-     */
+	public class Implementation3 {
+		public Stack<Long> stack = new Stack<> ();
+	    public Long min = null;
+	    
+	    public void push(int x) {
+	        if (min == null || x <= min.intValue()) { stack.push (min); min = Long.valueOf (x); }  
+	        stack.push (x - min);
+	    }
+	    
+	    public void pop() {
+	        if (stack.isEmpty ()) return;
+	        long val = stack.pop ();
+	        if (val == 0) min = stack.pop ();
+	    }
+	    
+	    public int top() { return (int) (stack.peek() + min); }
+	    
+	    public int getMin() { return min.intValue (); }
+	}
+	
+	
 }
