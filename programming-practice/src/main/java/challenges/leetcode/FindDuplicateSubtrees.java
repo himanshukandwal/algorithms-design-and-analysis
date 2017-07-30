@@ -45,17 +45,17 @@ public class FindDuplicateSubtrees extends AbstractCustomTestRunner {
 
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
         List<TreeNode> ans = new ArrayList<>();
-        Map<String, List<TreeNode>> map = new HashMap<>();
-        find (map, root);
-        for (String key : map.keySet()) if (map.get (key).size () > 1) ans.add (map.get (key).get (0));
+        find (new HashMap <>(), ans, root);
         return ans;
     }
 
-    private String find (Map<String, List<TreeNode>> map, TreeNode n) {
-        if (n == null) return "";
-        String left = find (map, n.left), right = find (map, n.right);
-        String total = left + "#" + n.val + "#" + right;
-        map.computeIfAbsent (total, k -> new ArrayList<>()).add (n);
+    private String find (Map<String, Integer> map, List<TreeNode> ans, TreeNode n) {
+        if (n == null) return "#";
+        String total = n.val + "," + find (map, ans, n.left) + "," + find (map, ans, n.right);
+        if (map.getOrDefault (total, 0) <= 1) {
+            if (map.getOrDefault (total, 0) == 1) ans.add (n);
+            map.put (total, map.getOrDefault (total, 0) + 1);
+        }
         return total;
     }
 }
