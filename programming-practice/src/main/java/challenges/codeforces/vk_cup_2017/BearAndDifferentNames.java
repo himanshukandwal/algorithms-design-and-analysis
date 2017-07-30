@@ -9,5 +9,5 @@ package challenges.codeforces.vk_cup_2017;
  */
 public class BearAndDifferentNames {
 
-	
+
 }
