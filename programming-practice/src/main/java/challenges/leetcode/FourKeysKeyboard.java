@@ -62,6 +62,23 @@ public class FourKeysKeyboard extends AbstractCustomTestRunner {
         return dp [N][0];
     }
 
+    // nice approach.
+    public int _maxAOneDimentional(int N) {
+        int [] DP = new int [N + 1];
+        if (N < 3) return N;
+        DP [1] = 1;
+        DP [2] = 2;
+        for (int i = 3; i <= N; i ++) {
+            int addA = DP [i - 1] + 1;
+            int paste = 0;
+            for (int j = 1; j < i - 2; j ++)                // interestingly handled the 2 steps by limiting the search space with idx - 2.
+                paste = Math.max (paste, DP[j] * (i - j - 1));
+
+            DP [i] = Math.max(addA, paste);
+        }
+        return DP [N];
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(7, 9);
