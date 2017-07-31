@@ -46,13 +46,6 @@ public class FourKeysKeyboard extends AbstractCustomTestRunner {
         for (int idx = 1; idx <= N; idx ++) {
             dp [idx][0] = idx;
             for (int j = Math.max (dp [idx - 1][1], 1); j < idx; j ++) {
-                // case: 1 (extend paste from here onwards)
-                if (dp[j][0] + (idx - j) * dp[j][1] >= dp[idx][0]) {
-                    dp[idx][0] = dp[j][0] + (idx - j) * dp[j][1];
-                    dp[idx][1] = Math.max(dp[idx][1], dp[j][1]);
-                }
-
-                // case: 2 (copy paste from here onwards)
                 if (dp [j][0] * (idx - 2 - j + 1) >= dp [idx][0]) {
                     dp [idx][0] = dp [j][0] * (idx - 2 - j + 1);
                     dp [idx][1] = Math.max (dp [idx][1], j);
