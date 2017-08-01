@@ -2,9 +2,9 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
-import java.util.List;
-
-import static com.google.common.truth.Truth.assertThat;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 
 /**
  * 297. Serialize and Deserialize Binary Tree
@@ -39,47 +39,77 @@ public class SerializeAndDeserializeBinaryTree extends AbstractCustomTestRunner 
         public TreeNode(int x) { val = x; }
     }
 
-    // Encodes a tree to a single string.
-    public String serialize(TreeNode root) {
-        if (root == null) return "(NULL)";
-        String left = serialize (root.left), right = serialize (root.right);
-        return "(" + root.val + "," + left + "," + right + ")";
-    }
+    public static class Implementation1 {
 
-    // Decodes your encoded data to tree.
-    public TreeNode deserialize (String data) {
-        if (data.length() == 0 || data.equals("(NULL)")) return null;
-        int val = 0, idx = 1, sign = 1;
-        for (idx = 1; idx < data.length(); idx ++) {
-            if (data.charAt(idx) == ',') break;
-
-            if (data.charAt(idx) == '-') sign = -1;
-            else val = 10 * val + (data.charAt(idx) - '0');
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            if (root == null) return "(NULL)";
+            String left = serialize(root.left), right = serialize(root.right);
+            return "(" + root.val + "," + left + "," + right + ")";
         }
-        TreeNode node = new TreeNode (val * sign);
 
-        int iter = 2;
-        while (iter -- > 0) {
-            int start = ++ idx, open = 1;
-            idx ++;
-            while (idx < data.length () && open != 0) {
-                if (data.charAt (idx) == '(') open ++;
-                else if (data.charAt (idx) == ')') open --;
-                idx ++;
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            if (data.length() == 0 || data.equals("(NULL)")) return null;
+            int val = 0, idx = 1, sign = 1;
+            for (idx = 1; idx < data.length(); idx++) {
+                if (data.charAt(idx) == ',') break;
+
+                if (data.charAt(idx) == '-') sign = -1;
+                else val = 10 * val + (data.charAt(idx) - '0');
             }
-            if (iter == 1) node.left = deserialize (data.substring (start, idx));
-            else node.right = deserialize (data.substring (start, idx));
+            TreeNode node = new TreeNode(val * sign);
+
+            int iter = 2;
+            while (iter-- > 0) {
+                int start = ++idx, open = 1;
+                idx++;
+                while (idx < data.length() && open != 0) {
+                    if (data.charAt(idx) == '(') open++;
+                    else if (data.charAt(idx) == ')') open--;
+                    idx++;
+                }
+                if (iter == 1) node.left = deserialize(data.substring(start, idx));
+                else node.right = deserialize(data.substring(start, idx));
+            }
+            return node;
         }
-        return node;
     }
 
+    public class Implementation2 {
 
-    // driver method
-    public static void main(String[] args) {
-        SerializeAndDeserializeBinaryTree instance = new SerializeAndDeserializeBinaryTree();
-        String rep = instance.serialize(new TreeNode(1));
-        assertThat(instance.deserialize(rep).val).isEqualTo(1);
-        System.out.println("ok!");
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            StringBuilder sb = new StringBuilder ();
+            stringify (root, sb);
+            return sb.toString ();
+        }
+
+        private void stringify (TreeNode node, StringBuilder sb) {
+            if (node == null) sb.append ("X,");
+            else {
+                sb.append (node.val + ",");
+                stringify (node.left, sb);
+                stringify (node.right, sb);
+            }
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            Deque <String> nodes = new ArrayDeque<>();
+            nodes.addAll (Arrays.asList (data.split(",")));
+            return buildTree (nodes);
+        }
+
+        private TreeNode buildTree (Deque<String> nodes) {
+            String val = nodes.poll ();
+            if (val.equals ("X")) return null;
+            else {
+                TreeNode node = new TreeNode (Integer.valueOf (val));
+                node.left = buildTree (nodes);
+                node.right = buildTree (nodes);
+                return node;
+            }
+        }
     }
-
 }
