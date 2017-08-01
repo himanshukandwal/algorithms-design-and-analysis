@@ -160,7 +160,26 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 	}
 	
 	// solution using bucket-sort.
-	public static String _frequencySort2(String s) {
+    public static String _frequencySort2(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) map.put (c, map.getOrDefault (c, 0) + 1);
+        List<Character> [] bucket = new List [s.length() + 1];
+        for (char key : map.keySet()) {
+            int frequency = map.get(key);
+            if (bucket[frequency] == null) bucket[frequency] = new ArrayList<>();
+            bucket[frequency].add(key);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int pos = bucket.length - 1; pos >=0; pos--)
+            if (bucket[pos] != null)
+                for (char num : bucket[pos])
+                    for (int i = 0; i < map.get(num); i++) sb.append(num);
+        
+        return sb.toString();
+    }
+
+	public static String _frequencySort3(String s) {
 		int [] map = new int [256];
 		for (char ch : s.toCharArray ()) map [ch] ++;
 		Integer [] index = new Integer [256];
@@ -175,7 +194,7 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 	}
 	
 	// solution using java max heap (priority queue). 
-	public static String frequencySort3(String s) {
+	public static String frequencySort4(String s) {
 		Map<Character, Integer> map = new HashMap<>();
 		for (char c : s.toCharArray ()) map.put (c, map.getOrDefault (c, 0) + 1);
 		PriorityQueue<Character> heap = new PriorityQueue<> ((a, b) -> map.get (b) - map.get (a));
