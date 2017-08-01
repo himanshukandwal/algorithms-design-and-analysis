@@ -48,35 +48,33 @@ import challenges.AbstractCustomTestRunner;
  */
 public class InsertDeleteGetRandomO1 extends AbstractCustomTestRunner {
 
-	Map<Integer, Integer> map = new HashMap<>();
     List<Integer> data = new ArrayList<>();
+    Map<Integer, Integer> bookkeeping = new HashMap<>();
     
     /** Initialize your data structure here. */
     public InsertDeleteGetRandomO1() { }
     
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
-        if (map.containsKey(val)) return false;
-        map.put (val, data.size());
+        if (bookkeeping.containsKey (val)) return false;
         data.add (val);
+        bookkeeping.put (val, data.size () - 1);
         return true;
     }
     
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     public boolean remove(int val) {
-    	if (!map.containsKey (val)) return false;
-        int index = map.get (val);
-        int lastOne = data.get (data.size() - 1);
-        map.put (lastOne, index);
-        data.set (index, lastOne);
-        map.remove (val);
-        data.remove (data.size () - 1);
+        if (!bookkeeping.containsKey (val)) return false;
+        int idx = bookkeeping.remove (val);
+        data.set (idx, data.get (data.size() - 1));
+        data.remove (data.size() - 1);
+        if (idx < data.size ()) bookkeeping.put (data.get (idx), idx);
         return true;
     }
     
     /** Get a random element from the set. */
     public int getRandom() {
-        return data.get (new Random().nextInt (data.size()));
+        return data.get (new Random ().nextInt (bookkeeping.size()));
     }
     
 }
