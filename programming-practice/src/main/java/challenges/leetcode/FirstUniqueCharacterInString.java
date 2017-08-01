@@ -7,7 +7,7 @@ import java.util.List;
 import challenges.AbstractCustomTestRunner;
 
 /**
- * 387. First Unique Character in a String.
+ * 387. First Unique Character in a String
  * 
  * Given a string, find the first non-repeating character in it and return it's
  * index. If it doesn't exist, return -1.
@@ -33,10 +33,6 @@ public class FirstUniqueCharacterInString extends AbstractCustomTestRunner {
 		_instance.runTest("leetcode", 0);
 		_instance.runTest("loveleetcode", 2);
 		_instance.runTest("aaabbcc", -1);
-		_instance.runTest("aabbc", 4);
-		_instance.runTest("aaabbc", 5);
-		_instance.runTest("", -1);
-		_instance.runTest(null, -1);
 	}
 	
 	public void runTest(final String s, int expectedOutput) {
