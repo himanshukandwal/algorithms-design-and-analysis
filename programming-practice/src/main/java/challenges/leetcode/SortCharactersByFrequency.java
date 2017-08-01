@@ -1,15 +1,11 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-
 import challenges.AbstractCustomTestRunner;
 import challenges.leetcode.SortCharactersByFrequency.MostFrequentlyCharacterHeap.DataNode;
+
+import java.util.*;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 451. Sort Characters By Frequency
@@ -39,9 +35,7 @@ import challenges.leetcode.SortCharactersByFrequency.MostFrequentlyCharacterHeap
 public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 	
 	private static SortCharactersByFrequency _instance = new SortCharactersByFrequency();
-	
-	private SortCharactersByFrequency() {}
-	
+
 	// character frequency max heap
 	public static class MostFrequentlyCharacterHeap {
 		
@@ -145,7 +139,7 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 		
 	}
 	
-	public static String _frequencySort(String s) {
+	public static String frequencySort(String s) {
 		MostFrequentlyCharacterHeap maxHeap = new MostFrequentlyCharacterHeap();
 		
 		for (char ch : s.toCharArray()) 
@@ -166,72 +160,38 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
 	}
 	
 	// solution using bucket-sort.
-	public static String frequencySort2(String s) {
-		if (s.length() < 3) return s;
-		
-		int max = 0;
-		int[] map = new int[256];
-		
-		for (char ch : s.toCharArray()) {
-			map[ch]++;
-			max = Math.max(max, map[ch]);
-		}
-		
-		String[] buckets = new String[max + 1]; // create max buckets
-		
-		for (int i = 0; i < 256; i++) { // join chars in the same bucket
-			String str = buckets[map[i]];
-			if (map[i] > 0)
-				buckets[map[i]] = (str == null) ? "" + (char) i : (str + (char) i);
-		}
-		
-		StringBuilder strb = new StringBuilder();
-		for (int i = max; i >= 0; i--) { // create string for each bucket.
-			if (buckets[i] != null)
-				for (char ch : buckets[i].toCharArray())
-					for (int j = 0; j < i; j++)
-						strb.append(ch);
-		}
-		
-		return strb.toString();
+	public static String _frequencySort2(String s) {
+		int [] map = new int [256];
+		for (char ch : s.toCharArray ()) map [ch] ++;
+		Integer [] index = new Integer [256];
+		for (int idx = 0; idx < 256; idx ++) index [idx] = idx;
+		Arrays.sort (index, (a, b) -> map [b] - map [a]);
+
+		StringBuilder ans = new StringBuilder ();
+		for (int idx = 0; idx < 256 && ans.length () < s.length (); idx ++)
+			while (map [index [idx].intValue()] -- > 0) ans.append ((char) index [idx].intValue());
+
+		return ans.toString();
 	}
 	
 	// solution using java max heap (priority queue). 
-	public static String frequencySort3(String str) {
-        if (str == null || str.length() <= 2) return str;
-        
-        Map<Character, Integer> map = new HashMap<>();
-        char[] list = str.toCharArray();
-        
-        for (char c : list) {
-            map.putIfAbsent(c, 0);
-            map.put(c, map.get(c) + 1);
-        }
-        
-        PriorityQueue<Character> heap = new PriorityQueue<>(str.length(), new Comparator<Character>() {
-            public int compare(Character c1, Character c2) {
-                return map.get(c2) - map.get(c1);
-            }
-        });
-        
-        for (char c : map.keySet())
-            heap.offer(c);
-        
-        StringBuilder sb = new StringBuilder();
-        while (!heap.isEmpty()) {
-            char c = heap.poll();
-            int count = map.get(c);
-            
-            for (int i = 0; i < count; ++i) sb.append(c);
-        }
-        
-        return sb.toString();
+	public static String frequencySort3(String s) {
+		Map<Character, Integer> map = new HashMap<>();
+		for (char c : s.toCharArray ()) map.put (c, map.getOrDefault (c, 0) + 1);
+		PriorityQueue<Character> heap = new PriorityQueue<> ((a, b) -> map.get (b) - map.get (a));
+		for (char c : map.keySet()) heap.offer (c);
+		StringBuilder ans = new StringBuilder ();
+		while (!heap.isEmpty ()) {
+			char c = heap.poll ();
+			for (int idx = 0; idx < map.get (c); idx ++) ans.append (c);
+		}
+		return ans.toString ();
 	}
 	
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest("tree", "eetr");
-		_instance.runTest("cccaaa", "cccaaa");
+		_instance.runTest("tree", "eert");
+		_instance.runTest("cccaaa", "aaaccc");
 		_instance.runTest("Aabb", "bbAa");
 	}
 

@@ -40,48 +40,19 @@ import challenges.AbstractCustomTestRunner;
 public class RotateFunction extends AbstractCustomTestRunner {
 	
 	private static RotateFunction _instance = new RotateFunction();
-	
-	private RotateFunction() {}
 
-	// slow O(n^2) answer.
 	public int _maxRotateFunction(int[] A) {
-		Integer maxValue = null;
-		
-		for (int rotation = 0; rotation < A.length; rotation ++) {
-			int value = 0;
-			for (int idx = 0; idx < A.length; idx ++)
-				value += ((idx + rotation) % A.length) * A [idx];
-			
-			if (maxValue == null) 
-				maxValue = value;
-			else
-				maxValue = Math.max (maxValue, value);
-		}
-		
-		return (maxValue == null) ? 0 : maxValue;
-	}
-	
-	// better answer O(n) : https://discuss.leetcode.com/topic/58616/java-solution-o-n-with-non-mathametical-explaination
-	public int _maxRotateFunction2(int[] A) {
-		Integer maxValue = null;
-		
-		int totalSum = 0;
-		for (int idx = 0; idx < A.length; idx ++)
-			totalSum += A [idx];
-		
-		Integer previousEstimation = null;
+		int rIdx = A.length, sum = 0, ans = 0;
 		for (int idx = 0; idx < A.length; idx ++) {
-			if (previousEstimation == null) {
-				previousEstimation = 0;
-				for (int innerIdx = 0; innerIdx < A.length; innerIdx ++) 
-					previousEstimation += innerIdx * A [innerIdx];
-			} else
-				previousEstimation = previousEstimation - totalSum + A.length * A [idx - 1];
-			
-			maxValue = (maxValue == null) ? previousEstimation : Math.max(maxValue, previousEstimation);
+			sum += A [idx];
+			ans += idx * A [idx];
 		}
-		
-		return (maxValue == null) ? 0 : maxValue;
+		int prev = ans;
+		while (-- rIdx > 0) {
+			prev = prev - A [rIdx] * (A.length) + sum;
+			ans = Math.max (ans, prev);
+		}
+		return ans;
 	}
 
     
