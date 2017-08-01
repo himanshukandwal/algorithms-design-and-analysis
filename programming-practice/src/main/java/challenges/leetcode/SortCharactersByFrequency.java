@@ -175,7 +175,7 @@ public class SortCharactersByFrequency extends AbstractCustomTestRunner {
             if (bucket[pos] != null)
                 for (char num : bucket[pos])
                     for (int i = 0; i < map.get(num); i++) sb.append(num);
-        
+
         return sb.toString();
     }
 
