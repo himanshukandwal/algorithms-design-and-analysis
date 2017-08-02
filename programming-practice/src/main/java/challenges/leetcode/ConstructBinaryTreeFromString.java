@@ -31,10 +31,7 @@ public class ConstructBinaryTreeFromString extends AbstractCustomTestRunner {
     public static class TreeNode {
         int val;
         TreeNode left, right;
-
-        public TreeNode(int val) {
-            this.val = val;
-        }
+        public TreeNode(int val) { this.val = val; }
     }
 
     public TreeNode str2tree(String s) {
