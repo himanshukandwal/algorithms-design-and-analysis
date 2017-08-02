@@ -21,6 +21,24 @@ import java.util.Stack;
  */
 public class InterleavingString extends AbstractCustomTestRunner {
 
+    // approach: attempt to enforce the orderless (da, ad) answer at the placeholder.
+    public boolean _isInterleave(String s1, String s2, String s3) {
+        if (s1.length () + s2.length () != s3.length ()) return false;
+
+        boolean [][] dp = new boolean [s1.length () + 1][s2.length () + 1];
+        dp [0][0] = true;
+        for (int r = 0; r <= s1.length (); r ++) {
+            for (int c = 0; c <= s2.length (); c ++) {
+                if (r == 0) dp [r][c] = c == 0 ? true : (dp [r][c - 1] && s2.charAt (c - 1) == s3.charAt (r + c - 1));
+                else if (c == 0) dp [r][c] = r == 0 ? true : (dp [r - 1][c] && s1.charAt (r - 1) == s3.charAt (r + c - 1));
+                else {
+                    dp [r][c] = (dp [r][c - 1] && s2.charAt (c - 1) == s3.charAt (r + c - 1)) || (dp [r - 1][c] && s1.charAt (r - 1) == s3.charAt (r + c - 1));
+                }
+            }
+        }
+        return dp [s1.length ()][s2.length ()];
+    }
+
     public boolean isInterleave(String s1, String s2, String s3) {
         Stack<int []> conflictStack = new Stack<>();
         int idx1 = 0, idx2 = 0, idx3 = 0;
