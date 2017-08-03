@@ -34,15 +34,17 @@ public class FindTheDifference extends AbstractCustomTestRunner {
 	public char _findTheDifference(String s, String t) {
 		if (s.length() == 0) return t.charAt(0);
         char sAsciiXor = s.charAt(0);
-        
-        for (int idx = 1; idx < s.length(); idx ++) 
-            sAsciiXor ^= s.charAt(idx);
-            
-        for (int idx = 0; idx < t.length(); idx ++) 
-            sAsciiXor ^= t.charAt(idx);
-        
+        for (int idx = 1; idx < s.length(); idx ++) sAsciiXor ^= s.charAt(idx);
+        for (int idx = 0; idx < t.length(); idx ++) sAsciiXor ^= t.charAt(idx);
         return sAsciiXor;
     }
+
+	public char _findTheDifferenceOther(String s, String t) {
+		int [] map = new int [256];
+		for (char ch : s.toCharArray ()) map [ch] ++;
+		for (char ch : t.toCharArray ()) if (map [ch] -- == 0) return ch;
+		return ' ';
+	}
 	
 	// driver method
 	public static void main(String[] args) {
