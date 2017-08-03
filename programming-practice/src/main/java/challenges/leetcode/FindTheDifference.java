@@ -30,9 +30,7 @@ import challenges.AbstractCustomTestRunner;
 public class FindTheDifference extends AbstractCustomTestRunner {
 	
 	private static FindTheDifference _instance = new FindTheDifference();
-	
-	private FindTheDifference() {}
-	
+
 	public char _findTheDifference(String s, String t) {
 		if (s.length() == 0) return t.charAt(0);
         char sAsciiXor = s.charAt(0);
