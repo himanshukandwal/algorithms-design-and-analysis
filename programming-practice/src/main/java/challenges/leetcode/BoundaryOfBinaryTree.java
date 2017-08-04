@@ -75,4 +75,19 @@ public class BoundaryOfBinaryTree {
         dfs (ans, right, node.left, flag <= 1 ? 1: (flag == 2 && node.right == null ? 2 : 3));
         dfs (ans, right, node.right, flag % 2 == 0 ? 2: (flag == 1 && node.left == null ? 1 : 3));
     }
+
+    //another variation
+    public List<Integer> boundaryOfBinaryTreeOneList(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        dfs (ans, root, 0);
+        return ans;
+    }
+
+    private void dfs (List<Integer> ans, TreeNode node, int flag) {
+        if (node == null) return;
+        if (flag <= 1 || (flag != 2 && node.left == null && node.right == null)) ans.add (node.val);
+        dfs (ans, node.left, flag <= 1 ? 1 : (flag == 2 && node.right == null ? 2 : 3));
+        dfs (ans, node.right, flag % 2 == 0 ? 2: (flag == 1 && node.left == null ? 1 : 3));
+        if (flag == 2) ans.add (node.val);
+    }
 }
