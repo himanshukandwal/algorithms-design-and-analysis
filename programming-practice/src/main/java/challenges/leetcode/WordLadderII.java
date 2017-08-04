@@ -1,11 +1,11 @@
 package challenges.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import challenges.AbstractCustomTestRunner;
+import com.google.common.collect.Collections2;
+
+import java.util.*;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 126. Word Ladder II
@@ -43,37 +43,79 @@ import challenges.AbstractCustomTestRunner;
  */
 public class WordLadderII extends AbstractCustomTestRunner {
 
-	public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-        List<List<String>> ans = new ArrayList<List<String>>();
-        Set<String> set = new HashSet<>();
-        for (String w : wordList) set.add (w);
-        List<String> build = new ArrayList<> ();
+    private static WordLadderII _instance = new WordLadderII();
+
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> ans = new ArrayList<>();
+        Set<String> words = new HashSet<>(), set1 = new HashSet<>(), set2 = new HashSet<>();
+        for (String word : wordList) words.add (word);
+
+        if (!words.contains (endWord)) return ans;
+
+        set1.add (beginWord); set2.add (endWord);
+        List<String> build = new ArrayList<>();
         build.add (beginWord);
-        dfs (ans, build, set, endWord, beginWord);
+        Map<String, List<String>> map = new HashMap<>();
+
+        bfs (ans, map, set1, set2, words, true);
+        dfs (ans, build, map, beginWord, endWord);
         return ans;
     }
-    
-    private void dfs (List<List<String>> ans, List<String> build, Set<String> set, String endWord, String word) {
-        if (word.equals (endWord)) {
-            if (ans.size () == 0 || ans.get (0).size() >= build.size ()) {
-                if (ans.size () > 0 && ans.get (0).size() > build.size ()) ans.clear ();
-                ans.add (new ArrayList<>(build));
-            }
-        } else if (set.size () > 0) {
-            for (int idx = 0; idx < word.length (); idx ++) {
-                for (char ch = 'a'; ch <= 'z'; ch ++) {
-                    if (word.charAt (idx) != ch) {
-                        String next = word.substring (0, idx) + ch + word.substring (idx + 1);
-                        if (set.contains (next)) {
-                            build.add (next);
-                            set.remove (next);
-                            dfs (ans, build, set, endWord, next);
-                            set.add (next);
-                            build.remove (build.size () - 1);
-                        }
+
+    private void bfs (List<List<String>> ans, Map<String, List<String>> map, Set<String> set1, Set<String> set2, Set<String> words, boolean isForward) {
+        if (set1.isEmpty ()) return;
+        if (set1.size () > set2.size()) { bfs (ans, map, set2, set1, words, !isForward); return; }
+        words.removeAll (set1);
+        words.removeAll (set2);
+
+        Set<String> next = new HashSet<>();
+        boolean merged = false;
+        for (String s : set1) {
+            for (int idx = 0; idx < s.length (); idx ++) {
+                for (char c = 'a'; c <= 'z'; c ++) {
+                    String word = s.substring (0, idx) + c + s.substring (idx + 1);
+                    String key = (isForward) ? s : word;
+                    String value = (isForward) ? word : s;
+                    if (set2.contains (word)) {
+                        merged = true;
+                        map.computeIfAbsent (key, k -> new ArrayList<>()).add (value);
+                    } else if (words.contains (word)) {
+                        next.add (word);
+                        map.computeIfAbsent (key, k -> new ArrayList<>()).add (value);
                     }
                 }
-            }   
+            }
+        }
+        if (!merged) bfs (ans, map, set2, next, words, !isForward);
+    }
+
+    private void dfs (List<List<String>> ans, List<String> build, Map<String, List<String>> map, String start, String end) {
+        if (start.equals (end)) {
+            ans.add (new ArrayList<> (build));
+            return;
+        }
+        if (!map.containsKey (start)) return;
+        for (String child : map.get (start)) {
+            build.add (child);
+            dfs (ans, build, map, child, end);
+            build.remove (build.size () - 1);
         }
     }
+
+    // driver method
+    public static void main(String[] args) {
+        Set<String> dict = new HashSet<>();
+        dict.addAll(Arrays.asList("hot","dot","dog","lot","log","cog"));
+        _instance.runTest("hit", "cog", dict, null);
+    }
+
+    public void runTest(final String start, String end, Set<String> dict, final List<List<String>> expectedOutput) {
+        List<Object> answers = runAll(getClass(), new Object[] { start, end, dict });
+
+        for (Object answer : answers)
+            assertThat((List<List<String>>) answer).isEqualTo(expectedOutput);
+
+        System.out.println("ok!");
+    }
+
 }
