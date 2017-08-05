@@ -16,9 +16,7 @@ import challenges.AbstractCustomTestRunner;
 public class ContainsDuplicateII extends AbstractCustomTestRunner {
 	
 	private static ContainsDuplicateII _instance = new ContainsDuplicateII();
-	
-	private ContainsDuplicateII() {}
-	
+
 	public boolean containsNearbyDuplicate(int[] nums, int k) {
 		Set<Integer> set = new HashSet<>();
         for (int idx = 0; idx < nums.length; idx ++) {
