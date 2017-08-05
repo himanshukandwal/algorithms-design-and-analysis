@@ -46,8 +46,7 @@ public class OptimalDivision extends AbstractCustomTestRunner {
         if (nums.length == 2) return String.valueOf (nums [0] + "/" + nums [1]);
         StringBuilder ans = new StringBuilder (nums [0] + "/(" + nums [1]);
         for (int idx = 2; idx < nums.length; idx ++) ans.append ("/" + nums [idx]);
-        ans.append (")");
-        return ans.toString();
+        return ans.append (")").toString();
     }
 
     // driver method
