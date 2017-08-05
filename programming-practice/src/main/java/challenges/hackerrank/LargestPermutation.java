@@ -11,7 +11,13 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Largest Permutation
  *
- * lexicographically largest permutation you can make with at most K swaps.
+ * You are given an array of N integers which is a permutation of the first N natural numbers. You can swap any two elements of the array.
+ * You can make at most K swaps. What is the largest permutation, in numerical order, you can make?
+ *
+ * Input Format: The first line of the input contains two integers, N and K, the size of the input array and the maximum swaps you can make,
+ * respectively. The second line of the input contains a permutation of the first N natural numbers.
+ *
+ * Output Format: Print the lexicographically largest permutation you can make with at most K swaps.
  *
  * link: https://www.hackerrank.com/challenges/largest-permutation
  *
