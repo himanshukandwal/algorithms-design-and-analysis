@@ -4,7 +4,6 @@ import challenges.AbstractCustomTestRunner;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import static com.google.common.truth.Truth.assertThat;
 
