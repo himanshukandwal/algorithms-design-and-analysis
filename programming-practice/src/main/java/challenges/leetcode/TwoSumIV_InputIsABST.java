@@ -1,5 +1,7 @@
 package challenges.leetcode;
 
+import challenges.AbstractCustomTestRunner;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +37,7 @@ import java.util.Set;
  *
  * Created by Hxkandwal
  */
-public class TwoSumIV_InputIsABST {
+public class TwoSumIV_InputIsABST extends AbstractCustomTestRunner {
 
     public class TreeNode {
         int val;
