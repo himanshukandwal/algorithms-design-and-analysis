@@ -48,12 +48,17 @@ public class CoinPath extends AbstractCustomTestRunner {
         LinkedList<Integer> ans = new LinkedList<Integer>();
         int [] jump = new int [A.length];
         jump [0] = -1;
-        for (int idx = 0; idx < A.length; idx ++)
-            if (idx == 0 || jump [idx] > 0)
+        for (int idx = 0; idx < A.length; idx ++) {
+            if (A [idx] < 0 && jump [idx] == 0) return ans;
+            if (A [idx] > 0) {
                 for (int j = idx + 1; j < Math.min (idx + B + 1, A.length); j ++) if (jump [j] == 0) jump [j] = idx + 1;
+            } else jump [idx] = idx;
+        }
         if (A.length == 0 || jump [jump.length - 1] == 0) return ans;
         ans.add (jump.length);
-        for (int idx = jump.length - 1; idx > 0; idx = jump [idx] - 1) ans.addFirst (jump [idx]);
+        for (int idx = jump.length - 1; idx > 0; idx = jump [idx] - 1) {
+            ans.addFirst (jump [idx]);
+        }
         return ans;
     }
 
@@ -62,6 +67,7 @@ public class CoinPath extends AbstractCustomTestRunner {
         _instance.runTest(new int [] { 1, 2, 4, -1, 2 }, 2, Arrays.asList(1, 3, 5));
         _instance.runTest(new int [] { 1, 2, 4, -1, 2 }, 1, Arrays.asList());
         _instance.runTest(new int [] { 0, 0, 0, 0, 0, 0 }, 3, Arrays.asList(1, 2, 3, 4, 5, 6));
+        _instance.runTest(new int [] { 0, -1, 0, 0, 0, 0 }, 3, Arrays.asList(1, 3, 4, 5, 6));
     }
 
     public void runTest(final int[] A, final int B, final List<Integer> expectedOutput) {
