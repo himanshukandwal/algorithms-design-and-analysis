@@ -2,9 +2,7 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -45,21 +43,25 @@ public class CoinPath extends AbstractCustomTestRunner {
     private static CoinPath _instance = new CoinPath();
 
     public List<Integer> _cheapestJump(int[] A, int B) {
-        LinkedList<Integer> ans = new LinkedList<Integer>();
-        int [] jump = new int [A.length];
-        jump [0] = -1;
+        int [] c = new int [A.length], parent = new int [A.length], length = new int [A.length];
+        Arrays.fill (parent, -1);
+        Arrays.fill (c, Integer.MAX_VALUE);
+        c [0] = 0;
+
         for (int idx = 0; idx < A.length; idx ++) {
-            if (A [idx] < 0 && jump [idx] == 0) return ans;
-            if (A [idx] > 0) {
-                for (int j = idx + 1; j < Math.min (idx + B + 1, A.length); j ++) if (jump [j] == 0) jump [j] = idx + 1;
-            } else jump [idx] = idx;
+            if (A [idx] == -1) continue;
+            for (int j = Math.max (0, idx - B); j < idx; j ++) {
+                if (A[j] == -1) continue;
+                if (c [j] + A [idx] < c [idx] || (c [j] + A [idx] == c [idx] && length [j] + 1 > length [idx])) {
+                    c [idx]  = c [j] + A [idx];
+                    parent [idx] = j;
+                    length [idx] = length [j] + 1;
+                }
+            }
         }
-        if (A.length == 0 || jump [jump.length - 1] == 0) return ans;
-        ans.add (jump.length);
-        for (int idx = jump.length - 1; idx > 0; idx = jump [idx] - 1) {
-            ans.addFirst (jump [idx]);
-        }
-        return ans;
+        List<Integer> path = new ArrayList<>();
+        for (int cur = A.length - 1; cur >= 0; cur = parent [cur]) path.add (0, cur + 1);
+        return path.get (0) != 1 ? Collections.emptyList() : path;
     }
 
     // driver method
