@@ -36,26 +36,13 @@ public class TwoKeysKeyboard extends AbstractCustomTestRunner {
     private static TwoKeysKeyboard _instance = new TwoKeysKeyboard();
 
     public int _minSteps(int n) {
-        if (n <= 1) return 0;
-        int [][] dp = new int [n + 1][2];
-        dp [2][0] = 2; dp [2][1] = 1;
-        for (int idx = 3; idx <= n; idx ++) {
-            dp [idx][0] = idx; dp [idx][1] = 1;
-            for (int j = idx - 1; j >= 2; j --) {
-                if ((idx - j) % dp [j][1] == 0)
-                    if (dp [j][0] + (idx - j)/ dp [j][1] < dp [idx][0]) {
-                        dp[idx][0] = dp [j][0] + dp [j][0] + (idx - j)/ dp [j][1];
-                        dp[idx][1] = dp [j][1];
-                    }
-
-                if ((idx - j) % j == 0)
-                    if (dp [j][0] + 1 + (idx - j)/j < dp [idx][0]) {
-                        dp[idx][0] = dp [j][0] + 1 + (idx - j)/j;
-                        dp[idx][1] = j;
-                    }
-            }
+        int [] dp = new int [n + 1];
+        for (int idx = 2; idx <= n; idx ++) {
+            dp [idx] = idx;
+            for (int j = 2; j < idx; j ++)
+                if (idx % j == 0 && dp [j] + idx/j < dp [idx]) dp [idx] = dp [j] + idx/j;
         }
-        return dp [n][0];
+        return dp [n];
     }
 
     // another approach
