@@ -80,33 +80,24 @@ public class PrintBinaryTree extends AbstractCustomTestRunner {
 
     public List<List<String>> _printTree(TreeNode root) {
         List<List<String>> ans = new ArrayList<>();
-        if (root == null) return ans;
-        int level = height (root), size = (int) Math.pow (2, level) - 1;
-        for (int l = 0; l < level; l ++) {
-            List<String> row = new ArrayList<>();
-            for (int s = 0; s < size; s ++) row.add ("");
-            ans.add (row);
-        }
-        ans.get (0).set (size/2, String.valueOf (root.val));
-        dfs (ans, root, 0, size/2, (int) Math.pow (2, level - 2));
+        int h = height (root), w = (int) Math.pow (2, h) - 1;
+        List<String> tuple = new ArrayList<>();
+        for (int c = 0; c < w; c ++) tuple.add ("");
+        for (int r = 0; r < h; r ++) ans.add (new ArrayList<> (tuple));
+        fill (ans, root, 0, 0, w + 1);
         return ans;
     }
 
-    private void dfs (List<List<String>> ans, TreeNode n, int index, int level, int diff) {
+    private void fill (List<List<String>> ans, TreeNode n, int index, int l, int r) {
         if (n == null) return;
-        if (n.left != null) {
-            ans.get (index + 1).set (level - diff, String.valueOf (n.left.val));
-            dfs (ans, n.left, index + 1, level - diff, diff/2);
-        }
-        if (n.right != null) {
-            ans.get (index + 1).set (level + diff, String.valueOf (n.right.val));
-            dfs (ans, n.right, index + 1, level + diff, diff/2);
-        }
+        ans.get (index).set ((l + r)/2 - 1, String.valueOf(n.val));
+        fill (ans, n.left, index + 1, l, (l + r)/2);
+        fill (ans, n.right, index + 1, (l + r + 1)/2, r);
     }
 
     private int height (TreeNode n) {
         if (n == null) return 0;
-        return Math.max (height (n.left), height (n.right)) + 1;
+        return 1 + Math.max (height (n.left), height (n.right));
     }
 
     // driver method
