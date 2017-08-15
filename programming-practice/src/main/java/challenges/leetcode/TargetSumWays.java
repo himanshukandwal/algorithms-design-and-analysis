@@ -37,9 +37,7 @@ import challenges.AbstractCustomTestRunner;
 public class TargetSumWays extends AbstractCustomTestRunner {
 	
 	private static TargetSumWays _instance = new TargetSumWays();
-	
-	private TargetSumWays() {}
-			
+
 	public static int findTargetSumWays(int[] nums, int S) {
         
 		return 0;
