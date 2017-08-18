@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 494. Target Sum
@@ -38,11 +38,31 @@ public class TargetSumWays extends AbstractCustomTestRunner {
 	
 	private static TargetSumWays _instance = new TargetSumWays();
 
-	public static int findTargetSumWays(int[] nums, int S) {
-        
-		return 0;
-    }
-	
+	public int _findTargetSumWays(int[] nums, int S) {
+		return dfs (nums, S, 0);
+	}
+
+	private int dfs (int [] nums, int S, int index) {
+		if (index >= nums.length) return (S == 0 ? 1 : 0);
+		return dfs (nums, S - nums [index], index + 1) + dfs (nums, S + nums [index], index + 1);
+	}
+
+	// another approach
+	public int findTargetSumWays(int[] nums, int s) {
+		int sum = 0;
+		for (int n : nums) sum += n;
+		return sum < s || (s + sum) % 2 > 0 ? 0 : subsetSum(nums, (s + sum) >>> 1);
+	}
+
+	public int subsetSum(int[] nums, int s) {
+		int[] dp = new int[s + 1];
+		dp[0] = 1;
+		for (int n : nums)
+			for (int i = s; i >= n; i--)
+				dp[i] += dp[i - n];
+		return dp[s];
+	}
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 1, 1, 1, 1, 1 }, 3, 5);
