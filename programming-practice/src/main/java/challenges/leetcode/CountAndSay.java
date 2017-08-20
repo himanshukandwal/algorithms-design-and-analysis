@@ -27,35 +27,22 @@ import challenges.AbstractCustomTestRunner;
 public class CountAndSay extends AbstractCustomTestRunner {
 	
 	private static CountAndSay _instance = new CountAndSay();
-	
-	private CountAndSay() {}
-	
+
     public String _countAndSay(int n) {
-        String value = "1";
-        
-        for (int num = 0; num < (n - 1); num ++) {
-            StringBuilder sbInner = new StringBuilder();    
-            
-            Character previousCh = null;
-            int count = 0;
-            for (int idx = 0; idx < value.length(); idx ++) {
-                Character ch = value.charAt(idx);
-                
-                if (previousCh == null) {
-                    count = 1;
-                    previousCh = ch;
-                } else if (previousCh == ch) {
-                    count ++;    
-                } else {
-                    sbInner.append(count + String.valueOf(previousCh));
-                    previousCh = ch;
-                    count = 1;
+        if (n == 0) return "";
+        String count = "1";
+        while (n -- > 1) {
+            String ans = "";
+            for (int idx = 0, c = 0; idx <= count.length(); idx ++) {
+                if (idx == 0 || (idx < count.length () && count.charAt (idx) == count.charAt (idx - 1))) c ++;
+                else {
+                    ans += (c + "" + count.charAt (idx - 1));
+                    c = 1;
                 }
             }
-            value = sbInner.append(count + String.valueOf(previousCh)).toString();
+            count = ans;
         }
-        
-        return value;
+        return count;
     }
 	
     public static void main(String[] args) {
