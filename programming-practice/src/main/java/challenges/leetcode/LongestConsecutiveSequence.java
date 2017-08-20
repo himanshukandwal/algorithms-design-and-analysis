@@ -47,27 +47,16 @@ public class LongestConsecutiveSequence extends AbstractCustomTestRunner {
     }
     
     public int _longestConsecutive(int[] nums) {
-        if (nums.length == 0) return 0;
         Map<Integer, Integer> map = new HashMap<>();
-        Set<Integer> seen = new HashSet<>();
-        int max = 1;
-        
+        for (int num : nums) map.put(num, 1);
+        int max = 0;
         for (int num : nums) {
-            if (seen.contains(num)) continue;
-            
-            if (map.containsKey (num - 1) && map.containsKey (num + 1)) {
-                int sval = map.remove (num - 1);
-                int rval = map.remove (num + 1);
-                map.put (sval, rval);
-                map.put (rval, sval);
-                max = Math.max (max, Math.abs (rval - sval) + 1);   
-            } else if (map.containsKey (num - 1) || map.containsKey (num + 1)) {
-                int val = map.containsKey (num - 1) ? map.remove (num - 1) : map.remove (num + 1);
-                map.put (val, num); 
-                map.put (num, val);
-                max = Math.max (max, Math.abs (num - val) + 1);   
-            } else map.put (num, num);
-            seen.add (num);
+            if (map.containsKey (num)) {
+                int l = num - 1, r = num + 1;
+                while (map.containsKey (l)) { map.remove (l); map.put (num, map.get (num) + 1);  l--; }
+                while (map.containsKey (r)) { map.remove (r); map.put (num, map.get (num) + 1);  r++; }
+                max = Math.max (max, map.get (num));
+            }
         }
         return max;
     }
