@@ -32,15 +32,15 @@ public class HappyNumber extends AbstractCustomTestRunner {
 	private static HappyNumber _instance = new HappyNumber();
 	
 	public boolean _isHappyFloydCycleDetectionAlgorithm(int n) {
-		int slow = sqrtsum (n), fast = sqrtsum (slow);
+		int slow = sqsum (n), fast = sqsum (slow);
         while (fast != slow) {
-            slow = sqrtsum (slow);
-            fast = sqrtsum (sqrtsum (fast));
+            slow = sqsum (slow);
+            fast = sqsum (sqsum (fast));
         }
         return slow == 1;
     }
 
-    private int sqrtsum (int num) {
+    private int sqsum (int num) {
         int sum = 0;
         while (num > 0) {
             sum += (num % 10) * (num % 10);
