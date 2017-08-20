@@ -18,20 +18,14 @@ public class LongestCommonPrefix extends AbstractCustomTestRunner {
 	
 	private static LongestCommonPrefix _instance = new LongestCommonPrefix();
 
-	public String _longestCommonPrefixFast(String[] strs) {
+	public String longestCommonPrefix(String[] strs) {
+		if (strs.length == 0) return "";
 		StringBuilder ans = new StringBuilder();
-        int minLen = Integer.MAX_VALUE;
-        for (String str : strs) minLen = Math.min (minLen, str.length());
-        for (int idx = 0; idx < minLen; idx ++) {
-            Character ch = null;
-            for (String str : strs) {
-                if (ch == null) ch = str.charAt (idx);
-                else if (ch != str.charAt (idx)) { ch = null; break; }
-            }
-            if (ch == null) break;
-            else ans.append (ch);
-        }
-        return ans.toString();
+		for (int idx = 0; idx < strs [0].length(); idx ++) {
+			for (String str : strs) if (idx >= str.length() || str.charAt (idx) != strs [0].charAt (idx)) return ans.toString();
+			ans.append (strs [0].charAt (idx));
+		}
+		return ans.toString();
 	}
 	
 	public String _longestCommonPrefixBetter (String[] strs) {
