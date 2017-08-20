@@ -23,18 +23,17 @@ public class PlusOne extends AbstractCustomTestRunner {
 	private PlusOne() {}
 	
 	public int[] plusOne(int[] digits) {
-        int carry = 0;
-        for (int idx = digits.length - 1; idx >= 0; idx --) {
-            int sum = digits [idx] + (idx == digits.length - 1 ? 1 : 0) + carry;
-            digits [idx] = (sum % 10);
-            carry = sum / 10;
-            if (carry == 0) return digits;
-        }
-        int [] answer = new int [digits.length + 1];
-        answer [0] = carry;
-        
-        for (int idx = 1; idx < answer.length; idx ++) answer [idx] = digits [idx - 1];
-        return answer;
+		int n = digits.length;
+		for (int idx = n - 1; idx >= 0; idx --) {
+			if (digits [idx] < 9) {
+				digits [idx] ++;
+				return digits;
+			}
+			digits [idx] = 0;
+		}
+		int [] ans = new int [n + 1];
+		ans [0] = 1;
+		return ans;
     }
     
 	// driver method
