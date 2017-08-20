@@ -19,23 +19,16 @@ public class FactorialTrailingZeroes extends AbstractCustomTestRunner {
 	
 	private static FactorialTrailingZeroes _instance = new FactorialTrailingZeroes();
 	
-	private FactorialTrailingZeroes() {}
-	
 	public static int _trailingZeroes(int n) {
-		int count = 0, pow = 1;
-		
-		while (n / Math.pow(5, pow) > 0)
-			count += (n / Math.pow(5, pow ++));
-		
-		return count;
+		int ans = 0, pow = 1;
+		while (n / Math.pow (5, pow) > 0) ans += n / Math.pow (5, pow ++);
+		return ans;
     }
 	
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(1, 0);
 		_instance.runTest(2, 0);
-		_instance.runTest(5, 1);
-		_instance.runTest(10, 2);
 		_instance.runTest(15, 3);
 		_instance.runTest(30, 7);
 	}
