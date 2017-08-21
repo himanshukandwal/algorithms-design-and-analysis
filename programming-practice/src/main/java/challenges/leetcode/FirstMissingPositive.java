@@ -22,17 +22,15 @@ public class FirstMissingPositive extends AbstractCustomTestRunner {
 	private static FirstMissingPositive _instance = new FirstMissingPositive();
 	
 	public int _firstMissingPositive(int[] nums) {
-		if (nums.length == 0) return 1;
-        for (int num : nums) {
-            while (num <= nums.length && num > 0 && nums [num - 1] != num) {
-                int val = nums [num - 1]; 
-                nums [num - 1] = num;
-                num = val;
-            }
-        }
-        
-        for (int idx = 0; idx < nums.length; idx ++) if (nums [idx] != idx + 1) return idx + 1;
-        return nums.length + 1;
+		for (int num : nums) {
+			while (num <= nums.length && num > 0 && nums [num - 1] != num) {
+				int val = nums [num - 1];
+				nums [num - 1] = num;
+				num = val;
+			}
+		}
+		for (int idx = 0; idx < nums.length; idx ++) if (nums [idx] != idx + 1) return idx + 1;
+		return nums.length + 1;
     }
 	
 	// driver method
