@@ -26,45 +26,18 @@ import challenges.AbstractCustomTestRunner;
 public class FindAllNumbersDisappearedInAnArray extends AbstractCustomTestRunner {
 	
 	private static FindAllNumbersDisappearedInAnArray _instance = new FindAllNumbersDisappearedInAnArray();
-	
-	private FindAllNumbersDisappearedInAnArray() {}
-	
-	// time complexity : O(nlogn)
-    public static List<Integer> findDisappearedNumbers(int[] nums) {
-    	List<Integer> ans = new ArrayList<>();
-    	Arrays.sort(nums);
-    	
-    	int num1 = 0, num2 = -1;
-    	for (int idx = 0; idx < nums.length; idx ++) { 
-    		num2 = nums [idx];
-			while (num2 - num1 > 1) ans.add(++ num1);
-			num1 = nums [idx];
-		}
-    	
-    	num2 = nums.length; 
-    	while (num2 - num1 >= 1) ans.add(++ num1);  
-    	
-    	return ans;
-    }
-	
-    // cuckoo hashing method.
+
     public static List<Integer> findDisappearedNumbersCuckoo(int[] nums) {
-    	List<Integer> ans = new ArrayList<>();
-    	
-    	for (int idx = 0; idx < nums.length; idx ++) { 
-    		int oIdx = nums [idx] - 1;
-    		
-    		while (oIdx >= 0 && nums [oIdx] >= 0) { 
-    			int nIdx = nums [oIdx] - 1; 
-    			nums [oIdx] = 0; 
-    			oIdx = nIdx; 
-    		}
+		List<Integer> ans = new ArrayList<>();
+		for (int num : nums) {
+			while (nums [num - 1] != num) {
+				int val = nums [num - 1];
+				nums [num - 1] = num;
+				num = val;
+			}
 		}
-    	
-    	for (int idx = 0; idx < nums.length; idx ++) 
-    		if (nums [idx] != 0) ans.add(idx + 1);
-    	
-    	return ans;
+		for (int idx = 0; idx < nums.length; idx ++) if (nums [idx] != idx + 1) ans.add (idx + 1);
+		return ans;
     }
     
     /**
@@ -73,18 +46,14 @@ public class FindAllNumbersDisappearedInAnArray extends AbstractCustomTestRunner
      * Negate each number while traversing, Run again and find the index that is not negated.
      */
     public static List<Integer> _findDisappearedNumbersNegation(int[] nums) {
-        List<Integer> result = new ArrayList<Integer>();
-        
+        List<Integer> result = new ArrayList<>();
         for (int i = 0; i < nums.length; i ++) {
             int index = nums [i];
             if (nums [Math.abs(index) - 1] > 0)  nums [Math.abs(index) - 1] = - nums [Math.abs(index) - 1];
         } 
         
-        for (int j = 1; j <= nums.length; j ++)
-            if (nums [j - 1] > 0) result.add (j);
-        
+        for (int j = 1; j <= nums.length; j ++) if (nums [j - 1] > 0) result.add (j);
         return result;
-        
     }
     
 	// driver method
