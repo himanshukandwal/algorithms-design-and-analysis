@@ -24,10 +24,8 @@ public class FindTheCelebrity extends AbstractCustomTestRunner {
 
 	public int findCelebrity(int n) {
         int celeb = 0;
-        for (int idx = 1; idx < n; idx ++)
-            if (knows (celeb, idx)) celeb = idx;
-        for (int idx = 0; idx < n; idx ++)
-            if (idx != celeb && (knows (celeb, idx) || !knows (idx, celeb))) return -1;
+        for (int idx = 1; idx < n; idx ++) if (knows (celeb, idx)) celeb = idx;
+        for (int idx = 0; idx < n; idx ++) if (idx != celeb && (knows (celeb, idx) || !knows (idx, celeb))) return -1;
         return celeb;
     }
 
