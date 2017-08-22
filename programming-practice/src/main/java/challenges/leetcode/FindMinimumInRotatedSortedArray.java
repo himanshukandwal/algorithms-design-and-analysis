@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 153. Find Minimum in Rotated Sorted Array Add to List
@@ -31,7 +31,25 @@ public class FindMinimumInRotatedSortedArray extends AbstractCustomTestRunner {
         }
         return nums [start];
     }
-	
+
+	public int findMin(int[] nums) {
+		int l = 0, r = nums.length - 1;
+		while (l <= r) {
+			int m = (l + r) >>> 1;
+			if ((m == 0 || nums [ m - 1] > nums [m]) && (m + 1 == nums.length || nums [m + 1] > nums [m])) return nums [m];
+			else {
+				if (nums [m] > nums [l]) {
+					if (nums [l] > nums [r]) l = m + 1;
+					else r = m - 1;
+				} else {
+					if (nums [r] > nums [m]) r = m - 1;
+					else l = m + 1;
+				}
+			}
+		}
+		return -1;
+	}
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 1, 2 }, 1);
