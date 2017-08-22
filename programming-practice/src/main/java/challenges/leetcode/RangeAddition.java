@@ -33,30 +33,13 @@ import challenges.AbstractCustomTestRunner;
 public class RangeAddition extends AbstractCustomTestRunner {
 
     public int[] getModifiedArrayBetter(int length, int[][] updates) {
-        if (length == 0) return new int [] {};
-        int [] ans = new int [length];
-        
-        for (int[] update : updates) {
-            ans [update [0]] += update [2];
-            if (update [1] + 1 < length) ans [update [1] + 1] += -update [2];
+        int [] nums = new int [length];
+        for (int [] u : updates) {
+            nums [u [0]] += u [2];
+            if (u [1] + 1 < nums.length) nums [u [1] + 1] -= u [2];
         }
-        int sum = 0;
-        for (int idx = 0; idx < length; idx ++) {
-            ans [idx] = sum + ans [idx];
-            sum = ans [idx];
-        }
-            
-        return ans;
+        for (int idx = 1; idx < nums.length; idx ++) nums [idx] += nums [idx - 1];
+        return nums;
     }
-    
-	// initial idea, time consuming (if have to apply same operation on all elements) 
-	public int[] getModifiedArray(int length, int[][] updates) {
-        if (length == 0) return new int [] {};
-        int [] answer = new int [length];
-        for (int[] update : updates)
-            for (int idx = update [0]; idx <= update [1] && idx < length; idx ++)
-                answer [idx] += update [2];
-        return answer;
-    }
-	
+
 }
