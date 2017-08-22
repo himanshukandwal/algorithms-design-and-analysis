@@ -22,7 +22,6 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 public class FindAllNumbersDisappearedInAnArray extends AbstractCustomTestRunner {
 	
 	private static FindAllNumbersDisappearedInAnArray _instance = new FindAllNumbersDisappearedInAnArray();
@@ -59,8 +58,8 @@ public class FindAllNumbersDisappearedInAnArray extends AbstractCustomTestRunner
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 }, new ArrayList() {{ add(5); add(6); }});
-		_instance.runTest(new int[] { 1, 1 }, new ArrayList() {{ add(2); }});
-		_instance.runTest(new int[] { 2, 2 }, new ArrayList() {{ add(1); }});
+		_instance.runTest(new int[] { 1, 1 }, Arrays.asList (2));
+		_instance.runTest(new int[] { 2, 2 }, Arrays.asList (1));
 	}
 
 	public void runTest(final int[] nums, final List<Integer> expectedOutput) {
