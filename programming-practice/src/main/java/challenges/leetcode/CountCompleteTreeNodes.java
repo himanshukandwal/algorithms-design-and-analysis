@@ -36,4 +36,17 @@ public class CountCompleteTreeNodes extends AbstractCustomTestRunner {
                                                          : (1 << h - 1) + countNodes (root.left));
     }
 
+    // another approach
+    public int _countNodes(TreeNode root) {
+        if (root == null) return 0;
+        int ans = 1, l = h (root.left), r = h (root.right);
+        if (l == r) ans += ((1 << l) - 1) + countNodes (root.right);
+        else ans += ((1 << r) - 1) + countNodes (root.left);
+        return ans;
+    }
+
+    private int h (TreeNode n) {
+        return n == null ? 0 : 1 + h (n.left);
+    }
+
 }
