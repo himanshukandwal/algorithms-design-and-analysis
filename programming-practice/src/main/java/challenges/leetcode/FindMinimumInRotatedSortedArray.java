@@ -21,6 +21,7 @@ public class FindMinimumInRotatedSortedArray extends AbstractCustomTestRunner {
 	private static FindMinimumInRotatedSortedArray _instance = new FindMinimumInRotatedSortedArray();
 
 	// always look toward the unsorted array.
+	// solve for one hand side, bring other equal to mid.
 	public int _findMin(int[] nums) {
         int start = 0, end = nums.length - 1;
         while (start < end) {
