@@ -1,11 +1,11 @@
 package challenges.leetcode;
 
+import challenges.AbstractCustomTestRunner;
+
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import challenges.AbstractCustomTestRunner;
 
 /**
  * 244. Shortest Word Distance II
@@ -28,28 +28,20 @@ import challenges.AbstractCustomTestRunner;
  */
 public class ShortestWordDistanceII extends AbstractCustomTestRunner {
 
-	Map<String, List<Integer>> cache = new HashMap<>();
+	private Map<String, List<Integer>> map = new HashMap<>();
 
-	public ShortestWordDistanceII(String[] words) {
-		for (int idx = 0; idx < words.length; idx++) {
-			cache.putIfAbsent(words[idx], new LinkedList<>());
-			cache.get(words[idx]).add(idx);
-		}
+	public ShortestWordDistanceII (String[] words) {
+		for (int idx = 0; idx < words.length; idx ++) map.computeIfAbsent (words [idx], k -> new ArrayList<>()).add (idx);
 	}
 
 	public int shortest(String word1, String word2) {
-		int p1 = 0, p2 = 0, distance = Integer.MAX_VALUE;
-		List<Integer> l1 = cache.get(word1);
-		List<Integer> l2 = cache.get(word2);
-
-		while (p1 < l1.size() && p2 < l2.size()) {
-			distance = Math.min(distance, Math.abs(l1.get(p1) - l2.get(p2)));
-			if (l1.get(p1) < l2.get(p2))
-				p1++;
-			else
-				p2++;
+		List<Integer> l1 = map.get (word1), l2 = map.get (word2);
+		int d = Integer.MAX_VALUE, idx1 = 0, idx2 = 0;
+		while (idx1 < l1.size() && idx2 < l2.size()) {
+			d = Math.min (d, Math.abs (l1.get (idx1) - l2.get (idx2)));
+			if (l1.get (idx1) > l2.get (idx2)) idx2 ++; else idx1 ++;
 		}
-		return distance;
+		return d;
 	}
 
 }
