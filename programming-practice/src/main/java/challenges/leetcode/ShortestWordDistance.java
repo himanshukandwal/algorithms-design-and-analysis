@@ -25,38 +25,20 @@ import challenges.AbstractCustomTestRunner;
 public class ShortestWordDistance extends AbstractCustomTestRunner {
 	
 	private static ShortestWordDistance _instance = new ShortestWordDistance();
-    
-	// more clean approach (always find difference and keep updating the index pointer with occurences, no late processing, then and there itself)
-	public int shortestDistance(String[] words, String word1, String word2) {
-		int p1 = -1, p2 = -1, distance = Integer.MAX_VALUE;
-		
-        for (int idx = 0; idx < words.length; idx ++) {
-            String word = words [idx];
-            if (word.equals(word1))  p1 = idx;
-            if (word.equals(word2))  p2 = idx;
-            
-            if (p1 != -1 && p2 != -1)
-                distance = Math.min (distance, Math.abs (p1 - p2));
+
+	public int shortestDistance(String[] w, String w1, String w2) {
+        int d = w.length;
+        String prev = null;
+        for (int idx = 0, start = -1; idx < w.length; idx ++) {
+            if (w [idx].equals (w1) || w [idx].equals (w2)) {
+                if (prev != null && !prev.equals (w [idx])) d = Math.min (d, idx - start);
+                start = idx;
+                prev = w [idx];
+            }
         }
-        
-        return distance;  
+        return d;
 	}
-	
-    public int _shortestDistance(String[] words, String word1, String word2) {
-    	int distance = Integer.MAX_VALUE;
-        
-        Map <String, List<Integer>> map = new HashMap<>();
-        for (int idx = 0; idx < words.length; idx ++) {
-            map.putIfAbsent (words [idx], new ArrayList<>());
-            map.get(words [idx]).add(idx);
-        }
-        
-        for (Integer a : map.get (word1))
-            for (Integer b : map.get (word2))
-                distance = Math.min (distance, Math.abs (a - b));
-        return distance;
-    }
-    
+
    	// driver method
    	public static void main(String[] args) {
 		_instance.runTest(new String [] { "practice", "makes", "perfect", "coding", "makes" }, "coding", "practice", 3);
