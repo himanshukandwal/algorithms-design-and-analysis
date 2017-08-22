@@ -24,23 +24,17 @@ import challenges.AbstractCustomTestRunner;
 public class ShortestWordDistanceIII extends AbstractCustomTestRunner {
 
 	// increment in hopping fashion when same, else usual process.
-	public int shortestWordDistance(String[] words, String word1, String word2) {
-        int p1 = -1, p2 = -1, distance = Integer.MAX_VALUE;
-        boolean areSame = word1.equals (word2);
-        
-        for (int idx = 0; idx < words.length; idx ++) {
-            String word = words [idx];
-            if (word.equals (word1)) {
-                if (areSame) { 
-                    int t = p2; p2 = idx; p1 = t;
-                } else p1 = idx;
-            } 
-            if (word.equals (word2) && !areSame) p2 = idx;
-            
-            if (p1 != -1 && p2 != -1)
-                distance = Math.min (distance, Math.abs (p1 - p2));
+	public int shortestWordDistance(String[] w, String w1, String w2) {
+        int d = w.length;
+        String prev = null;
+        for (int idx = 0, start = 0; idx < w.length; idx ++) {
+            if (w [idx].equals (w1) || w [idx].equals (w2)) {
+                if (prev != null && (w1.equals (w2) || !prev.equals (w [idx]))) d = Math.min (d, idx - start);
+                start = idx;
+                prev = w [idx];
+            }
         }
-        return distance;
+        return d;
     }
 	
 }
