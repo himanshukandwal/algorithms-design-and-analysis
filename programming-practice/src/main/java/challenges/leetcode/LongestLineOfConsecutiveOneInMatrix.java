@@ -53,6 +53,41 @@ public class LongestLineOfConsecutiveOneInMatrix extends AbstractCustomTestRunne
         return dp [row][col][idx] = count;
     }
 
+    // another approach
+    public int longestLine(int[][] m) {
+        if (m.length == 0) return 0;
+        int ans = 0;
+        for (int r = 0; r < m.length; r ++) {
+            for (int c = 0; c < m [0].length; c ++) {
+                if (m [r][c] == 1) {
+                    int local = 0, a = 0, rw = r, cw = c;
+                    if (c == 0 || m [r][c - 1] == 0) {
+                        a = 0; cw = c;
+                        while (cw < m [0].length && m [r][cw] == 1) { cw ++; a ++; }
+                        local = Math.max (local, a);
+                    }
+                    if (r == 0 || m [r - 1][c] == 0) {
+                        a = 0; rw = r;
+                        while (rw < m.length && m [rw][c] == 1) { rw ++; a ++; }
+                        local = Math.max (local, a);
+                    }
+                    if (r == 0 || c == 0 || m [r - 1][c - 1] == 0) {
+                        a = 0; rw = r; cw = c;
+                        while (rw < m.length && cw < m [0].length && m [rw][cw] == 1) { rw ++; cw ++; a ++; }
+                        local = Math.max (local, a);
+                    }
+                    if (r == 0 || c + 1 >= m [0].length || m [r - 1][c + 1] == 0)  {
+                        a = 0; rw = r; cw = c;
+                        while (rw < m.length && cw >= 0 && m [rw][cw] == 1) { rw ++; cw --; a ++; }
+                        local = Math.max (local, a);
+                    }
+                    ans = Math.max (ans, local);
+                }
+            }
+        }
+        return ans;
+    }
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [][] { new int [] { 0, 1, 1, 0 },

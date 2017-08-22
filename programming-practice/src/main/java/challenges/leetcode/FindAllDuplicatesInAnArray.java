@@ -3,6 +3,7 @@ package challenges.leetcode;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -21,30 +22,41 @@ import challenges.AbstractCustomTestRunner;
  *  
  * @author Hxkandwal
  */
-@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class FindAllDuplicatesInAnArray extends AbstractCustomTestRunner {
 	
 	private static FindAllDuplicatesInAnArray _instance = new FindAllDuplicatesInAnArray();
-	
-	private FindAllDuplicatesInAnArray() {}
-	
+
 	public List<Integer> _findDuplicates(int[] nums) {
 		List<Integer> ans = new ArrayList<>();
 		
     	for (int idx = 0; idx < nums.length; idx ++) {
-    		int iidx = nums [idx];
-    		if (nums [Math.abs(iidx) - 1] > 0) 
-    			nums [Math.abs(iidx) - 1] = -nums [Math.abs(iidx) - 1];
-    		else 
-    			ans.add(Math.abs(iidx));
+    		int val = nums [idx];
+    		if (nums [Math.abs (val) - 1] > 0) nums [Math.abs (val) - 1] = -nums [Math.abs (val) - 1];
+    		else ans.add (Math.abs (val));
 		}
         
     	return ans;
     }
+
+    // find duplicates : swap, else like find missing elements : directly put. (Similar : set mismatch)
+	public List<Integer> findDuplicates(int[] nums) {
+		List<Integer> ans = new ArrayList<>();
+		for (int idx = 0; idx < nums.length; idx ++) {
+			int num = nums [idx];
+			while (nums [num - 1] != num) {
+				int val = nums [num - 1];
+				nums [num - 1] = num;
+				nums [idx] = val;
+				num = val;
+			}
+		}
+		for (int idx = 0; idx < nums.length; idx ++) if (nums [idx] != idx + 1) ans.add (nums [idx]);
+		return ans;
+	}
     
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int [] { 4, 3, 2, 7, 8, 2, 3, 1 }, new ArrayList() {{ add(2); add(3); }});
+		_instance.runTest(new int [] { 4, 3, 2, 7, 8, 2, 3, 1 }, Arrays.asList (2, 3));
 	}
 
 	public void runTest(final int[] nums, final List<Integer> expectedOutput) {
