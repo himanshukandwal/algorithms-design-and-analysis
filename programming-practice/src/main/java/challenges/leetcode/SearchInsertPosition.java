@@ -27,8 +27,6 @@ import challenges.AbstractCustomTestRunner;
 public class SearchInsertPosition extends AbstractCustomTestRunner {
 	
 	private static SearchInsertPosition _instance = new SearchInsertPosition();
-	
-	private SearchInsertPosition() {}
 
     public int _searchInsert(int[] nums, int target) {
     	int left = 0, right = nums.length - 1;
