@@ -1,7 +1,5 @@
 package challenges.leetcode;
 
-import java.util.Stack;
-
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -27,20 +25,18 @@ public class KthSmallestElementInBST extends AbstractCustomTestRunner {
 	}
 
 	public int kthSmallest(TreeNode root, int k) {
-        Stack<TreeNode> bstk = new Stack<>();
-        int smallest = 0;
-        TreeNode node = root;
-        
-        while (node != null) {
-            while (node != null) {  bstk.push (node);  node = node.left; }    
-            smallest ++; node = bstk.pop();
-            
-            if (smallest == k) return node.val;
-            while (node.right == null && !bstk.isEmpty()) { 
-                node = bstk.pop(); smallest ++; 
-                if (smallest == k) return node.val;
+        TreeNode n = root;
+        while (n != null) {
+            if (n.left == null) { if (k == 1) return n.val; k --; n = n.right; continue; }
+            TreeNode pre = n.left;
+            while (pre.right != null && pre.right != n) pre = pre.right;
+            if (pre.right == null) {
+                pre.right = n;
+                n = n.left;
+            } else {
+                pre.right = null;
+                if (k == 1) return n.val; k --; n = n.right;
             }
-            node = node.right;
         }
         return 0;
     }
