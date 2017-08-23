@@ -25,9 +25,7 @@ import challenges.AbstractCustomTestRunner;
 public class SearchInRotatedSortedArrayII extends AbstractCustomTestRunner {
 	
 	private static SearchInRotatedSortedArrayII _instance = new SearchInRotatedSortedArrayII();
-	
-	private SearchInRotatedSortedArrayII() {}
-	
+
 	// try to move away from plateaus
     public boolean _search(int[] nums, int target) {
     	int low = 0, high = nums.length - 1;
