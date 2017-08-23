@@ -21,10 +21,10 @@ public class ArrangingCoins extends AbstractCustomTestRunner {
     private static ArrangingCoins _instance = new ArrangingCoins();
     
     // method 1 : regular hill climbing method.
-    public static long _arrangeCoin(int coin) {
-    	int steps = 0;
-        while ((coin -= steps) > 0) steps ++;
-        return coin < 0 ? --steps : steps;
+    public static long _arrangeCoin(int n) {
+        int step = 0;
+        while ((step + 1) <= n) n-= ++ step;
+        return step;
     }
 
     // method 2 : faster
