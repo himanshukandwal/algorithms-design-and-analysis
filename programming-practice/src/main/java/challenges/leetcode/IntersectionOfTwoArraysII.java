@@ -22,9 +22,9 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  *
  */
-public class IntersectionOfTwoArrays2 extends AbstractCustomTestRunner {
+public class IntersectionOfTwoArraysII extends AbstractCustomTestRunner {
 	
-	private static IntersectionOfTwoArrays2 _instance = new IntersectionOfTwoArrays2();
+	private static IntersectionOfTwoArraysII _instance = new IntersectionOfTwoArraysII();
 
 	public int[] _intersection(int[] nums1, int[] nums2) {
 		Arrays.sort (nums1);
