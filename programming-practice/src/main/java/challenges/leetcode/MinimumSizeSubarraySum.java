@@ -16,15 +16,15 @@ import challenges.AbstractCustomTestRunner;
 public class MinimumSizeSubarraySum extends AbstractCustomTestRunner {
 	
     public int _minSubArrayLen(int s, int[] nums) {
-    	int min = Integer.MAX_VALUE, localsum = 0;
-        for (int idx = 0, start = 0; idx < nums.length; idx ++) {
-            localsum = Math.max (nums [idx], localsum + nums [idx]);
-            while (localsum >= s) {
-                min = Math.min (min, idx - start + 1);
-                localsum -= nums [start ++];
+        int ans = Integer.MAX_VALUE;
+        for (int idx = 0, start = 0, sum = 0; idx < nums.length; idx ++) {
+            sum += nums [idx];
+            while (sum >= s) {
+                ans = Math.min (ans,  idx - start + 1);
+                sum -= nums [start ++];
             }
         }
-        return (min == Integer.MAX_VALUE) ? 0 : min;
+        return ans == Integer.MAX_VALUE ? 0 : ans;
     }
 
 }
