@@ -63,7 +63,29 @@ public class BasicCalculatorII extends AbstractCustomTestRunner {
 		
 		return re;
     }
-	
+
+	public int _calculateBetter(String s) {
+		int num = 0;
+		char prevCh = ' ';
+		Stack<Integer> stack = new Stack <>();
+		for (int idx = 0; idx <= s.length (); idx ++) {
+			char c = idx == s.length () ? '#' : s.charAt (idx);
+			if (c == ' ') continue;
+			if (c >= '0' && c <= '9') num = 10 * num + (c - '0');
+			else {
+				if (prevCh == '*' || prevCh == '/') {
+					int prev = stack.pop ();
+					stack.push ((prevCh == '*') ? prev * num : prev / num);
+				} else stack.push (prevCh == '-' ? -num : num);
+				num = 0;
+				if (c == '#') {
+					while (stack.size() > 1) stack.push (stack.pop () + stack.pop());
+				} else prevCh = c;
+			}
+		}
+		return stack.pop ();
+	}
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("1 + 1", 2);
