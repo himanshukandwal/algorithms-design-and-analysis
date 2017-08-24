@@ -35,17 +35,17 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
 
 	// Binary Search method.
 	public int _kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length, lo = matrix[0][0], hi = matrix[n - 1][n - 1] + 1;//[lo, hi]
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2;
-            int count = 0,  j = n - 1;
+        int n = matrix.length, l = matrix[0][0], r = matrix[n - 1][n - 1] + 1;//[lo, hi]
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            int count = 0, j = n - 1;
 			for (int i = 0; i < n; i++) {
-				while (j >= 0 && matrix[i][j] > mid) j--;
+				while (j >= 0 && matrix[i][j] > m) j--;
 				count += (j + 1);
 			}
-            if (count < k) lo = mid + 1; else hi = mid;
+            if (count < k) l = m + 1; else r = m;
         }
-        return lo;	
+        return l;
     }
 	
 	// Heap way (better) : O (n^2logk) as here n is one dimention of the matrix and in worst case where k = n^2, we have to put (n items, as poll is also there) in heap.
