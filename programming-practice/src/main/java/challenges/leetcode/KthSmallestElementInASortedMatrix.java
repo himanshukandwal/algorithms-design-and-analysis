@@ -35,12 +35,12 @@ public class KthSmallestElementInASortedMatrix extends AbstractCustomTestRunner 
 
 	// Binary Search method.
 	public int _kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length, l = matrix[0][0], r = matrix[n - 1][n - 1] + 1;//[lo, hi]
+        int n = matrix.length, l = matrix[0][0], r = matrix[n - 1][n - 1] + 1;
         while (l < r) {
             int m = l + (r - l) / 2;
             int count = 0, j = n - 1;
 			for (int i = 0; i < n; i++) {
-				while (j >= 0 && matrix[i][j] > m) j--;
+				while (j >= 0 && matrix [i][j] > m) j --;
 				count += (j + 1);
 			}
             if (count < k) l = m + 1; else r = m;
