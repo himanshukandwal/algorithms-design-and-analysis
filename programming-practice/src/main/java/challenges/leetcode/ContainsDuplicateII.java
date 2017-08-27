@@ -1,6 +1,8 @@
 package challenges.leetcode;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import challenges.AbstractCustomTestRunner;
@@ -16,6 +18,15 @@ import challenges.AbstractCustomTestRunner;
 public class ContainsDuplicateII extends AbstractCustomTestRunner {
 	
 	private static ContainsDuplicateII _instance = new ContainsDuplicateII();
+
+    public boolean _containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int idx = 0; idx < nums.length; idx ++) {
+            if (map.containsKey (nums [idx]) && idx - map.get (nums [idx]) <= k) return true;
+            map.put (nums [idx], idx);
+        }
+        return false;
+    }
 
 	public boolean containsNearbyDuplicate(int[] nums, int k) {
 		Set<Integer> set = new HashSet<>();
