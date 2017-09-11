@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -45,6 +46,9 @@ public class SearchInRotatedSortedArrayII extends AbstractCustomTestRunner {
                 }
     		}
          }
+         List<String> ans = new ArrayList<>();
+        ans.add ("a");
+        System.out.println(ans.toArray().length);
         return false;
     }
 
