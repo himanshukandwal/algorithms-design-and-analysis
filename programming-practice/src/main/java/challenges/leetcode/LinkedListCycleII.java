@@ -17,16 +17,12 @@ import challenges.AbstractCustomTestRunner;
 public class LinkedListCycleII extends AbstractCustomTestRunner {
 	
 	private static LinkedListCycleII _instance = new LinkedListCycleII();
-	
-	private LinkedListCycleII() {}
-	
+
 	public static class ListNode {
 		int val;
 		ListNode next;
 		
-		public ListNode(int x) { val = x; next = null; } 
-		
-		public String toString() { return String.valueOf(val); }
+		public ListNode(int x) { val = x; next = null; }
 	}
 	
 	// works perfectly.
