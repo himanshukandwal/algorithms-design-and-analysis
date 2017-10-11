@@ -26,7 +26,6 @@ import challenges.AbstractCustomTestRunner;
  * 
  * @author Hxkandwal
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class PermutationsII extends AbstractCustomTestRunner {
 	
 	private static PermutationsII _instance = new PermutationsII();
@@ -64,16 +63,14 @@ public class PermutationsII extends AbstractCustomTestRunner {
     
 	// driver method
 	public static void main(String[] args) {
-		_instance.runTest(new int[] { 1, 1, 2 }, new ArrayList() {{ add (new ArrayList() {{ add (1); add (1); add (2); }});
-												   					add (new ArrayList() {{ add (1); add (2); add (1); }});
-												   					add (new ArrayList() {{ add (2); add (1); add (1); }}); }});
+		_instance.runTest(new int[] { 1, 1, 2 }, Arrays.asList(Arrays.asList(1, 1, 2), Arrays.asList(1, 2, 1), Arrays.asList(2, 1, 1)));
 	}
 
-	public void runTest(final int[] nums, final List<List<String>> expectedOutput) {
+	public void runTest(final int[] nums, final List<List<Integer>> expectedOutput) {
 		List<Object> answers = runAll(getClass(), new Object[] { nums });
 
 		for (Object answer : answers)
-			assertThat((List<List<String>>) answer).isEqualTo(expectedOutput);
+			assertThat((List<List<Integer>>) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
 	}    
