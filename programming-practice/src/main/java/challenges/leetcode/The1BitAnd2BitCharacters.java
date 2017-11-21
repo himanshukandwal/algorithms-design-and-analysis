@@ -36,8 +36,6 @@ import static com.google.common.truth.Truth.assertThat;
  */
 public class The1BitAnd2BitCharacters extends AbstractCustomTestRunner {
 
-    private static The1BitAnd2BitCharacters _instance = new The1BitAnd2BitCharacters();
-
     public boolean isOneBitCharacter(int[] bits) {
         boolean isOb = false;
         for (int idx = 0; idx < bits.length; idx ++) {
@@ -45,21 +43,5 @@ public class The1BitAnd2BitCharacters extends AbstractCustomTestRunner {
             if (!isOb) idx ++;
         }
         return isOb;
-    }
-
-
-    // driver method
-    public static void main(String[] args) {
-        _instance.runTest(new int [] { -1, 3, 2, 0 }, true);
-        _instance.runTest(new int [] { 3, 1, 4, 2 }, true);
-    }
-
-    public void runTest(final int[] nums, final boolean expectedOutput) {
-        List<Object> answers = runAll(getClass(), new Object[] { nums });
-
-        for (Object answer : answers)
-            assertThat((Boolean) answer).isEqualTo(expectedOutput);
-
-        System.out.println("ok!");
     }
 }
