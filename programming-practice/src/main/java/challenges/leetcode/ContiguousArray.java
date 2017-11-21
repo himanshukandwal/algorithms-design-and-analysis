@@ -2,6 +2,9 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 525. Contiguous Array
  *
@@ -25,7 +28,15 @@ import challenges.AbstractCustomTestRunner;
  */
 public class ContiguousArray extends AbstractCustomTestRunner {
 
-    private static ContiguousArray _instance = new ContiguousArray();
-
+    public int findMaxLength(int[] nums) {
+        int ans = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put (0, -1);
+        for (int idx = 0, count = 0; idx < nums.length; idx ++) {
+            count += (nums [idx] == 0 ? -1 : 1);
+            if (map.containsKey (count)) ans = Math.max (ans, idx - map.get (count)); else map.put (count, idx);
+        }
+        return ans;
+    }
 
 }
