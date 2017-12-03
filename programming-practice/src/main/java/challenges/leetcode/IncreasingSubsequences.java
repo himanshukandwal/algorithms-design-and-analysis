@@ -81,12 +81,11 @@ public class IncreasingSubsequences extends AbstractCustomTestRunner {
    																  Arrays.asList(7, 7), Arrays.asList(4, 7, 7), Arrays.asList(6, 7, 7), Arrays.asList(4, 6, 7, 7)));
    	}
 
-   	@SuppressWarnings("unchecked")
 	public void runTest(final int[] nums, final List<List<Integer>> expectedOutput) {
    		List<Object> answers = runAll(getClass(), new Object[] { nums });
 
    		for (Object answer : answers)
-   				assertThat((List<List<Integer>>) answer).isEqualTo(expectedOutput);
+   				assertThat((List) answer).isEqualTo(expectedOutput);
 
    		System.out.println("ok!");
    	}
