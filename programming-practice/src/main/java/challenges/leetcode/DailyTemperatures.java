@@ -10,7 +10,7 @@ import java.util.Stack;
 import static com.google.common.truth.Truth.assertThat;
 
 /**
- * 739. Daily Temperatures My SubmissionsBack to Contest
+ * 739. Daily Temperatures
  *
  * Given a list of daily temperatures, produce a list that, for each day in the input, tells you how many days you would have to wait until a warmer temperature.
  * If there is no future day for which this is possible, put 0 instead.
