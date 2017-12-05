@@ -33,6 +33,7 @@ import static com.google.common.truth.Truth.assertThat;
  * 1) 1 <= len(bits) <= 1000.
  * 2) bits[i] is always 0 or 1.
  *
+ * @author Hxkandwal
  */
 public class The1BitAnd2BitCharacters extends AbstractCustomTestRunner {
 
