@@ -3,9 +3,7 @@ package challenges.leetcode;
 import challenges.AbstractCustomTestRunner;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -41,29 +39,16 @@ public class DistributeCandies extends AbstractCustomTestRunner {
     private static DistributeCandies _instance = new DistributeCandies();
 
     public int _distributeCandies(int[] candies) {
-        int b = 0, s = 0, ans = 0;
-        for (int idx = 0, lsum = 1; idx < candies.length; idx ++) {
-            if (idx + 1 < candies.length && candies [idx] == candies [idx + 1]) lsum ++;
-            else {
-                int share = lsum / 2;
-                if (b >= s) {
-                    s += (lsum - share);
-                    b += share;
-                    ans ++;
-                } else {
-                    s += share;
-                    b += (lsum - share);
-                    if (share > 0) ans ++;
-                }
-
-                lsum = 1;
-            }
-        }
-        return ans;
+        Arrays.sort (candies);
+        int ans = 1;
+        for (int idx = 1; idx < candies.length; idx ++)
+            if (candies [idx] != candies [idx - 1]) ans ++;
+        return Math.min (ans, candies.length / 2);
     }
 
     // driver method
     public static void main(String[] args) {
+        _instance.runTest(new int [] { 1000, 1, 1, 1 }, 2);
         _instance.runTest(new int [] { 1, 1, 2, 3 }, 2);
         _instance.runTest(new int [] { 0, 0, 0, 4 }, 2);
         _instance.runTest(new int [] { 1, 1, 1, 1, 2, 2, 2, 3, 3, 3 }, 3);
