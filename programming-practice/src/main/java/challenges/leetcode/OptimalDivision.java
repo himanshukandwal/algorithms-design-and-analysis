@@ -35,7 +35,7 @@ import static com.google.common.truth.Truth.assertThat;
  *  -   Elements in the given array will be in range [2, 1000].
  *  -   There is only one optimal division for each test case.
  *
- * Created by Hxkandwal
+ * @author Hxkandwal
  */
 public class OptimalDivision extends AbstractCustomTestRunner {
 
