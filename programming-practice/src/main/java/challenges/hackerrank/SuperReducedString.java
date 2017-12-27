@@ -34,26 +34,13 @@ public class SuperReducedString extends AbstractCustomTestRunner {
 	
 	private static SuperReducedString _instance = new SuperReducedString();
 	
-	private SuperReducedString() {}
-	
-	public static String _superReduce(String input) {
-		StringBuilder sb = new StringBuilder();
-	      
-        int sbIdx = -1;
-        for (int idx = 0; idx < input.length(); idx ++) {
-          char ch = input.charAt(idx);
-          
-          if (sbIdx >= 0 && sb.charAt(sbIdx) == ch) {
-            sb.delete(sbIdx, sbIdx + 1);
-            sbIdx --;
-          }
-          else {
-            sb.append(ch);  
-            sbIdx ++;
-          }
-        }
-      
-        return (sbIdx > 0) ? sb.toString() : "Empty String";
+	public static String _superReduce(String s) {
+		StringBuilder ans = new StringBuilder();
+		for (char ch : s.toCharArray()) {
+			if (ans.length() == 0 || ans.charAt (ans.length() - 1) != ch) ans.append (ch);
+			else ans.deleteCharAt(ans.length() - 1);
+		}
+		return ans.length() > 0 ? ans.toString() : "Empty String";
 	}
 
 	// driver method
