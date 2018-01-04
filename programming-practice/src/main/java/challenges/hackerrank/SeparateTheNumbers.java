@@ -17,20 +17,20 @@ public class SeparateTheNumbers extends AbstractCustomTestRunner {
 
     public boolean _seperateNumbers(String s) {
         char[] arr = s.toCharArray();
-        int num = 0;
+        long num = 0;
         for (int idx = 0; idx < arr.length - 1; idx ++) {
-            num = 10 * num + (arr [idx] - '0');
+            num = 10l * num + (arr [idx] - '0');
             if (find (num + 1, arr, idx + 1)) return true;
         }
         return false;
     }
 
-    private boolean find(int pnum, char[] arr, int index) {
+    private boolean find(long pnum, char[] arr, int index) {
         if (index == arr.length) return true;
         if (arr [index] == '0') return false;
-        int num = 0;
+        long num = 0;
         for (int idx = index; idx < arr.length; idx ++) {
-            num = 10 * num + (arr [idx] - '0');
+            num = 10l * num + (arr [idx] - '0');
             if (num > pnum) return false;
             else if (num == pnum) return find (num + 1, arr, idx + 1);
         }
@@ -46,6 +46,7 @@ public class SeparateTheNumbers extends AbstractCustomTestRunner {
         _instance.runTest("010203", false);
         _instance.runTest("13", false);
         _instance.runTest("1", false);
+        _instance.runTest("90071992547409929007199254740993", true);
     }
 
     public void runTest(final String input, final boolean expectedOutput) {
