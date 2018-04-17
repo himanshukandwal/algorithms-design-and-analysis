@@ -39,4 +39,14 @@ public class MinCostClimbingStairs extends AbstractCustomTestRunner {
         }
         return Math.min(f1, f2);
     }
+
+    public int minCostClimbingStairsOther(int[] cost) {
+        int s = cost[0], f = cost[1];
+        for (int idx = 2; idx < cost.length; idx ++) {
+            int t = Math.min (s, f) + cost [idx];
+            s = f;
+            f = t;
+        }
+        return Math.min(f, s);
+    }
 }
