@@ -29,11 +29,11 @@ public class ReverseVowelsOfString extends AbstractCustomTestRunner {
 	public String _reverseVowels(String s) {
 		int l = 0, r = s.length() - 1;
 		char [] ca = s.toCharArray();
-		Set<Character> v = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
+		String v = "aeiouAEIOU";
 
 		while (l < r) {
-			if (!v.contains(ca [l])) l ++;
-			else if (!v.contains(ca [r])) r --;
+			if (!v.contains(String.valueOf(ca [l]))) l ++;
+			else if (!v.contains(String.valueOf(ca [r]))) r --;
 			else {
 				char t = ca [l];
 				ca [l] = ca [r];
