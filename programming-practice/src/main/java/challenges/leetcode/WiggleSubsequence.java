@@ -32,6 +32,16 @@ import challenges.AbstractCustomTestRunner;
  */
 public class WiggleSubsequence extends AbstractCustomTestRunner {
 
+    public int wiggleMaxLengthBetter(int[] nums) {
+        if (nums.length <= 1) return nums.length;
+        int up = 0, down = 0;
+        for (int idx = 1; idx < nums.length; idx ++) {
+            if (nums [idx] > nums [idx - 1]) up = down + 1;
+            else if (nums [idx] < nums [idx - 1]) down = up + 1;
+        }
+        return Math.max(up, down) + 1;
+    }
+
     public int wiggleMaxLength(int[] nums) {
         if (nums.length <= 1) return nums.length;
         int [] dp = new int [nums.length];
