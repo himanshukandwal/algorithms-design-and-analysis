@@ -1,14 +1,10 @@
 package challenges.assorted.tree;
 
-import static challenges.assorted.tree.TreeUtilities.generateBinarySearchTree;
-import static challenges.assorted.tree.TreeUtilities.printBinarySearchTreeInorder;
-import static challenges.assorted.tree.TreeUtilities.printBinarySearchTreePostorder;
-import static challenges.assorted.tree.TreeUtilities.printBinarySearchTreePreorder;
-import static org.junit.Assert.assertEquals;
-
+import challenges.assorted.tree.model.BinaryTree;
 import org.junit.Test;
 
-import challenges.assorted.tree.model.BinaryTree;
+import static challenges.assorted.tree.TreeUtilities.*;
+import static org.junit.Assert.assertEquals;
 
 public class TreeUtilitiesTest {
 
