@@ -31,6 +31,20 @@ import java.util.Map;
  */
 public class BurstBalloons extends AbstractCustomTestRunner {
 
+    public int maxCoinsBetter(int[] nums) {
+        return dfs (nums, new int [nums.length][nums.length], 0, nums.length - 1);
+    }
+
+    private int dfs (int[] nums, int [][] dp, int l, int r) {
+        if (l > r) return 0;
+        if (dp [l][r] > 0) return dp [l][r];
+        for (int idx = l; idx <= r; idx ++) {
+            dp [l][r] = Math.max(dp [l][r], dfs (nums, dp, l, idx - 1) + dfs (nums, dp, idx + 1, r) + (l == 0 ? 1 : nums [l - 1]) * nums [idx] * (r == nums.length - 1 ? 1 : nums [r + 1]));
+        }
+        return dp [l][r];
+    }
+
+    // TLE
     public int maxCoins(int[] nums) {
         boolean [] state = new boolean [nums.length];
         Arrays.fill(state, true);
