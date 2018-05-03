@@ -38,11 +38,22 @@ import challenges.AbstractCustomTestRunner;
  * 		3. String S is non-empty.
  * 
  * @author Hxkandwal
- *
  */
 public class LicenseKeyFormatting extends AbstractCustomTestRunner {
 	
 	private static LicenseKeyFormatting _instance = new LicenseKeyFormatting();
+
+	public String _licenseKeyFormattingOnePass(String S, int K) {
+		StringBuilder ans = new StringBuilder();
+		for (int idx = S.length() - 1, k = 0; idx >= 0; idx --) {
+			if (S.charAt(idx) == '-') continue;
+			ans.append(String.valueOf(S.charAt(idx)).toUpperCase());
+			k ++;
+			if (k % K == 0) ans.append('-');
+		}
+		if (ans.length() > 0 && ans.charAt(ans.length() - 1) == '-') ans.deleteCharAt(ans.length() - 1);
+		return ans.reverse().toString();
+	}
 
 	public String _licenseKeyFormatting(String S, int K) {
 		StringBuilder ans = new StringBuilder();
