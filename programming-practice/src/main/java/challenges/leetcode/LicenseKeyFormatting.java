@@ -43,38 +43,19 @@ import challenges.AbstractCustomTestRunner;
 public class LicenseKeyFormatting extends AbstractCustomTestRunner {
 	
 	private static LicenseKeyFormatting _instance = new LicenseKeyFormatting();
-	
-	private LicenseKeyFormatting() {}
-	
-	public static String _licenseKeyFormatting(String s, int k) {
-		int idx = s.length() - 1, pairLen = 0;
-		StringBuilder answer = new StringBuilder();
-		
+
+	public String _licenseKeyFormatting(String S, int K) {
+		StringBuilder ans = new StringBuilder();
+		for (int idx = 0; idx < S.length(); idx ++) if (S.charAt(idx) != '-') ans.append(S.charAt(idx));
+
+		int idx = ans.length();
 		while (idx >= 0) {
-			char ch = s.charAt(idx);
-			
-			if (pairLen == k) {
-				if (ch == '-') {
-					answer.insert(0, Character.toUpperCase(ch));
-					idx --;
-				} else
-					answer.insert(0, '-');
-				
-				pairLen = 0;
-			} else {
-				if (ch != '-') {
-					answer.insert(0, Character.toUpperCase(ch));
-					pairLen ++;
-				}
-				
-				idx --;
-			}
+			idx -= K;
+			if (idx >= 0) ans.insert(idx, '-');
 		}
-		
-		if (answer.length() > 0 && answer.charAt(0) == '-') answer.deleteCharAt(0);
-		
-		return answer.toString();
-    }
+		if (ans.length() > 0 && ans.charAt(0) == '-') ans.deleteCharAt(0);
+		return ans.toString().toUpperCase();
+	}
 
 	public static String _licenseKeyFormatting2(String s, int k) {
 		StringBuilder sb = new StringBuilder();
