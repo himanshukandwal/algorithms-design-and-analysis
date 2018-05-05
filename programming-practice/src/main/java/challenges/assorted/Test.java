@@ -1,11 +1,6 @@
 package challenges.assorted;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Test {
 	
@@ -48,8 +43,25 @@ public class Test {
 	
 	public static void main(String[] args) {
 		Test t = new Test ();
-		System.out.println(t.getOrder(Arrays.asList(new UserSession(0, 7), new UserSession(1, 2), new UserSession(1, 4), 
-													new UserSession(4, 7), new UserSession(5, 8), new UserSession(2, 3))));
+//		System.out.println(t.getOrder(Arrays.asList(new UserSession(0, 7), new UserSession(1, 2), new UserSession(1, 4),
+//													new UserSession(4, 7), new UserSession(5, 8), new UserSession(2, 3))));
+
+//		System.out.print(t.reorder(5, Arrays.asList("a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo")));
+		System.out.print(t.reorder(Arrays.asList("a1 9 2 3 1", "g0 act car a", "g0 act car", "g2 act car", "go1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo")));
+	}
+
+	public List<String> reorder(List<String> lines) {
+		List<String> reorderedLines = new ArrayList<>();
+		for (String l : lines) if (Character.isAlphabetic(l.split(" ")[1].charAt(0))) reorderedLines.add(l);
+
+		Collections.sort(reorderedLines, (x, y) -> {
+			int cval = x.substring(x.indexOf(" ")).compareTo(y.substring(y.indexOf(" ")));
+
+			return (cval == 0) ? x.substring(0, x.indexOf(" ")).compareTo(y.substring(0, y.indexOf(" "))) : cval;
+		});
+
+		for (String l : lines) if (Character.isDigit(l.split(" ")[1].charAt(0))) reorderedLines.add(l);
+		return reorderedLines;
 	}
 
 }
