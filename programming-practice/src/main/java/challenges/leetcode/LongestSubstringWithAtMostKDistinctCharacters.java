@@ -1,56 +1,28 @@
 package challenges.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import challenges.AbstractCustomTestRunner;
 
 /**
  * 340. Longest Substring with At Most K Distinct Characters
+ *
+ * Given a string, find the length of the longest substring T that contains at most k distinct characters.
+ *
+ * For example, Given s = “eceba” and k = 2, T is "ece" which its length is 3.
  * 
- * @author Hxkandwal
+ * @author hxkandwal
  */
 public class LongestSubstringWithAtMostKDistinctCharacters extends AbstractCustomTestRunner {
 
 	public int lengthOfLongestSubstringKDistinctOptimized(String s, int k) {
-        int[] count = new int[256];
-        int num = 0, i = 0, res = 0;
-        for (int j = 0; j < s.length(); j++) {
-            if (count[s.charAt(j)]++ == 0) num++;
-            if (num > k) {
-                while (--count[s.charAt(i++)] > 0);   // <<<<<<<<< the one which has come less often will get killed first.
-                num--;
-            }
-            res = Math.max(res, j - i + 1);
+        int[] arr = new int [256];
+
+        int ans = 0;
+        for (int idx = 0, start = 0, uc = 0; idx < s.length(); idx ++) {
+            char c = s.charAt(idx);
+            if (arr [c] ++ == 0) uc ++;
+            while (uc > k) if (arr [s.charAt(start ++)] -- == 1) uc --;
+            ans = Math.max (ans, idx - start + 1);
         }
-        return res;
+        return ans;
     }
-	
-	public int lengthOfLongestSubstringKDistinct(String s, int k) {
-        if (k == 0) return 0;
-        int [] hash = new int [256];
-        int max = 0, distinct = 0, startIdx = 0;
-        Map <Character, Integer> map = new HashMap<>();
-        
-        for (int idx = 0; idx < s.length(); idx ++) {
-            char ch = s.charAt(idx);
-            if (hash [ch] ++ == 0) distinct ++;
-            
-            if (distinct > k) {
-                int minIdx = idx;
-                for (Integer index : map.values()) if (index < minIdx) minIdx = index;
-                char och = s.charAt(minIdx);
-                hash [och] = 0;
-                startIdx = map.get(och) + 1;
-                map.remove(och);
-                distinct --;
-            }
-            
-            map.put (ch, idx);
-            max = Math.max (max, idx - startIdx + 1);
-        }
-        
-        return max;
-    }
-	
 }
