@@ -1,10 +1,11 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
+import java.util.Stack;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 616. Add Bold Tag in String
@@ -49,6 +50,65 @@ public class AddBoldTagInString extends AbstractCustomTestRunner {
             ans.append (s.charAt (idx));
         }
         if (found) ans.append ("</b>");
+        return ans.toString();
+    }
+
+    // other approach using trie
+    class Node {
+        public char c;
+        public Node[] children = new Node [256];
+        public boolean terminal;
+
+        public Node (char c) { this.c = c; }
+
+        public void add (String s) {
+            Node n = this;
+            for (char c : s.toCharArray()) {
+                if (n.children [c] == null) n.children [c] = new Node(c);
+                n = n.children [c];
+            }
+            n.terminal = true;
+        }
+
+        public int search(String s, int sidx) {
+            int ans = -1;
+            Node n = this;
+            for (int idx = sidx; idx < s.length(); idx ++) {
+                char c = s.charAt(idx);
+                if (n.children [c] == null) break;
+                n = n.children [c];
+                if (n.terminal) ans = idx;
+            }
+            return ans;
+        }
+    }
+
+    public String _addBoldTagTrie(String s, String[] dict) {
+        if (dict.length == 0) return s;
+        Node root = new Node(' ');
+
+        Stack<int[]> stk = new Stack<>();
+
+        for (String d : dict) root.add (d);
+        for (int idx = 0; idx < s.length(); idx ++) {
+            int end = root.search(s, idx);
+            if (end >= 0) {
+                int start = idx;
+                while (!stk.isEmpty() && stk.peek()[1] + 1 >= idx) {
+                    start = stk.peek()[0];
+                    end = Math.max (end, stk.pop()[1]);
+                }
+                stk.push(new int [] { start, end });
+            }
+        }
+
+        // work with stack
+        StringBuilder ans = new StringBuilder(s);
+        while (!stk.isEmpty()) {
+            int [] p = stk.pop();
+            ans.insert(p[1] + 1, "</b>");
+            ans.insert(p[0], "<b>");
+        }
         return ans.toString();
     }
 
