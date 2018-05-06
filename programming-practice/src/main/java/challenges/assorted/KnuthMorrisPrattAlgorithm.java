@@ -1,10 +1,10 @@
 package challenges.assorted;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Knuth-Morris-Pratt (KMP) Algorithm Implementation.
@@ -25,22 +25,14 @@ public class KnuthMorrisPrattAlgorithm extends AbstractCustomTestRunner {
 			while (j > 0 && pattern.charAt(idx) != pattern.charAt(j)) j = pi [j - 1];
 			if (pattern.charAt(idx) == pattern.charAt(j)) pi [idx] = ++ j;
 		}
-		
-		int piIdx = 0;
-		for (int idx = 0; idx < line.length(); idx ++) {
-			char ch = line.charAt(idx);
-			
-			while (piIdx >= 0) {
-				if (ch == pattern.charAt(piIdx)) {
-					if (piIdx + 1 == pi.length) { 
-						ans ++; 
-						piIdx = pi [piIdx];     // <<<<<<<<<<<<< very important point.
-					} else piIdx ++;
-					
-					break;
-				} else { 
-					if (piIdx - 1 >= 0) piIdx = pi [piIdx - 1];
-					else break;
+
+		for (int idx = 0, j = 0; idx < line.length(); idx ++) {
+			while (j > 0 && line.charAt(idx) != pattern.charAt(j)) j = pi [j - 1];
+			if (line.charAt(idx) == pattern.charAt(j)) {
+				j ++;
+				if (j == pattern.length()) {
+					ans ++;
+					j = pi [j - 1];
 				}
 			}
 		}
@@ -50,6 +42,9 @@ public class KnuthMorrisPrattAlgorithm extends AbstractCustomTestRunner {
 
 	// driver method
 	public static void main(String[] args) {
+		_instance.runTest("abc", "asabc", 1);
+		_instance.runTest("abc", "abcba", 1);
+		_instance.runTest("aba", "ababa", 2);
 		_instance.runTest("abc", "dabasdasabc", 1);
 		_instance.runTest("abc", "jdsalkjdlakjl;dkja;k", 0);
 		_instance.runTest("abc", "dabcabc", 2);
