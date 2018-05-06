@@ -7,7 +7,7 @@ import java.util.List;
 import challenges.AbstractCustomTestRunner;
 
 /**
- * KnuthMorrisPratt Algorithm Implementation.
+ * Knuth-Morris-Pratt (KMP) Algorithm Implementation.
  * 
  * link: http://keithschwarz.com/interesting/code/?dir=knuth-morris-pratt
  * 
@@ -16,9 +16,7 @@ import challenges.AbstractCustomTestRunner;
 public class KnuthMorrisPrattAlgorithm extends AbstractCustomTestRunner {
 
 	private static KnuthMorrisPrattAlgorithm _instance = new KnuthMorrisPrattAlgorithm();
-	
-	private KnuthMorrisPrattAlgorithm() {}
-	
+
 	public int _search (String pattern, String line) {
 		int ans = 0;
 		int[] pi = new int [pattern.length()];
