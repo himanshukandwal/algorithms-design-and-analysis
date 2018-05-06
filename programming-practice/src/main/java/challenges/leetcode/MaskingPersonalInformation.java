@@ -79,4 +79,23 @@ public class MaskingPersonalInformation extends AbstractCustomTestRunner {
         }
         return ans.toString();
     }
+
+    // better ans crisp approach
+    public String maskPIIBetter(String S) {
+        StringBuilder ans = new StringBuilder();
+        if (S.contains("@")) {
+            S = S.toLowerCase();
+            ans.append(S.substring(S.indexOf("@")));
+            int idx = S.indexOf("@");
+            ans.insert(0, S.charAt(0) + "*****" + S.charAt(idx - 1));
+        } else {
+            ans.append(S = S.replaceAll("[^0-9]", ""));
+            for (int idx = ans.length() - 1, count = 0; idx >= 0; idx --, count ++) {
+                if (count > 3) ans.setCharAt(idx, '*');
+                if (count == 3 || count == 6 || (count == 9 && S.length() > 10)) ans.insert(idx, "-");
+            }
+            if (S.length() > 10) ans.insert(0, "+");
+        }
+        return ans.toString();
+    }
 }
