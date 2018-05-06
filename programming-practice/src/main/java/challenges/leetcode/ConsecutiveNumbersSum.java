@@ -37,6 +37,32 @@ public class ConsecutiveNumbersSum extends AbstractCustomTestRunner {
 
     private static ConsecutiveNumbersSum _instance = new ConsecutiveNumbersSum();
 
+    /*
+     * In AP (Arithmetic Progression),
+     *   nth term is defined as: Tn = a + (n + 1)*d
+     *   and the sum is computed as:
+     *
+     *      sum = n/2 * (a + tn) => n/2 * (a + (a + (n + 1)*d)) => n/2 * (2a + (n + 1) * d)
+     *   or
+     *
+     *  2 * sum = n * (2a + n + 1)
+     *
+     *   Here d = 1 and sum = N
+     *
+     * So, try all the possible n, to get 'a' by (sum - (n + 1) * n/2) / n, if a is an integer, it counts.
+     *
+     * where, 'a' are the starting point of AP, so the problem reduces to finding how many starting points occur to make sum N
+     * and while we are varying the length 'n'
+     */
+    public int _consecutiveNumbersSumMath(int N) {
+        int res = 1, count;
+        while (N % 2 == 0) N /= 2;
+        for (int i = 3; i * i <= N; res *= count + 1, i += 2)
+            for (count = 0; N % i == 0; N /= i, count++);
+        return N == 1 ? res : res * 2;
+    }
+
+    // TLE
     public int _consecutiveNumbersSum(int N) {
         //  number       start    length
         Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
