@@ -38,7 +38,7 @@ public class AddBoldTagInString extends AbstractCustomTestRunner {
 	public String _addBoldTag(String s, String[] dict) {
         boolean [] map = new boolean [s.length ()];
         for (String str : dict)
-            for (int idx = 0; idx <= s.length () - str.length (); idx ++) 
+            for (int idx = 0; idx <= s.length () - str.length (); idx ++)               // <<<<<<<<<<<<<<<<<<  we could have used KMP search here too.
                 if (s.substring (idx, idx + str.length ()).equals (str))
                     for (int jdx = idx; jdx < idx + str.length (); jdx ++) map [jdx] = true;
         
