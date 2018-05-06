@@ -20,14 +20,10 @@ public class KnuthMorrisPrattAlgorithm extends AbstractCustomTestRunner {
 	public int _search (String pattern, String line) {
 		int ans = 0;
 		int[] pi = new int [pattern.length()];
-		pi [0] = 0;
-		
+
 		for (int idx = 1, j = 0; idx < pattern.length(); idx ++) {
+			while (j > 0 && pattern.charAt(idx) != pattern.charAt(j)) j = pi [j - 1];
 			if (pattern.charAt(idx) == pattern.charAt(j)) pi [idx] = ++ j;
-			else {
-				while (j > 0 && pattern.charAt(idx) != pattern.charAt(j)) j = pi [j - 1];
-				pi [idx] = (j == 0) ? 0 : ++ j;
-			}
 		}
 		
 		int piIdx = 0;
