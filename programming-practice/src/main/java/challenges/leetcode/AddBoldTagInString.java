@@ -53,6 +53,39 @@ public class AddBoldTagInString extends AbstractCustomTestRunner {
         return ans.toString();
     }
 
+    // using KMP
+    public String _addBoldTagKMP(String s, String[] dict) {
+        boolean[] seen = new boolean [s.length()];
+
+        for (String d : dict) {
+            int [] pre = new int [d.length()];
+            for (int idx = 1, j = 0; idx < d.length(); idx ++) {
+                while (j > 0 && d.charAt(idx) != d.charAt(j)) j = pre [j - 1];
+                if (d.charAt(idx) == d.charAt(j)) pre [idx] = ++ j;
+            }
+
+            for (int idx = 0, j = 0; idx < s.length() && j < d.length(); idx ++) {
+                while (j > 0 && s.charAt(idx) != d.charAt(j)) j = pre [j - 1];
+                if (s.charAt(idx) == d.charAt(j)) {
+                    j ++;
+                    if (j == d.length()) {
+                        for (int k = 0; k < d.length(); k ++) seen [idx - k] = true;
+                        j = pre [j - 1];
+                    }
+                }
+            }
+        }
+        boolean found = false;
+        StringBuilder ans = new StringBuilder();
+        for (int idx = 0; idx < seen.length; idx ++) {
+            if (seen [idx] && !found) { ans.append("<b>"); found = true; }
+            if (!seen [idx] && found) { ans.append("</b>"); found = false; }
+            ans.append(s.charAt(idx));
+        }
+        if (found) ans.append("</b>");
+        return ans.toString();
+    }
+
     // other approach using trie
     class Node {
         public char c;
