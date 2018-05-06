@@ -38,22 +38,17 @@ public class ConsecutiveNumbersSum extends AbstractCustomTestRunner {
     private static ConsecutiveNumbersSum _instance = new ConsecutiveNumbersSum();
 
     public int _consecutiveNumbersSum(int N) {
-        Map<Integer, List<List<Integer>>> map = new HashMap<>();
+        //  number       start    length
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
 
         for (int n = 0; n <= N; n ++) {
-            List<List<Integer>> parent = new ArrayList<>();
-            map.put(n, parent);
-            parent.add (Arrays.asList(n));
+            Map<Integer, Integer> data = new HashMap<>();
+            data.put(n, 0);
+            map.put (n, data);
+
             for (int j = 1; j <= n/2; j ++) {
-                matching: for (List<Integer> l : map.get (n - j)) {
-                    if (l.get(l.size() - 1) + 1 == j || l.get(0) - 1 == j) {
-                        List<Integer> nl = new ArrayList<>(l);
-                        nl.add (j);
-                        Collections.sort(nl);
-                        for (List<Integer> o : parent) if (o.hashCode() == nl.hashCode()) continue matching;
-                        parent.add(nl);
-                    }
-                }
+                Map<Integer, Integer> odata = map.get (n - j);
+                if (odata.containsKey(j + 1)) data.put(j, odata.get(j + 1) + 1);
             }
         }
         return map.get(N).size();
@@ -63,6 +58,7 @@ public class ConsecutiveNumbersSum extends AbstractCustomTestRunner {
     public static void main(String[] args) {
         _instance.runTest(5, 2);
         _instance.runTest(3749, 4);
+        _instance.runTest(8953, 4);
     }
 
     @SuppressWarnings("unchecked")
