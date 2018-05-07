@@ -18,18 +18,16 @@ import challenges.AbstractCustomTestRunner;
 public class ReadNCharactersGivenRead4 extends AbstractCustomTestRunner {
 	
 	public int read(char[] buf, int n) {
-        int total = 0;
+        int idx = -1;
         char [] temp = new char [4];
-        
+
         while (n > 0) {
-            int len = read4 (temp);
-            len = Math.min (len, n);
-            for (int idx = 0; idx < len; idx ++) buf [total ++] = temp [idx];
-            if (len == 0 || len >= n) break;
-            n -= len;
+            int l = read4 (temp);
+            if (l == 0) break;
+            for (int i = 0; i < l && n > 0; i ++, n --) buf [++ idx] = temp [i];
         }
-        
-        return total;
+
+        return idx + 1;
     }
 	
 	/* The read4 API is defined in the parent class Reader4.*/
