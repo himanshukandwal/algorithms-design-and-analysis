@@ -1,11 +1,12 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 349. Intersection of Two Arrays
@@ -34,6 +35,24 @@ public class IntersectionOfTwoArrays extends AbstractCustomTestRunner {
             if (idx1 == 0 || nums1 [idx1 - 1] != nums1 [idx1]) 
                 if (Arrays.binarySearch (nums2, nums1 [idx1]) >= 0) ans [idx ++] = nums1 [idx1];
         return ans;
+	}
+
+	public int[] _intersectionOther(int[] nums1, int[] nums2) {
+		Arrays.sort (nums1);
+		Arrays.sort (nums2);
+		List<Integer> ans = new ArrayList<>();
+		int idx1 = 0, idx2 = 0, idx = 0;
+		while (idx1 < nums1.length && idx2 < nums2.length) {
+			if (nums1 [idx1] == nums2 [idx2]) {
+				if (ans.isEmpty() || ans.get (ans.size() - 1) != nums1 [idx1]) ans.add (nums1 [idx1]);
+				idx1 ++;
+			}
+			else if (nums1 [idx1] > nums2 [idx2]) idx2 ++;
+			else idx1 ++;
+		}
+		int[] ret = new int [ans.size()];
+		for (int val : ans) ret [idx ++] = val;
+		return ret;
 	}
 	
 	// driver method
