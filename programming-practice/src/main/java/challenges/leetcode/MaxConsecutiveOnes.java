@@ -23,29 +23,15 @@ import challenges.AbstractCustomTestRunner;
 public class MaxConsecutiveOnes extends AbstractCustomTestRunner {
 	
 	private static MaxConsecutiveOnes _instance = new MaxConsecutiveOnes();
-	
-	public MaxConsecutiveOnes() {}
-	
-	public static int _findMaxConsecutiveOnes(int[] nums) {
-		int maxLength = 0, localLength = 0;
-		boolean augmenting = false;
-		
-		for (int idx = 0; idx < nums.length; idx ++) {
-			if (nums [idx] == 1) {
-				if (!augmenting) {
-					augmenting = true;
-					localLength = 1;
-				} else
-					localLength ++;
-			} else 	
-				augmenting = false;
-			
-			maxLength = Math.max (maxLength, localLength);
+
+	public int _findMaxConsecutiveOnes(int[] nums) {
+		int ans = 0;
+		for (int idx = 0, count = 0; idx < nums.length; idx ++) {
+			count = (nums [idx] == 1) ? count + 1 : 0;
+			ans = Math.max (ans, count);
 		}
-		
-		maxLength = Math.max (maxLength, localLength);
-		return maxLength;
-    }
+		return ans;
+	}
 	
 	public static int _findMaxConsecutiveOnes2(int[] nums) {
         int maxHere = 0, max = 0;
