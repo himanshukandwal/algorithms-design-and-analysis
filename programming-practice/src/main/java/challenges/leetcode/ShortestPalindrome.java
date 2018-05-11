@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 214. Shortest Palindrome
@@ -23,6 +23,20 @@ import challenges.AbstractCustomTestRunner;
 public class ShortestPalindrome extends AbstractCustomTestRunner {
 	
 	private static ShortestPalindrome _instance = new ShortestPalindrome();
+
+    public String _shortestPalindromeCleaner(String s) {
+        for (int idx = s.length()/2; idx >= 0; idx --) {
+            if (find (s, idx, idx + 1)) return new StringBuilder(s.substring(idx + idx + 2)).reverse() + s;
+            if (find (s, idx, idx)) return new StringBuilder(s.substring(idx + idx + 1)).reverse() + s;
+        }
+        return s;
+    }
+
+    private boolean find (String s, int c1, int c2) {
+        int j = c1, k = c2;
+        while (j >= 0 && k < s.length() && s.charAt(j) == s.charAt(k)) { j --; k ++; }
+        return j < 0;
+    }
 
 	// https://discuss.leetcode.com/topic/27261/clean-kmp-solution-with-super-detailed-explanation
 	public String _shortestPalindromeKMP(String s) {
