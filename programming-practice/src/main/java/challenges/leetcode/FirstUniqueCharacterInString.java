@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 387. First Unique Character in a String
@@ -21,7 +21,7 @@ public class FirstUniqueCharacterInString extends AbstractCustomTestRunner {
 	
 	private static FirstUniqueCharacterInString _instance = new FirstUniqueCharacterInString();
 	
-	public int firstUniqCharCollections(String s) {
+	public int _firstUniqCharCollections(String s) {
 		int [] map = new int [256];
 	    for (char ch : s.toCharArray()) map [ch] ++;
 	    for (int idx = 0; idx < s.length(); idx ++) if (map [s.charAt(idx)] == 1) return idx;
