@@ -38,24 +38,17 @@ import java.util.Set;
  */
 public class MostCommonWord extends AbstractCustomTestRunner {
 
-    public String mostCommonWord(String paragraph, String[] banned) {
+    public String _mostCommonWord(String paragraph, String[] banned) {
+        Set<String> set = new HashSet<>();
+        for (String b : banned) set.add (b);
+
         Map<String, Integer> map = new HashMap<>();
-        paragraph = paragraph.replaceAll("[^a-zA-Z ]", "").toLowerCase();
-
-        Set ban = new HashSet<>();
-        for (String b : banned) ban.add(b);
-
-        int max = 0;
-        String ans = null;
-        for (String s: paragraph.split("\\s+")) {
+        String ans = ""; int count = 0;
+        for (String s : paragraph.replaceAll("[^a-zA-Z ]", "").toLowerCase().split(" ")) {
             s = s.trim();
-            if (s.length() > 0 && !ban.contains(s)) {
-                map.put (s, map.getOrDefault(s, 0) + 1);
-                if(map.get(s) > max) {
-                    max = map.get(s);
-                    ans = s;
-                }
-            }
+            if (s.length() == 0 || set.contains (s)) continue;
+            map.put(s, map.getOrDefault(s, 0) + 1);
+            if (count < map.get (s)) { count = map.get (s); ans = s; }
         }
         return ans;
     }
