@@ -33,7 +33,51 @@ import java.util.*;
  */
 public class AccountsMerge extends AbstractCustomTestRunner {
 
-    public List<List<String>> _accountsMerge(List<List<String>> accounts) {
+    // union-find
+    public List<List<String>> _accountsMergeUnionFind(List<List<String>> accounts) {
+        int [] reps = new int [accounts.size()];
+        for (int idx = 0; idx < accounts.size(); idx ++) reps [idx] = idx;
+
+        Map<String, Integer> e2idx = new HashMap<>();
+
+        for (int idx = 0; idx < accounts.size(); idx ++) {
+            for (int j = 1; j < accounts.get(idx).size(); j ++) {
+                String email = accounts.get(idx).get(j);
+                if (!e2idx.containsKey(email)) e2idx.put (email, idx);
+                else {
+                    int prevIdx = e2idx.get(email);
+                    int repp = find (reps, prevIdx);
+                    int repc = find (reps, idx);
+
+                    if (repp != repc) reps [repc] = repp;
+                }
+            }
+        }
+
+        for (int idx = 0; idx < reps.length; idx ++) find (reps, idx);
+        List<List<String>> ans = new ArrayList<>();
+        for (int idx = 0; idx < accounts.size(); idx ++) {
+            if (reps [idx] != idx) continue;
+
+            Set<String> uniq = new HashSet<>();
+            for (int j = 0; j < reps.length; j ++) {
+                if (reps [j] == idx)
+                    for (int k = 1; k < accounts.get (j).size(); k ++) uniq.add (accounts.get(j).get(k));
+            }
+            List<String> list = new ArrayList<>(uniq);
+            Collections.sort(list, (a, b) -> a.compareTo(b));
+            list.add (0, accounts.get(idx).get(0));
+            ans.add(list);
+        }
+        return ans;
+    }
+
+    private int find (int [] reps, int val) {
+        return (val == reps [val]) ? val : (reps [val] = find (reps, reps [val]));
+    }
+
+    // DFS
+    public List<List<String>> _accountsMergeDFS(List<List<String>> accounts) {
         List<List<String>> ans = new ArrayList<>();
         Map<String, List<String>> e2e = new HashMap<>();
         for (List<String> l : accounts) {
