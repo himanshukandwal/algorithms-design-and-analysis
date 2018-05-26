@@ -53,6 +53,24 @@ public class RedundantConnection extends AbstractCustomTestRunner {
 
     private static RedundantConnection _instance = new RedundantConnection();
 
+    // union-find
+    public int[] _findRedundantConnection(int[][] edges) {
+        int [] parent = new int [edges.length + 1];
+        for (int idx = 0; idx < parent.length; idx ++) parent [idx] = idx;
+
+        for (int[] e : edges) {
+            int rs = find (parent, e [0]), re = find (parent, e [1]);
+            if (rs == re) return e;
+            parent [rs] = re;
+        }
+        return null;
+    }
+
+    private int find (int [] parent, int n) {
+        return (n == parent [n]) ? n : (parent [n] = find (parent, parent [n]));
+    }
+
+    // dfs
     class Node {
         int val;
         Node parent;
@@ -62,7 +80,7 @@ public class RedundantConnection extends AbstractCustomTestRunner {
         public Node(int val) { this.val = val; }
     }
 
-    public int[] _findRedundantConnection(int[][] edges) {
+    public int[] _findRedundantConnectionDFS(int[][] edges) {
         Map<Integer, Node> map = new HashMap<>();
         for (int [] e : edges) {
             int start = e [0], end = e [1];
