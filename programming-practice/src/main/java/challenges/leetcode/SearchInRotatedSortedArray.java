@@ -23,7 +23,7 @@ public class SearchInRotatedSortedArray extends AbstractCustomTestRunner {
 	
 	private static SearchInRotatedSortedArray _instance = new SearchInRotatedSortedArray();
 	
-	// idea : look only towards the sorted side.
+	// idea : look and check only towards the sorted side.
 	public int _search(int[] nums, int target) {
 		int low = 0, high = nums.length - 1;
         while (low <= high) {
@@ -40,19 +40,21 @@ public class SearchInRotatedSortedArray extends AbstractCustomTestRunner {
         return -1;
     }
 
-    // l > m or m < r (point of inequality)
-	public int search(int[] nums, int target) {
+    // l > m or m < r (point of inequality) (S diagram)
+	public int _searchDifferent(int[] nums, int target) {
 		int l = 0, r = nums.length - 1;
 		while (l <= r) {
-			int m = l + (r - l)/2;
+			int m = (l + r)/2;
 
 			if (nums [m] < target) {
 				if (nums [m] > nums [r] || nums [r] >= target) l = m + 1;
 				else r = m - 1;
-			} else if (nums [m] > target) {
+			}
+			else if (nums [m] > target) {
 				if (nums [m] < nums [l] || nums [l] <= target) r = m - 1;
 				else l = m + 1;
-			} else return m;
+			}
+			else return m;
 		}
 		return -1;
 	}
