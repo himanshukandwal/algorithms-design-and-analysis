@@ -40,6 +40,23 @@ public class SearchInRotatedSortedArray extends AbstractCustomTestRunner {
         return -1;
     }
 
+    // l > m or m < r (point of inequality)
+	public int search(int[] nums, int target) {
+		int l = 0, r = nums.length - 1;
+		while (l <= r) {
+			int m = l + (r - l)/2;
+
+			if (nums [m] < target) {
+				if (nums [m] > nums [r] || nums [r] >= target) l = m + 1;
+				else r = m - 1;
+			} else if (nums [m] > target) {
+				if (nums [m] < nums [l] || nums [l] <= target) r = m - 1;
+				else l = m + 1;
+			} else return m;
+		}
+		return -1;
+	}
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 4, 5, 6, 7, 0, 1, 2 }, 1, 5);
