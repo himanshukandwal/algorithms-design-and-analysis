@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 367. Valid Perfect Square
@@ -36,17 +36,19 @@ public class ValidPerfectSquare extends AbstractCustomTestRunner {
     	long r = x;
     	while (r * r > x) r = (r + x/r) / 2;
     	return (r * r == x);
-    }	
-    
-    public static boolean _isPerfectSquare(int num) {
-    	for (int n = num, idx = 2; idx <= Math.sqrt(num); idx ++) {
-			while (n % idx == 0) n /= idx;
-			if (n == 1)  return true;
-			else n = num; 
+    }
+
+	public boolean _isPerfectSquare(int num) {
+		if (num == 1) return true;
+		int l = 1, r = num;
+		while (l <= r) {
+			long m = l + (r - l)/2;
+			if (m * m < num) l = (int) m + 1;
+			else if (m * m > num) r = (int) m - 1;
+			else return true;
 		}
-        
-    	return false;
-    }	
+		return false;
+	}
     
 	// driver method
 	public static void main(String[] args) {
