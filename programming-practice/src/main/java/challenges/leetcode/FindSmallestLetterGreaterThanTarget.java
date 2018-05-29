@@ -53,13 +53,14 @@ import challenges.AbstractCustomTestRunner;
 public class FindSmallestLetterGreaterThanTarget extends AbstractCustomTestRunner {
 
     public char nextGreatestLetterBetter(char[] letters, char target) {
-        int l = 0, h = letters.length;
-        while (l < h) {
-            int m = (l + h) >>> 1;
-            if (letters [m] <= target) l = m + 1;
-            else h = m;
+        int l = 0, r = letters.length - 1;
+        while (l < r) {
+            int m = l + (r - l)/2;
+
+            if (letters [m] > target)  r = m;
+            else l = m + 1;
         }
-        return letters [l % letters.length];
+        return letters [l] <= target ? letters [0] : letters [l];
     }
 
     // O(n) solution
