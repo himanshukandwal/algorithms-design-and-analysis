@@ -17,15 +17,14 @@ import challenges.AbstractCustomTestRunner;
  */
 public class FindPeakElement extends AbstractCustomTestRunner {
 
-	public int findPeakElement(int[] nums) {
+    public int _findPeakElement(int[] nums) {
         int lo = 0, hi = nums.length - 1;
-        while (lo <= hi) {
-            int mid = (lo + hi) >>> 1;
-            if (mid - 1 >= 0 && nums [mid] < nums [mid - 1]) hi = mid - 1;
-            else if (mid + 1 < nums.length && nums [mid] < nums [mid + 1]) lo = mid + 1;
-            else return mid;
+        while (lo < hi) {
+            int m = lo + (hi - lo) / 2;
+            if (m > 0 && nums[m - 1] > nums[m]) hi = m - 1;
+            else if (m < nums.length - 1 && nums[m + 1] > nums[m]) lo = m + 1;
+            else return m;
         }
-        return -1;
+        return lo;
     }
-	
 }
