@@ -4,6 +4,7 @@ import challenges.AbstractCustomTestRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -58,6 +59,17 @@ public class FindKClosestElements extends AbstractCustomTestRunner {
         }
         for (int idx = start + 1; idx < end; idx ++) ans.add (arr [idx]);
         return ans;
+    }
+
+    /* Intuitively, we can sort the elements in list arr by their absolute difference values to the target x. Then the sublist of the first k elements is the result after sorting the elements by the natural order. */
+    public List<Integer> _findClosestElementsSorting(int[] arr, int k, int x) {
+        List<Integer> list = new ArrayList<>();
+        for (int val : arr) list.add (val);
+
+        Collections.sort(list, (a, b) -> a == b ? a - b : Math.abs(a - x) - Math.abs(b - x));
+        list = list.subList(0, k);
+        Collections.sort(list);
+        return list;
     }
 
     // driver method
