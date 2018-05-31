@@ -1,7 +1,5 @@
 package challenges.leetcode;
 
-import java.util.Arrays;
-
 import challenges.AbstractCustomTestRunner;
 
 /**
@@ -20,28 +18,20 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class FindMinimumInRotatedSortedArrayII extends AbstractCustomTestRunner {
-	
-	public int findMin(int[] nums) {
-        int start = 0, end = nums.length - 1;
-        while (start < end && nums [start] >= nums [end]) {
-            int mid = (start + end) >>> 1;
-            if (nums [mid] > nums [end]) start = mid + 1;
-            else if (nums [mid] < nums [start]) end = mid;
-            else start ++;
-        }
-        return nums [start];
-    }
 
-	public int findMinLibrary(int[] nums) {
-        int [] ans = new int [nums.length];
-        int len = 0;
-        for (int num : nums) {
-            int index = Arrays.binarySearch (ans, 0, len, num);
-            if (index < 0) index = -(index + 1);
-            ans [index] = num;
-            if (index == len) len ++;
+    // try to move away from the plateau
+    public int _findMin(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            if (nums [l] == nums [l + 1]) l ++;
+            else if (nums [r] == nums [r - 1]) r --;
+            else {
+                int m = l + (r - l)/2;
+
+                if (nums [m] < nums [r]) r = m;
+                else l = m + 1;
+            }
         }
-        return ans [0];
+        return nums [l];
     }
-	
 }
