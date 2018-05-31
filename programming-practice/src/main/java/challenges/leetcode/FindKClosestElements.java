@@ -45,9 +45,10 @@ public class FindKClosestElements extends AbstractCustomTestRunner {
             else l = m + 1;
         }
 
-        // this means valid ans is something like this:
-        //     start <--------- ans -----------> end
-        // where start and end are not part of the answer boundary.
+        /* this means valid ans is something like this:
+         *     start <--------- ans -----------> end
+         * where start and end are not part of the answer boundary.
+         */
         int start = l - 1, end = arr [l] == x ? l + 1 : l;
         while (end - start - 1 < k) {
             if (start < 0) end ++;
@@ -72,19 +73,47 @@ public class FindKClosestElements extends AbstractCustomTestRunner {
         return list;
     }
 
+    /* arr[i] and arr[i+k] are the only difference between the window arr[i:i+k] and the window arr[(i+1):(i+1)+k] one position further right. So that's actually testing which of those two windows is better.
+     * the main idea here is try our best to make x in the center of the window [i, i + k]. Intuitively, that also corresponds to the definition of closest in the problem.
+     *
+     * [ ...... l ..... m .... (m + k) ........ r .. ]
+     *           <--- k --->
+     *
+     * if arr [m + k] is better or closer to x than arr [m], then l should come left next to m, so that (m + k) could be at center.
+     *
+     *                     better center than m
+     * [ .............. m l... (m + k) ........ r .. ]
+     *                     <----- k ----->
+     *
+     * we can go till r, as we have r as list.size() - k
+     *
+     * if x is in the list,
+     *
+     * start state:         [l ......................m .... (m + k) ..... x ...... r]
+     *                        <--- k --->
+     *
+     * intermediate state:  [......................l .... x ..m...(m + k).. r]
+     *                                              <--- k --->
+     *
+     *                                                 (m + k)
+     *                                                    |
+     * intermediate state:  [......................l ..m. x ..r..............]
+     *                                              <--- k --->
+     *
+     * final state:         [..........................l. x ..r..............]
+     *                                                 <- k -->
+     */
     public List<Integer> _findClosestElementsStartLocator(int [] arr, int k, int x) {
         List<Integer> list = new ArrayList<>();
         for (int val : arr) list.add (val);
 
-        int lo = 0, hi = list.size() - k;
-        while (lo < hi) {
-            int mid = (lo + hi) / 2;
-            if (x - list.get(mid) > list.get(mid + k) - x)
-                lo = mid + 1;
-            else
-                hi = mid;
+        int l = 0, r = list.size() - k;
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (x - list.get(mid) > list.get(mid + k) - x) l = mid + 1;
+            else r = mid;
         }
-        return list.subList(lo, lo + k);
+        return list.subList(l, l + k);
     }
 
     // driver method
