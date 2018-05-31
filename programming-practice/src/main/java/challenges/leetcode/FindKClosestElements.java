@@ -72,6 +72,21 @@ public class FindKClosestElements extends AbstractCustomTestRunner {
         return list;
     }
 
+    public List<Integer> _findClosestElementsStartLocator(int [] arr, int k, int x) {
+        List<Integer> list = new ArrayList<>();
+        for (int val : arr) list.add (val);
+
+        int lo = 0, hi = list.size() - k;
+        while (lo < hi) {
+            int mid = (lo + hi) / 2;
+            if (x - list.get(mid) > list.get(mid + k) - x)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return list.subList(lo, lo + k);
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(new int[] { 0, 0, 0, 1, 3, 5, 6, 7, 8, 8 }, 2, 2, Arrays.asList(1, 3));
