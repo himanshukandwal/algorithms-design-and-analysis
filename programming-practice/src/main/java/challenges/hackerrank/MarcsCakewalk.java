@@ -27,8 +27,7 @@ public class MarcsCakewalk extends AbstractCustomTestRunner {
     public long _marcsCakewalk(int[] calorie) {
         Arrays.sort(calorie);
 
-        int n = calorie.length;
-        long ans = calorie [n - 1];
+        int n = calorie.length; long ans = calorie [n - 1];
 
         for (int idx = n - 2; idx >= 0; idx --) ans += (1l << (n - 1 - idx)) * calorie [idx];
         return ans;
