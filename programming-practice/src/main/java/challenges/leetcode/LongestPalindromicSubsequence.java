@@ -57,9 +57,7 @@ import challenges.AbstractCustomTestRunner;
 public class LongestPalindromicSubsequence extends AbstractCustomTestRunner {
 	
 	private static LongestPalindromicSubsequence _instance = new LongestPalindromicSubsequence();
-	
-	private LongestPalindromicSubsequence() {}
-	
+
 	// when curving inwards, throw information towards extreme left so that when we find an extension we can determine correct length (try bbbab and agbdba)
 	// information propagation is extremely important.
 	public static int _longestPalindromeSubsequence (String s) {
