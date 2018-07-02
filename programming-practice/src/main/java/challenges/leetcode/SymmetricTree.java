@@ -33,8 +33,7 @@ import challenges.AbstractCustomTestRunner;
  *
  * Note: Bonus points if you could solve it both recursively and iteratively.
  * 
- * @author Hxkandwal
- *
+ * @author hxkandwal
  */
 public class SymmetricTree extends AbstractCustomTestRunner {
 	
@@ -54,16 +53,16 @@ public class SymmetricTree extends AbstractCustomTestRunner {
 			return "[" + value + "]";
 		}
 	}
-	
-    public boolean _isSymmetric(Node root) {
-    	return isMirror(root, root);
-    }
 
-    public boolean isMirror(Node t1, Node t2) {
-        if (t1 == null && t2 == null) return true;
-        if (t1 == null || t2 == null) return false;
-        return (t1.value == t2.value) && isMirror(t1.right, t2.left) && isMirror(t1.left, t2.right);
-    }
+	public boolean _isSymmetric(Node root) {
+		if (root == null) return true;
+		return isSymmetric(root.left, root.right);
+	}
+
+	public boolean isSymmetric(Node a, Node b) {
+		if (a == null || b == null) return a == null && b == null;
+		return a.value == b.value && isSymmetric(a.left, b.right) && isSymmetric(a.right, b.left);
+	}
 	
     // logic borrowed and enhanced from BFSLevelPrintingAndGeneration program.
 	public static Node generateTree(Integer[] array) {
