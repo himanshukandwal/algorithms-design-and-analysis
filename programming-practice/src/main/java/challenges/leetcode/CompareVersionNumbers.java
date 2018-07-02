@@ -27,80 +27,12 @@ public class CompareVersionNumbers extends AbstractCustomTestRunner {
 	private static CompareVersionNumbers _instance = new CompareVersionNumbers();
 
 	public int _compareVersion(String version1, String version2) {
-        String [] levels1 = version1.split ("\\.");
-        String [] levels2 = version2.split ("\\.");
-        
-        int m = levels1.length, n = levels2.length, cmp = 0;
-        for (int idx = 0; idx < Math.min (m, n); idx ++) 
-            if  ((cmp = compare (levels1 [idx], levels2 [idx])) != 0) return cmp;
-        
-        if (m > n) {
-        	for (int idx = n; idx < m; idx ++) {
-        		int i = 0; String s1 = levels1 [idx];
-                for (; i < s1.length(); i ++) if (s1.charAt (i) != '0') break;
-                if (s1.length() - i > 0) return 1;
-        	}
-        } else if (m < n) {
-        	for (int idx = m; idx < n; idx ++) {
-        		int i = 0; String s2 = levels2 [idx];
-        		for (; i < s2.length(); i ++) if (s2.charAt (i) != '0') break;
-                if (s2.length() - i > 0) return -1;
-        	}
+        String [] ver1 = version1.split("\\."), ver2 = version2.split("\\.");
+        int max = Math.max (ver1.length, ver2.length);
+        for (int idx = 0; idx < max; idx ++) {
+            int f = idx < ver1.length ? Integer.valueOf(ver1 [idx]) : 0, s = idx < ver2.length ? Integer.valueOf(ver2 [idx]) : 0;
+            if (f != s) return f > s ? 1 : -1;
         }
-        return 0;
-    }
-    
-    private int compare (String s1, String s2) {
-    	int i = 0;
-        for (; i < s1.length(); i ++) if (s1.charAt (i) != '0') break;
-        s1 = s1.substring (i);
-        
-        for (i = 0; i < s2.length(); i ++) if (s2.charAt (i) != '0') break;
-        s2 = s2.substring (i);
-        
-        if (s1.length() != s2.length()) return (s1.length() > s2.length() ? 1 : -1);
-        
-        for (int idx = 0; idx < s1.length(); idx ++) {
-            if (s1.charAt (idx) > s2.charAt (idx)) return 1;
-            else if (s1.charAt (idx) < s2.charAt (idx)) return -1;
-        }
-        return 0;
-    }
-    
-    // with using Integer parsing.
-    public int _compareVersionInteger(String version1, String version2) {
-        String [] levels1 = version1.split ("\\.");
-        String [] levels2 = version2.split ("\\.");
-        
-        int m = levels1.length, n = levels2.length, cmp = 0;
-        for (int idx = 0; idx < Math.min (m, n); idx ++) 
-            if  ((cmp = (Integer.valueOf (levels1 [idx]) - Integer.valueOf (levels2 [idx]))) != 0) return cmp > 0 ? 1 : -1;
-        
-        if (m > n) {
-        	for (int idx = n; idx < m; idx ++) 
-        		if (Integer.valueOf (levels1 [idx]) > 0) return 1;
-        } else if (m < n) {
-        	for (int idx = m; idx < n; idx ++) 
-        		if (Integer.valueOf (levels2 [idx]) > 0) return -1;
-        }
-        return 0;
-    }
-    
-    // with using Integer parsing (Solution 2) - more optimistic
-    public int _compareVersionIntegerAnother(String version1, String version2) {
-        String[] levels1 = version1.split("\\.");
-        String[] levels2 = version2.split("\\.");
-        
-        int length = Math.max(levels1.length, levels2.length);
-        for (int i=0; i<length; i++) {
-        	Integer v1 = i < levels1.length ? Integer.parseInt(levels1[i]) : 0;
-        	Integer v2 = i < levels2.length ? Integer.parseInt(levels2[i]) : 0;
-        	int compare = v1.compareTo(v2);
-        	if (compare != 0) {
-        		return compare;
-        	}
-        }
-        
         return 0;
     }
     
