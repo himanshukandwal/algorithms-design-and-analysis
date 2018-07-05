@@ -35,7 +35,7 @@ import java.util.Set;
  *
  *       Output: False
  *
- * Created by Hxkandwal
+ * Created by hxkandwal
  */
 public class TwoSumIV_InputIsABST extends AbstractCustomTestRunner {
 
@@ -54,5 +54,22 @@ public class TwoSumIV_InputIsABST extends AbstractCustomTestRunner {
         if (set.contains (k - root.val)) return true;
         set.add (root.val);
         return dfs (set, root.left, k) || dfs (set, root.right, k);
+    }
+
+    // other approach
+    public boolean findTargetOther(TreeNode root, int k) {
+        return dfs (root, root, k);
+    }
+
+    private boolean dfs (TreeNode r, TreeNode c, int k) {
+        if (c == null) return false;
+        return search (r, c, k - c.val) || dfs (r, c.left, k) || dfs (r, c.right, k);
+    }
+
+    private boolean search (TreeNode r, TreeNode c, int k) {
+        if (r == null) return false;
+        return (r.val == k && c != r)
+                || (r.val > k && search (r.left, c, k))
+                || (r.val < k && search (r.right, c, k));
     }
 }
