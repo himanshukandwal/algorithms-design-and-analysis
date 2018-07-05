@@ -55,15 +55,12 @@ public class SubtreeOfAnotherTree extends AbstractCustomTestRunner {
 	}
 	
 	public boolean isSubtree(TreeNode s, TreeNode t) {
-		if (t == null) return true;
-        if (s == null) return false;
-        return isEqual (s, t) || isSubtree (s.left, t) || isSubtree (s.right, t);
+        if (s == null || t == null) return s == null && t == null;
+        return search (s, t) || isSubtree (s.left, t) || isSubtree (s.right, t);
     }
-    
-    private boolean isEqual (TreeNode s, TreeNode t) {
-        if (s == null && t == null) return true;
-        if (s == null || t == null) return false;
-        return s.val == t.val && isEqual (s.left, t.left) && isEqual (s.right, t.right);
+
+    private boolean search (TreeNode s, TreeNode t) {
+        if (s == null || t == null) return s == null && t == null;
+        return s.val == t.val && search (s.left, t.left) && search (s.right, t.right);
     }
-    	
 }
