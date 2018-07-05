@@ -46,15 +46,13 @@ public class TwoSumIV_InputIsABST extends AbstractCustomTestRunner {
     }
 
     public boolean findTarget(TreeNode root, int k) {
-        return dfs (new HashSet<>(), k, root);
+        return dfs (new HashSet<>(), root, k);
     }
 
-    private boolean dfs (Set<Integer> set, int k, TreeNode n) {
-        if (n == null) return false;
-        if (set.contains (k - n.val)) return true;
-        set.add (n.val);
-        boolean res = dfs (set, k, n.left);
-        if (res) return true;
-        return dfs (set, k, n.right);
+    private boolean dfs (Set<Integer> set, TreeNode root, int k) {
+        if (root == null) return false;
+        if (set.contains (k - root.val)) return true;
+        set.add (root.val);
+        return dfs (set, root.left, k) || dfs (set, root.right, k);
     }
 }
