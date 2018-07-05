@@ -42,27 +42,5 @@ public class SumRootToLeafNumbers extends AbstractCustomTestRunner {
 		if (n.right == null && n.left == null) return s * 10 + n.val;
 		return sum (n.left, s * 10 + n.val) + sum (n.right, s * 10 + n.val);
 	}
-	
-	// my take
-	public int _sumNumbers(TreeNode root) {
-		 return count(root, new StringBuilder());
-    }
-    
-    private int count(TreeNode node, StringBuilder sb) {
-        if (node == null) return 0;
-        if (node.left == null && node.right == null) {
-            sb.append (node.val);
-            int value = Integer.valueOf(sb.toString());
-            sb.deleteCharAt (sb.length() - 1);
-            return value;
-        }
-        
-        int res = 0;
-        sb.append (node.val);
-        res += count (node.left, sb);
-        res += count (node.right, sb);
-        sb.deleteCharAt (sb.length() - 1);
-        return res;
-    }
 
 }
