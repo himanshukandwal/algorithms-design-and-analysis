@@ -21,6 +21,26 @@ import challenges.AbstractCustomTestRunner;
  */
 public class MaximumSwap extends AbstractCustomTestRunner {
 
+    // O(n) algorithm
+    public int maximumSwap(int num) {
+        char[] n = String.valueOf(num).toCharArray();
+        int [] last = new int [10];
+        for (int idx = 0; idx < n.length; idx ++) last [n [idx] - '0'] = idx;
+        for (int idx = 0; idx < n.length; idx ++) {
+            int c = n [idx] - '0';
+            for (int d = 9; d >= 0; d --) {
+                if (last [d] > idx && c < d) {
+                    char t = n [idx];
+                    n [idx] = n [last [d]];
+                    n [last [d]] = t;
+                    return Integer.valueOf(String.valueOf(n));
+                }
+            }
+        }
+        return num;
+    }
+
+    // O(n^2) algorithm
     public int _maximumSwap(int num) {
         char[] n = String.valueOf(num).toCharArray();
         String ans = String.valueOf(n);
