@@ -60,10 +60,12 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	}
 	
 	public static boolean greater(int[] nums1, int i, int[] nums2, int j) {
+		// tie breaking logic
 	    while (i < nums1.length && j < nums2.length && nums1[i] == nums2[j]) {
 	        i++;
 	        j++;
 	    }
+	    // either we have exhausted j (and its equally same as i throughout) or if its present and its smaller, so i should proceed else j.
 	    return j == nums2.length || (i < nums1.length && nums1[i] > nums2[j]);
 	}
 	
@@ -71,7 +73,9 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	    int n = nums.length;
 	    int[] ans = new int[k];
 	    for (int i = 0, j = 0; i < n; ++i) {
-	        while (n - i + j > k && j > 0 && ans[j - 1] < nums[i]) j--;
+			// ElementsToFill = (k - j - 1), ElementsToOffer = (n - i - 1)
+			// here toOffer has to be > toFill as we are re claiming/filling current (already filled a[j] position), and need more, if its equal we cannot decrement j anymore.
+	        while (n - i - 1 > k - j - 1 && j > 0 && ans[j - 1] < nums[i]) j--;
 	        if (j < k) ans[j++] = nums[i];
 	    }
 	    return ans;
