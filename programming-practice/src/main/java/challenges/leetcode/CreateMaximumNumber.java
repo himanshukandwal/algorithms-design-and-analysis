@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -41,25 +42,25 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	
 	private static CreateMaximumNumber _instance = new CreateMaximumNumber();
 	
-	public static int[] _maxNumber(int[] nums1, int[] nums2, int k) {
+	public int[] _maxNumber(int[] nums1, int[] nums2, int k) {
 		int n = nums1.length;
 	    int m = nums2.length;
 	    int[] ans = new int[k];
 	    for (int i = Math.max(0, k - m); i <= k && i <= n; ++i) {
-	        int[] candidate = merge(maxArray(nums1, i), maxArray(nums2, k - i), k);
+	        int[] candidate = merge(maxArray(nums1, i), maxArray(nums2, k - i));
 	        if (greater(candidate, 0, ans, 0)) ans = candidate;
 	    }
 	    return ans;
 	}
 	
-	private static int[] merge(int[] nums1, int[] nums2, int k) {
-	    int[] ans = new int[k];
-	    for (int i = 0, j = 0, r = 0; r < k; ++r)
+	private int[] merge(int[] nums1, int[] nums2) {
+	    int[] ans = new int[nums1.length + nums2.length];
+	    for (int i = 0, j = 0, r = 0; r < ans.length; ++r)
 	        ans[r] = greater(nums1, i, nums2, j) ? nums1[i++] : nums2[j++];
 	    return ans;
 	}
 	
-	public static boolean greater(int[] nums1, int i, int[] nums2, int j) {
+	public boolean greater(int[] nums1, int i, int[] nums2, int j) {
 		// tie breaking logic
 	    while (i < nums1.length && j < nums2.length && nums1[i] == nums2[j]) {
 	        i++;
@@ -69,7 +70,7 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	    return j == nums2.length || (i < nums1.length && nums1[i] > nums2[j]);
 	}
 	
-	public static int[] maxArray(int[] nums, int k) {
+	public int[] maxArray(int[] nums, int k) {
 	    int n = nums.length;
 	    int[] ans = new int[k];
 	    for (int i = 0, j = 0; i < n; ++i) {
@@ -79,6 +80,44 @@ public class CreateMaximumNumber extends AbstractCustomTestRunner {
 	        if (j < k) ans[j++] = nums[i];
 	    }
 	    return ans;
+	}
+
+	// other approach, using sorting based on index positions.
+	public int[] _maxNumberOther(int[] nums1, int[] nums2, int k) {
+		Integer[] i1 = new Integer[nums1.length], i2 = new Integer[nums2.length];
+
+		for (int idx = 0; idx < nums1.length; idx ++) i1 [idx] = idx;
+		for (int idx = 0; idx < nums2.length; idx ++) i2 [idx] = idx;
+
+		Arrays.sort(i1, (x, y) -> nums1 [y] - nums1 [x]);
+		Arrays.sort(i2, (x, y) -> nums2 [y] - nums2 [x]);
+
+		int [] ans = null;
+		int n = nums1.length, m = nums2.length;
+		for (int ki = Math.max(0, k - m); ki <= k && ki <= n; ki ++) {
+			int [] v = merge (maxNum(nums1, i1, ki), maxNum(nums2, i2, k - ki));
+			if (ans == null || greater(v, 0, ans, 0)) ans = v;
+		}
+		return ans;
+	}
+
+	private int[] maxNum(int[] a, Integer [] i, int l) {
+		int [] v = new int [l];
+		int vIdx = 0, seeAfter = -1;
+		while (vIdx < v.length) {
+			for (int idx = 0; idx < i.length; idx ++) {
+				if (seeAfter >= i [idx]) continue;
+
+				int toFill = v.length - vIdx - 1;
+				int toOffer = i.length - i [idx] - 1;
+				if (toFill <= toOffer) {
+					seeAfter = i [idx];
+					v [vIdx ++] = a [i [idx]];
+					break;
+				}
+			}
+		}
+		return v;
 	}
 
 	// driver method
