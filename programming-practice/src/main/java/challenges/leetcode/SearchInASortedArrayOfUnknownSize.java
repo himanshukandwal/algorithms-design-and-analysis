@@ -62,6 +62,23 @@ public class SearchInASortedArrayOfUnknownSize extends AbstractCustomTestRunner 
         return -1;
     }
 
+    public int _searchBinary(ArrayReader reader, int target) {
+        int end = 1;
+
+        // set the end pointer to the valid point, i.e. anyplace after the target, if possible.
+        while (reader.get(end) < target) end = end << 1;
+
+        // start the start pointer from the half of the end pointer.
+        int start = end >> 1;
+        while (start <= end) {
+            int m = start + (end - start) / 2;
+            if (reader.get(m) > target) end = m - 1;
+            else if (reader.get(m) < target) start = m + 1;
+            else return m;
+        }
+        return -1;
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(new ArrayReader(new int[] { -1, 0, 3, 5, 9, 12 }), 9, 4);
