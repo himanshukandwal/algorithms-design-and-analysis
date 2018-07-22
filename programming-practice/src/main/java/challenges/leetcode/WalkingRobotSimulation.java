@@ -42,6 +42,28 @@ import java.util.Set;
  */
 public class WalkingRobotSimulation extends AbstractCustomTestRunner {
 
+    // better concise approach
+    public int robotSimBetter(int[] commands, int[][] obstacles) {
+        Set<String> s = new HashSet<>();
+        for (int[] o : obstacles) s.add(o[0] + "," + o[1]);
+
+        int max = 0, x = 0, y = 0, dIdx = 0, dirs[][] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  // arrangement is clockwise
+        for (int c : commands)
+            if (c == -2)
+                dIdx = dIdx == 0 ? 3 : dIdx - 1; // on c == -2, hop back (move anti-clockwise one step) . For idx == 0, set idx = 3 (last value)
+            else if (c == -1)
+                dIdx = dIdx == 3 ? 0 : dIdx + 1; // on c == -2, hop forward (move clockwise one step). For idx == 3, set idx = 0 (first value)
+            else {
+                int[] xy = dirs[dIdx];
+                while (c-- > 0 && !s.contains((x + xy[0]) + "," + (y + xy[1]))) {
+                    x += xy[0]; y += xy[1];
+                }
+                max = Math.max(max, x * x + y * y);
+            }
+        return max;
+    }
+
+    // initial approach
     public int robotSim(int[] commands, int[][] obstacles) {
         int result = 0;
 
