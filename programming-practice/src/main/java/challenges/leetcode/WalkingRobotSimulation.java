@@ -43,6 +43,8 @@ import java.util.Set;
 public class WalkingRobotSimulation extends AbstractCustomTestRunner {
 
     public int robotSim(int[] commands, int[][] obstacles) {
+        int result = 0;
+
         Map<String, boolean[]> map = new HashMap<>();
         map.put("lr", new boolean [] { false, false, true, false }); // -1
         map.put("ll", new boolean [] { false, false, false, true }); // -2
@@ -67,6 +69,8 @@ public class WalkingRobotSimulation extends AbstractCustomTestRunner {
                     if (!set.contains(nx + "," + ny)) {
                         x = nx;
                         y = ny;
+
+                        result = Math.max(result, x * x + y * y);
                     } else break;
                 }
             } else {
@@ -80,6 +84,6 @@ public class WalkingRobotSimulation extends AbstractCustomTestRunner {
                 l = v [0]; r = v [1]; u = v [2]; d = v [3];
             }
         }
-        return x * x + y * y;
+        return result;
     }
 }
