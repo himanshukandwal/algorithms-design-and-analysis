@@ -42,6 +42,37 @@ public class CoinPath extends AbstractCustomTestRunner {
 
     private static CoinPath _instance = new CoinPath();
 
+    // this is better because there will cases like:
+    //                0   1   2   3   4
+    // elements:      a   b   c   d   e
+    // parent:        1   4   3   4  -1
+    //
+    // So, filling backwardly in optimized way will allow many possible jump values from behind. And when traversing from begining will give lexicographically smallest answer.
+    public List<Integer> _cheapestJumpBetter(int[] A, int B) {
+        List<Integer> ans = new ArrayList<>();
+        // the pair of cost and parent idx [[cost, pIdx]];
+        int [][] dp = new int [A.length][2];
+        for (int idx = 0; idx < A.length; idx ++) {
+            dp [idx][0] = Integer.MAX_VALUE;
+            dp [idx][1] = -1;
+        }
+
+        dp [A.length - 1][0] = 0;
+        for (int idx = A.length - 2; idx >= 0; idx --) {
+            if (A [idx] < 0) continue;
+            for (int j = idx + 1; j <= idx + B && j < A.length; j ++) {
+                if (A [j] < 0) continue;
+                if (dp [idx][0] > dp [j][0] + A [idx]) {
+                    dp [idx][0] = dp [j][0] + A [idx];
+                    dp [idx][1] = j;
+                }
+            }
+        }
+
+        for (int idx = 0; idx >= 0;) { ans.add (idx + 1); idx = dp [idx][1]; }
+        return ans.get(ans.size() - 1) == A.length ? ans : Collections.emptyList();
+    }
+
     public List<Integer> _cheapestJump(int[] A, int B) {
         int [] c = new int [A.length], parent = new int [A.length], length = new int [A.length];
         Arrays.fill (parent, -1);
