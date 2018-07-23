@@ -55,6 +55,8 @@ public class LengthOfLongestFibonacciSubsequence extends AbstractCustomTestRunne
                 if (v > a) e --;
                 else if (v < a) s ++;
                 else {
+                    // save the whole length s -> (e) -> idx, using the last two (only imp thing in fibonacci seq for the future value) values e -> idx.
+                    // This is because when the new sum (future val) will be made, we would recall the complete length for the linked chain and extend with 1 for the new value (idx -> jdx).
                     ans = Math.max (ans, dp [e][idx] = (dp [s][e] == 0 ? 2 : dp [s][e]) + 1);
                     s ++;
                 }
