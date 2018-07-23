@@ -44,6 +44,25 @@ public class LengthOfLongestFibonacciSubsequence extends AbstractCustomTestRunne
 
     private static LengthOfLongestFibonacciSubsequence _instance = new LengthOfLongestFibonacciSubsequence();
 
+    public int _lenLongestFibSubseqCleaner(int[] A) {
+        int ans = 0, n = A.length;
+        int [][] dp = new int [n][n];  // rows = start, cols = end. i.e. dp [r][c] = max length of sub-seq from idx r to c.
+
+        for (int idx = 2; idx < n; idx ++) {
+            int a = A [idx], s = 0, e = idx - 1;
+            while (s < e) {
+                int v = A [s] + A [e];
+                if (v > a) e --;
+                else if (v < a) s ++;
+                else {
+                    ans = Math.max (ans, dp [e][idx] = (dp [s][e] == 0 ? 2 : dp [s][e]) + 1);
+                    s ++;
+                }
+            }
+        }
+        return ans;
+    }
+
     public int _lenLongestFibSubseq(int[] A) {
         // newvalue, [[oldvalue, old-length]]
         Map<Integer, List<int[]>> dp = new HashMap<>();
