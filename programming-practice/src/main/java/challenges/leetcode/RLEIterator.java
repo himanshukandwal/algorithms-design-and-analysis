@@ -87,30 +87,26 @@ public class RLEIterator extends AbstractCustomTestRunner {
         System.out.println(rleIterator.next(276));
     }
 
-
     class RLEIteratorOther {
 
         private int[] A;
         private int idx;
-        private int qty;
+        private int used;
 
         public RLEIteratorOther(int[] A) {
             this.A = A;
         }
 
         public int next(int n) {
-            while (idx < A.length) {
-                if (n > A [idx] - qty) {
-                    n -= (A [idx] - qty);
-                    qty = 0;
-                    idx += 2;
-                } else {
-                    qty += n;
-                    return A [idx + 1];
-                }
-            }
-            return -1;
+          while (idx < A.length && n > (A [idx] - used)) {
+              n -= (A [idx] - used);
+              used = 0;
+              idx += 2;
+          }
+
+          if (idx == A.length) return -1;
+          used += n;
+          return A [idx + 1];
         }
     }
 }
-
