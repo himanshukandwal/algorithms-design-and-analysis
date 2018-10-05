@@ -39,7 +39,19 @@ public class BestTimeToBuyAndSellStockII extends AbstractCustomTestRunner {
     		result = (prices [idx] > prices [idx - 1] ? (result + prices [idx] - prices [idx - 1]) : result);
     	
     	return result; 
-    }	
+    }
+
+	public int _maxProfit3(int[] prices) {
+		int sum = 0, minIdx = 0;
+		for (int idx = 1; idx < prices.length; idx ++) {
+			if (prices [idx - 1] > prices [idx]) {
+				sum += (prices [idx - 1] - prices [minIdx]);
+				minIdx = idx;
+			}
+		}
+		if (prices.length > 0 && minIdx != prices.length - 1) sum += (prices [prices.length - 1] - prices [minIdx]);
+		return sum;
+	}
     
 	// driver method
 	public static void main(String[] args) {
