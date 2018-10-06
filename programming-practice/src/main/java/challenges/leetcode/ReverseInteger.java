@@ -21,19 +21,15 @@ import challenges.AbstractCustomTestRunner;
 public class ReverseInteger extends AbstractCustomTestRunner {
 	
 	private static ReverseInteger _instance = new ReverseInteger();
-	
-	public int _reverse(int x) {
-		long ans = 0;
-        boolean isNeg = (x < 0);
-        if (isNeg) x = -x;
-        
-        while (x > 0) {
-            ans = 10 * ans + (x % 10);
-            x /= 10;
-        }
-        
-        if (ans > Integer.MAX_VALUE) return 0;
-        else return ((int) ans * (isNeg ? -1 : 1));
+
+	public int reverse(int x) {
+		long a = 0;
+		while (x != 0) {
+			a = 10l * a + x % 10;
+			if (a >= Integer.MAX_VALUE || a <= Integer.MIN_VALUE) return 0;
+			x /= 10;
+		}
+		return (int) a;
 	}
 	
 	// driver method
