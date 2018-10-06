@@ -23,102 +23,38 @@ import challenges.AbstractCustomTestRunner;
 public class ValidSudoku extends AbstractCustomTestRunner {
 	
 	private static ValidSudoku _instance = new ValidSudoku();
-	
-	private ValidSudoku() {}
-	
-    public boolean _isValidSudoku(char[][] board) {
-        if (board == null || board.length == 0)
-        	return true;
-        
-        // must be a square
-        if (board.length != board [0].length)
-        	return false;
-        
-        for (int row = 0; row < board.length; row ++) {
-        	Set<Character> seenCharacters = new HashSet<>();
-        	
-        	for (int col = 0; col < board [row].length; col ++) {
-        		char boardChar = board [row][col];
-        		
-        		if (boardChar >= '0' && boardChar <= '9') {
-        			if (seenCharacters.add(boardChar)) {
-						for (int rowcol = 0; rowcol < board.length; rowcol ++) {
-							if (rowcol != row && board [rowcol][col] == board [row][col])
-								return false;
-						}
-						
-						// check for that box condition
-						if (row >= 0 && row <= 2) {
-							if (col >= 0 && col <= 2)  {
-								for (int boxrow = 0; boxrow < 3; boxrow ++)
-									for (int boxcol = 0; boxcol < 3; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-							else if (col >= 3 && col <= 5)  {
-								for (int boxrow = 0; boxrow < 3; boxrow ++)
-									for (int boxcol = 3; boxcol < 6; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-							else {
-								for (int boxrow = 0; boxrow < 3; boxrow ++)
-									for (int boxcol = 6; boxcol < 9; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-						}
-						else if (row >= 3 && row <= 5) {
-							if (col >= 0 && col <= 2)  {
-								for (int boxrow = 3; boxrow < 6; boxrow ++)
-									for (int boxcol = 0; boxcol < 3; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-							else if (col >= 3 && col <= 5)  {
-								for (int boxrow = 3; boxrow < 6; boxrow ++)
-									for (int boxcol = 3; boxcol < 6; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-							else {
-								for (int boxrow = 3; boxrow < 6; boxrow ++)
-									for (int boxcol = 6; boxcol < 9; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-						}
-						else {
-							if (col >= 0 && col <= 2)  {
-								for (int boxrow = 6; boxrow < 9; boxrow ++)
-									for (int boxcol = 0; boxcol < 3; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-							else if (col >= 3 && col <= 5)  {
-								for (int boxrow = 6; boxrow < 9; boxrow ++)
-									for (int boxcol = 3; boxcol < 6; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-							else {
-								for (int boxrow = 6; boxrow < 9; boxrow ++)
-									for (int boxcol = 6; boxcol < 9; boxcol ++)
-										if (boxrow != row && boxcol != col && board [boxrow][boxcol] == boardChar)
-											return false;
-							}
-						}
-        			} 
-        			else 
-        				return false;
-				} 
-        		else if (boardChar != '.')
-        			return false;
-    		}
-		}
-        
-    	return true;
-    }
+
+	public boolean isValidSudoku(char[][] board) {
+		for (int r = 0; r < board.length; r ++)
+			for (int c = 0; c < board [0].length; c ++)
+				if (board[r][c] != '.' && !valid(board, r, c)) return false;
+		return true;
+	}
+
+	private boolean valid(char[][] board, int row, int col) {
+		char ch = board [row][col];
+		// validate row
+		for (int c = 0; c < board [0].length; c ++) if (c != col && board [row][c] == ch) return false;
+
+		// validate col
+		for (int r = 0; r < board.length; r ++) if (r != row && board [r][col] == ch) return false;
+
+		// validate box
+		int rs = 0, re = 0, cs = 0, ce = 0;
+		if (row / 3 == 0) { rs = 0; re = 2; }
+		else if (row / 3 == 1) { rs = 3; re = 5; }
+		else if (row / 3 == 2) { rs = 6; re = 8; }
+
+		if (col / 3 == 0) { cs = 0; ce = 2; }
+		else if (col / 3 == 1) { cs = 3; ce = 5; }
+		else if (col / 3 == 2) { cs = 6; ce = 8; }
+
+		for (int r = rs; r <= re; r ++)
+			for (int c = cs; c <= ce; c ++)
+				if (r != row && c != col && board [r][c] == ch) return false;
+
+		return true;
+	}
 	
 	// driver method
 	public static void main(String[] args) {
