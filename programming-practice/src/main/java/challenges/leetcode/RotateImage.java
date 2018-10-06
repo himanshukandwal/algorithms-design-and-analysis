@@ -19,31 +19,24 @@ public class RotateImage extends AbstractCustomTestRunner {
 	
 	private static RotateImage _instance = new RotateImage();
 	
-	private RotateImage() {}
-	
-	public int[][] _rotate(int[][] matrix) {
-		int n = matrix.length, level = 0;
-		
-		while (level <= n/2 - 1) {
-			int row = 0, col = 0;
-			for (int idx = 0; idx < n - 1 - 2 * level; idx ++) {
-				int a = matrix [row + level + idx][col + n - 1 - level];
-				matrix [row + level + idx][col + n - 1 - level] = matrix [row + level][col + level + idx];
-				
-				int b = matrix [row + n - 1 - level][col + n - 1 - level - idx];
-				matrix [row + n - 1 - level][col + n - 1 - level - idx] = a;
-				
-				a = matrix [row + n - 1 - level - idx][col + level];
-				matrix [row + n - 1 - level - idx][col + level] = b;
-				
-				matrix [row + level][col + level + idx] = a;
+	public void rotate(int[][] matrix) {
+		int l = 0, n = matrix.length;
+		while (n/2 - l > 0) {
+			for (int i = 0; i < n - 1 - 2 * l; i ++) {
+				int a = matrix [l + i][n - 1 - l];
+				matrix [l + i][n - 1 - l] = matrix [l][l + i];
+
+				int b = matrix [n - 1 - l][n - 1 - l - i];
+				matrix [n - 1 - l][n - 1 - l - i] = a;
+
+				int c = matrix [n - 1 - l - i][l];
+				matrix [n - 1 - l - i][l] = b;
+
+				matrix [l][l + i] = c;
 			}
-			
-			level ++;
+			l ++;
 		}
-		
-		return matrix;
-    }
+	}
 
 	// driver method
 	public static void main(String[] args) {
@@ -61,6 +54,5 @@ public class RotateImage extends AbstractCustomTestRunner {
 		}
 		
 		System.out.println("ok!");
-	}	
-
+	}
 }
