@@ -29,20 +29,27 @@ public class CountAndSay extends AbstractCustomTestRunner {
 	private static CountAndSay _instance = new CountAndSay();
 
     public String _countAndSay(int n) {
-        if (n == 0) return "";
-        String count = "1";
-        while (n -- > 1) {
-            String ans = "";
-            for (int idx = 0, c = 0; idx <= count.length(); idx ++) {
-                if (idx == 0 || (idx < count.length () && count.charAt (idx) == count.charAt (idx - 1))) c ++;
-                else {
-                    ans += (c + "" + count.charAt (idx - 1));
-                    c = 1;
+        String ans = "";
+        while (n -- > 0) {
+            if (ans.length() == 0) ans = "1";
+            else {
+                char ch = ans.charAt(0); int count = 1;
+                StringBuilder nxt = new StringBuilder();
+                for (int idx = 1; idx <= ans.length(); idx ++) {
+                    if (idx == ans.length()) nxt.append(count).append(ch);
+                    else {
+                        if (ans.charAt(idx) != ch) {
+                            nxt.append(count).append(ch);
+                            ch = ans.charAt(idx);
+                            count = 0;
+                        }
+                        count ++;
+                    }
                 }
+                ans = nxt.toString();
             }
-            count = ans;
         }
-        return count;
+        return ans;
     }
 	
     public static void main(String[] args) {
