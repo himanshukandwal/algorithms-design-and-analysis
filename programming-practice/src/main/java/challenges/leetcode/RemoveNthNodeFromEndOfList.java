@@ -34,15 +34,15 @@ public class RemoveNthNodeFromEndOfList extends AbstractCustomTestRunner {
 	
 	// method : let the forward pointer pass 'n' places and the start the node pointer till the forward pointer reaches end.
 	public ListNode _removeNthFromEnd(ListNode head, int n) {
-		ListNode traverser = head, forward = head;
-        while (n -- > 0) {
-            if (forward != null) forward = forward.next;
-            else return head;
-        }
-        if (forward == null) return head.next;
-        while (forward.next != null) { forward = forward.next; traverser = traverser.next; }
-        traverser.next = traverser.next.next;
-        return head;
+		ListNode s = null, f = head;
+		while (n -- > 0) f = f.next;
+		if (f == null) return head.next;
+		while (f != null) {
+			f = f.next;
+			s = s == null ? head : s.next;
+		}
+		s.next = s.next.next;
+		return head;
 	}
 
 	// driver method
