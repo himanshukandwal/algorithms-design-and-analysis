@@ -41,20 +41,20 @@ public class BinaryTreeLevelOrderTraversal extends AbstractCustomTestRunner {
 		 
 		 public TreeNode(int x) { val = x; }
 	}
-	
+
 	public List<List<Integer>> _levelOrder(TreeNode root) {
 		List<List<Integer>> ans = new ArrayList<>();
-        levelOrderInner (root, ans, 1);
-        return ans;
-    }
-    
-    private void levelOrderInner (TreeNode root, List<List<Integer>> ans, int level) {
-        if (root == null) return;
-        while (ans.size () < level) ans.add (new ArrayList<>());
-        ans.get (level - 1).add (root.val);
-        levelOrderInner (root.left, ans, level + 1);
-        levelOrderInner (root.right, ans, level + 1);
-    }
+		dfs (ans, root, 0);
+		return ans;
+	}
+
+	private void dfs (List<List<Integer>> ans, TreeNode n, int depth) {
+		if (n == null) return;
+		if (depth == ans.size()) ans.add (new ArrayList<>());
+		ans.get(depth).add (n.val);
+		dfs (ans, n.left, depth + 1);
+		dfs (ans, n.right, depth + 1);
+	}
 	
 	// driver method
 	public static void main(String[] args) {
