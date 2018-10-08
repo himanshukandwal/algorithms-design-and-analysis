@@ -17,19 +17,12 @@ import challenges.AbstractCustomTestRunner;
 public class DeleteNodeInALinkedList extends AbstractCustomTestRunner {
 	
 	private static DeleteNodeInALinkedList _instance = new DeleteNodeInALinkedList();
-	
-	private DeleteNodeInALinkedList() {}
-	
+
 	public static class ListNode {
 		int val;
 		ListNode next;
 		
 		ListNode(int x) { val = x; }
-		
-		@Override
-		public String toString() {
-			return "(" + val + ")";
-		}
 	}
 	
     public void _deleteNode(ListNode node) {
