@@ -39,8 +39,6 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 	
 	private static ValidateBinarySearchTree _instance = new ValidateBinarySearchTree();
 	
-	public ValidateBinarySearchTree() {}
-	
 	public static class TreeNode {
 		int val;
 		TreeNode left;
@@ -54,44 +52,10 @@ public class ValidateBinarySearchTree extends AbstractCustomTestRunner {
 		return isValidBST (root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
     
-    private boolean isValidBST (TreeNode node, long min, long max) {
-        if (node == null) return true;
-        if (node.val <= min || node.val >= max) return false;
-        return isValidBST (node.left, min, node.val) && isValidBST (node.right, node.val, max); 
+    private boolean isValidBST (TreeNode n, long min, long max) {
+		if (n == null) return true;
+		return (n.val > min && n.val < max) && isValidBST(n.left, min, n.val) && isValidBST(n.right, n.val, max);
     }
-	
-	// manager/dispatcher function.
-	public boolean _isValidBST(TreeNode root) {
-		return (root == null ? true : getMinMax(root) != null);
-	}
-	
-	private Integer[] getMinMax(TreeNode node) {
-		if (node != null && (node.left != null && node.left.val > node.val) || (node.right != null && node.right.val < node.val))
-			return null;
-		
-		Integer[] result = new Integer[2];
-		if (node.left != null) {
-	    	Integer[] minMax = getMinMax(node.left);
-	    	
-	    	if (minMax == null || ((minMax [0] >= node.val) || (minMax [1] >= node.val)))
-	    		return null;
-	    	else 
-	    		result [0] = minMax [0]; 
-	    } else
-	    	result [0] = node.val;
-		
-		if (node.right != null) {
-	    	Integer[] minMax = getMinMax(node.right);
-	    	
-	    	if (minMax == null || ((minMax [0] <= node.val) || (minMax [1] <= node.val)))
-	    		return null;
-	    	else 
-	    		result [1] = minMax [1]; 
-	    } else
-	    	result [1] = node.val;
-		
-		return result;
-	}
 
 	// driver method
 	public static void main(String[] args) {
