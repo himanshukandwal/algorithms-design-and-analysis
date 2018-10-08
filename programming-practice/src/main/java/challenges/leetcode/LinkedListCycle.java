@@ -24,16 +24,16 @@ public class LinkedListCycle extends AbstractCustomTestRunner {
 		ListNode next;
 		public ListNode(int x) { val = x; next = null; } 
 	}
-	
-    public boolean _hasCycle(ListNode head) {
-    	if (head == null || head.next == null) return false;
-        ListNode slow = head, fast = slow.next;
-        while (fast.next != null && fast.next.next != null && fast != slow) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-        return fast == slow;
-    }
+
+	public boolean _hasCycle(ListNode head) {
+		ListNode s = head, f = head;
+		while (f != null && f.next != null) {
+			f = f.next.next;
+			s = s.next;
+			if (f == s) return true;
+		}
+		return false;
+	}
 	
 	// driver method
 	public static void main(String[] args) {
@@ -53,12 +53,11 @@ public class LinkedListCycle extends AbstractCustomTestRunner {
 	}
 
 	public void runTest(final ListNode head, final boolean expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { head });
+		List<Object> answers = runAll(getClass(), new Object[]{head});
 
 		for (Object answer : answers)
 			assertThat((boolean) answer).isEqualTo(expectedOutput);
 
 		System.out.println("ok!");
 	}
-	
 }
