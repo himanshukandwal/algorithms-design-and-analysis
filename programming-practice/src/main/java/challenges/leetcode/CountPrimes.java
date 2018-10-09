@@ -17,22 +17,18 @@ import challenges.AbstractCustomTestRunner;
 public class CountPrimes extends AbstractCustomTestRunner {
 	
 	private static CountPrimes _instance = new CountPrimes();
-	
-	public CountPrimes() {}
-	
+
 	// (DP) sieve of Eratosthenes
 	public int _countPrimesOptimized(int n) {
-		if (n <= 1) return 0;
-        boolean [] primes = new boolean [n];
-        Arrays.fill (primes, true);
-        primes [0] = primes [1] = false;
-        for (int p = 2; p < n; p ++) 
-            if (primes [p])
-                for (int factor = 2 * p; factor < n; factor+= p) primes [factor] = false;
-        
-        int count = 0;
-        for (boolean prime : primes) if (prime) count ++;
-        return count;
+		boolean[] p = new boolean [n];
+		int ans = 0;
+		for (int idx = 2; idx < n; idx ++) {
+			if (!p [idx]) {
+				ans ++;
+				for (int j = 1; idx * j < n; j ++) p [idx * j] = true;
+			}
+		}
+		return ans;
     }
 	
 	// driver method
