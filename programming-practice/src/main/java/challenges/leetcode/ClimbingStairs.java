@@ -19,8 +19,6 @@ import challenges.AbstractCustomTestRunner;
 public class ClimbingStairs extends AbstractCustomTestRunner {
 
 	private static ClimbingStairs _instance = new ClimbingStairs();
-	
-	private ClimbingStairs() {}
 
 	// method 1 : using fibonacci series.
 	public int _climbStairs(int n) {
@@ -37,9 +35,13 @@ public class ClimbingStairs extends AbstractCustomTestRunner {
 	// method 2 : optimized (dynamic program, using memoization)
 	public int _climbStairs2(int n) {
 		if (n <= 2) return n;
-        int a = 1, b = 2;
-        for (int idx = 3; idx <= n; idx ++) { b = (a + b); a = b - a; }
-        return b;
+		int f = 2, s = 1, c = 0;
+		for (int step = 3; step <= n; step ++) {
+			c = f + s;
+			s = f;
+			f = c;
+		}
+		return f;
 	}
 	
 	// driver method
@@ -59,5 +61,4 @@ public class ClimbingStairs extends AbstractCustomTestRunner {
 		
 		System.out.println("ok!");
 	}
-	
 }
