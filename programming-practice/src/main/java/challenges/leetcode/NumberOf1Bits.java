@@ -18,9 +18,7 @@ import challenges.AbstractCustomTestRunner;
 public class NumberOf1Bits extends AbstractCustomTestRunner {
 	
 	private static NumberOf1Bits _instance = new NumberOf1Bits();
-	
-	private NumberOf1Bits() {}
-	
+
     public static int _hammingWeight(int n) {
     	int count = 0;
         for (int idx = 31; idx >= 0; idx --) count += (n >> idx & 1);
