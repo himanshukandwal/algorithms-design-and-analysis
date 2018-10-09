@@ -18,13 +18,13 @@ public class HouseRobber extends AbstractCustomTestRunner {
 	
 	// after analyzing states and dependencies needed, optimal solution.
     public int robBetter(int[] nums) {
-        int fprev = 0, sprev = 0;
+        int prev = 0, pprev = 0;
         for (int n : nums) {
-            int cur = Math.max (sprev + n, fprev);
-            sprev = fprev;
-            fprev = cur;
+            int c = Math.max (prev, pprev + n);
+            pprev = prev;
+            prev = c;
         }
-        return fprev;
+        return prev;
     }
     
 	// original solution.
