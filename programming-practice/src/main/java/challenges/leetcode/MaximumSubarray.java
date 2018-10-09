@@ -19,17 +19,14 @@ import challenges.AbstractCustomTestRunner;
 public class MaximumSubarray extends AbstractCustomTestRunner {
 	
 	private static MaximumSubarray _instance = new MaximumSubarray();
-	
-	private MaximumSubarray() {}
-	
+
 	public static int _maxSubArray(int[] nums) {
-		if (nums.length == 0) return 0;
-        int max = nums [0], localMax = max;
-        for (int idx = 1; idx < nums.length; idx ++) {
-            localMax = Math.max (localMax + nums [idx], nums [idx]);
-            max = Math.max (max, localMax);
-        }
-        return max;
+		int max = Integer.MIN_VALUE, lmax = 0;
+		for (int num : nums) {
+			lmax = Math.max (num, lmax + num);
+			max = Math.max (max, lmax);
+		}
+		return max;
     }
 
 	// driver method
@@ -44,6 +41,5 @@ public class MaximumSubarray extends AbstractCustomTestRunner {
 			assertThat((int) answer).isEqualTo(expectedOutput);
 		
 		System.out.println("ok!");
-	}	
-
+	}
 }
