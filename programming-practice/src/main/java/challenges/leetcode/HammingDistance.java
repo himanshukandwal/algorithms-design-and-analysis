@@ -28,25 +28,11 @@ import challenges.AbstractCustomTestRunner;
 public class HammingDistance extends AbstractCustomTestRunner {
 	
 	private static HammingDistance _instance = new HammingDistance();
-	
-	private HammingDistance() {}
 
 	public static int _hammingDistance(int x, int y) {
-		int result = 0;
-		
-        if (x != y) { 
-        	while (x > 0 || y > 0) {
-        		result += (x % 2 == y % 2 ? 0 : 1);
-        		
-        		if (x > 0)
-        			x /= 2;
-        		
-        		if (y > 0)
-        			y /= 2;
-        	}
-        }
-        
-        return result;
+		int ans = 0;
+		for (int idx = 31; idx >= 0; idx --) ans += ((x >> idx & 1) ^ (y >> idx & 1));
+		return ans;
     }
 
 	// driver method
