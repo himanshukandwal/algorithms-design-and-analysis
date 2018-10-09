@@ -2,6 +2,8 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import challenges.AbstractCustomTestRunner;
@@ -43,21 +45,13 @@ import challenges.AbstractCustomTestRunner;
 public class FizzBuzz extends AbstractCustomTestRunner {
 	
 	private static FizzBuzz _instance = new FizzBuzz();
-	
-	private FizzBuzz() {}
-	
+
 	public static int _fizzBuzz(int n) {
+		List<String> ans = new ArrayList<>();
 		for (int idx = 1; idx <= n; idx ++) {
-			if (idx % 3 == 0 && idx % 5 == 0)
-				System.out.println("FizzBuzz");
-			else if (idx % 3 == 0)
-				System.out.println("Fizz");
-			else if (idx % 5 == 0)
-				System.out.println("Buzz");
-			else 
-				System.out.println(idx);
+			if (idx % 3 == 0 || idx % 5 == 0) ans.add ((idx % 3 == 0 ? "Fizz" : "") + (idx % 5 == 0 ? "Buzz" : ""));
+			else ans.add (String.valueOf(idx));
 		}
-		
 		return 0;
 	}
 	
