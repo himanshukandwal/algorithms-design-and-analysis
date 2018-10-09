@@ -21,26 +21,19 @@ import challenges.AbstractCustomTestRunner;
 public class RomanToInteger extends AbstractCustomTestRunner {
 
 	private static RomanToInteger _instance = new RomanToInteger();
-	
-    public int _romanToInt(String s) {
-    	Map<Character, Integer> romans = new HashMap<Character, Integer>();
-        romans.put('I', 1);
-        romans.put('V', 5);
-        romans.put('X', 10);
-        romans.put('L', 50);
-        romans.put('C', 100);
-        romans.put('D', 500);
-        romans.put('M', 1000);
-        char[] chArr = s.toCharArray();
-        
-        int ans = 0;
-        for (int idx = 0; idx < chArr.length; idx ++) {
-            int value = romans.get (chArr [idx]);
-            if (idx == chArr.length - 1 || romans.get (chArr [idx + 1]) <= value) ans += value;
-            else ans -= value;
-        }
-        return ans;
-    }
+
+	public int _romanToInt(String s) {
+		Map<Character, Integer> map = new HashMap<>();
+		map.put('I', 1);    map.put('V', 5);    map.put('X', 10);   map.put('L', 50);
+		map.put('C', 100);  map.put('D', 500);  map.put('M', 1000);
+
+		int ans = 0;
+		for (int idx = 0; idx < s.length(); idx ++) {
+			if (idx > 0 && map.get (s.charAt (idx)) > map.get (s.charAt(idx - 1))) ans -= 2 * map.get (s.charAt(idx - 1));
+			ans += map.get (s.charAt (idx));
+		}
+		return ans;
+	}
     
 	// driver method
 	public static void main(String[] args) {
