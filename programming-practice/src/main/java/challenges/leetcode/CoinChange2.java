@@ -43,7 +43,7 @@ public class CoinChange2 extends AbstractCustomTestRunner {
 	
 	private static CoinChange2 _instance = new CoinChange2();
 
-	public int change(int amount, int[] coins) {
+	public int _change(int amount, int[] coins) {
 		int [][] dp = new int [coins.length + 1][amount + 1];
 		dp [0][0] = 1;
 		for (int r = 0; r < coins.length; r ++) {
@@ -55,14 +55,25 @@ public class CoinChange2 extends AbstractCustomTestRunner {
 		}
 		return dp [coins.length][amount];
 	}
-	
+
+	public int _changeOptimized(int amount, int[] coins) {
+		int [][] dp = new int [1][amount + 1];
+		dp [0][0] = 1;
+		for (int coin : coins) {
+			for (int c = 0; c < amount; c ++) {
+				int sum = c + 1;
+				dp [0][c + 1] += (sum >= coin ? dp[0][sum - coin] : 0);
+			}
+		}
+		return dp [0][amount];
+	}
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 1, 2, 5 }, 5, 4);
 	}
 
 	public void runTest(final int[] coins, final int amount, final int expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[]{coins, amount});
+		List<Object> answers = runAll(getClass(), new Object[] { amount, coins });
 
 		for (Object answer : answers)
 			assertThat((Integer) answer).isEqualTo(expectedOutput);
