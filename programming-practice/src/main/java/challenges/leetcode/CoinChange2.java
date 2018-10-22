@@ -44,12 +44,13 @@ public class CoinChange2 extends AbstractCustomTestRunner {
 	private static CoinChange2 _instance = new CoinChange2();
 
 	public int change(int amount, int[] coins) {
-		if (amount == 0) return 1;
 		int [][] dp = new int [coins.length + 1][amount + 1];
+		dp [0][0] = 1;
 		for (int r = 0; r < coins.length; r ++) {
+			dp [r + 1][0] = 1;
 			for (int c = 0; c < amount; c ++) {
 				int coin = coins [r], sum = c + 1;
-				dp [r + 1][c + 1] = dp [r][c + 1] + (sum == coin ? 1 : (sum > coin ? dp[r + 1][sum - coin] : 0));
+				dp [r + 1][c + 1] = dp [r][c + 1] + (sum >= coin ? dp[r + 1][sum - coin] : 0);
 			}
 		}
 		return dp [coins.length][amount];
