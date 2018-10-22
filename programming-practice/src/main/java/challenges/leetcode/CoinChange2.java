@@ -67,6 +67,16 @@ public class CoinChange2 extends AbstractCustomTestRunner {
 		}
 		return dp [0][amount];
 	}
+
+	public int _changeOptimizedCleaner(int amount, int[] coins) {
+		int [][] dp = new int [1][amount + 1];
+		dp [0][0] = 1;
+		for (int coin : coins)
+			for (int sum = coin; sum <= amount; sum ++)
+				dp [0][sum] += dp[0][sum - coin];
+		return dp [0][amount];
+	}
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new int [] { 1, 2, 5 }, 5, 4);
