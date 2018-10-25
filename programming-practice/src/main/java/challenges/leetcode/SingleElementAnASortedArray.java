@@ -38,7 +38,7 @@ public class SingleElementAnASortedArray extends AbstractCustomTestRunner {
         int l = 0, r = nums.length - 1;
         while (l < r) {
             int m = l + (r - l)/2;
-            if (2*(m/2) + 1 < nums.length && nums [2*(m/2)] == nums [2*(m/2) + 1]) l = m + 1;
+            if (2 * (m/2) + 1 < nums.length && nums [2 * (m/2)] == nums [2 * (m/2) + 1]) l = m + 1;   // nums [mid] == nums [mid ^ 1]
             else r = m;
         }
         return nums [l];
