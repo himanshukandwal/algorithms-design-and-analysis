@@ -34,6 +34,17 @@ public class SingleElementAnASortedArray extends AbstractCustomTestRunner {
         return ans;
     }
 
+    public int _singleNonDuplicateLogN(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            int m = l + (r - l)/2;
+            if (2*(m/2) + 1 < nums.length && nums [2*(m/2)] == nums [2*(m/2) + 1]) l = m + 1;
+            else if (2*(m/2) - 1 >= 0 && nums [2*(m/2)] == nums [2*(m/2) - 1]) r = m - 1;
+            else break;
+        }
+        return nums [l];
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(new int[] { 1, 1, 2, 3, 3, 4, 4, 8, 8 }, 2);
