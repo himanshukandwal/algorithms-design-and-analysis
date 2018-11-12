@@ -2,9 +2,12 @@ package challenges.hackerrank;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 /**
  * Poisonous Plants
@@ -151,7 +154,7 @@ public class PoisonousPlants extends AbstractCustomTestRunner {
         if(!INPUT.isEmpty())tr(System.currentTimeMillis()-s+"ms");
     }
 
-    public static void main(String[] args) throws Exception { new D().run(); }
+    public static void main(String[] args) throws Exception { new PoisonousPlants().run(); }
 
     private byte[] inbuf = new byte[1024];
     private int lenbuf = 0, ptrbuf = 0;
