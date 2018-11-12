@@ -1,7 +1,5 @@
 package challenges.assorted;
 
-import java.util.Arrays;
-
 public class SegmentTree {
     private int[] arr;
     private int size;
