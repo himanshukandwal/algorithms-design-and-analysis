@@ -73,4 +73,23 @@ public class CheapestFlightsWithinKStops extends AbstractCustomTestRunner {
         }
         return -1;
     }
+
+    // using Bellman ford
+    public int findCheapestPriceBellmanFord(int n, int[][] flights, int src, int dst, int K) {
+        int [] cost = new int [n];
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        cost [src] = 0;
+        int ans = Integer.MAX_VALUE;
+        while (K -- >= 0) {
+            int [] curr = new int [n];
+            Arrays.fill(curr, Integer.MAX_VALUE);
+            for (int [] f : flights) {
+                if (cost [f [0]] != Integer.MAX_VALUE)
+                    curr [f [1]] = Math.min(curr [f [1]], cost [f [0]] + f [2]);
+            }
+            cost = curr;
+            ans = Math.min(ans, cost [dst]);
+        }
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
 }
