@@ -45,4 +45,5 @@ public class The1BitAnd2BitCharacters extends AbstractCustomTestRunner {
         }
         return isOb;
     }
+
 }
