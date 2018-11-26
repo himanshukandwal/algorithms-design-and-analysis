@@ -39,4 +39,17 @@ public class DiameterOfBinaryTree extends AbstractCustomTestRunner {
         return (node == null) ? 0 : 1 + Math.max (height (node.left), height (node.right));
     }
 
+    // one pass algorithm
+    int ans = 0;
+    public int diameterOfBinaryTreeOnePass(TreeNode root) {
+        diameterOfBinaryTreeOnePassInner(root);
+        return ans;
+    }
+
+    public int diameterOfBinaryTreeOnePassInner(TreeNode root) {
+        if (root == null) return 0;
+        int l = diameterOfBinaryTreeOnePassInner (root.left), r = diameterOfBinaryTreeOnePassInner (root.right);
+        ans = Math.max (ans, l + r);
+        return Math.max (l, r) + 1;
+    }
 }
