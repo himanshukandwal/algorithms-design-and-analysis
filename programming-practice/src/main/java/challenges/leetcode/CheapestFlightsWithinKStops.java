@@ -77,6 +77,7 @@ public class CheapestFlightsWithinKStops extends AbstractCustomTestRunner {
     // https://leetcode.com/problems/cheapest-flights-within-k-stops/discuss/128217/Three-C%2B%2B-solutions-BFS-DFS-and-BF
 
     // Using Bellman ford (Not exactly as we don't keep on reset the cost array every time to INF in actual bellman ford, we keep working on it per iteration)
+    // It maintain a shortest distance on each node so far, then updated the distance K times.
     // This is more like BFS, as we try to reach to next layer and try to get to dst in smallest number possible steps, (within K)
     //  itr:  Those which are 1 step away from src will be filled in first iteration, then
     //  itr: those which are 2 step away from src will be filled in second iteration (also the distance of src will be INF initially)
