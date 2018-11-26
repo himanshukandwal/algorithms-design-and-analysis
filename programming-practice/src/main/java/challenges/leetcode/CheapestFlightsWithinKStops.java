@@ -74,7 +74,11 @@ public class CheapestFlightsWithinKStops extends AbstractCustomTestRunner {
         return -1;
     }
 
-    // using Bellman ford
+    // Using Bellman ford (Not exactly as we don't keep on reset the cost array every time to INF in actual bellman ford, we keep working on it per iteration)
+    // Those which are 1 step away from src will be filled in first iteration, then
+    // those which are 2 step away from src will be filled in second iteration (also the distance of src will be INF initially)
+    // those which are k step away from src will be filled in second iteration (also the distance of src will be INF initially)
+    // now if in between record the minimum distance for dst during these k runs. It will reset to INF in every iteration.
     public int findCheapestPriceBellmanFord(int n, int[][] flights, int src, int dst, int K) {
         int [] cost = new int [n];
         Arrays.fill(cost, Integer.MAX_VALUE);
