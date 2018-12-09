@@ -22,13 +22,13 @@ import challenges.AbstractCustomTestRunner;
 public class SortArrayByParity extends AbstractCustomTestRunner {
 
     public int[] _sortArrayByParity(int[] A) {
-        int eidx = -1;
+        int eIdx = -1;
         for (int idx = 0; idx < A.length; idx ++) {
             if (A [idx] % 2 == 0) {
-                int t = A [eidx + 1];
-                A [eidx + 1] = A [idx];
+                int t = A [eIdx + 1];
+                A [eIdx + 1] = A [idx];
                 A [idx] = t;
-                eidx ++;
+                eIdx ++;
             }
         }
         return A;
