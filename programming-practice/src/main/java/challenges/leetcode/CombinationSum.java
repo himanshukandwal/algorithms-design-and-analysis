@@ -2,9 +2,7 @@ package challenges.leetcode;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -31,28 +29,47 @@ import challenges.AbstractCustomTestRunner;
 public class CombinationSum extends AbstractCustomTestRunner {
 	
 	private static CombinationSum _instance = new CombinationSum();
-	
+
+	// DP like approach
     public List<List<Integer>> _combinationSum(int[] candidates, int target) {
-    	Arrays.sort (candidates);
-    	return combine (candidates, target, 0);
-    }
-    
-    private List<List<Integer>> combine (int [] candidates, int target, int start) {
-        List<List<Integer>> ans = new ArrayList<>();
-        for (int idx = start; idx < candidates.length; idx ++) {
-            if (target < candidates [idx]) break;
-            if (target == candidates [idx]) { 
-                List<Integer> build = new ArrayList<> (); 
-                build.add (candidates [idx]);
-                ans.add (build);
-                break;
-            }  
-            for (List<Integer> res : combine (candidates, target - candidates [idx], idx)) {
-                res.add (candidates [idx]);
-                ans.add (res);
-            } 
+        Map<Integer, List<List<Integer>>> map = new HashMap<>();
+        for (int c : candidates) {
+            for (int s = 0; s <= target; s ++) {
+                if (c == s) map.computeIfAbsent(s, k -> new ArrayList<List<Integer>>()).add(Arrays.asList(c));
+                else if (c < s) {
+                    if (map.containsKey(s - c)) {
+                        for (List<Integer> l : map.get (s - c)) {
+                            List<Integer> v = new ArrayList<Integer>(l);
+                            v.add (c);
+                            map.computeIfAbsent(s, k -> new ArrayList<List<Integer>>()).add(v);
+                        }
+                    }
+                }
+            }
         }
+        return map.getOrDefault(target, Arrays.asList());
+    }
+
+    // DFS approach
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(candidates);
+        dfs (candidates, ans, new ArrayList<>(), target, 0);
         return ans;
+    }
+
+    private void dfs (int[] candidates, List<List<Integer>> ans, List<Integer> build, int target, int start) {
+        if (target < 0) return;
+        if (target == 0) ans.add (new ArrayList(build));
+        else {
+            for (int idx = start; idx < candidates.length; idx ++) {
+                if (idx == 0 || candidates [idx] != candidates [idx - 1]) {
+                    build.add (candidates [idx]);
+                    dfs (candidates, ans, build, target - candidates [idx], idx);
+                    build.remove(build.size() - 1);
+                }
+            }
+        }
     }
     
 	// driver method
