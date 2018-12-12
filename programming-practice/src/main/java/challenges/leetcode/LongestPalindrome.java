@@ -28,8 +28,6 @@ import challenges.AbstractCustomTestRunner;
 public class LongestPalindrome extends AbstractCustomTestRunner {
 	
 	private static LongestPalindrome _instance = new LongestPalindrome();
-	
-	private LongestPalindrome() {}
 
 	public static int _longestPalindrome(String s) {
 		int[] count = new int['z' - 'A' + 1];
