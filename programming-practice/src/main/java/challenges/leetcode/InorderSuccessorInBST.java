@@ -36,7 +36,7 @@ import java.util.Stack;
  * 
  * @author Hxkandwal
  */
-public class InorderSuccessorInBST extends AbstractCustomTestRunner {
+public class 	InorderSuccessorInBST extends AbstractCustomTestRunner {
 	
 	public static class TreeNode {
 		int val;
