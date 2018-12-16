@@ -110,4 +110,36 @@ public class BinaryTreeVerticalOrderTraversal extends AbstractCustomTestRunner {
         for (int idx = min; idx <= max; idx ++) ans.add(map.get (idx));
         return ans;
     }
+
+    // other way : Identify range first
+    int min = 0, max = 0;
+    public List<List<Integer>> verticalOrderRangeFirst(TreeNode root) {
+        if (root == null) return Arrays.asList();
+        List<List<Integer>> ans = new ArrayList<>();
+        dfsRange(root, 0);
+        for (int idx = min; idx <= max; idx ++) ans.add(new ArrayList<>());
+        Queue<Object[]> queue = new LinkedList<>();
+        queue.offer (new Object[] {root, 0});
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size -- > 0) {
+                Object[] items = queue.poll();
+                TreeNode n = (TreeNode) items [0];
+                Integer l = (Integer) items [1];
+
+                ans.get (Math.abs (min) + l).add(n.val);
+                if (n.left != null) queue.offer (new Object[] { n.left, l - 1});
+                if (n.right != null) queue.offer (new Object[] { n.right, l + 1});
+            }
+        }
+        return ans;
+    }
+
+    private void dfsRange(TreeNode n, int l) {
+        if (n == null) return;
+        max = Math.max(max, l);
+        min = Math.min(min, l);
+        dfsRange(n.left, l - 1);
+        dfsRange(n.right, l + 1);
+    }
 }
