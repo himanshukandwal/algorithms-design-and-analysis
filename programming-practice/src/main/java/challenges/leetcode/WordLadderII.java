@@ -102,6 +102,62 @@ public class WordLadderII extends AbstractCustomTestRunner {
         }
     }
 
+    // Note down the shortest path, and use that information while DFS path construction.
+    public List<List<String>> _findLaddersBetter(String beginWord, String endWord, List<String> wordList) {
+        Set<String> set = new HashSet<>(wordList);
+        if (!set.contains(endWord)) return Arrays.asList();
+        List<List<String>> ans = new ArrayList<>();
+
+        set.add (beginWord);
+        Queue<String> queue = new LinkedList<String>();
+        Map<String, List<String>> graph = new HashMap<>();
+        Map<String, Integer> shortestDistance = new HashMap<>();
+
+        for (String w : set) graph.put (w, new ArrayList<>());
+        shortestDistance.put (beginWord, 0);
+        queue.offer (beginWord);
+
+        while (!queue.isEmpty()) {
+            boolean found = false;
+            int size = queue.size();
+            while (size -- > 0) {
+                String w = queue.poll();
+                for (int idx = 0; idx < w.length(); idx ++) {
+                    for (char c = 'a'; c <= 'z'; c ++) {
+                        if (c == w.charAt(idx)) continue;
+                        String next = w.substring(0, idx) + c + w.substring(idx + 1);
+
+                        if (set.contains(next)) {
+                            graph.get(w).add (next);
+                            if (!shortestDistance.containsKey(next)) {
+                                if (next.equals(endWord)) found = true;
+                                shortestDistance.put(next, shortestDistance.get(w) + 1);
+                                queue.offer (next);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (found) break;
+        }
+
+        dfs (ans, new ArrayList<>(), shortestDistance, graph, beginWord, endWord);
+        return ans;
+    }
+
+    private void dfs (List<List<String>> ans, List<String> build, Map<String, Integer> shortestDistance, Map<String, List<String>> graph, String current, String endWord) {
+        build.add (current);
+        if (current.equals (endWord)) ans.add (new ArrayList<>(build));
+        else {
+            for (String n : graph.get (current)) {
+                if (shortestDistance.get(n) == shortestDistance.get (current) + 1)
+                    dfs (ans, build, shortestDistance, graph, n, endWord);
+            }
+        }
+        build.remove (build.size() - 1);
+    }
+
     // driver method
     public static void main(String[] args) {
         Set<String> dict = new HashSet<>();
