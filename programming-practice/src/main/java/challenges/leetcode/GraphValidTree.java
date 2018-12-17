@@ -1,11 +1,11 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 261. Graph Valid Tree
@@ -23,39 +23,64 @@ public class GraphValidTree extends AbstractCustomTestRunner {
 	
 	private static GraphValidTree _instance = new GraphValidTree();
 
-	public static class Node {
-        int value;
-        Node parent;
-        int rank;
-        
-        public Node(int value) { this.value = value; this.parent = this; }
-        public String toString() { return String.valueOf(value); }
-    }
-    
-    public boolean validTree(int n, int[][] edges) {
-        List<Node> nodes = new ArrayList<>();
-        for (int idx = 0; idx < n; idx ++)  nodes.add (new Node (idx));
-        
-        for (int [] edge : edges) {
-            Node rs = find (nodes.get (edge [0]));
-            Node re = find (nodes.get (edge [1]));
-            if (rs != re) {
-                n --;
-                if (rs.rank > re.rank) { re.parent = rs; rs.rank ++; }
-                else if (rs.rank < re.rank) { rs.parent = re; re.rank ++; }
-                else { rs.parent = re; re.rank ++; }
-            } else return false;
+    public class Node {
+        public int val;
+        public Node parent;
+        Node (int val) {
+            this.val = val;
+            this.parent = this;
         }
-        
-        return (n > 1) ? false : true;
     }
-    
-    private Node find (Node node) {
-        if (node.parent != node)
-            node.parent = find (node.parent);
-        return node.parent;
+
+    // Strategy using disjoint data structure. Nice!
+    public boolean _validTree(int n, int[][] edges) {
+        if (n == 0) return true;
+        Node[] nodes = new Node [n];
+        for (int idx = 0; idx < n; idx ++) nodes [idx] = new Node (idx);
+        for (int [] e : edges) {
+            Node x = nodes [e [0]], y = nodes [e [1]];
+            Node rx = find (x), ry = find (y);
+            if (rx == ry) return false;     // cycle
+            rx.parent = ry;                 // no need to maintain ranks here. Just keep x and y together.
+            n --;
+        }
+        return n == 1;
     }
-    
+
+    private Node find (Node n) {
+        return n.parent == n ? n : find (n.parent);
+    }
+
+    // another strategy using AlgorithmsLive! video (ep - 1)
+    // - a graph with n nodes, with have all unique paths, i.e. no cycles and hence  n - 1 edges.
+    // - if we traverse all the edges there will be no missing node (connected).
+    public class GraphNode {
+        int val;
+        boolean seen;
+        List<GraphNode> children = new ArrayList<>();
+        GraphNode(int val) { this.val = val; }
+    }
+
+    public boolean validTreeOther(int n, int[][] edges) {
+        if (n == 0) return true;
+        if (edges.length != n - 1) return false;
+        GraphNode[] nodes = new GraphNode [n];
+        for (int idx = 0; idx < n; idx ++) nodes [idx] = new GraphNode (idx);
+        for (int[] e : edges) {
+            nodes [e [0]].children.add(nodes [e [1]]);
+            nodes [e [1]].children.add(nodes [e [0]]);
+        }
+        dfs (nodes [0]);
+        for (GraphNode node : nodes) if (!node.seen) return false;
+        return true;
+    }
+
+    private void dfs(GraphNode n) {
+        if (n == null || n.seen) return;
+        n.seen = true;
+        for (GraphNode c : n.children) dfs (c);
+    }
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(5, new int[][] { new int [] { 0, 1 }, new int [] { 0, 2 }, new int [] { 0, 3 }, new int [] { 1, 4 } }, true);
@@ -63,12 +88,11 @@ public class GraphValidTree extends AbstractCustomTestRunner {
 	}
 	
 	public void runTest(final int n, final int[][] edges, final boolean expectedOutput) {
-		List<Object> answers = runAll(getClass(), new Object[] { n, edges });
-		
-		for (Object answer : answers) 
-			assertThat((Boolean) answer).isEqualTo (expectedOutput);
-		
-		System.out.println("ok!");
-	}    
-    
+        List<Object> answers = runAll(getClass(), new Object[]{n, edges});
+
+        for (Object answer : answers)
+            assertThat((Boolean) answer).isEqualTo(expectedOutput);
+
+        System.out.println("ok!");
+    }
 }
