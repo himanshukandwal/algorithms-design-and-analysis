@@ -48,36 +48,32 @@ import challenges.AbstractCustomTestRunner;
 public class MinimumGeneticMutation extends AbstractCustomTestRunner {
 	
 	private static MinimumGeneticMutation _instance = new MinimumGeneticMutation();
-	
-	private MinimumGeneticMutation() {}
-	
-	public int _minMutation(String start, String end, String[] bank) {
-        if (bank.length == 0) return -1;
-        Set<String> dict = new HashSet<>();
-        for (String bi : bank) dict.add (bi);
-        
-        int mutations = 0;
+
+    public int _minMutation(String start, String end, String[] bank) {
+        Set<String> set = new HashSet<>();
+        for (String b : bank) set.add (b);
+        set.add (start);
         Queue<String> queue = new LinkedList<>();
-        queue.add (start);
-        Set<String> seen = new HashSet<>();
-        
+        queue.offer (start);
+
+        int ans = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size ();
+            int size = queue.size();
+            ans ++;
             while (size -- > 0) {
-                String word = queue.poll ();
-                if (word.equals (end)) return mutations;
-                char [] chArr = word.toCharArray ();
-                
-                seen.add (word);
-                for (int idx = 0; idx < chArr.length; idx ++)
+                String g = queue.poll();
+                for (int idx = 0; idx < g.length(); idx ++) {
                     for (char c : "ACGT".toCharArray()) {
-                        char old = chArr [idx];
-                        chArr [idx] = c;
-                        if (dict.contains (String.valueOf(chArr)) && !seen.contains(String.valueOf(chArr))) queue.offer (String.valueOf(chArr));
-                        chArr [idx] = old;
-                    }    
+                        if (c == g.charAt(idx)) continue;
+                        String next = g.substring (0, idx) + c + g.substring (idx + 1);
+                        if (set.contains(next)) {
+                            set.remove (next);
+                            if (next.equals(end)) return ans;
+                            queue.offer (next);
+                        }
+                    }
+                }
             }
-            mutations ++;
         }
         return -1;
     }
