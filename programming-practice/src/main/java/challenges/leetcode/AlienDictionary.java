@@ -39,63 +39,46 @@ public class AlienDictionary extends AbstractCustomTestRunner {
     private static AlienDictionary _instance = new AlienDictionary();
 
     class Node {
-        char c;
+        char val;
         boolean seen;
-        Set<Node> children = new HashSet<>();
-        Node (char c) { this.c = c; }
+        List<Node> children = new ArrayList<>();
+
+        public Node (char val) { this.val = val; }
     }
+
     // Note: Stitching within words does not make sense, only thing to note is across words. Example: [ab, ba], now ba this doesn't means a is smaller than b.
     // start comparing with index 0, then if the position at index 0 is same, the start comparing index 1 and so on.
-    // topological order also doesn't make sense as, we want things to be weighted like : [wrt, wrf], now this makes chain as w -> r -> t, now this doesn't explains
-    //                                                                                                                             |--> f
-    // the occurrence of t before f. We can make it weighted by assigning more weight to t, but that possibly won't work in bigger inputs like how the weights should vary
-    // and how the order should be computed later on. (how to assign equal weights).
-    // Simple idea: use a map int [26] (lowercase letter), keep marking the char (idx) with increasing  value (starting with 1) as we encounter number. Read and insert in
-    // StringBuilder answer.
     // [Initial commit is wrong but shows initial approach.]
     public String _alienOrder(String[] words) {
-        Set<String> set = new HashSet<>();
-        for (int idx = 0; idx < words.length; idx ++) {
-            if (idx > 0 && words [idx - 1].equals (words [idx])) continue;
-            if (set.contains(words [idx])) return "";
-            set.add (words [idx]);
-        }
-
         Map<Character, Node> map = new HashMap<>();
-        for (int idx = 0; idx < words.length; idx ++) {
-            if (idx > 0 && words [idx - 1].equals (words [idx])) continue;
+        for (char c : words [0].toCharArray()) map.putIfAbsent (c, new Node (c));
 
-            for (int jdx = 0; jdx < words [idx].length(); jdx ++) {
-                char c = words [idx].charAt(jdx);
-                map.putIfAbsent(c, new Node (c));
-                Node nc = map.get (c);
+        for (int idx = 1; idx < words.length; idx ++) {
+            String wx = words [idx - 1], wy = words [idx];
 
-                if (jdx == 0) { // stitching across words
-                    if (idx > 0 && words [idx - 1].charAt(0) != words [idx].charAt(0)) {
-                        if (nc.children.contains(words [idx - 1].charAt(0))) return "";  // cycle - break
-                        map.get(words [idx - 1].charAt(0)).children.add (nc);
-                    }
-                } else { // stitching within words
-                    if (words [idx].charAt(jdx - 1) != c) {
-                        if (map.get(c).children.contains(words [idx].charAt(jdx - 1))) return "";  // cycle - break
-                        map.get(words [idx].charAt(jdx - 1)).children.add (nc);
-                    }
+            for (char c : wx.toCharArray()) map.putIfAbsent (c, new Node (c));
+            for (char c : wy.toCharArray()) map.putIfAbsent (c, new Node (c));
+
+            int length = Math.min(wx.length(), wy.length());
+            for (int k = 0; k < length; k ++) {
+                if (wx.charAt(k) != wy.charAt(k)) {
+                    map.get(wx.charAt(k)).children.add(map.get (wy.charAt(k)));
+                    break;
                 }
             }
         }
 
         StringBuilder ans = new StringBuilder();
-        for (Character c : map.keySet())
-            if (!topologicalOrder (new HashSet<>(), map.get(c), ans)) return "";
+        for (Character k : map.keySet()) if (!topologicalOrder(new HashSet<>(), map.get (k), ans)) return "";
         return ans.reverse().toString();
     }
 
-    private boolean topologicalOrder(Set<Node> path, Node n, StringBuilder ans) {
+    private boolean topologicalOrder (Set<Node> path, Node n, StringBuilder ans) {
         if (n == null || n.seen) return true;
-        if (path.contains(n)) return false;  // cycle - break
-        path.add(n);
+        if (path.contains (n)) return false;
+        path.add (n);
         for (Node c : n.children) if (!topologicalOrder(path, c, ans)) return false;
-        ans.append(n.c);
+        ans.append (n.val);
         return n.seen = true;
     }
 
