@@ -39,6 +39,25 @@ public class SlidingWindowMaximum extends AbstractCustomTestRunner {
 	
 	private static SlidingWindowMaximum _instance = new SlidingWindowMaximum();
 
+	// Simple solution
+    public int[] _maxSlidingWindowSimple(int[] nums, int k) {
+        if (nums.length == 0) return new int [0];
+        int[] ans = new int [nums.length - k + 1];
+        int mIdx = -1;
+        for (int idx = k - 1; idx < nums.length; idx ++) {
+            if (mIdx < idx - (k - 1)) mIdx = max (nums, idx - (k - 1), idx);
+            if (nums [mIdx] < nums [idx]) mIdx = idx;
+            ans [idx - (k - 1)] = nums [mIdx];
+        }
+        return ans;
+    }
+
+    private int max(int[] nums, int s, int e) {
+        int mIdx = s;
+        for (int idx = s + 1; idx <= e; idx ++) if (nums [mIdx] <= nums [idx]) mIdx = idx;
+        return mIdx;
+    }
+
 	// using smart queuing.
 	public int[] _maxSlidingWindowBest(int[] nums, int k) {
         if (nums.length == 0) return new int [0];
