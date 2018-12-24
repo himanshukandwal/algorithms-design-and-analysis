@@ -27,20 +27,17 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class GroupAnagrams extends AbstractCustomTestRunner {
-	
-    public List<List<String>> _groupAnagrams(String[] strs) {
-    	List<List<String>> answer = new ArrayList<>();
-    	Map<Integer, List<String>> dp = new HashMap<>();
-    	for (String str : strs) {
-    		int[] hash = new int[26];
-    		for (int idx = 0; idx < str.length(); idx ++) hash [str.charAt(idx) - 'a'] ++;
-    		int hashcode = Arrays.hashCode(hash);
-    		
-    		if (!dp.containsKey(hashcode)) dp.put(hashcode, new ArrayList<>());
-    		dp.get(hashcode).add(str);
-        }
-        answer.addAll(dp.values());
-        return answer;
-    }
+
+	public List<List<String>> groupAnagrams(String[] strs) {
+		List<List<String>> ans = new ArrayList<>();
+		Map<Integer, List<String>> map = new HashMap<>();
+		for (String s : strs) {
+			char [] arr = new char[256];
+			for (char c : s.toCharArray()) arr [c] ++;
+			map.computeIfAbsent(Arrays.hashCode(arr), k -> new ArrayList<>()).add (s);
+		}
+		ans.addAll (map.values());
+		return ans;
+	}
     
 }
