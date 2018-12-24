@@ -28,29 +28,28 @@ import challenges.AbstractCustomTestRunner;
 public class DecodeString extends AbstractCustomTestRunner {
 
 	public String decodeString(String s) {
-		StringBuilder ans = new StringBuilder();
 		Stack<Object[]> stack = new Stack<>();
-		int idx = 0, num = 0;
+		int idx = 0;
+		int num = 0;
+		String str = "";
 		while (idx < s.length()) {
-			char ch = s.charAt(idx ++);
-			if (ch >= '0' && ch <= '9') num = num * 10 + (ch - '0');
-			else {
-				if (ch == '[') stack.push(new Object[] { num, "" });
-				else if (ch == ']') {
-					int val = (Integer) stack.peek()[0];
-					String str = (String) stack.pop()[1];
-					StringBuilder sb = new StringBuilder();
-					while (val-- > 0) sb.append(str);
-					if (stack.isEmpty()) ans.append(sb.toString());
-					else stack.peek()[1] = (String) stack.peek()[1] + sb.toString();
-				} else {
-					if (stack.isEmpty()) ans.append(String.valueOf(ch));
-					else stack.peek()[1] = (String) stack.peek()[1] + String.valueOf(ch);
-				}
+			while (idx < s.length() && Character.isDigit(s.charAt(idx))) num = 10 * num + (s.charAt (idx ++) - '0');
+			if (s.charAt(idx) == '[') {
+				stack.push(new Object[] { num, str });
 				num = 0;
-			}
+				str = "";
+			} else if (s.charAt(idx) == ']') {
+				int on = (Integer) stack.peek() [0];
+				String os = (String) stack.pop() [1];
+				while (on -- > 0 && str.length() > 0) os += str;
+				str = os;
+			} else
+				str += s.charAt(idx);
+
+			idx ++;
 		}
-		return ans.toString();
+		return str;
 	}
-	
+
+
 }
