@@ -22,6 +22,7 @@ import java.util.Set;
  *                  ['U', 'O', 'E'],
  *                  ['C', 'S', 'O']
  *              ]
+ *
  *  and words = ["CODE", "SOLO", "RULES", "COOL"], the output should be wordBoggle(board, words) = ["CODE", "RULES"].
  *
  * link: https://app.codesignal.com/skill-test/v3uf4PGocp2CH62nn
