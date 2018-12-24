@@ -11,7 +11,8 @@ import challenges.AbstractCustomTestRunner;
  *      all elements that are not less than k remain in the same order with respect to each other.
  *
  * Example:
- *      For k = 5 and elements = [1, 3, 5, 7, 6, 4, 2], the output should be splitByValue(k, elements) = [1, 3, 4, 2, 5, 7, 6].
+ *      For k = 5 and elements = [1, 3, 5, 7, 6, 4, 2],
+ *      the output should be splitByValue(k, elements) = [1, 3, 4, 2, 5, 7, 6].
  *
  * link: https://app.codesignal.com/tournaments/mDti2jqL5Fq9dsPWJ/D
  *
