@@ -11,9 +11,7 @@ import java.util.Queue;
  * Tree Bottom
  *
  * You are given a recursive notation of a binary tree: each node of a tree is represented as a set of three elements:
- *      value of the node;
- *      left subtree;
- *      right subtree.
+ *      value of the node; left subtree; right subtree.
  *
  * So, a tree can be written as (value left_subtree right_subtree). It is guaranteed that 1 ≤ value ≤ 109. If a node doesn't exist then it is represented as an empty set: ().
  *
