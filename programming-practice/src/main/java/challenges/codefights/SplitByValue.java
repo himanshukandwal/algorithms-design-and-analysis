@@ -19,7 +19,7 @@ import challenges.AbstractCustomTestRunner;
  */
 public class SplitByValue extends AbstractCustomTestRunner {
 
-    int[] _splitByValue(int k, int[] elements) {
+    public int[] splitByValue(int k, int[] elements) {
         int idx = elements.length - 1, l = idx + 1;
         while (idx >= 0) {
             if (elements [idx] >= k) {
