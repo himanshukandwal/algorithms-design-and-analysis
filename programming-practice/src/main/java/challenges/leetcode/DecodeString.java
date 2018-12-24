@@ -29,10 +29,8 @@ public class DecodeString extends AbstractCustomTestRunner {
 
 	public String decodeString(String s) {
 		Stack<Object[]> stack = new Stack<>();
-		int idx = 0;
-		int num = 0;
 		String str = "";
-		while (idx < s.length()) {
+		for (int idx = 0, num = 0; idx < s.length(); idx ++) {
 			while (idx < s.length() && Character.isDigit(s.charAt(idx))) num = 10 * num + (s.charAt (idx ++) - '0');
 			if (s.charAt(idx) == '[') {
 				stack.push(new Object[] { num, str });
@@ -45,11 +43,8 @@ public class DecodeString extends AbstractCustomTestRunner {
 				str = os;
 			} else
 				str += s.charAt(idx);
-
-			idx ++;
 		}
 		return str;
 	}
-
 
 }
