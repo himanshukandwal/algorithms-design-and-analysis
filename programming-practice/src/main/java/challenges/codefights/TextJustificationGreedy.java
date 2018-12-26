@@ -58,6 +58,7 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
                 ans.add (line);
             }
         }
+
         return ans.toArray(new String [0]);
     }
 
