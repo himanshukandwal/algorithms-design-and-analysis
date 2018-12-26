@@ -37,19 +37,14 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
         int start = 0, len = words [0].length();
 
         for (int idx = 1; idx < words.length; idx ++) {
-            if (len + words [idx].length() + 1 < l) len += words [idx].length() + 1;
+            if (len + words [idx].length() + 1 < l) len += (words [idx] = " " + words [idx]).length();
             else {
-                List<String> elements = new ArrayList<>();
-                for (int j = start; j < idx; j ++) {
-                    elements.add (words [j]);
-                    if (j != idx - 1) elements.add(" ");
-                }
                 int diff = l - len;
                 while (diff > 0)
-                    for (int j = 1; diff > 0 && j < elements.size(); j+= 2, diff --) elements.set(j, elements.get(j) + " ");
+                    for (int j = start + 1; diff > 0 && j < idx; j++, diff --) words [j] = " " + words [j];
 
                 String line = "";
-                for (String e : elements) line += e;
+                for (int j = start; j < idx; j++) line += words [j];
                 ans.add (line);
 
                 start = idx;
@@ -57,19 +52,18 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
             }
         }
 
-        List<String> elements = new ArrayList<>();
-        for (int j = start; j < words.length; j ++) {
-            elements.add (words [j]);
-            elements.add (" ");
+        int diff = l - len - 1;
+        String end = " ";
+        while (diff > 0) {
+            for (int j = start + 1; diff > 0 && j <= words.length; j++, diff --) {
+                if (j == words.length) end += " ";
+                else words [j] = " " + words [j];
+            }
         }
 
-        int diff = l - len - 1;
-        while (diff > 0)
-            for (int j = 1; diff > 0 && j < elements.size(); j+= 2, diff --) elements.set(j, elements.get(j) + " ");
-
         String line = "";
-        for (String e : elements) line += e;
-        ans.add (line);
+        for (int j = start; j < words.length; j++) line += words [j];
+        ans.add (line + end);
         return ans.toArray(new String [0]);
     }
 
