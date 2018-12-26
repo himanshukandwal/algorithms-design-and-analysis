@@ -34,47 +34,42 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
 
     public String[] _textJustification(String[] words, int l) {
         List<String> ans = new ArrayList<>();
-        int start = 0, len = words [0].length();
-
-        for (int idx = 1; idx < words.length; idx ++) {
-            if (len + words [idx].length() + 1 <= l) len += (words [idx] = " " + words [idx]).length();
-            else {
-                int diff = l - len;
-                while (diff > 0)
-                    for (int j = start + 1; diff > 0 && j < idx; j++, diff --) words [j] = " " + words [j];
-
-                String line = "";
-                for (int j = start; j < idx; j++) line += words [j];
+        int idx = 0;
+        while (idx < words.length) {
+            int start = idx, len = -1;
+            while (idx < words.length && len + words [idx].length() + 1 <= l) len += words [idx ++].length() + 1;
+            if (idx == words.length || start + 1 == idx) {
+                String spaces = "";
+                for (int d = l - len; d > 0;  d --) spaces += " ";
+                String line = words [start];
+                for (int j = start + 1; j < idx; j ++) line += " " + words [j];
+                ans.add (line + spaces);
+            } else {
+                int diff = l - len, count = idx - start - 1;
+                int req = 1 + diff / count, extra = diff % count;
+                String spaces = "";
+                while (req -- > 0) spaces += " ";
+                String line = words [start];
+                for (int j = start + 1; j < idx; j ++) {
+                    boolean add = false;
+                    if (extra > 0) { add = true; extra --; }
+                    line += (add ? " " : "") + spaces + words [j];
+                }
                 ans.add (line);
-
-                start = idx;
-                len = words [idx].length();
             }
         }
-
-        int diff = l - len;
-        String end = "";
-        while (diff > 0) {
-            for (int j = start + 1; diff > 0 && j <= words.length; j++, diff --) {
-                if (j == words.length) end += " ";
-                else words [j] = " " + words [j];
-            }
-        }
-
-        String line = "";
-        for (int j = start; j < words.length; j++) line += words [j];
-        ans.add (line + end);
         return ans.toArray(new String [0]);
     }
 
     // driver method
     public static void main(String [] args) {
         _instance.runTest(new String [] { "This", "is", "an", "example", "of", "text", "justification." }, 16,
-                new String [] {
+                new String []{
                         "This    is    an",
                         "example  of text",
                         "justification.  "
-        });
+                }
+        );
 
         _instance.runTest(new String [] { "Two", "words." }, 10, new String [] { "Two words." });
     }
