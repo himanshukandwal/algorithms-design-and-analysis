@@ -37,7 +37,7 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
         int start = 0, len = words [0].length();
 
         for (int idx = 1; idx < words.length; idx ++) {
-            if (len + words [idx].length() + 1 < l) len += (words [idx] = " " + words [idx]).length();
+            if (len + words [idx].length() + 1 <= l) len += (words [idx] = " " + words [idx]).length();
             else {
                 int diff = l - len;
                 while (diff > 0)
@@ -52,8 +52,8 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
             }
         }
 
-        int diff = l - len - 1;
-        String end = " ";
+        int diff = l - len;
+        String end = "";
         while (diff > 0) {
             for (int j = start + 1; diff > 0 && j <= words.length; j++, diff --) {
                 if (j == words.length) end += " ";
@@ -75,6 +75,8 @@ public class TextJustificationGreedy extends AbstractCustomTestRunner {
                         "example  of text",
                         "justification.  "
         });
+
+        _instance.runTest(new String [] { "Two", "words." }, 10, new String [] { "Two words." });
     }
 
     public void runTest(final String [] words, final int l, final String[] expectedOutput) {
