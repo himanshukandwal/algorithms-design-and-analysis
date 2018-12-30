@@ -29,6 +29,21 @@ public class SetMatrixZeroes extends AbstractCustomTestRunner {
             if (col0 == 0) matrix [row][0] = 0;
         }
     }
+
+    public void setZeroesOther(int[][] m) {
+        boolean col0 = false;
+        for (int c = 0; c < m [0].length; c ++) if (m [0][c] == 0) col0 = true;
+
+        for (int r = 1; r < m.length; r ++)
+            for (int c = 0; c < m [0].length; c ++)
+                if (m [r][c] == 0) { m [r][0] = 0; m [0][c] = 0; }
+
+        for (int r = 1; r < m.length; r ++)
+            for (int c = m [0].length - 1; c >= 0 ; c --)
+                if (m [r][0] == 0 || m [0][c] == 0) m [r][c] = 0;
+
+        for (int c = 0; c < m [0].length; c ++) if (col0) m [0][c] = 0;
+    }
     
 	public void _setZeroes(int[][] matrix) {
         Set<Integer> rows = new HashSet<>(), cols = new HashSet<>();
