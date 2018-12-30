@@ -44,49 +44,47 @@ public class GiftStacking extends AbstractCustomTestRunner {
         for (int i = 0; i < boxes.length; i ++) for (int j = 0; j < boxes.length; j ++)
             if (i != j && boxes [i][0] >= boxes [j][1]) compatibleSet.computeIfAbsent(i, k -> new ArrayList<>()).add(j);
 
-        Arrays.sort(boxes, (a, b) -> (b [0] - a [0] == 0) ? b [1] - a [1] : b [0] - a [0]);
         int ans = 0;
+        boolean[] seen = new boolean [boxes.length];
         Map<String, Integer> map = new HashMap<>();
-        for (int idx = 0; idx < boxes.length; idx ++)
-            ans = Math.max (ans, 1 + dfs (map, boxes, idx + 1, boxes [idx][0]));
-        return ans;
-    }
-
-    private int dfs (Map<String, Integer> map, int[][] b, int index, int support) {
-        String key = index + "#" + support;
-        // if (map.containsKey(key)) return map.get(key);
-        int ans = 0;
-        int start = search (b, index, support);
-        if (start >= 0)
-            for (int idx = start; idx < b.length; idx ++)
-                ans = Math.max(ans, 1 + dfs (map, b, idx + 1, support - b [idx][1]));
-
-        // map.put (key, ans);
-        return ans;
-    }
-
-    private int search(int[][] b, int start, int support) {
-        int l = start, r = b.length;
-        while (l < r) {
-            int m = l + (r - l)/2;
-            if (b [m][1] > support) l = m + 1;
-            else r = m;
+        for (int idx = 0; idx < boxes.length; idx ++) {
+            if (idx > 0 && boxes [idx - 1][0] == boxes [idx][0]) continue;
+            seen [idx] = true;
+            ans = Math.max (ans, 1 + dfs (compatibleSet, map, seen, boxes, idx, boxes [idx][0]));
+            seen [idx] = false;
         }
-        return (l == b.length) ? -1: l;
+        return ans;
+    }
+
+    private int dfs (Map<Integer, List<Integer>> compatibleSet, Map<String, Integer> map, boolean[] seen, int[][] b, int index, int support) {
+        String key = index + "#" + Arrays.hashCode(seen) + "#" + support;
+        if (map.containsKey(key)) return map.get (key);
+        int ans = 0;
+        if (compatibleSet.containsKey (index)) {
+            for (int k : compatibleSet.get (index)) {
+                if (!seen [k] && support >= b [k][1]) {
+                    seen [k] = true;
+                    ans = Math.max(ans, 1 + dfs (compatibleSet, map, seen, b, k, support - b [k][1]));
+                    seen [k] = false;
+                }
+            }
+        }
+        map.put (key, ans);
+        return ans;
     }
 
     // driver method
     public static void main(String[] args) {
         _instance.runTest(new int [][] { { 9, 3 }, { 4, 10 } , { 2, 9 }, { 8, 3 }, { 10, 4 } }, 3);
-//        _instance.runTest(new int [][] { { 3, 4 } , { 0, 1 }, { 6, 4 }, { 2, 2 } }, 3);
-//        _instance.runTest(new int[][]{
-//                {4, 54}, {90, 6}, {11, 38}, {95, 54}, {64, 2}, {73, 1}, {49, 60}, {92, 24},
-//                {77, 32}, {78, 48}, {13, 11}, {51, 14}, {78, 67}, {16, 3}, {24, 24}, {77, 7},
-//                {61, 59}, {62, 40}, {10, 6}, {51, 4}, {23, 66}, {16, 98}, {39, 59}, {20, 8},
-//                {83, 33}, {24, 6}, {67, 23}, {93, 94}, {12, 40}, {37, 24}, {59, 65}, {33, 22},
-//                {56, 80}, {11, 31}, {10, 5}, {63, 83}, {62, 35}, {27, 33}, {26, 82}, {62, 33},
-//                {24, 34}, {18, 9}, {93, 94}, {91, 62}, {22, 7}, {24, 8}, {69, 89}, {27, 22},
-//                {30, 15}, {94, 31}}, 13);
+        _instance.runTest(new int [][] { { 3, 4 } , { 0, 1 }, { 6, 4 }, { 2, 2 } }, 3);
+        _instance.runTest(new int[][]{
+                {4, 54}, {90, 6}, {11, 38}, {95, 54}, {64, 2}, {73, 1}, {49, 60}, {92, 24},
+                {77, 32}, {78, 48}, {13, 11}, {51, 14}, {78, 67}, {16, 3}, {24, 24}, {77, 7},
+                {61, 59}, {62, 40}, {10, 6}, {51, 4}, {23, 66}, {16, 98}, {39, 59}, {20, 8},
+                {83, 33}, {24, 6}, {67, 23}, {93, 94}, {12, 40}, {37, 24}, {59, 65}, {33, 22},
+                {56, 80}, {11, 31}, {10, 5}, {63, 83}, {62, 35}, {27, 33}, {26, 82}, {62, 33},
+                {24, 34}, {18, 9}, {93, 94}, {91, 62}, {22, 7}, {24, 8}, {69, 89}, {27, 22},
+                {30, 15}, {94, 31}}, 13);
     }
 
     public void runTest(final int[][] boxes, final Integer expectedOutput) {
