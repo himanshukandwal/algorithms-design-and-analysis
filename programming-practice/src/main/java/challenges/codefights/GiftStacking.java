@@ -40,7 +40,34 @@ public class GiftStacking extends AbstractCustomTestRunner {
     private static GiftStacking _instance = new GiftStacking();
 
     public int _giftStacking(int[][] boxes) {
+        // Part 1 - Ordering
+        // Before we can use DP, we need to know the order in which we should consider the boxes when doing DP.
+        // To find the optimal ordering, we can use EDF (earliest deadline first) greedy algorithm, as EDF maximizes
+        // number of intervals scheduled.
+        // <https://cse.buffalo.edu/~hartloff/CSE331-Summer2015/greedy.pdf>
+        // Here finish time = strength + weight. (you can think of start time as strength).
         Arrays.sort(boxes, (a, b) ->  (a[0] + a[1]) - (b[0] + b[1]));
+
+        // Part 2 - Finding subsequence
+        // An O(n^2) can easily be obtained by maintaining a list of minimum weights achieveable from the first x boxes.
+        // This DP can be optimized with a heap. The proof for this is a little complex, but intuitively, with each box
+        // in the optimal order, we either add it normally because its strength >= the total weight so far, or we update
+        // our dp array using the smaller box weight. We will pop out the heaviest box to minimize the weight like what
+        // we did in our dp.
+        //
+        // Here's the DP version:
+        // int count = 0;
+        // vector<long long> dp(B.size()+1, LLONG_MAX);
+        // dp[0] = 0;
+        // for (int i=0; i<B.size(); ++i) {
+        //     for (int j=count; j>=0; --j) {
+        //         if (B[i][0] >= dp[j] && dp[j] + B[i][1] < dp[j+1]) {
+        //             dp[j+1] = dp[j] + B[i][1];
+        //             if (j == count) count++;
+        //         }
+        //     }
+        // }
+        // return count;
         PriorityQueue<Integer> heap = new PriorityQueue<>();
         int W = 0;
         for (int[] b : boxes) {
