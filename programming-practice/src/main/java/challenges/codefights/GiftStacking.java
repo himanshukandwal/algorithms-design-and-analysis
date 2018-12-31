@@ -40,6 +40,8 @@ public class GiftStacking extends AbstractCustomTestRunner {
     private static GiftStacking _instance = new GiftStacking();
 
     public int _giftStacking(int[][] boxes) {
+        // link: https://app.codesignal.com/challenge/ZQMreaCmFzshtoETf?solutionId=vaTwb8PhrPAWCR7uS
+        //
         // Part 1 - Ordering
         // Before we can use DP, we need to know the order in which we should consider the boxes when doing DP.
         // To find the optimal ordering, we can use EDF (earliest deadline first) greedy algorithm, as EDF maximizes
