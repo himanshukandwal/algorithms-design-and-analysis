@@ -40,37 +40,16 @@ public class GiftStacking extends AbstractCustomTestRunner {
     private static GiftStacking _instance = new GiftStacking();
 
     public int _giftStacking(int[][] boxes) {
-        Map<Integer, List<Integer>> compatibleSet = new HashMap<>();
-        for (int i = 0; i < boxes.length; i ++) for (int j = 0; j < boxes.length; j ++)
-            if (i != j && boxes [i][0] >= boxes [j][1]) compatibleSet.computeIfAbsent(i, k -> new ArrayList<>()).add(j);
+        Arrays.sort(boxes, (a, b) ->  (a[0] + a[1]) - (b[0] + b[1]));
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        int W = 0;
+        for (int[] b : boxes) {
+            heap.offer (-b [1]);
+            if (b [0] < W) W += heap.poll();
+            W += b [1];
 
-        int ans = 0;
-        boolean[] seen = new boolean [boxes.length];
-        Map<String, Integer> map = new HashMap<>();
-        for (int idx = 0; idx < boxes.length; idx ++) {
-            if (idx > 0 && boxes [idx - 1][0] == boxes [idx][0]) continue;
-            seen [idx] = true;
-            ans = Math.max (ans, 1 + dfs (compatibleSet, map, seen, boxes, idx, boxes [idx][0]));
-            seen [idx] = false;
         }
-        return ans;
-    }
-
-    private int dfs (Map<Integer, List<Integer>> compatibleSet, Map<String, Integer> map, boolean[] seen, int[][] b, int index, int support) {
-        String key = index + "#" + Arrays.hashCode(seen) + "#" + support;
-        if (map.containsKey(key)) return map.get (key);
-        int ans = 0;
-        if (compatibleSet.containsKey (index)) {
-            for (int k : compatibleSet.get (index)) {
-                if (!seen [k] && support >= b [k][1]) {
-                    seen [k] = true;
-                    ans = Math.max(ans, 1 + dfs (compatibleSet, map, seen, b, k, support - b [k][1]));
-                    seen [k] = false;
-                }
-            }
-        }
-        map.put (key, ans);
-        return ans;
+        return heap.size();
     }
 
     // driver method
