@@ -1,7 +1,6 @@
 package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,12 +27,31 @@ import java.util.Set;
  */
 public class NextClosestTime extends AbstractCustomTestRunner {
 
+    public String nextClosestTimeBetter(String time) {
+        char[] arr = time.toCharArray();
+        char [] sorted = { arr [0], arr [1], arr [3], arr [4] };
+        Arrays.sort (sorted);
+
+        for (int idx = arr.length - 1; idx >= 0; idx --) {
+            if (idx == 2) continue;
+            char c = arr [idx], max = (char) ('0' + (idx == 0 ? 2 : (idx == 1 ? (arr [0] < '2' ? 9 : 3) : (idx == 3 ? 5 : 9))));
+            int i = 0;
+            while (i < sorted.length && sorted [i] <= c) i ++;
+            if (i == sorted.length || sorted [i] > max)  arr [idx] = sorted [0];
+            else {
+                arr [idx] = sorted [i];
+                break;
+            }
+        }
+        return String.valueOf(arr);
+    }
+
     /*
      * Simulate the clock going forward by one minute. Each time it moves forward, if all the digits are allowed, then return the current time.
      * The natural way to represent the time is as an integer t in the range 0 <= t < 24 * 60. Then the hours are t / 60, the minutes are t % 60,
      * and each digit of the hours and minutes can be found by hours / 10, hours % 10 etc.
      */
-    public String nextClosestTimeBetter(String time) {
+    public String nextClosestTime(String time) {
         int cur = 60 * Integer.parseInt(time.substring(0, 2));      // bring everything to minutes
         cur += Integer.parseInt(time.substring(3));
         Set<Integer> allowed = new HashSet<>();
@@ -49,32 +67,5 @@ public class NextClosestTime extends AbstractCustomTestRunner {
                 return String.format("%02d:%02d", cur / 60, cur % 60);
             }
         }
-    }
-
-    public String nextClosestTime(String time) {
-        time = time.replace (":", "");
-        int[] limits = new int [] { 2, 9, 5, 9 };
-        int[] sorted = new int [4];
-        for (int idx = 0; idx < time.length(); idx ++) sorted [idx] = time.charAt(idx) - '0';
-        Arrays.sort(sorted);
-
-        String ans = "";
-        int idx = time.length() - 1;
-        for (; idx >= 0; idx --) {
-            int num = time.charAt(idx) - '0';
-            if (num == limits [idx]) continue;
-
-            int bIdx = 0;
-            while (bIdx < sorted.length) if (sorted [bIdx] <= num) bIdx ++; else break;
-
-            if (bIdx < sorted.length && sorted [bIdx] <= limits [idx]) {
-                ans = time.substring(0, idx) + sorted [bIdx];
-                break;
-            }
-        }
-
-        if (idx >= 1 && Integer.valueOf(ans.substring(0, 2)) > 23) { ans = ans.substring(0, 1); idx = 0; }
-        for (idx= idx + 1; idx < time.length(); idx ++) ans += sorted [0];
-        return ans.substring(0, 2) + ":" + ans.substring(2);
     }
 }
