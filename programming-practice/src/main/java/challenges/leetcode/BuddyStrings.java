@@ -1,12 +1,9 @@
 package challenges.leetcode;
 
-import challenges.AbstractCustomTestRunner;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static com.google.common.truth.Truth.assertThat;
+
+import challenges.AbstractCustomTestRunner;
+import java.util.List;
 
 /**
  * 859. Buddy Strings
@@ -44,53 +41,29 @@ public class BuddyStrings extends AbstractCustomTestRunner {
 
     private static BuddyStrings _instance = new BuddyStrings();
 
-    public boolean _buddyStringsBetter(String A, String B) {
+    public boolean _buddyStrings(String A, String B) {
         if (A.length() != B.length()) return false;
         if (A.equals(B)) {
-            int [] ch = new int [256];
-            for (char c : A.toCharArray()) if (++ ch [c] >= 2) return true;
+            int [] arr = new int [256];
+            for (char c : A.toCharArray()) arr [c] ++;
+            for (int c : arr) if (c > 1) return true;
             return false;
         } else {
             int first = -1, second = -1;
             for (int idx = 0; idx < A.length(); idx ++) {
-                char ac = A.charAt (idx), bc = B.charAt(idx);
-                if (ac != bc) {
+                if (A.charAt(idx) != B.charAt(idx)) {
                     if (first == -1) first = idx;
                     else if (second == -1) second = idx;
                     else return false;
                 }
             }
-            return !(first == -1 || second == -1 || A.charAt(first) != B.charAt(second) || A.charAt(second) != B.charAt(first));
-        }
-    }
-
-    public boolean _buddyStrings(String A, String B) {
-        if (A.length() != B.length()) return false;
-        if (A.equals(B)) {
-            int [] ch = new int [256];
-            for (char c : A.toCharArray()) if (++ ch [c] >= 2) return true;
-            return false;
-        } else {
-            Map<Character, Character> map = new HashMap<>();
-            for (int idx = 0; idx < A.length(); idx ++) {
-                char ac = A.charAt(idx), bc = B.charAt(idx);
-                if (ac != bc) {
-                    if (map.size() == 0) map.put (ac, bc);
-                    else if (map.size() == 1) {
-                        Character key = map.entrySet().iterator().next().getKey();
-                        if (!((key == ac && map.get (key) == bc) || (key == bc && map.get (key) == ac))) return false;
-                        map.put (key == ac ? bc : ac, key);
-                    }
-                    else return false;
-                }
-            }
-            return map.size() == 2;
+            return A.charAt(first) == B.charAt(second) && A.charAt(second) == B.charAt(first);
         }
     }
 
     // driver method
     public static void main(String[] args) {
-        _instance.runTest("ab", "ba", true);
+        _instance.runTest("aaaaaaaaa", "aaaaaaaaa", true);
     }
 
     public void runTest(final String A, final String B, final boolean expectedOutput) {
