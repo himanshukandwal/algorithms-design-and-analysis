@@ -28,7 +28,7 @@ import challenges.AbstractCustomTestRunner;
  */
 public class StringWithoutAAAorBBB extends AbstractCustomTestRunner {
 
-    public String strWithout3a3b(int A, int B) {
+    public String _strWithout3a3b(int A, int B) {
         StringBuilder ans = new StringBuilder();
         while (A + B > 0) {
             boolean a = false;
