@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -28,7 +29,7 @@ import java.util.Stack;
  */
 public class MaximumWidthRamp extends AbstractCustomTestRunner {
 
-    public int _maxWidthRamp(int[] A) {
+    public int maxWidthRamp(int[] A) {
         Stack<Integer> stack= new Stack<>();
         int max = 0;
         for (int idx = A.length - 1; idx >= 0; idx --) {
@@ -36,6 +37,22 @@ public class MaximumWidthRamp extends AbstractCustomTestRunner {
             if (stack.isEmpty() || A [stack.peek()] < A [idx]) stack.push(idx);
         }
         return max;
+    }
+
+    public int maxWidthRampBetter(int[] A) {
+        int N = A.length;
+        Integer[] B = new Integer[N];
+
+        for (int i = 0; i < N; ++i) B[i] = i;
+
+        Arrays.sort(B, (i, j) -> A[i] - A[j]);
+        int ans = 0, m = N;
+        for (int i: B) {
+            ans = Math.max(ans, i - m);
+            m = Math.min(m, i);
+        }
+
+        return ans;
     }
 
 }
