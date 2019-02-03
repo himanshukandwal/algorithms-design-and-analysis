@@ -37,7 +37,7 @@ public class VerticalOrderTraversalOfABinaryTree extends AbstractCustomTestRunne
 
     public class TreeNode {
         int val;
-        SmallestStringStartingFromLeaf.TreeNode left, right;
+        TreeNode left, right;
 
         TreeNode(int x) { val = x; }
     }
