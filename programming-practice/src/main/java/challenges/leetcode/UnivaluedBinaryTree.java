@@ -27,15 +27,10 @@ public class UnivaluedBinaryTree extends AbstractCustomTestRunner {
 
     public boolean isUnivalTree(TreeNode root) {
         if (root == null) return true;
-        boolean ans = true;
-        if (root.left != null) {
-            if (root.val == root.left.val) ans &= isUnivalTree(root.left);
-            else return false;
-        }
-        if (root.right != null) {
-            if (root.val == root.right.val) ans &= isUnivalTree(root.right);
-            else return false;
-        }
-        return ans;
+        boolean left = isUnivalTree (root.left), right = isUnivalTree (root.right);
+        return left &&
+                (root.left == null || root.left.val == root.val) &&
+                right &&
+                (root.right == null || root.right.val == root.val);
     }
 }
