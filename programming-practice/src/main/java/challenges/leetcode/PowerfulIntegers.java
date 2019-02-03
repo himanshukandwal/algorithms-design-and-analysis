@@ -38,6 +38,19 @@ import java.util.Set;
  */
 public class PowerfulIntegers extends AbstractCustomTestRunner {
 
+    // better solution
+    public List<Integer> powerfulIntegers(int x, int y, int bound) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 1; i < bound; i *= x) {
+            for (int j = 1; j <= bound - i; j *= y) {
+                set.add (i + j);
+                if (y == 1) break;  // one pass of y only needed
+            }
+            if (x == 1) break;  // one pass of x only needed
+        }
+        return new ArrayList<>(set);
+    }
+
     public List<Integer> _powerfulIntegers(int x, int y, int bound) {
         Set<Integer> set = new HashSet<>();
         for (int i = 0; i < 18 && Math.pow (x, i) <= bound; i ++) {
