@@ -16,6 +16,7 @@ public class ReplaceDigitWithPrime extends AbstractCustomTestRunner {
     public int _replaceDigitWithPrime(int n) {
         int [] primes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
         char [] arr = String.valueOf(n).toCharArray();
+
         String ans = "";
         int carry = 0;
         for (int idx = arr.length - 1; idx >= 0; idx --) {
