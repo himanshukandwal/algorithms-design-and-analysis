@@ -22,13 +22,13 @@ public class UniqueBinarySearchTrees extends AbstractCustomTestRunner {
 
     // bottom-up approach
     public int numTrees(int n) {
-        int [] num = new int [n + 1];
-        num [0] = num [1] = 1;
+        int[] dp = new int [n + 1];
+        dp [0] = dp [1] = 1;
 
-        for (int idx = 2; idx <= n; idx ++)
-            for (int j = 0; j < idx; j ++)
-                num [idx] += num [j] * num [idx - j - 1];
-        return num [n];
+        for (int i = 2; i <= n; i ++)
+            for (int j = 1; j <= i; j ++)
+                dp [i] += dp [j - 1] * dp [i - j];
+        return dp [n];
     }
 
     // top-down approach
