@@ -1,12 +1,12 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 24. Swap Nodes in Pairs
@@ -24,9 +24,7 @@ import challenges.AbstractCustomTestRunner;
 public class SwapNodesInPairs extends AbstractCustomTestRunner {
 	
 	private static SwapNodesInPairs _instance = new SwapNodesInPairs();		//singleton instance.
-	
-	private SwapNodesInPairs() {}											// private constructor
-		
+
 	public class ListNode {
 		int val;
 		ListNode next;
@@ -34,18 +32,13 @@ public class SwapNodesInPairs extends AbstractCustomTestRunner {
 	}
 
 	// method 1 : manage links.
-	public ListNode _swapperManagingLinks(ListNode head) {
-		return swapper (head);
-    }
-    
-    private ListNode swapper (ListNode node) {
-        if (node == null || node.next == null) return node;
-        ListNode future = node.next.next;
-        node.next.next = node;
-        ListNode head = node.next;
-        node.next = swapper (future);
-        return head;
-    }
+	public ListNode _swapPairs(ListNode head) {
+		if (head == null || head.next == null) return head;
+		ListNode nexthead = head.next.next, next = head.next;
+		next.next = head;
+		head.next = _swapPairs (nexthead);
+		return next;
+	}
 	
 	// driver method
 	public static void main(String[] args) {
