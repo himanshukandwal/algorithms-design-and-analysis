@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 70. Climbing Stairs
@@ -35,9 +35,9 @@ public class ClimbingStairs extends AbstractCustomTestRunner {
 	// method 2 : optimized (dynamic program, using memoization)
 	public int _climbStairs2(int n) {
 		if (n <= 2) return n;
-		int f = 2, s = 1, c = 0;
+		int f = 2, s = 1;
 		for (int step = 3; step <= n; step ++) {
-			c = f + s;
+			int c = f + s;
 			s = f;
 			f = c;
 		}
