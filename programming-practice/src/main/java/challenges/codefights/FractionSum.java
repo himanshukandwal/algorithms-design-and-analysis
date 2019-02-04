@@ -3,7 +3,7 @@ package challenges.codefights;
 import challenges.AbstractCustomTestRunner;
 
 /**
- * FractionSum
+ * Fraction Sum
  *
  * Implement a function that can sum two reduced fractions and produce a new one.
  *
