@@ -54,6 +54,20 @@ public class GasStation extends AbstractCustomTestRunner {
         return -1;
     }
 
+    public int _canCompleteCircuitBetter(final List<Integer> A, final List<Integer> B) {
+        int len = A.size();
+        int totalDiff = 0, start = 0, carry = 0;
+        for (int idx = 0; idx < len; idx ++) {
+            int diff = A.get(idx) - B.get(idx);
+            totalDiff += diff;
+            if (carry + diff < 0) {
+                carry = diff;
+                start = idx + 1;
+            } else carry += diff;
+        }
+        return totalDiff >= 0 ? start : -1;
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(
