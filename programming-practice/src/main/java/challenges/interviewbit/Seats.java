@@ -50,24 +50,20 @@ public class Seats extends AbstractCustomTestRunner {
     private static final int MOD = 10000003;
 
     public int _seats(String A) {
-        List<Integer> pos = new ArrayList<>();
+        int ans = 0, numRight = 0, numLeft = 0;
         for (int idx = 0; idx < A.length(); idx ++)
-            if (A.charAt(idx) == 'x') pos.add (idx);
+            if (A.charAt (idx) == 'x') numRight ++;
 
-        if (pos.size() <= 1) return 0;
-
-        int ans = 0, mid = pos.size()/2, mval = pos.get (mid);
-        for (int idx = mid - 1, items = 1; idx >= 0; idx --, items ++) {
-            int diff = mval - pos.get (idx) - items;
-            ans = (ans + diff) % MOD;
+        for (int idx = 0; idx < A.length(); idx ++) {
+            if (numRight == 0) break;
+            if (A.charAt(idx) == 'x') {
+                numLeft ++;
+                numRight --;
+            } else
+                ans = (ans + Math.min (numRight, numLeft)) % MOD;  // move min number of elements all per occurence of '.'
         }
 
-        for (int idx = mid + 1, items = 1; idx < pos.size(); idx ++, items ++) {
-            int diff = pos.get (idx) - mval - items;
-            ans = (ans + diff) % MOD;
-        }
-
-        return ans;
+        return ans % MOD;
     }
 
     // driver method
