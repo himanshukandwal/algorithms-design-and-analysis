@@ -45,22 +45,22 @@ public class RepeatAndMissingNumberArray extends AbstractCustomTestRunner {
 	
 	private static RepeatAndMissingNumberArray _instance = new RepeatAndMissingNumberArray();
 
-	public List<Integer> _repeatedNumber(final List<Integer> a) {
-		ArrayList<Integer> ans = new ArrayList<Integer>();
-	    int actualsum = (a.size() * (a.size() + 1))/2;
-	    int sum = 0;
-	    for (int idx = 0; idx < a.size (); idx ++) sum += a.get (idx);
-	    int aminusb = actualsum - sum;
-	    
-	    long actualsqsum = (a.size() * (a.size() + 1) * (2 * a.size() + 1))/6;
-	    long sqsum = 0;
-	    for (int idx = 0; idx < a.size (); idx ++) sqsum += (a.get (idx) * a.get (idx));
-	    long asqminusbsq = actualsqsum - sqsum;
-	    
-	    long aplusb = asqminusbsq / aminusb;
-	    ans.add ((int) (aplusb - aminusb) / 2);
-	    ans.add ((int) (aminusb + aplusb) / 2);
-	    return ans;
+	public ArrayList<Integer> _repeatedNumber(final List<Integer> a) {
+		ArrayList<Integer> ans = new ArrayList<>();
+		long sum = 0, sqSum = 0, actualSum = 0, actualSqSum = 0;
+		for (int idx = 1; idx <= a.size(); idx ++) {
+			sum += idx;
+			sqSum += (long) idx * idx;
+			actualSum += a.get (idx - 1);
+			actualSqSum += (long) a.get (idx - 1) * a.get (idx - 1);
+		}
+
+		int deltaDiff = (int) (actualSum - sum); // (x - y)
+		int deltaSum = (int) ((actualSqSum - sqSum) / deltaDiff); // (x + y)(x - y)/(x - y) = (x + y)
+
+		ans.add ((deltaDiff + deltaSum) / 2);
+		ans.add ((deltaSum - deltaDiff) / 2);
+		return ans;
 	}
 	
 	// driver method
