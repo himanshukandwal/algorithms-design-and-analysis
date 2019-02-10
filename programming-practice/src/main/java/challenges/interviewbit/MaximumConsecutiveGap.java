@@ -28,7 +28,7 @@ public class MaximumConsecutiveGap extends AbstractCustomTestRunner {
         int n = A.size(), min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         for (Integer a : A) { min = Math.min (min, a); max = Math.max (max, a); }
 
-        // max gap should be atleast this big (consecutive numbers)
+        // max gap should be at-least this big (consecutive numbers)
         // large concentrations which are < minMaxGap, should be ignored and we
         // should start from max of that concentration
         int minMaxGap = (int) Math.ceil((double) (max - min)/(n - 1));
