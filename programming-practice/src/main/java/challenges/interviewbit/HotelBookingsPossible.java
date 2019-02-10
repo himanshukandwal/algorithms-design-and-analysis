@@ -40,6 +40,22 @@ public class HotelBookingsPossible extends AbstractCustomTestRunner {
 	
 	private static HotelBookingsPossible _instance = new HotelBookingsPossible();
 
+    public boolean _hotelBetter(ArrayList<Integer> arrive, ArrayList<Integer> depart, int K) {
+        Collections.sort(arrive);
+        Collections.sort(depart);
+        int roomsRequired = 0, i = 0, j = 0;
+        while (i < arrive.size() && j < arrive.size() && roomsRequired <= K){
+            if (arrive.get(i) < depart.get(j)) {
+                i ++;
+                roomsRequired ++;
+            } else {
+                j ++;
+                roomsRequired --;
+            }
+        }
+        return roomsRequired <= K;
+    }
+
     public boolean _hotel(List<Integer> arrive, List<Integer> depart, int K) {
         int [][] timings = new int [arrive.size()][2];
         for (int idx = 0; idx <  arrive.size(); idx ++) {
