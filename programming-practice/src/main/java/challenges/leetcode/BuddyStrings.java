@@ -42,23 +42,29 @@ public class BuddyStrings extends AbstractCustomTestRunner {
     private static BuddyStrings _instance = new BuddyStrings();
 
     public boolean _buddyStrings(String A, String B) {
-        if (A.length() != B.length()) return false;
-        if (A.equals(B)) {
-            int [] arr = new int [256];
-            for (char c : A.toCharArray()) arr [c] ++;
-            for (int c : arr) if (c > 1) return true;
-            return false;
-        } else {
-            int first = -1, second = -1;
-            for (int idx = 0; idx < A.length(); idx ++) {
-                if (A.charAt(idx) != B.charAt(idx)) {
-                    if (first == -1) first = idx;
-                    else if (second == -1) second = idx;
-                    else return false;
+        int[] chrs = new int [256];
+        boolean containsMultiple = false;
+        for (char c : A.toCharArray()) if (chrs [c] ++ == 1) containsMultiple = true;
+        for (char c : B.toCharArray()) chrs [c] --;
+        for (int i : chrs) if (i != 0) return false;
+        if (A.equals(B)) return containsMultiple;
+
+        int idx1 = -1;
+        for (int idx = 0; idx < A.length(); idx ++) {
+            if (A.charAt(idx) != B.charAt(idx)) {
+                if (idx1 == -1) idx1 = idx;
+                else {
+                    String swappedA = A.substring(0, idx1) +
+                        B.charAt(idx1) +
+                        A.substring (idx1 + 1, idx) +
+                        A.charAt(idx1) +
+                        A.substring(idx + 1);
+
+                    return swappedA.equals (B);
                 }
             }
-            return A.charAt(first) == B.charAt(second) && A.charAt(second) == B.charAt(first);
         }
+        return false;
     }
 
     // driver method
