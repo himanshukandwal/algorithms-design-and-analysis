@@ -4,8 +4,6 @@ import challenges.AbstractCustomTestRunner;
 
 import java.util.*;
 
-import static com.google.common.truth.Truth.assertThat;
-
 /**
  * 301. Remove Invalid Parentheses
  *
@@ -53,6 +51,7 @@ public class RemoveInvalidParentheses extends AbstractCustomTestRunner {
             if (found) break;
             for (String str : nextBatch) queue.offer(str);
         }
+
         return new ArrayList<>(ans);
     }
 
