@@ -44,6 +44,7 @@ import java.util.Stack;
  */
 public class CheckIfWordIsValidAfterSubstitutions extends AbstractCustomTestRunner {
 
+    // strategy: better using stack.
     public boolean _isValidBetter(String S) {
         Stack<Character> stack = new Stack<>();
         for (char c : S.toCharArray()) {
