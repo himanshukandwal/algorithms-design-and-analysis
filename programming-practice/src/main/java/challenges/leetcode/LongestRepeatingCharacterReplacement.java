@@ -38,4 +38,15 @@ public class LongestRepeatingCharacterReplacement extends AbstractCustomTestRunn
         }
         return ans;
     }
+
+    public int characterReplacementBetter(String s, int k) {
+        int ans = 0, maxcount = 0;
+        char [] charr = new char [256];
+        for (int idx = 0, start = 0; idx < s.length(); idx ++) {
+            maxcount = Math.max(maxcount, ++ charr [s.charAt(idx)]);
+            while (idx - start + 1 - maxcount > k) charr [s.charAt(start ++)] --;
+            ans = Math.max (ans, idx - start + 1);
+        }
+        return ans;
+    }
 }
