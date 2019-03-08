@@ -24,6 +24,8 @@ import challenges.AbstractCustomTestRunner;
  *  0 <= K <= A.length
  *  A[i] is 0 or 1
  *
+ * Similar approach in : [424. Longest Repeating Character Replacement]
+ *
  * @author Hxkandwal
  */
 public class MaxConsecutiveOnesIII extends AbstractCustomTestRunner {
