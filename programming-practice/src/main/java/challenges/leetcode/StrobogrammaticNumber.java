@@ -6,7 +6,7 @@ import java.util.Map;
 import challenges.AbstractCustomTestRunner;
 
 /**
- * Strobogrammatic Number
+ * 246. Strobogrammatic Number
  * 
  * A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
  * Write a function to determine if a number is strobogrammatic. The number is represented as a string.
@@ -23,15 +23,15 @@ public class StrobogrammaticNumber extends AbstractCustomTestRunner {
 	            return false;
 	    return true;
 	}
-	
-	public boolean _isStrobogrammatic(String num) {
+
+    public boolean _isStrobogrammatic(String num) {
         Map<Character, Character> map = new HashMap<>();
-        map.put ('8', '8'); map.put ('1', '1'); map.put ('6', '9');  map.put ('9', '6'); map.put ('0', '0');
-        int start = 0, end = num.length() - 1;
-        while (start <= end) {
-            if (map.containsKey (num.charAt (start)) && map.get (num.charAt (start)) == num.charAt (end)) { start ++; end --; }
-            else return false;
-        }
+        map.put('9', '6'); map.put('6', '9');
+        map.put('8', '8'); map.put('1', '1');
+        map.put('0', '0');
+
+        for (int s = 0, e = num.length() - 1; s <= e; s ++, e --)
+            if (!map.containsKey(num.charAt(s)) || map.get(num.charAt(s)) != num.charAt(e)) return false;
         return true;
     }
 	
