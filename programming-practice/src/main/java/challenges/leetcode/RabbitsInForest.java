@@ -32,7 +32,7 @@ import static com.google.common.truth.Truth.assertThat;
  *      Output: 0
  *
  * Note:
- *  answers will have length at most 1000.
+ *  Answers will have length at most 1000.
  *  Each answers[i] will be an integer in the range [0, 999].
  *
  * @author Hxkandwal
