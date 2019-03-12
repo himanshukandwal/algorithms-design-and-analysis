@@ -37,19 +37,17 @@ import challenges.AbstractCustomTestRunner;
 public class ClumsyFactorial extends AbstractCustomTestRunner {
 
     public int clumsy(int N) {
-        int ans = -1, local = N, counter = 3;
-        N --;
+        int ans = 0;
+        boolean isFirst = true;
         while (N > 0) {
-            if (counter == 3) local = local * N;
-            else if (counter == 2) local = local / N;
-            else if (counter == 1) local = local + N;
+            int local = (isFirst ? 1 : -1) * N;
+            isFirst = false;
 
+            if (N -- > 1) local *= N;
+            if (N -- > 1) local /= N;
+            ans += local;
+            if (N -- > 1) ans += N;
             N --;
-            if (counter -- == 1) {
-                ans = (ans == -1) ? local : ans - local;
-                counter = 3;
-                local = N --;
-            }
         }
         return ans;
     }
