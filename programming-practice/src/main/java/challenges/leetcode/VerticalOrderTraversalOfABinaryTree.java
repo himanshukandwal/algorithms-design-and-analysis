@@ -38,40 +38,37 @@ public class VerticalOrderTraversalOfABinaryTree extends AbstractCustomTestRunne
     public class TreeNode {
         int val;
         TreeNode left, right;
-
         TreeNode(int x) { val = x; }
     }
 
     public List<List<Integer>> _verticalTraversal(TreeNode root) {
-        Map<Integer, List<Integer>> map = new HashMap<>();
         List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) return ans;
+        Map<Integer, List<Integer>> map = new HashMap<>();
 
         Queue<Object[]> queue = new LinkedList<>();
         queue.offer (new Object[] { root, 0 });
-
         while (!queue.isEmpty()) {
             int size = queue.size();
-            Map<Integer, List<Integer>> levelMap = new HashMap<>();
+            Map<Integer, List<Integer>> localMap = new HashMap<>();
             while (size -- > 0) {
-                Object[] objs = queue.poll();
-                TreeNode n = (TreeNode) objs [0];
-                int base = (Integer) objs [1];
-                levelMap.computeIfAbsent(base, k -> new ArrayList<>()).add (n.val);
+                Object [] arr = queue.poll();
+                TreeNode n = (TreeNode) arr [0];
+                int code = (Integer) arr [1];
 
-                if (n.left != null) queue.offer (new Object[] { n.left, base - 1 });
-                if (n.right != null) queue.offer (new Object[] { n.right, base + 1 });
+                localMap.computeIfAbsent(code, k -> new ArrayList<>()).add (n.val);
+                if (n.left != null) queue.offer (new Object [] { n.left, code - 1 });
+                if (n.right != null) queue.offer (new Object [] { n.right, code + 1 });
             }
-
-            for (Integer base : levelMap.keySet()) {
-                List<Integer> list = levelMap.get (base);
-                Collections.sort (list);
-                map.computeIfAbsent(base, k -> new ArrayList<>()).addAll (list);
+            for (int key : localMap.keySet()) {
+                Collections.sort(localMap.get (key));
+                map.computeIfAbsent(key, k -> new ArrayList<>()).addAll (localMap.get (key));
             }
         }
 
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-        for (int k : map.keySet()) { min = Math.min (min, k); max = Math.max (max, k); }
-        for (int idx = min; idx <= max; idx ++) ans.add (map.get (idx));
+        for (int k : map.keySet()) { min = Math.min(min, k); max = Math.max(max, k); }
+        for (int idx = min; idx <= max; idx ++) ans.add (map.get(idx));
         return ans;
     }
 
@@ -86,12 +83,9 @@ public class VerticalOrderTraversalOfABinaryTree extends AbstractCustomTestRunne
 
         @Override
         public int compareTo(Location that) {
-            if (this.x != that.x)
-                return Integer.compare(this.x, that.x);
-            else if (this.y != that.y)
-                return Integer.compare(this.y, that.y);
-            else
-                return Integer.compare(this.val, that.val);
+            if (this.x != that.x) return Integer.compare(this.x, that.x);
+            else if (this.y != that.y) return Integer.compare(this.y, that.y);
+            else return Integer.compare(this.val, that.val);
         }
     }
 
