@@ -1,11 +1,8 @@
 package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * 676. Implement Magic Dictionary
@@ -32,39 +29,27 @@ import java.util.Set;
  */
 public class ImplementMagicDictionary extends AbstractCustomTestRunner {
 
-  Map<String, Integer> map;
-  Set<String> dictionary;
+  Map<String, Set<String>> map;
 
   /** Initialize your data structure here. */
   public ImplementMagicDictionary() {
     map = new HashMap<>();
-    dictionary = new HashSet<>();
   }
 
   /** Build a dictionary through a list of words */
   public void buildDict(String[] dict) {
-    for (String s : dict) {
-      dictionary.add (s);
-      char[] arr = s.toCharArray();
-      for (int idx = 0; idx < arr.length; idx ++) {
-        char c = arr [idx];
-        arr [idx] = '*';
-        String key = String.valueOf(arr);
-        map.put (key, map.getOrDefault(key, 0) + 1);
-        arr [idx] = c;
+    for (String s : dict)
+      for (int idx = 0; idx < s.length(); idx ++) {
+        String key = s.substring(0, idx) + "*" + s.substring(idx + 1);
+        map.computeIfAbsent(key, k -> new HashSet<>()).add(s);
       }
-    }
   }
 
   /** Returns if there is any word in the trie that equals to the given word after modifying exactly one character */
   public boolean search(String word) {
-    char[] arr = word.toCharArray();
-    for (int idx = 0; idx < arr.length; idx ++) {
-      char c = arr [idx];
-      arr [idx] = '*';
-      String key = String.valueOf(arr);
-      if (map.containsKey (key) && (!dictionary.contains (word) || map.get (key) > 1)) return true;
-      arr [idx] = c;
+    for (int idx = 0; idx < word.length(); idx ++) {
+      String key = word.substring(0, idx) + "*" + word.substring(idx + 1);
+      if (map.containsKey(key) && (!map.get (key).contains(word) || map.get (key).size() > 1)) return true;
     }
     return false;
   }
@@ -74,12 +59,12 @@ public class ImplementMagicDictionary extends AbstractCustomTestRunner {
     Map<Integer, ArrayList<String>> buckets;
 
     public MagicDictionary() {
-      buckets = new HashMap();
+      buckets = new HashMap<>();
     }
 
     public void buildDict(String[] words) {
       for (String word: words) {
-        buckets.computeIfAbsent(word.length(), x -> new ArrayList()).add(word);
+        buckets.computeIfAbsent(word.length(), x -> new ArrayList<>()).add(word);
       }
     }
 
