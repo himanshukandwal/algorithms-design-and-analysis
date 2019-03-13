@@ -41,6 +41,24 @@ public class SecondMinimumNodeInABinaryTree extends AbstractCustomTestRunner {
         TreeNode(int x) { val = x; }
     }
 
+    public int _findSecondMinimumValueOther(TreeNode root) {
+        // root.val is smaller, now find smaller value than root.val
+        // if root is null or root does not have any child, the there is no value smaller than root.val
+        if (root == null || (root.left == null && root.right == null)) return -1;
+        int left = root.left == null ? -1 :
+                (root.left.val == root.val ?
+                        _findSecondMinimumValueOther(root.left) :
+                        root.left.val
+                );
+        int right = root.right == null ? -1 :
+                (root.right.val == root.val ?
+                        _findSecondMinimumValueOther(root.right) :
+                        root.right.val
+                );
+
+        return left == -1 || right == -1 ? Math.max(left, right) : Math.min(left, right);
+    }
+
     TreeNode firstMin = null;
     TreeNode secondMin = null;
 
