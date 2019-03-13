@@ -30,6 +30,9 @@ import java.util.InputMismatchException;
  * @author hxkandwal
  *
  * Solution: https://www.hackerrank.com/rest/contests/master/challenges/cloudy-day/hackers/uwi/download_solution?primary=true
+ * Similar : https://github.com/ZXZxin/ZXNotes/blob/a60b80865da5029e66529a9ebb51d871a6173a70/%E5%88%B7%E9%A2%98/Codeforces/Simulation/median/Codeforces%20-%201132C.%20Painting%20the%20Fence.md
+ *           https://www.youtube.com/watch?v=4GNUt5unEnM&t=625s
+ *
  */
 public class CloudyDay extends AbstractCustomTestRunner {
 
