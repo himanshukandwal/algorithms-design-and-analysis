@@ -2,7 +2,9 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 785. Is Graph Bipartite?
@@ -59,7 +61,7 @@ public class IsGraphBipartite extends AbstractCustomTestRunner {
     }
   }
 
-  public boolean isBipartite(int[][] graph) {
+  public boolean _isBipartite(int[][] graph) {
     int len = graph.length;
     Node[] nodes = new Node [len];
     for (int idx = 0; idx < len; idx ++) nodes [idx] = new Node(idx);
@@ -83,6 +85,34 @@ public class IsGraphBipartite extends AbstractCustomTestRunner {
     for (Node adj : n.children) {
       if ((adj.seen && code == adj.code) ||
           (!adj.seen && !dfs (adj, code == 0 ? 1 : 0))) return false;
+    }
+    return true;
+  }
+
+  // better concise way
+  public boolean _isBipartiteBetter(int[][] graph) {
+    int len = graph.length;
+    int [] color = new int [len];
+    Arrays.fill (color, -1);
+
+    for (int idx = 0; idx < len; idx ++) {
+      if (color [idx] == -1) {
+        color [idx] = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push (idx);
+
+        while (!stack.isEmpty()) {
+          int n = stack.pop();
+
+          for (int adj : graph [n]) {
+            if (color [adj] == -1) {
+              stack.push (adj);
+              color [adj] = color [n] ^ 1;
+            }
+            else if (color [adj] == color [n]) return false;
+          }
+        }
+      }
     }
     return true;
   }
