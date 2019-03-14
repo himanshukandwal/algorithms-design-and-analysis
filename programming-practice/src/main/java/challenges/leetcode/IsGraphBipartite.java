@@ -117,4 +117,22 @@ public class IsGraphBipartite extends AbstractCustomTestRunner {
     return true;
   }
 
+  // other way
+  public boolean _isBipartiteDFS(int[][] graph) {
+    int [] colors = new int [graph.length];
+    Arrays.fill (colors, -1);
+
+    for (int idx = 0; idx < graph.length; idx ++)
+      if (colors [idx] == -1 && !dfs (graph, colors, idx, 0)) return false;
+    return true;
+  }
+
+  private boolean dfs (int [][] g, int [] colors, int n, int color) {
+    if (colors [n] != -1) return colors [n] == color;
+    colors [n] = color;
+    for (int adj : g [n])
+      if (!dfs (g, colors, adj, color ^ 1)) return false;
+    return true;
+  }
+
 }
