@@ -1,13 +1,11 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 139. Word Break
@@ -24,18 +22,18 @@ import challenges.AbstractCustomTestRunner;
 public class WordBreak extends AbstractCustomTestRunner {
 	
 	private static WordBreak _instance = new WordBreak();
-	
-	public boolean _wordBreak(String s, List<String> wordDict) {
-		Set<String> set = new HashSet<>();
-        for (String str : wordDict) set.add (str);
-        boolean [] f = new boolean [s.length() + 1];
-        f [0] = true;
-        for (int idx = 1; idx <= s.length (); idx ++)
-            for (int jdx = 0; jdx < idx; jdx ++)
-                if (f [jdx] && (f [idx] = set.contains (s.substring (jdx, idx)))) break;
-        
-        return f [s.length()];
-    }
+
+	public boolean wordBreak(String s, List<String> wordDict) {
+		boolean [] f = new boolean [s.length() + 1];
+		f [0] = true;
+		for (int idx = 0; idx < s.length(); idx ++) {
+			if (f [idx])
+				for (String word : wordDict)
+					if (s.substring (idx).startsWith(word))
+						f [idx + word.length()] = true;
+		}
+		return f [s.length()];
+	}
 
 	// driver method
 	public static void main(String[] args) {
