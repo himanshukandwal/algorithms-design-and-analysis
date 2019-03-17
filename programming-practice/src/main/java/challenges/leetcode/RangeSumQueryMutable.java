@@ -62,7 +62,7 @@ public class RangeSumQueryMutable extends AbstractCustomTestRunner {
         private BIT bit;
         private int[] nums;
 
-        public NumArray(int[] nums) {
+        public NumArrayBIT(int[] nums) {
             this.bit = new BIT (nums.length);
             this.nums = nums;
             for (int idx = 0; idx < nums.length; idx ++) bit.add (idx, nums [idx]);
