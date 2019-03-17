@@ -47,7 +47,7 @@ public class ShortestPathVisitingAllNodes extends AbstractCustomTestRunner {
                 int nextMask = s.mask | (1 << next);
                 if (dist [nextMask][next] > 0) continue;
 
-                dist [nextMask][next] = dist [s.mask][s.id] + 1;
+                dist [nextMask][next] = dist [s.mask][s.id] + 1; // answer to be used (distance)
                 queue.offer (new State (next, nextMask));
             }
         }
@@ -55,7 +55,7 @@ public class ShortestPathVisitingAllNodes extends AbstractCustomTestRunner {
     }
 
     class State {
-        public int mask, id;
+        public int mask, id;        // mask = board/game information in an integer (bitset) and id = starting/standing from/at index. (should be unique once filled)
         public State (int id, int mask) {
             this.id = id;
             this.mask = mask;
