@@ -2,6 +2,8 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -83,6 +85,7 @@ public class MinimumWindowSubsequence extends AbstractCustomTestRunner {
              * index in S. such as:
              * "daabaac", abc => forward search: "aabaac", backward search: "abaac" (2nd pass)
              * "dabbabc", abc => forward search: "abbabc", backward search: "abc"   (2nd pass)
+             *  (This is also mentioned in other 7ms solution) -> this is optimization part, need to check from right to left(trick);
              *
              * maybe we can use KMP after we are done with the two passes to save some time if we have suffix same as prefix. case: aaabaaa.
              * */
@@ -92,6 +95,52 @@ public class MinimumWindowSubsequence extends AbstractCustomTestRunner {
 
             if (res.equals("") || res.length() > I - i) res = S.substring(i ++, I); // move ahead as well (like we did in our initial approach, once we match the sequence.
         }
+    }
+
+    // parallel window solution. (BFS styled) - Interesting
+    public String _minWindowArticleDPSolution(String S, String T) {
+        int N = S.length();
+        int[] last = new int[26];
+        int[][] nxt = new int[N][26];
+        Arrays.fill(last, -1);
+
+        // evaluate expression for this loop: Arrays.stream(nxt).map(a -> Arrays.toString(a)).collect(Collectors.toList())
+        for (int i = N - 1; i >= 0; --i) {
+            last[S.charAt(i) - 'a'] = i;
+            for (int k = 0; k < 26; ++k) {
+                nxt[i][k] = last[k];
+            }
+        }
+
+        // evaluate expression for this collection: windows.stream().map(arr -> Arrays.toString(arr)).collect(Collectors.toList())
+        List<int[]> windows = new ArrayList<>();
+        for (int i = 0; i < N; ++i) {
+            if (S.charAt(i) == T.charAt(0))
+                windows.add(new int[] { i, i }); // BFS styled way of prepration, put all the starting points in an array (start-index, end-index)
+        }
+        for (int j = 1; j < T.length(); ++j) {   // start with T (index: 1) as all index: 0 are already in parallel windows
+            int letterIndex = T.charAt(j) - 'a';
+            for (int[] window: windows) {
+                if (window[1] < N-1 && nxt[window[1]+1][letterIndex] >= 0) {    // does window[1] (end index) neighbor (window[1] + 1) has letterIndex value present
+                                                                                // i.e does the forward substring after this window (S [window[1] + 1:] has letterIndex present.
+                    window[1] = nxt[window[1]+1][letterIndex];
+                }
+                else {
+                    window[0] = window[1] = -1;         // abandon the window from future use and consideration.
+                    break;
+                }
+            }
+        }
+
+        int[] ans = {-1, S.length()};   // max window
+        for (int[] window: windows) {
+            if (window[0] == -1) break;     // should not use abandoned windows
+            if (window[1] - window[0] < ans[1] - ans[0]) {      // find smallest one.
+                ans = window;
+            }
+        }
+
+        return ans[0] >= 0 ? S.substring(ans[0], ans[1] + 1) : "";
     }
 
     // driver method
