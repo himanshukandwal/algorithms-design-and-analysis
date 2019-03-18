@@ -83,11 +83,12 @@ public class BoundaryOfBinaryTree {
         return ans;
     }
 
+    // 2 = right; 0 = root; 3 = internal; 1 = left
     private void dfs (List<Integer> ans, TreeNode node, int flag) {
         if (node == null) return;
-        if (flag <= 1 || (flag != 2 && node.left == null && node.right == null)) ans.add (node.val);
+        if (flag <= 1 || (flag != 2 && node.left == null && node.right == null)) ans.add (node.val); // pre-order addition (root + left + leaf nodes)
         dfs (ans, node.left, flag <= 1 ? 1 : (flag == 2 && node.right == null ? 2 : 3));
         dfs (ans, node.right, flag % 2 == 0 ? 2: (flag == 1 && node.left == null ? 1 : 3));
-        if (flag == 2) ans.add (node.val);
+        if (flag == 2) ans.add (node.val); // post order addition (root + right nodes)
     }
 }
