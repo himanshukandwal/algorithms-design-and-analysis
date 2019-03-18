@@ -2,7 +2,9 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 559. Maximum Depth of N-ary Tree
@@ -38,11 +40,29 @@ public class MaximumDepthofNaryTree extends AbstractCustomTestRunner {
         }
     }
 
+    // DFS
     public int _maxDepth(Node root) {
         if (root == null) return 0;
         int max = 1;
         for (Node child : root.children) max = Math.max (max, _maxDepth (child) + 1);
         return max;
+    }
+
+    // BFS
+    public int _maxDepthIterative(Node root) {
+        if (root == null) return 0;
+        int ans = 0;
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer (root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size -- > 0) {
+                Node n = queue.poll ();
+                for (Node child : n.children) queue.offer (child);
+            }
+            ans ++;
+        }
+        return ans;
     }
 
 }
