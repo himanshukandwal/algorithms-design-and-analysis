@@ -26,8 +26,6 @@ public class BoundaryTraversalBST extends AbstractCustomTestRunner {
 	
 	private static BoundaryTraversalBST _instance = new BoundaryTraversalBST();
 	
-	private BoundaryTraversalBST() {}
-	
 	public static String _boundaryTraversal(BinaryTree root) {
 		if (root == null) 
 			return null;
