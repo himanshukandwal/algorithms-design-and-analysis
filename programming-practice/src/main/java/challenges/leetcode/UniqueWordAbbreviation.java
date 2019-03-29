@@ -11,29 +11,55 @@ import challenges.AbstractCustomTestRunner;
 
 /**
  * 288. Unique Word Abbreviation
+ *
+ * An abbreviation of a word follows the form <first letter><number><last letter>. Below are some examples of word abbreviations:
+ *
+ *          a) it                      --> it    (no abbreviation)
+ *
+ *            1
+ *            ↓
+ *          b) d|o|g                   --> d1g
+ *
+ *                       1    1  1
+ *              1---5----0----5--8
+ *              ↓   ↓    ↓    ↓  ↓
+ *         c) i|nternationalizatio|n  --> i18n
+ *
+ *                   1
+ *               1---5----0
+ *               ↓   ↓    ↓
+ *          d) l|ocalizatio|n          --> l10n
+ *
+ * Assume you have a dictionary and given a word, find whether its abbreviation is unique in the dictionary.
+ * A word's abbreviation is unique if no other word from the dictionary has the same abbreviation.
+ *
+ * Example:
+ *          Given dictionary = [ "deer", "door", "cake", "card" ]
+ *
+ *          isUnique("dear") -> false
+ *          isUnique("cart") -> true
+ *          isUnique("cane") -> false
+ *          isUnique("make") -> true
  * 
  * @author Hxkandwal
  */
 public class UniqueWordAbbreviation extends AbstractCustomTestRunner {
 
-	Map<String, Set<String>> abbr = new HashMap<>();
+	Map<String, Set<String>> map = new HashMap<>();
     
     public UniqueWordAbbreviation (String[] dictionary) {
-        for (String di : dictionary) {
-            if (di.length() <= 2) {
-                abbr.put (di, abbr.getOrDefault (di, new HashSet<>()));
-                abbr.get (di).add (di);
-            } else {
-                String abv = String.valueOf(di.charAt(0)) + (di.length() - 2) + String.valueOf(di.charAt (di.length() - 1));
-                abbr.put (abv, abbr.getOrDefault (abv, new HashSet<>()));
-                abbr.get (abv).add (di);
+        for (String w : dictionary)
+            if (w.length() >= 2) {
+                String abbr = "" + w.charAt(0) + w.substring(1, w.length() - 1).length() + w.charAt(w.length() - 1);
+                map.computeIfAbsent(abbr, k -> new HashSet<>()).add (w);
             }
-        }
     }
     
-    public boolean isUnique(String word) {
-        String abv = (word.length() <= 2) ? word : String.valueOf(word.charAt(0)) + (word.length() - 2) + String.valueOf(word.charAt (word.length() - 1));
-        return !abbr.containsKey (abv) || (abbr.get (abv).size () == 1 && abbr.get (abv).contains (word));
+    public boolean isUnique(String w) {
+        if (w.length() < 2) return true;
+        String abbr = "" + w.charAt(0) + w.substring(1, w.length() - 1).length() + w.charAt(w.length() - 1);
+
+        return  !map.containsKey(abbr) || (map.get(abbr).contains(w) && map.get(abbr).size() == 1);
     }
     
 	// driver method
