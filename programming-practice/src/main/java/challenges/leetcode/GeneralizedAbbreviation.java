@@ -21,22 +21,22 @@ import java.util.List;
 public class GeneralizedAbbreviation extends AbstractCustomTestRunner {
 
     public List<String> _generateAbbreviations(String word) {
-        List<String> res = new ArrayList<>();
-        dfs(res, new StringBuilder(), word.toCharArray(), 0, 0);
-        return res;
+        List<String> ans = new ArrayList<>();
+        dfs(ans, new StringBuilder(), word, 0, 0);
+        return ans;
     }
 
-    public void dfs(List<String> res, StringBuilder sb, char[] c, int i, int num) {
-        int len = sb.length();
-        if (i == c.length) {
-            if (num != 0) sb.append(num);
-            res.add(sb.toString());
+    private void dfs (List<String> ans, StringBuilder build, String w, int index, int k) {
+        int len = build.length();
+        if (index == w.length()) {
+            if (k != 0) build.append (k);
+            ans.add (build.toString());
         } else {
-            dfs (res, sb, c, i + 1, num + 1);               // abbr c[i], choose
+            dfs (ans, build, w, index + 1, k + 1);
 
-            if (num != 0) sb.append(num);                           // not abbr c[i], not choose
-            dfs (res, sb.append(c[i]), c, i + 1, 0);
+            if (k != 0) build.append (k);
+            dfs (ans, build.append (w.charAt(index)), w, index + 1, 0);
         }
-        sb.setLength(len);                                          // remove operation
+        build.setLength(len);
     }
 }
