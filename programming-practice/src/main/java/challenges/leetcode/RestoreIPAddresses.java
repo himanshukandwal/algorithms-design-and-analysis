@@ -1,16 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.*;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 93. Restore IP Addresses
@@ -58,6 +52,30 @@ public class RestoreIPAddresses extends AbstractCustomTestRunner {
         map.put(key, ans);
         return ans;
     }
+
+	public List<String> _restoreIpAddressesBacktrack(String s) {
+		if (s.length() > 12) return Arrays.asList();
+		return dfs (s, 3);
+	}
+
+	private List<String> dfs (String s, int k) {
+		List<String> ans = new ArrayList<>();
+		if (k == 0) {
+			if (isValid(s)) ans.add (s);
+		} else {
+			for (int idx = 1; idx < s.length(); idx ++) {
+				String build = s.substring (0, idx);
+				if (isValid (build))
+					for (String next : dfs (s.substring(idx), k - 1))
+						ans.add (build + "." + next);
+			}
+		}
+		return ans;
+	}
+
+	private boolean isValid(String s) {
+		return (s.charAt(0) != '0' || s.length() == 1) && Long.valueOf(s) < 256;
+	}
     
 	// driver method
 	public static void main(String[] args) {
