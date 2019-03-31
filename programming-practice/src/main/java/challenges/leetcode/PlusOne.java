@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 66. Plus One
@@ -19,9 +19,7 @@ import challenges.AbstractCustomTestRunner;
 public class PlusOne extends AbstractCustomTestRunner {
 
 	private static PlusOne _instance = new PlusOne();
-	
-	private PlusOne() {}
-	
+
 	public int[] plusOne(int[] digits) {
 		int n = digits.length;
 		for (int idx = n - 1; idx >= 0; idx --) {
