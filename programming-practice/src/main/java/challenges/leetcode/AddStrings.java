@@ -24,39 +24,23 @@ public class AddStrings extends AbstractCustomTestRunner {
 	private static AddStrings _instance = new AddStrings();
 	
     public static String _addStrings(String num1, String num2) {
-    	StringBuilder answer = new StringBuilder();
-    	int idx1 = num1.length() - 1, idx2 = num2.length() - 1, carry = 0;
-    	
-    	while (idx1 >= 0 || idx2 >= 0) {
-    		int sum = 0;
-    		if (idx1 >= 0 && idx2 >= 0)
-    			sum = (num1.charAt(idx1 --) - '0') + (num2.charAt(idx2 --) - '0') + carry;
-    		else if (idx1 >= 0)
-    			sum = (num1.charAt(idx1 --) - '0') + carry;
-    		else
-    			sum = (num2.charAt(idx2 --) - '0') + carry;
-    		
-    		if (sum >= 10) { 
-    			carry = sum / 10; 
-    			sum = sum % 10; 
-    		} else 
-    			carry = 0;
-    		
-			answer.insert(0, sum);
-    	}
-    	
-    	if (carry > 0) answer.insert(0, carry);
-    	return answer.toString();
+		StringBuilder ans = new StringBuilder();
+		int idx1 = num1.length() - 1, idx2 = num2.length() - 1, carry = 0;
+		while (idx1 >= 0 || idx2 >= 0) {
+			int sum = carry;
+			if (idx1 >= 0) sum += num1.charAt(idx1 --) - '0';
+			if (idx2 >= 0) sum += num2.charAt(idx2 --) - '0';
+			ans.append(sum % 10);
+			carry = sum / 10;
+		}
+		if (carry > 0) ans.append(carry);
+		return ans.reverse().toString();
     }
     
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest("10", "10", "20");
 		_instance.runTest("10", "1", "11");
-		_instance.runTest("1", "10", "11");
-		_instance.runTest("1", "1", "2");
-		_instance.runTest("1", "", "1");
-		_instance.runTest("9", "9", "18");
 		_instance.runTest("9", "99", "108");
 		_instance.runTest("123456789", "987654321", "1111111110");
 	}
