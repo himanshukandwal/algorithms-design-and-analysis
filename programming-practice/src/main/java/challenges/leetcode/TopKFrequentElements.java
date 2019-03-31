@@ -1,13 +1,8 @@
 package challenges.leetcode;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.*;
 
 /**
  * 347. Top K Frequent Elements
@@ -26,7 +21,7 @@ import challenges.AbstractCustomTestRunner;
 public class TopKFrequentElements extends AbstractCustomTestRunner {
 	
 	// bucket sort, more auxillary memory, lesser processing time O(n)
-	public List<Integer> topKFrequentBucket(int[] nums, int k) {
+	public List<Integer> _topKFrequentBucket(int[] nums, int k) {
         List<Integer> ans = new ArrayList<>();
         List<Integer>[] buckets = new ArrayList [nums.length + 1];
         Map<Integer, Integer> map = new HashMap<>();
@@ -42,19 +37,15 @@ public class TopKFrequentElements extends AbstractCustomTestRunner {
         return ans;
     }
 	
-	public List<Integer> topKFrequent(int[] nums, int k) {
-		List<Integer> ans = new ArrayList<>();
+	public List<Integer> _topKFrequent(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) map.put(num, map.getOrDefault(num, 0) + 1);
-        
-        PriorityQueue<Map.Entry<Integer, Integer>> fmaxheap = new PriorityQueue<Map.Entry<Integer, Integer>>(new Comparator<Map.Entry<Integer, Integer>> () {
-                public int compare (Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                    return o2.getValue() - o1.getValue();
-                }
-            });
-            
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) fmaxheap.offer (entry);
-        while (!fmaxheap.isEmpty() && k -- > 0) ans.add (fmaxheap.poll().getKey());
+        for (int num : nums) map.put (num, map.getOrDefault(num, 0) + 1);
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> map.get(b) - map.get (a));
+        for (int key : map.keySet()) pq.offer (key);
+
+        List<Integer> ans = new ArrayList<>();
+        while (!pq.isEmpty() && k -- > 0) ans.add (pq.poll());
         return ans;
     }
 
