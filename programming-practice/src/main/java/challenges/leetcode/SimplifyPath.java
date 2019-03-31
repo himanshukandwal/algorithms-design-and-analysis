@@ -23,7 +23,7 @@ public class SimplifyPath extends AbstractCustomTestRunner {
 	private static SimplifyPath _instance = new SimplifyPath();
 
 	public String _simplifyPathBetter(String path) {
-        String[] arr = path.split("\\/");
+        String[] arr = path.split("/");
         Stack<String> stack = new Stack<>();
         for (String s : arr) {
             if (s.length() == 0 || s.equals(".")) continue;
