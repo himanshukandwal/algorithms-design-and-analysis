@@ -43,22 +43,14 @@ public class LongPressedName extends AbstractCustomTestRunner {
     private static LongPressedName _instance = new LongPressedName();
 
     public boolean _isLongPressedName(String name, String typed) {
-        if (typed.length() < name.length()) return false;
-        int nIdx = 0, tIdx = 0;
-        while (nIdx < name.length()) {
-            char c = name.charAt(nIdx);
-            int ncount = 1;
-            while (nIdx + 1 < name.length() && name.charAt(nIdx + 1) == c) { nIdx ++; ncount ++; }
-
-            if (tIdx >= typed.length() || typed.charAt(tIdx) != c) return false;
-            int tcount = 1;
-            while (tIdx + 1 < typed.length() && typed.charAt(tIdx + 1) == c) { tIdx ++; tcount ++; }
-
-            if (ncount > tcount) return false;
-            nIdx ++;
-            tIdx ++;
+        int idx1 = 0, idx2 = 0;
+        while (idx1 < name.length() && idx2 < typed.length()) {
+            if (name.charAt(idx1) == typed.charAt(idx2)) { idx1 ++; idx2 ++; }
+            else if (idx1 > 0 && typed.charAt(idx2) == name.charAt(idx1 - 1)) {
+                idx2 ++;
+            } else return false;
         }
-        return true;
+        return idx1 == name.length();
     }
 
     // driver method
