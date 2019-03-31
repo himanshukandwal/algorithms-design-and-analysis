@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 6. ZigZag Conversion
@@ -47,6 +47,39 @@ public class ZigZagConversion extends AbstractCustomTestRunner {
         }
         return ans.toString();
     }
+
+    // cyclic fpass, spass
+	/**
+	 * numRows = 5
+	 * fpass spass
+	 *   8	   0
+	 *   6	   2
+	 *   4	   4
+	 *   2	   6
+	 *   0	   8
+	 */
+	public String _convertBetter(String s, int numRows) {
+		if (numRows == 1 || numRows > s.length()) return s;
+		int jump = 2 * numRows - 2;
+
+		StringBuilder ans = new StringBuilder();
+		for (int idx = 0; idx < numRows; idx ++) {
+			int fpass = jump - 2 * idx, spass = 2 * idx;
+
+			ans.append (s.charAt(idx));
+			int j = idx;
+			while (j < s.length()) {
+				int next = j + fpass;
+				if (next >= s.length()) break;
+				if (next != j) { j = next; ans.append (s.charAt(j)); }
+
+				next = j + spass;
+				if (next >= s.length()) break;
+				if (next != j) { j = next; ans.append (s.charAt(j)); }
+			}
+		}
+		return ans.toString();
+	}
 	
 	// driver method
 	public static void main(String[] args) {
