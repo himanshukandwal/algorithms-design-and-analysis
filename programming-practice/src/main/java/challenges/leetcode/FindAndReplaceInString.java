@@ -43,6 +43,26 @@ import java.util.Map;
  */
 public class FindAndReplaceInString extends AbstractCustomTestRunner {
 
+    public String _findReplaceStringMapImproved(String S, int[] indexes, String[] sources, String[] targets) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int idx = 0; idx < indexes.length; idx ++) {
+            int index = indexes [idx];
+            String source = sources [idx], target = targets [idx];
+
+            if (S.startsWith(source, index)) map.put (index, idx);  // keep reference to the where we can get change/replace information, rather than keeping information itself.
+        }
+
+        StringBuilder ans = new StringBuilder(S);
+        for (int idx = S.length() - 1; idx >= 0; idx --) {
+            if (map.containsKey (idx)) {
+                int changeIdx = map.get (idx);                      // lazy get the information. (rather than keeping like sources [idx] + ":" + targets [idx] => costly operation)
+                ans.delete (idx, idx + sources [changeIdx].length());
+                ans.insert (idx, targets [changeIdx]);
+            }
+        }
+        return ans.toString();
+    }
+
     public String _findReplaceStringUsingMap(String S, int[] indexes, String[] sources, String[] targets) {
         Map<Integer, String> map = new HashMap<>();
         for (int idx = 0; idx < indexes.length; idx ++) {
