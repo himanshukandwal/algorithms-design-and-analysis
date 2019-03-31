@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 67. Add Binary
@@ -25,32 +25,21 @@ public class AddBinary extends AbstractCustomTestRunner {
 	private static AddBinary _instance = new AddBinary();
 	
     public String _addBinary(String a, String b) {
-        StringBuilder sb = new StringBuilder();
-        
-        int idx = 0, carry = 0;
-        while (idx < a.length() || idx < b.length()) {
-            int ach = (idx < a.length() ? a.charAt(a.length() - idx - 1) - '0' : -1);
-            int bch = (idx < b.length() ? b.charAt(b.length() - idx - 1) - '0' : -1);
-            idx ++;
-            
-            if (ach >= 0 && bch >= 0) {
-                sb.append(carry > 0 ? ach ^ bch ^ carry : ach ^ bch);
-                carry = (carry > 0 ? (ach | bch) & carry : ach & bch);
-            } else {
-                if (ach >= 0) {
-                    sb.append(carry > 0 ? ach ^ carry : ach);
-                    carry = (carry > 0 ? ach & carry : 0);
-                } else {
-                    sb.append(carry > 0 ? bch ^ carry : bch);
-                    carry = (carry > 0 ? bch & carry : 0);
-                }
-            }
+        StringBuilder ans = new StringBuilder();
+        int i = a.length() - 1, j = b.length() - 1, carry = 0;
+        while (i >= 0 || j >= 0) {
+            int s = carry;
+            if (i >= 0) s += a.charAt(i --) - '0';
+            if (j >= 0) s += b.charAt(j --) - '0';
+
+            // similar to how we do with base 10.
+            carry = s / 2;
+            s = s % 2;
+            ans.append (s);
         }
-        
-        if (carry > 0)
-            sb.append(carry);
-        
-        return sb.reverse().toString();
+
+        if (carry > 0) ans.append (carry);
+        return ans.reverse().toString();
     }
 
 	// driver method
