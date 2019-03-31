@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 215. Kth Largest Element in an Array
@@ -24,23 +24,23 @@ public class KthLargestElementInAnArray extends AbstractCustomTestRunner {
 	private static KthLargestElementInAnArray _instance = new KthLargestElementInAnArray();
 
     public int _findKthLargest(int[] nums, int k) {
-        if (nums == null || nums.length == 0) return -1;
-        return findKthLargest(nums, 0, nums.length - 1, k - 1);
+        return findKthLargestInner (nums, 0, nums.length - 1, k - 1);
     }
 
-    private int findKthLargest(int[] nums, int i, int j, int k) {
-        if (i >= j) return nums [i];
-        int pi = j, p = nums [j];
-        int s = i, e = j;
-        while (s < e) {
-            while (s < e && nums [s] > p) s ++;
-            while (s < e && nums [e] <= p) e --;
-            if (s < e) swap (nums, s, e);
+    private int findKthLargestInner (int [] nums, int s, int e, int k) {
+        if (s >= e) return nums [s];
+        int l = s, r = e - 1, val = nums [e];
+        while (l < r) {
+            while (l < r && nums [l] > val) l ++;
+            while (l < r && nums [r] <= val) r --;
+            if (l < r) swap (nums, l, r);
         }
-        swap (nums, pi, e);
-        if (e > k) return findKthLargest(nums, i, e - 1, k);
-        else if (e < k) return findKthLargest(nums, e + 1, j, k);
-        else return nums [e];
+        if (nums [l] > val) l ++;
+        swap (nums, l, e);
+
+        if (l > k) return findKthLargestInner(nums, s, l - 1, k);
+        if (l < k) return findKthLargestInner(nums, l + 1, e, k);
+        return nums [l];
     }
 
     private void swap(int[] nums, int from, int to) {
