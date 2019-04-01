@@ -2,7 +2,10 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -35,47 +38,32 @@ public class EvaluateDivision extends AbstractCustomTestRunner {
 
     private static EvaluateDivision _instance = new EvaluateDivision();
 
-    class Node {
-        String s;
-        Map<String, Double> map = new HashMap<>();
-        public Node (String s) { this.s = s; }
-    }
-
     public double[] _calcEquation(String[][] equations, double[] values, String[][] queries) {
-        double [] ans = new double [queries.length];
-        Arrays.fill (ans, -1.0);
-        Map<String, Node> map = new HashMap<>();
-
+        Map<String, Map<String, Double>> map = new HashMap<>();
         for (int idx = 0; idx < equations.length; idx ++) {
-            String [] e = equations [idx];
-            map.putIfAbsent(e [0], new Node (e [0]));
-            map.putIfAbsent(e [1], new Node (e [1]));
-            map.get (e [0]).map.put (e [1], values [idx]);
-            map.get (e [1]).map.put (e [0], 1.0 / values [idx]);
+            String n = equations [idx][0], d = equations [idx][1];
+
+            map.computeIfAbsent (n, k -> new HashMap<>()).put (d, values [idx]);
+            map.computeIfAbsent (d, k -> new HashMap<>()).put (n, 1.0/values [idx]);
         }
 
-        for (int idx = 0; idx < queries.length; idx ++) {
-            String [] q = queries [idx];
-            if (map.containsKey (q [0]) && map.containsKey (q [1])) {
-                Double answer = dfs (map, new HashSet<>(), q [0], q [1]);
-                if (answer != null) ans [idx] = answer;
+        for (String k : map.keySet()) {
+            for (String f : map.get(k).keySet()) {
+                for (String s : map.get(k).keySet()) {
+                    map.get(f).put (s, map.get(f).get(k) * map.get(k).get(s));
+                }
             }
         }
-        return ans;
-    }
 
-    private Double dfs(Map<String, Node> map, Set<String> seen, String s, String f) {
-        Node n = map.get (s);
-        seen.add (n.s);
+        double [] ans = new double [queries.length];
+        Arrays.fill (ans, -1.0);
 
-        if (n.map.containsKey(f)) return n.map.get(f);
-        for (String ne : n.map.keySet()) {
-            if (seen.contains (ne)) continue;
-
-            Double a = dfs (map, seen, ne, f);
-            if (a != null) return a * n.map.get (ne);
+        for (int idx = 0; idx < queries.length; idx ++) {
+            String n = queries [idx][0], d = queries [idx][1];
+            if (!map.containsKey(n) || !map.get(n).containsKey(d)) continue;
+            ans [idx] = map.get (n).get(d);
         }
-        return null;
+        return ans;
     }
 
     // driver method
