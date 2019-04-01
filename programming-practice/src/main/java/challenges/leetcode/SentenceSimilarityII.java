@@ -34,6 +34,8 @@ import java.util.Set;
  */
 public class SentenceSimilarityII extends AbstractCustomTestRunner {
 
+    // using Floyd warshall algorithm
+
     public boolean _areSentencesSimilarTwo(String[] words1, String[] words2, String[][] pairs) {
         if (words1 == null || words2 == null || words1.length != words2.length) return false;
 
@@ -58,6 +60,45 @@ public class SentenceSimilarityII extends AbstractCustomTestRunner {
             if (!(a.equals(b) || map.containsKey(a) && map.get(a).contains(b))) return false;
         }
         return true;
+    }
+
+    // using Disjoint set data structure (Union find algorithm)
+
+    class Node {
+        Node parent;
+        String val;
+
+        public Node (String val) {
+            this.val = val;
+            this.parent = this;
+        }
+    }
+
+    public boolean _areSentencesSimilarTwoUnionFind(String[] words1, String[] words2, String[][] pairs) {
+        if (words1 == null || words2 == null || words1.length != words2.length) return false;
+
+        Map<String, Node> map = new HashMap<>();
+        for (String[] p : pairs) {
+            String a = p [0], b = p [1];
+            if (!map.containsKey(a)) map.put(a, new Node (a));
+            if (!map.containsKey(b)) map.put(b, new Node (b));
+
+            Node ra = find (map.get(a)), rb = find (map.get (b));
+            if (ra != rb) rb.parent = ra;
+        }
+
+        for (int idx = 0; idx < words1.length; idx ++) {
+            String a = words1 [idx], b = words2 [idx];
+
+            if (!(a.equals (b) || map.containsKey(a) && map.containsKey(b) && find (map.get (a)) == find (map.get (b))))
+                return false;
+        }
+        return true;
+    }
+
+    private Node find (Node n) {
+        if (n.parent != n) n.parent = find (n.parent);
+        return n.parent;
     }
 
 }
