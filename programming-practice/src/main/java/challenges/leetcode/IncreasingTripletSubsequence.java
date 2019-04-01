@@ -51,6 +51,19 @@ public class IncreasingTripletSubsequence extends AbstractCustomTestRunner {
         return false;
     }
 
+    public boolean _increasingTripletOther(int[] nums) {
+        int f = -1, s = -1;
+        for (int idx = nums.length - 1; idx >= 0; idx --) {
+            int num = nums [idx];
+            if (f == -1 || num >= f) f = num;
+            else {
+                if (s == -1 || num >= s) s = num;
+                else return true;
+            }
+        }
+        return false;
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(new int [] { 2, 1, 5, 0, 3 }, false);
