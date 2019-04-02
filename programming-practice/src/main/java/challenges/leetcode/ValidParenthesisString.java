@@ -47,7 +47,6 @@ public class ValidParenthesisString extends AbstractCustomTestRunner {
     }
 
     // size based DP
-
     public boolean _checkValidStringDP(String s) {
         int n = s.length();
         if (n == 0) return true;
