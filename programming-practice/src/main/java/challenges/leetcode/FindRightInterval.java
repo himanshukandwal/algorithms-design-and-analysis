@@ -1,16 +1,11 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 436. Find Right Interval
@@ -53,72 +48,65 @@ import challenges.AbstractCustomTestRunner;
 public class FindRightInterval extends AbstractCustomTestRunner {
 	
 	private static FindRightInterval _instance = new FindRightInterval();
-	
-	private FindRightInterval() {}
-	
-	public static class Interval {
-		int start;
-		int end;
 
+	public static class Interval {
+		int start, end;
 		Interval() { start = 0; end = 0; }
 		Interval(int s, int e) { start = s; end = e; }
 	}
-	
-	// logic : sort by start time, search by end time.
-	public static int[] _findRightInterval(Interval[] intervals) {
-        int [] answer = new int [intervals.length];
-        List<int[]> sortedIntervals = new ArrayList<>();
-        
-        for (int idx = 0; idx < intervals.length; idx ++)
-			sortedIntervals.add(new int[] { intervals [idx].start, idx });
-        
-        Collections.sort (sortedIntervals, new Comparator<int[]>() {
-			@Override
-			public int compare(int[] o1, int[] o2) {
-				return o1 [0] - o2 [0];
-			}
-		});
-        
-        for (int idx = 0; idx < intervals.length; idx ++) {
-        	int search = intervals [idx].end;
-        	int low = 0, high = sortedIntervals.size() - 1;
-        	boolean found = false;
-        	
-        	int mid = -1;
-        	while (low <= high) {
-				mid = (low + high) >>> 1;
-				if (sortedIntervals.get(mid)[0] > search)
-					high = mid - 1;
-				else if (sortedIntervals.get(mid)[0] < search)
-					low = mid + 1;
-				else {
-					answer[idx] = sortedIntervals.get(mid)[1];
-					found = true; break;
-				}
-			}
 
-        	answer[idx] = (!found) ? (low < sortedIntervals.size() && high < sortedIntervals.size() ? sortedIntervals.get(low)[1] : -1) : answer[idx];
-        }
-        
-		return answer;
-    }
-	
-	// faster tree-map implementation
-	public static int[] _findRightIntervalTreeMap(Interval[] intervals) {
-		int[] result = new int[intervals.length];
-		NavigableMap<Integer, Integer> intervalMap = new TreeMap<>();
-
-		for (int i = 0; i < intervals.length; i ++)
-			intervalMap.put(intervals[i].start, i);
-
-		for (int i = 0; i < intervals.length; i ++) {
-			Map.Entry<Integer, Integer> entry = intervalMap.ceilingEntry(intervals[i].end);
-			result[i] = (entry != null) ? entry.getValue() : -1;
+	// faster bucket sort solution
+	public int[] _findRightIntervalBucketSort(Interval[] intervals) {
+		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+		for (Interval i : intervals) {
+			min = Math.min (min, i.start);
+			max = Math.max (max, i.end);
 		}
 
-		return result;
+		int len = max - min + 1;
+		int [] buckets = new int [len];
+		Arrays.fill (buckets, -1);
+
+		// declare where everyone is relative to min (sorting) -> keep first one only (smallest index)
+		for (int idx = 0; idx < intervals.length; idx ++)
+			if (buckets [intervals [idx].start - min] == -1) buckets [intervals [idx].start - min] = idx;
+
+		// suffix sum
+		for (int idx = buckets.length - 2; idx >= 0; idx --)
+			if (buckets [idx] == -1) buckets [idx] = buckets [idx + 1];
+
+		// prepare ans (looking from end time)
+		int [] ans = new int [intervals.length];
+		for (int idx = 0; idx < intervals.length; idx ++)
+			ans [idx] = buckets [intervals [idx].end - min];
+
+		return ans;
 	}
-	 
+
+	// logic : sort by start time, search by end time.
+	public static int[] _findRightInterval(Interval[] intervals) {
+		Integer [] idxs = new Integer [intervals.length];
+		for (int idx = 0; idx < idxs.length; idx ++) idxs [idx] = idx;
+		Arrays.sort (idxs, (a, b) -> intervals [a].start - intervals [b].start);				// time consuming
+
+		int[] ans = new int [intervals.length];
+		Arrays.fill (ans, -1);
+
+		for (int idx = 0; idx < idxs.length; idx ++) {
+			if (idx > 0 && intervals [idxs [idx]].end == intervals [idxs [idx - 1]].end)		// use previous ans, if the end time is same
+				ans [idxs [idx]] = ans [idxs [idx - 1]];
+			else {
+				for (int j = idx + 1; j < idxs.length; j ++) {
+					if (intervals [idxs [j]].start >= intervals [idxs [idx]].end) {				// else look for correct one.
+						ans [idxs [idx]] = idxs [j];
+						break;
+					}
+				}
+			}
+		}
+		return ans;
+    }
+
 	// driver method
 	public static void main(String[] args) {
 		_instance.runTest(new Interval[] { new Interval(3, 4), new Interval(2, 3), new Interval(1, 2) }, new int[] { -1, 0, 1 });
