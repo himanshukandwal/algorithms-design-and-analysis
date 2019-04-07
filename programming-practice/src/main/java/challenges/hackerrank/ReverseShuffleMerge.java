@@ -95,7 +95,6 @@ public class ReverseShuffleMerge extends AbstractCustomTestRunner {
 
     // driver method
     public static void main(String[] args) {
-        _instance.runTest("aabb", "ba");
         _instance.runTest("eggegg", "egg");
         _instance.runTest("bdabaceadaedaaaeaecdeadababdbeaeeacacaba", "aaaaaabaaceededecbdb");
         _instance.runTest("djjcddjggbiigjhfghehhbgdigjicafgjcehhfgifadihiajgciagicdahcbajjbhifjiaajigdgdfhdiijjgaiejgegbbiigida", "aaaaabccigicgjihidfiejfijgidgbhhehgfhjgiibggjddjjd");
