@@ -2,9 +2,7 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -73,6 +71,29 @@ public class SpecialBinaryString extends AbstractCustomTestRunner {
         StringBuilder ans = new StringBuilder();
         for (String pair : innerPairs) ans.append (pair);
         return ans.toString();
+    }
+
+    // Single pass implementation (using recursion as stack, and understanding '0' as way to exit stack, '1' to enter)
+    public String _makeLargestSpecialFaster(String S) {
+        if (S == null || S.length() == 0) return S;
+        return helper(S, 0);
+    }
+
+    private String helper(String S, int start){
+        if (S.charAt(start) == '0') return "";
+
+        Queue<String> tokens = new PriorityQueue<>();
+        while (start < S.length() && S.charAt(start) == '1'){
+            String token = "1" + helper(S, start + 1) + "0";
+            start += token.length();
+            tokens.offer(token);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while (!tokens.isEmpty())
+            sb.insert(0, tokens.poll());
+
+        return sb.toString();
     }
 
     // driver method
