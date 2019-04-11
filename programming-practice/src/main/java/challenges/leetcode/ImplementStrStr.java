@@ -38,18 +38,18 @@ public class ImplementStrStr extends AbstractCustomTestRunner {
         return -1;
     }
 
-	public int _strStrKmp (String B, String A) {
-		int[] pre = new int [A.length()];
-		for (int idx = 1, j = 0; idx < A.length(); idx ++) {
-			while (j > 0 && A.charAt(idx) != A.charAt(j)) j = pre [j - 1];
-			if (A.charAt(idx) == A.charAt(j)) pre [idx] = ++ j;
+	public int _strStrKmp (String haystack, String needle) {
+		int[] pre = new int [needle.length()];
+		for (int idx = 1, j = 0; idx < needle.length(); idx ++) {
+			while (j > 0 && needle.charAt(idx) != needle.charAt(j)) j = pre [j - 1];
+			if (needle.charAt(idx) == needle.charAt(j)) pre [idx] = ++ j;
 		}
 
-		for (int idx = 0, j = 0; idx < B.length(); idx ++) {
-			while (j > 0 && B.charAt(idx) != A.charAt(j)) j = pre [j - 1];
-			if (B.charAt(idx) == A.charAt(j)) {
+		for (int idx = 0, j = 0; idx < haystack.length(); idx ++) {
+			while (j > 0 && haystack.charAt(idx) != needle.charAt(j)) j = pre [j - 1];
+			if (haystack.charAt(idx) == needle.charAt(j)) {
 				j ++;
-				if (j == A.length()) return idx - A.length() + 1;
+				if (j == needle.length()) return idx - needle.length() + 1;
 			}
 		}
 		return -1;
