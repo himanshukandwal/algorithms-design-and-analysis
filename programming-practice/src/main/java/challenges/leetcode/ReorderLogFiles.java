@@ -3,6 +3,7 @@ package challenges.leetcode;
 import challenges.AbstractCustomTestRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,4 +61,23 @@ public class ReorderLogFiles extends AbstractCustomTestRunner {
         for (int d : digits) ans [idx ++] = logs [d];
         return ans;
     }
+
+    // better and faster
+    public String[] _reorderLogFilesFaster(String[] logs) {
+        Arrays.sort(logs, (log1, log2) -> {
+            String[] parts1 = log1.split (" ", 2);
+            String[] parts2 = log2.split (" ", 2);
+            boolean digit1 = Character.isDigit(parts1[1].charAt(0));
+            boolean digit2 = Character.isDigit(parts2[1].charAt(0));
+
+            if (!digit1 && !digit2) {
+                int compare = parts1 [1].compareTo(parts2 [1]);
+                return (compare == 0) ? parts1 [0].compareTo(parts2 [0]) : compare;
+            }
+
+            return digit1 ? (digit2 ? 0 : 1) : -1;
+        });
+        return logs;
+    }
+
 }
