@@ -1,13 +1,16 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.List;
-
 import challenges.AbstractCustomTestRunner;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.truth.Truth.assertThat;
+
 /**
- * 76.Minimum Window Substring
+ * 76. Minimum Window Substring
  * 
  * Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
  * 
@@ -36,6 +39,37 @@ public class MinimumWindowSubstring extends AbstractCustomTestRunner {
         }
         return (d == Integer.MAX_VALUE) ? "" : s.substring (head, head + d);
     }
+
+	public String _minWindowOther(String s, String t) {
+		Map<Character, Integer> a = new HashMap<>();
+		for (char c : t.toCharArray()) a.put (c, a.getOrDefault(c, 0) + 1);
+
+		String min = null;
+		Map<Character, Integer> b = new HashMap<>();
+		LinkedList<Integer> locs = new LinkedList<>();
+
+		for (int idx = 0; idx < s.length(); idx ++) {
+			char c = s.charAt(idx);
+
+			if (a.containsKey(c)) {
+				locs.add (idx);
+				b.put (c, b.getOrDefault (c, 0) + 1);
+			}
+
+			while (compare (a, b)) {
+				int fidx = locs.removeFirst();
+				if (min == null || min.length() > (idx - fidx + 1)) min = s.substring(fidx, idx + 1);
+
+				b.put (s.charAt(fidx), b.get (s.charAt(fidx)) - 1);
+			}
+		}
+		return min == null ? "" : min;
+	}
+
+	private boolean compare (Map<Character, Integer> a, Map<Character, Integer> b) {
+		for (Character k : a.keySet()) if (!b.containsKey(k) || b.get(k) < a.get (k)) return false;
+		return true;
+	}
 
 	// driver method
 	public static void main(String[] args) {
