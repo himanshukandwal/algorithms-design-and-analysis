@@ -40,6 +40,26 @@ public class MinimumWindowSubstring extends AbstractCustomTestRunner {
         return (d == Integer.MAX_VALUE) ? "" : s.substring (head, head + d);
     }
 
+	public String _minWindowOtherVariant(String s, String t) {
+		int [] arr = new int [256];
+		for (char c : t.toCharArray()) arr [c] ++;
+
+		String ans = null;
+		int start = 0, end = 0, counter = 0;
+		while (end < s.length()) {
+			if (arr [s.charAt(end)] -- > 0) counter ++;
+
+			while (counter == t.length()) {
+				if (ans == null || ans.length() > end - start + 1)
+					ans = s.substring(start, end + 1);
+
+				if (arr [s.charAt(start ++)] ++ >= 0) counter --;
+			}
+			end ++;
+		}
+		return ans == null ? "" : ans;
+	}
+
 	public String _minWindowOther(String s, String t) {
 		Map<Character, Integer> a = new HashMap<>();
 		for (char c : t.toCharArray()) a.put (c, a.getOrDefault(c, 0) + 1);
