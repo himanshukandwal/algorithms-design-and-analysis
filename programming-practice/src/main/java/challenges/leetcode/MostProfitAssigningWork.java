@@ -4,6 +4,8 @@ import challenges.AbstractCustomTestRunner;
 
 import java.util.*;
 
+import static com.google.common.truth.Truth.assertThat;
+
 /**
  * 826. Most Profit Assigning Work
  *
@@ -31,7 +33,9 @@ import java.util.*;
  */
 public class MostProfitAssigningWork extends AbstractCustomTestRunner {
 
-    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+    private static MostProfitAssigningWork _instance = new MostProfitAssigningWork();
+
+    public int _maxProfitAssignmentTreeMap(int[] difficulty, int[] profit, int[] worker) {
         class Item {
             public int profit, difficulty;
 
@@ -61,31 +65,80 @@ public class MostProfitAssigningWork extends AbstractCustomTestRunner {
     }
 
     // uwi solution
-    public int maxProfitAssignmentBetter(int[] difficulty, int[] profit, int[] worker) {
+    public int _maxProfitAssignmentBetter(int[] difficulty, int[] profit, int[] worker) {
         int n = difficulty.length;
-        int[][] dp = new int[n][];
-        for(int i = 0;i < n;i++){
-            dp[i] = new int[]{difficulty[i], profit[i]};
-        }
-        Arrays.sort(dp, new Comparator<int[]>() {
-            public int compare(int[] a, int[] b) {
-                if(a[0] != b[0])return a[0] - b[0];
-                return -(a[1] - b[1]);
-            }
-        });
+        int [][] dp = new int [n][];
+
+        for (int i = 0; i < n; i ++)
+            dp [i] = new int[] { difficulty[i], profit[i] };
+
+        Arrays.sort(dp, (a, b) -> (a [0] != b [0]) ? (a [0] - b [0]) : -(a [1] - b [1]));
+
         int[] xs = new int[n];
-        for(int i = 0;i < n;i++)xs[i] = dp[i][0];
-        for(int i = 1;i < n;i++){
-            dp[i][1] = Math.max(dp[i][1], dp[i-1][1]);
-        }
+        for (int i = 0; i < n; i ++) xs [i] = dp [i][0];
+        for (int i = 1; i < n; i ++) dp[i][1] = Math.max(dp [i][1], dp [i - 1][1]);
+
         int ret = 0;
         for(int w : worker){
             int ind = Arrays.binarySearch(xs, w);
-            if(ind < 0)ind = -ind-2;
-            if(ind >= 0){
+            if (ind < 0) ind = -ind - 2;
+            if (ind >= 0)
                 ret += dp[ind][1];
-            }
         }
         return ret;
+    }
+
+    // my approach similar to uwi. (ideas:  created 2d array if we wanna keep things together like here difficulty <-> profit)
+    public int _maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        Integer [] indexes = new Integer [difficulty.length];
+        for (int idx = 0; idx < indexes.length; idx ++) indexes [idx] = idx;
+
+        Arrays.sort(indexes, (a, b) -> difficulty [a] != difficulty [b] ?
+                difficulty [a] - difficulty [b] :
+                (profit [b] - profit [a]));
+        // maxprofit is not working until we sort difficulty properly.
+
+        int [] maxProfit = new int [profit.length];
+        maxProfit [0] = profit [indexes [0]];
+
+        for (int idx = 1; idx < indexes.length; idx ++)
+            maxProfit [idx] = Math.max(maxProfit [idx - 1], profit [indexes [idx]]);
+
+        int ans = 0;
+        for (int val : worker) {
+            int idx = binarySearch(indexes, difficulty, val);
+            if (idx >= 0) ans += maxProfit [idx];
+        }
+        return ans;
+    }
+
+    private int binarySearch(Integer[] indexes, int[] d, int val) {
+        int l = 0, r = d.length - 1;
+        while (l <= r) {
+            int m = l + (r - l)/2;
+
+            if (d [indexes[m]] > val) r = m - 1;
+            else if (d [indexes[m]] < val) l = m + 1;
+            else return m;
+        }
+        return (l >= d.length) ? (l - 1) : ((d [indexes[l]] == val) ? l : -- l);
+    }
+
+    // driver method
+    public static void main(String[] args) {
+        _instance.runTest(
+                new int [] { 68, 35, 52, 47, 86 },
+                new int [] { 67, 17, 1, 81, 3 },
+                new int [] { 92, 10, 85, 84, 82 },
+                324);
+    }
+
+    public void runTest(final int[] difficulty, final int[] profit, final int[] worker, final int expectedOutput) {
+        List<Object> answers = runAll(getClass(), new Object[] { difficulty, profit, worker });
+
+        for (Object answer : answers)
+            assertThat((Integer) answer).isEqualTo(expectedOutput);
+
+        System.out.println("ok!");
     }
 }
