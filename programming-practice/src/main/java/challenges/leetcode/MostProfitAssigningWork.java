@@ -64,7 +64,7 @@ public class MostProfitAssigningWork extends AbstractCustomTestRunner {
         return p;
     }
 
-    // uwi solution
+    // uwi solution (ideas:  created 2d array if we wanna keep things together like here difficulty <-> profit. Monolith array approach.)
     public int _maxProfitAssignmentBetter(int[] difficulty, int[] profit, int[] worker) {
         int n = difficulty.length;
         int [][] dp = new int [n][];
@@ -88,7 +88,58 @@ public class MostProfitAssigningWork extends AbstractCustomTestRunner {
         return ret;
     }
 
-    // my approach similar to uwi. (ideas:  created 2d array if we wanna keep things together like here difficulty <-> profit)
+    // we can use the first dimension of 2d array as index of 1d array itself use the other dimension as values. (optimized monolith approach)
+    public int _maxProfitAssignmentBest(int[] difficulty, int[] profit, int[] worker) {
+        int [] dp = new int [100001];
+
+        // nice strategy to use in multi-array approach
+        // using difficulty as index, profit as value.
+        // (difficulty array sorted by default, effort saved)
+        for (int idx = 0; idx < difficulty.length; idx ++) {
+            // overwrite profit values and keep the max one. (in case of conflict)
+            dp [difficulty [idx]] = Math.max (dp [difficulty [idx]], profit [idx]);
+        }
+
+        // maximize profits stored linearly
+        for (int idx = 1; idx < dp.length; idx ++)
+            dp [idx] = Math.max (dp [idx - 1], dp [idx]);
+
+        // build ans
+        int ans = 0;
+        for (int w : worker)
+            ans += dp [w];
+
+        return ans;
+    }
+
+    // we can optimize while collection. Build forward during the Collection time. (optimized monolith approach)
+    public int _maxProfitAssignmentSortedCollectors(int[] difficulty, int[] profit, int[] worker) {
+        int n = difficulty.length;
+        int [][] dp = new int [n][2]; // difficulty, profit pair (dp)
+
+        for (int idx = 0; idx < n; idx ++) {
+            dp [idx][0] = difficulty [idx];
+            dp [idx][1] = profit [idx];
+        }
+
+        Arrays.sort (dp, (a, b) -> a [0] - b [0]);
+
+        // sort the collectors.
+        Arrays.sort (worker);
+
+        int ans = 0, best = 0, idx = 0;
+        for (int w : worker) {
+            // compute maxima and save it for next we well to build upon the max (best) seen so far.
+            while (idx < n && w >= dp [idx][0]) { // increase difficulty slowly
+                best = Math.max (best, dp [idx][1]);
+                idx ++;
+            }
+            ans += best;
+        }
+        return ans;
+    }
+
+    // my approach similar to uwi. (ideas:  created a third array indexes to store the relation between difficulty and profit. Distributed arrays approach.)
     public int _maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
         Integer [] indexes = new Integer [difficulty.length];
         for (int idx = 0; idx < indexes.length; idx ++) indexes [idx] = idx;
