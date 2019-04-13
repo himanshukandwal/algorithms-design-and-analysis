@@ -1,14 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.*;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 30. Substring with Concatenation of All Words
@@ -26,28 +22,81 @@ import challenges.AbstractCustomTestRunner;
 public class SubstringWithConcatenationOfAllWords extends AbstractCustomTestRunner {
 	
 	private static SubstringWithConcatenationOfAllWords _instance = new SubstringWithConcatenationOfAllWords();
-	
-	public List<Integer> _findSubstring(String s, String[] words) {
-		List<Integer> res = new ArrayList<Integer>();
-		if (s == null || words == null || words.length == 0) return res;
-		int len = words[0].length(); // length of each word
 
-		Map<String, Integer> map = new HashMap<String, Integer>(); // map for L
-		for (String word : words) map.put(word, map.getOrDefault(word, 0) + 1);
+	public List<Integer> _findSubstringFaster(String s, String[] words) {
+		if (words == null || words.length == 0) return Arrays.asList();
+		int len = words [0].length(), totalLen = words.length * len;
 
-		for (int i = 0; i <= s.length() - len * words.length; i ++) {
-			Map<String, Integer> copy = new HashMap<String, Integer>(map);
-			
-			for (int j = 0; j < words.length; j++) { // check if match
-				String str = s.substring(i + j * len, i + j * len + len); // next word
-				
-				if (copy.containsKey(str)) { // is in remaining words
-					if (copy.put(str, copy.get(str) - 1) == 1) copy.remove(str);
-					if (copy.isEmpty()) { /* matches */  res.add(i); break; }
-				} else break; // not in L
+		Map<String, Integer> map = new HashMap<>();
+		for (String w : words) map.put(w, map.getOrDefault(w, 0) + 1);
+
+		List<Integer> ans = new ArrayList<>();
+		outer: for (int idx = 0; idx <= s.length() - totalLen; idx ++) {
+			Map<String, Integer> local = new HashMap<>(map);
+
+			for (int j = idx; j < idx + totalLen; j += len) {
+				String str = s.substring (j, j + len);
+				if (!local.containsKey(str)) continue outer;
+				if (local.put (str, local.get (str) - 1) == 1) local.remove (str);
 			}
+
+			if (local.size() == 0) ans.add (idx);
 		}
-		return res;
+		return ans;
+	}
+
+	class Node {
+		char c ;
+		boolean terminal;
+		Node [] children = new Node [256];
+
+		public Node (char c) { this.c = c; }
+	}
+
+	public List<Integer> _findSubstringBruteForce(String s, String[] words) {
+		if (words == null || words.length == 0) return Arrays.asList();
+
+		Node root = new Node (' ');
+		Map<String, Integer> o = new HashMap<>();
+		for (String w : words) {
+			Node t = root;
+			for (char c : w.toCharArray()) {
+				if (t.children [c] == null) t.children [c] = new Node (c);
+				t = t.children [c];
+			}
+			t.terminal = true;
+			o.put(w, o.getOrDefault(w, 0) + 1);
+		}
+
+		List<Integer> ans = new ArrayList<>();
+
+		for (int idx = 0; idx < s.length(); idx ++) {
+			int end = -1, j = idx;
+			Map<String, Integer> local = new HashMap<>(o);
+
+			while (local.size() > 0 && (end = contains(root, s, j)) >= 0) {
+				String str = s.substring(j, end + 1);
+
+				if (!local.containsKey(str)) break;
+				if (local.put (str, local.get(str) - 1) == 1) local.remove(str);
+				j = end + 1;
+			}
+
+			if (local.size() == 0) ans.add (idx);
+		}
+
+		return ans;
+	}
+
+	public int contains(Node n, String s, int idx) {
+		while (idx < s.length()) {
+			char c = s.charAt(idx);
+			if (n.children [c] == null) break;
+			if (n.children [c].terminal) return idx;
+			n = n.children [c];
+			idx ++;
+		}
+		return -1;
 	}
 
 	// driver method
