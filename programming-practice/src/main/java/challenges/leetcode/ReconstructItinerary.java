@@ -1,12 +1,8 @@
 package challenges.leetcode;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.*;
 
 /**
  * 332. Reconstruct Itinerary
@@ -48,7 +44,7 @@ public class ReconstructItinerary extends AbstractCustomTestRunner {
 	 * route is D -> B -> C -> JFK -> D -> A. Then we retreat further along the original path, prepending C, A and finally JFK to the route, 
 	 * ending up with the route JFK -> A -> C -> D -> B -> C -> JFK -> D -> A.
 	 */
-	// pseudo-topological ordering.
+	// Hierholzer's algorithm for finding eularian path.
 	public List<String> findItinerary(String[][] tickets) {
         Map <String, PriorityQueue<String>> map = new HashMap<> ();
         for (String [] ticket : tickets) 
