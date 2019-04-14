@@ -80,24 +80,26 @@ public class PrintBinaryTree extends AbstractCustomTestRunner {
 
     public List<List<String>> _printTree(TreeNode root) {
         List<List<String>> ans = new ArrayList<>();
-        int h = height (root), w = (int) Math.pow (2, h) - 1;
-        List<String> tuple = new ArrayList<>();
-        for (int c = 0; c < w; c ++) tuple.add ("");
-        for (int r = 0; r < h; r ++) ans.add (new ArrayList<> (tuple));
-        fill (ans, root, 0, 0, w + 1);
+        if (root == null) return ans;
+        int h = height (root), size = 1 << h;
+        List<String> row = new ArrayList<>();
+        for (int idx = 1; idx < size; idx ++) row.add("");
+        for (int idx = 0; idx < h; idx ++) ans.add(new ArrayList<>(row));
+        fill (ans, root, 0, 0, row.size());
         return ans;
     }
 
-    private void fill (List<List<String>> ans, TreeNode n, int index, int l, int r) {
-        if (n == null) return;
-        ans.get (index).set ((l + r)/2 - 1, String.valueOf(n.val));
-        fill (ans, n.left, index + 1, l, (l + r)/2);
-        fill (ans, n.right, index + 1, (l + r + 1)/2, r);
+    private void fill (List<List<String>> ans, TreeNode n, int row, int l, int r) {
+        if (n == null || l > r) return;
+        int pos = l + (r - l)/2;
+        ans.get (row).set(pos, String.valueOf(n.val));
+        fill (ans, n.left, row + 1, l, pos - 1);
+        fill (ans, n.right, row + 1, pos + 1, r);
     }
 
-    private int height (TreeNode n) {
+    private int height(TreeNode n) {
         if (n == null) return 0;
-        return 1 + Math.max (height (n.left), height (n.right));
+        return 1 + Math.max (height(n.left), height(n.right));
     }
 
     // driver method
