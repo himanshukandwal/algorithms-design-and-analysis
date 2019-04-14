@@ -2,10 +2,7 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -38,6 +35,7 @@ public class EvaluateDivision extends AbstractCustomTestRunner {
 
     private static EvaluateDivision _instance = new EvaluateDivision();
 
+    // using floyd warshall algorithm
     public double[] _calcEquation(String[][] equations, double[] values, String[][] queries) {
         Map<String, Map<String, Double>> map = new HashMap<>();
         for (int idx = 0; idx < equations.length; idx ++) {
@@ -47,6 +45,7 @@ public class EvaluateDivision extends AbstractCustomTestRunner {
             map.computeIfAbsent (d, k -> new HashMap<>()).put (n, 1.0/values [idx]);
         }
 
+        // floyd warshall algorithm
         for (String k : map.keySet()) {
             for (String f : map.get(k).keySet()) {
                 for (String s : map.get(k).keySet()) {
@@ -64,6 +63,41 @@ public class EvaluateDivision extends AbstractCustomTestRunner {
             ans [idx] = map.get (n).get(d);
         }
         return ans;
+    }
+
+    // using DFS
+    public double[] _calcEquationFaster(String[][] equations, double[] values, String[][] queries) {
+        Map<String, Map<String, Double>> map = new HashMap<>();
+        for (int idx = 0; idx < equations.length; idx ++) {
+            String a = equations [idx][0], b = equations [idx][1];
+            if (!map.containsKey(a)) map.put(a, new HashMap<>());
+            if (!map.containsKey(b)) map.put(b, new HashMap<>());
+            map.get(a).put(b, values [idx]);
+            map.get(b).put(a, 1.0/values [idx]);
+        }
+
+        double [] ans = new double [queries.length];
+        for (int idx = 0; idx < queries.length; idx ++) {
+            String s = queries [idx][0], e = queries [idx][1];
+
+            if (map.containsKey(s) && map.containsKey(e))
+                ans [idx] = dfs (map, new HashSet<>(), s, e, 1.0);
+            else ans [idx] = -1.0;
+        }
+        return ans;
+    }
+
+    private double dfs (Map<String, Map<String, Double>> map, Set<String> seen, String s, String e, double val) {
+        if (seen.contains(s)) return -1.0;
+        if (map.get(s).containsKey(e)) return val * map.get(s).get(e);
+
+        seen.add(s);
+        for (String n : map.get(s).keySet()) {
+            double nval = dfs (map, seen, n, e, val * map.get(s).get(n));
+            if (nval > 0) return nval;
+        }
+        seen.remove(s);
+        return -1.0;
     }
 
     // driver method
