@@ -43,11 +43,19 @@ public class FindAnagramMappings extends AbstractCustomTestRunner {
         return ans;
     }
 
+    /**
+     * Note: map.computeIfAbsent() slows down.
+     *  - with computeIfAbsent: 31ms
+     *  - without computeIfAbsent: 1ms
+     * */
+
     // using Map of value and location information (Queue)
-    public int[] _anagramMappingsUsingMap(int[] A, int[] B) {
+    public int[] _anagramMappingsFaster(int[] A, int[] B) {
         Map<Integer, Queue<Integer>> map = new HashMap<>();
-        for (int idx = 0; idx < B.length; idx ++)
-            map.computeIfAbsent(B [idx], k -> new LinkedList<>()).add (idx);
+        for (int idx = 0; idx < B.length; idx ++) {
+            if (!map.containsKey(B [idx])) map.put(B [idx], new LinkedList<>());
+            map.get (B [idx]).add (idx);
+        }
 
         int [] ans = new int [A.length];
         for (int idx = 0; idx < A.length; idx ++)
