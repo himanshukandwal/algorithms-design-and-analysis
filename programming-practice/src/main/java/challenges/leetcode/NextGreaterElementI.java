@@ -40,6 +40,7 @@ public class NextGreaterElementI extends AbstractCustomTestRunner {
 	private static NextGreaterElementI _instance = new NextGreaterElementI();
 
 	public int[] _nextGreaterElementFaster(int[] nums1, int[] nums2) {
+		// value index reverse array
 		int [] map = new int [10000]; // constant memory
 		// use nums2 values as index (sorted by default), value in it would be index (to build ans)
 		for (int idx = 0; idx < nums2.length; idx ++) map [nums2 [idx]] = idx;
