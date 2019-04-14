@@ -11,7 +11,7 @@ import challenges.AbstractCustomTestRunner;
  *
  * That is, the sub-array is turbulent if the comparison sign flips between each adjacent pair of elements in the sub-array.
  * Return the length of a maximum size turbulent sub-array of A.
- *
+ *V
  * Example 1:
  *          Input: [9,4,2,10,7,8,8,1,9]
  *          Output: 5
