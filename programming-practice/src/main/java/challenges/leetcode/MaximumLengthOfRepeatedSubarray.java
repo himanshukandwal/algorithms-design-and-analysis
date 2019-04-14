@@ -40,6 +40,26 @@ public class MaximumLengthOfRepeatedSubarray extends AbstractCustomTestRunner {
         return ans;
     }
 
+    // single array DP (faster)
+    public int _findLengthFastestDP(int[] A, int[] B) {
+        int [] dp = new int [A.length + 1];
+
+        int ans = 0;
+        for (int r = 0; r < B.length; r ++) {
+            // sub-array builds towards right, we should traverse from r -> l to use prev iteration info.
+            for (int c = A.length - 1; c >= 0; c --) {
+                // diagonal building of sub-array (dp [r + 1][c + 1] = dp [r][c] + 1),
+                // so we add from whats build up ahead of the run (i.e on left as we are moving from r -> l)
+                if (A [c] == B [r]) {
+                    dp [c + 1] = dp [c] + 1;
+                    ans = Math.max (ans, dp [c + 1]);
+                } else dp [c + 1] = 0;
+            }
+        }
+
+        return ans;
+    }
+
     public int _findLength(int[] A, int[] B) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int idx = 0; idx < B.length; idx ++) {
