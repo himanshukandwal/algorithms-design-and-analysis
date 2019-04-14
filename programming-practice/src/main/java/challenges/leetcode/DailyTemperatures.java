@@ -2,9 +2,8 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -25,28 +24,36 @@ public class DailyTemperatures extends AbstractCustomTestRunner {
 
     private static DailyTemperatures _instance = new DailyTemperatures();
 
-    public int[] _dailyTemperatures(int[] temperatures) {
-        int [] ans = new int [temperatures.length];
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int idx = temperatures.length - 1; idx >= 0; idx --) {
-            ans [idx] = Integer.MAX_VALUE;
-            for (Integer t : map.keySet())
-                if (temperatures [idx] < t) ans [idx] = Math.min (ans [idx], map.get (t) - idx);
-            map.put (temperatures [idx], idx);
-            if (ans [idx] == Integer.MAX_VALUE) ans [idx] = 0;
+    public int[] _dailyTemperatures(int[] T) {
+        // using value index reverse array
+        int [] arr = new int [101];
+        Arrays.fill(arr, Integer.MAX_VALUE);
+
+        for (int idx = T.length - 1; idx >= 0; idx --) {
+            int minIdx = Integer.MAX_VALUE;
+
+            for (int j = T [idx] + 1; j < arr.length; j ++)
+                if (arr [j] < minIdx) minIdx = arr [j];
+
+            arr [T [idx]] = idx;
+            T [idx] = minIdx == Integer.MAX_VALUE ? 0 : (minIdx - idx);
         }
-        return ans;
+        return T;
     }
 
     // better approach : to save in descending order, while working out increasing order.
-    public int[] _dailyTemperaturesBetter(int[] temperatures) {
-        int [] ans = new int [temperatures.length];
-        Stack<Integer> stk = new Stack<>();
-        for (int idx = 0; idx < temperatures.length; idx ++) {
-            while (!stk.isEmpty() && temperatures [stk.peek()] < temperatures [idx]) ans [stk.peek()] = idx - stk.pop ();
-            stk.push (idx);
+    public int[] _dailyTemperaturesBetter(int[] T) {
+        Stack<Integer> stack = new Stack<>();
+        for (int idx = 0; idx < T.length; idx ++) {
+            int t = T [idx];
+            while (!stack.isEmpty() && T [stack.peek()] < T [idx]) {
+                int j = stack.pop();
+                T [j] = idx - j;
+            }
+            stack.push (idx);
         }
-        return ans;
+        for (int idx : stack) T [idx] = 0;
+        return T;
     }
 
     // driver method
