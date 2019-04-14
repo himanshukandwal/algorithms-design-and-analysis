@@ -25,6 +25,21 @@ import java.util.Map;
  */
 public class MaximumLengthOfRepeatedSubarray extends AbstractCustomTestRunner {
 
+    public int _findLengthDP(int[] A, int[] B) {
+        int m = A.length, n = B.length, ans = 0;
+        int [][] dp = new int [m + 1][n + 1];
+
+        for (int r = 0; r < m; ++ r) {
+            for (int c = 0; c < n; ++ c) {
+                if (A [r] == B [c]) {
+                    dp [r + 1][c + 1] = dp [r][c] + 1;
+                    ans = Math.max (ans, dp [r + 1][c + 1]);
+                }
+            }
+        }
+        return ans;
+    }
+
     public int _findLength(int[] A, int[] B) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int idx = 0; idx < B.length; idx ++) {
