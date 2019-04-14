@@ -90,6 +90,7 @@ public class MostProfitAssigningWork extends AbstractCustomTestRunner {
 
     // we can use the first dimension of 2d array as index of 1d array itself use the other dimension as values. (optimized monolith approach)
     public int _maxProfitAssignmentBest(int[] difficulty, int[] profit, int[] worker) {
+        // value index reverse array
         int [] dp = new int [100001];
 
         // nice strategy to use in multi-array approach
