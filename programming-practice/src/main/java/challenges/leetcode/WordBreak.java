@@ -3,7 +3,9 @@ package challenges.leetcode;
 import challenges.AbstractCustomTestRunner;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -23,7 +25,7 @@ public class WordBreak extends AbstractCustomTestRunner {
 	
 	private static WordBreak _instance = new WordBreak();
 
-	public boolean wordBreak(String s, List<String> wordDict) {
+	public boolean _wordBreak(String s, List<String> wordDict) {
 		boolean [] f = new boolean [s.length() + 1];
 		f [0] = true;
 		for (int idx = 0; idx < s.length(); idx ++) {
@@ -33,6 +35,20 @@ public class WordBreak extends AbstractCustomTestRunner {
 						f [idx + word.length()] = true;
 		}
 		return f [s.length()];
+	}
+
+	public boolean _wordBreakOther(String s, List<String> wordDict) {
+		Set<String> set = new HashSet<>(wordDict);
+		boolean[] dp = new boolean [s.length() + 1];
+		for (int idx = 0; idx < s.length(); idx ++) {
+			if (idx == 0 || dp [idx]) {
+				for (int j = idx; j < s.length(); j ++) {
+					if (set.contains(s.substring(idx, j + 1)))
+						dp [j + 1] = true;
+				}
+			}
+		}
+		return dp [s.length()];
 	}
 
 	// driver method
