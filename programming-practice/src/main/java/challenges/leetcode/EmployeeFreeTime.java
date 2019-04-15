@@ -90,6 +90,7 @@ public class EmployeeFreeTime extends AbstractCustomTestRunner {
                 int prev = mid, next = mid;
                 while (prev - 1 >= 0 && list.get(prev - 1).end > i.start) prev --;
                 while (next + 1 < list.size() && list.get(next + 1).start < i.end) next ++;
+
                 Interval overlapped = new Interval(
                         Math.min(i.start, list.get(prev).start),
                         Math.max(i.end, list.get(next).end)
