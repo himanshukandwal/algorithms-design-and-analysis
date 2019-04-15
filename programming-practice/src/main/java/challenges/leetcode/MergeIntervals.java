@@ -1,9 +1,6 @@
 package challenges.leetcode;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import challenges.AbstractCustomTestRunner;
 
@@ -21,21 +18,15 @@ import challenges.AbstractCustomTestRunner;
 public class MergeIntervals extends AbstractCustomTestRunner {
 
 	public static class Interval {
-		int start;
-		int end;
+		int start, end;
 
 		public Interval() { start = 0; end = 0; }
 		public Interval(int s, int e) { start = s; end = e; }
-		public String toString() { return "(" + start + ":" + end + ")"; }
 	}
 	
-	public List<Interval> merge(List<Interval> intervals) {
+	public List<Interval> _merge(List<Interval> intervals) {
         LinkedList<Interval> ans = new LinkedList<>();
-        Collections.sort(intervals, new Comparator<Interval> () {
-           public int compare (Interval i1, Interval i2) {
-               return i1.end - i2.end;
-           } 
-        });
+        Collections.sort(intervals, (a, b) -> a.end - b.end);
         
         for (Interval i : intervals) {
             if (ans.size() == 0) ans.offer (i);
@@ -53,6 +44,39 @@ public class MergeIntervals extends AbstractCustomTestRunner {
             }
         }
         return ans;
+    }
+
+    public List<Interval> _mergeFaster(List<Interval> intervals) {
+        List<Interval> ans = new ArrayList<>();
+        for (Interval interval : intervals)
+            adjustInterval (ans, interval);
+        return ans;
+    }
+
+    private void adjustInterval(List<Interval> list, Interval i) {
+        int l = 0, r = list.size() - 1;
+        while (l <= r) {
+            int mid = l + (r - l)/2;
+            Interval m = list.get (mid);
+            if (m.start <= i.start && m.end >= i.end) return;
+            if (m.start > i.end) r = mid - 1;
+            else if (m.end < i.start) l = mid + 1;
+            else {
+                int prev = mid, next = mid;
+                while (prev - 1 >= 0 && list.get(prev - 1).end >= i.start) prev --;
+                while (next + 1 < list.size() && list.get(next + 1).start <= i.end) next ++;
+                Interval overlapped = new Interval (
+                        Math.min (list.get(prev).start, i.start),
+                        Math.max (list.get(next).end, i.end)
+                );
+                int size = next - prev + 1;
+                while (size -- > 0) list.remove (prev);
+                list.add (prev, overlapped);
+                return;
+            }
+        }
+        if (l == list.size()) list.add (i);
+        else list.add(l, i);
     }
 	
 }
