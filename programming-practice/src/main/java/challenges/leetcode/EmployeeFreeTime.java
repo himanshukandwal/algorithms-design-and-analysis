@@ -106,6 +106,51 @@ public class EmployeeFreeTime extends AbstractCustomTestRunner {
         else list.add (l, i);
     }
 
+    /**
+     * another variation of addSchedule method
+     *
+     * We don't need to create a list to remove, we can just remove the elements of size (next - prev + 1) times, as we need to clear prev and next both
+     * inclusively. Then later we can add to the prev location itself. (as it shifts the arrays towards the left)
+     * Example:
+     *      prev = 1, next = 3, list = [1, 2, 3, 4, 5, 6]
+     *      size = 3 - 1 + 1 = 3
+     *      index :         0  1  2  3  4  5
+     *      itr 1:  list = [1, 3, 4, 5, 6]      [prev = 1]
+     *      itr 2:  list = [1, 4, 5, 6]         [prev = 1]
+     *      itr 3:  list = [1, 5, 6]            [prev = 1]
+     *
+     *      value to insert (overlapped variable) say : 7
+     *      itr 3:  list = [1, 7, 5, 6]         [prev = 1]
+     *
+     * Hence, this is how we cleared the range [1 - 3], and inserted a new element at index 1.
+     */
+    private void addScheduleAnother (List<Interval> list, Interval i) {
+        int l = 0, r = list.size() - 1;
+        while (l <= r) {
+            int mid = l + (r - l)/2;
+            Interval m = list.get(mid);
+            if (m.start <= i.start && m.end >= i.end) return;
+            if (m.start > i.end) r = mid - 1;
+            else if (m.end < i.start) l = mid + 1;
+            else {
+                int prev = mid, next = mid;
+                while (prev - 1 >= 0 && list.get(prev - 1).end > i.start) prev --;
+                while (next + 1 < list.size() && list.get(next + 1).start < i.end) next ++;
+
+                Interval overlapped = new Interval (
+                        Math.min(list.get(prev).start, i.start),
+                        Math.max(list.get(next).end, i.end)
+                );
+                int size = next - prev + 1;
+                while (size -- > 0) list.remove (prev);
+                list.add(prev, overlapped);
+                return;
+            }
+        }
+        if (l == list.size()) list.add (i);
+        else list.add(l, i);
+    }
+
     // driver method
     public static void main(String[] args) {
         _instance.runTest(
