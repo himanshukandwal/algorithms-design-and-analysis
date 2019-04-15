@@ -3,6 +3,7 @@ package challenges.leetcode;
 import challenges.AbstractCustomTestRunner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -179,6 +180,29 @@ public class EmployeeFreeTime extends AbstractCustomTestRunner {
                 ),
                 asList(fromString("11:12"), fromString("21:23"), fromString("29:30"), fromString("62:69"), fromString("73:76"))
         );
+    }
+
+    // shorter solution. (slow perf)
+    public List<Interval> _employeeFreeTimeShorter(List<List<Interval>> schedule) {
+        List<Interval> ans = new ArrayList<>();
+        List<Interval> timeline = new ArrayList<>();
+        for (List<Interval> s : schedule) timeline.addAll(s);
+
+        Collections.sort(timeline, (a, b) -> a.start - b.start);
+
+        Interval t = null;
+        for (int idx = 0; idx < timeline.size(); idx ++) {
+            Interval curr = timeline.get(idx);
+
+            if (t == null) t = curr;
+            else {
+                if (t.end < curr.start) {
+                    ans.add (new Interval(t.end, curr.start));
+                    t = curr;
+                } else t.end = Math.max (t.end, curr.end);
+            }
+        }
+        return ans;
     }
 
     public void runTest(final List<List<Interval>> schedule, final List<Interval> expectedOutput) {
