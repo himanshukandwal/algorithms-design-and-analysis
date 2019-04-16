@@ -1,7 +1,6 @@
 package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
-import com.google.common.collect.Collections2;
 
 import java.util.*;
 
@@ -45,6 +44,8 @@ public class WordLadderII extends AbstractCustomTestRunner {
 
     private static WordLadderII _instance = new WordLadderII();
 
+    // https://efficientcodeblog.wordpress.com/2017/12/13/bidirectional-search-two-end-bfs/
+    // https://www.youtube.com/watch?v=CHvQ3q_gJ7E
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> ans = new ArrayList<>();
         Set<String> words = new HashSet<>(), set1 = new HashSet<>(), set2 = new HashSet<>();
