@@ -46,6 +46,7 @@ public class WordLadderII extends AbstractCustomTestRunner {
 
     // https://efficientcodeblog.wordpress.com/2017/12/13/bidirectional-search-two-end-bfs/
     // https://www.youtube.com/watch?v=CHvQ3q_gJ7E
+    // https://stackoverflow.com/questions/10995699/how-do-you-use-a-bidirectional-bfs-to-find-the-shortest-path
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> ans = new ArrayList<>();
         Set<String> words = new HashSet<>(), set1 = new HashSet<>(), set2 = new HashSet<>();
