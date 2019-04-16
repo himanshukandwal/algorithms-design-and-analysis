@@ -59,14 +59,14 @@ public class WordLadderII extends AbstractCustomTestRunner {
         build.add (beginWord);
         Map<String, List<String>> map = new HashMap<>();
 
-        bfs (ans, map, set1, set2, words, true);
+        bfs (map, set1, set2, words, true);
         dfs (ans, build, map, beginWord, endWord);
         return ans;
     }
 
-    private void bfs (List<List<String>> ans, Map<String, List<String>> map, Set<String> set1, Set<String> set2, Set<String> words, boolean isForward) {
+    private void bfs (Map<String, List<String>> map, Set<String> set1, Set<String> set2, Set<String> words, boolean isForward) {
         if (set1.isEmpty ()) return;
-        if (set1.size () > set2.size()) { bfs (ans, map, set2, set1, words, !isForward); return; }
+        if (set1.size () > set2.size()) { bfs (map, set2, set1, words, !isForward); return; }
         words.removeAll (set1);
         words.removeAll (set2);
 
@@ -88,7 +88,7 @@ public class WordLadderII extends AbstractCustomTestRunner {
                 }
             }
         }
-        if (!merged) bfs (ans, map, set2, next, words, !isForward);
+        if (!merged) bfs (map, set2, next, words, !isForward);
     }
 
     private void dfs (List<List<String>> ans, List<String> build, Map<String, List<String>> map, String start, String end) {
