@@ -2,6 +2,10 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.List;
+
+import static com.google.common.truth.Truth.assertThat;
+
 /**
  * 678. Valid Parenthesis String
  *
@@ -33,6 +37,8 @@ import challenges.AbstractCustomTestRunner;
  * @author Hxkandwal
  */
 public class ValidParenthesisString extends AbstractCustomTestRunner {
+
+    private static ValidParenthesisString _instance = new ValidParenthesisString();
 
     // greedy approach
     public boolean _checkValidString(String s) {
@@ -73,12 +79,12 @@ public class ValidParenthesisString extends AbstractCustomTestRunner {
             // starting, ending point
             for (int idx = 0; idx + len < n; idx ++) {
                 // fill internally all combinations O(n)
-                if (s.charAt(idx) == '*' && dp [idx + 1][idx + len])
+                if (s.charAt(idx) == '*' && dp [idx + 1][idx + len])            // * behaving as ''
                     dp [idx][idx + len] = true;
-                else if (s.charAt(idx) == '*' || s.charAt(idx) == '(') {
+                else if (s.charAt(idx) == '*' || s.charAt(idx) == '(') {        // * behaving as '(' (starting the parenthesis)
                     for (int k = idx + 1; k <= idx + len; k ++) {
-                        if ((s.charAt(k) == '*' || s.charAt(k) == ')') &&
-                                (k == idx + 1 || dp [idx + 1][k - 1]) &&
+                        if ((s.charAt(k) == '*' || s.charAt(k) == ')') &&       // * behaving as ')' (completing the parenthesis)
+                                (k == idx + 1 || dp [idx + 1][k - 1]) &&        // --> this checks the ()() cases -> adjacent ones.
                                 (k == idx + len || dp [k + 1][idx + len])) {
                             dp [idx][idx + len] = true;
                         }
@@ -89,4 +95,17 @@ public class ValidParenthesisString extends AbstractCustomTestRunner {
         return dp [0][n - 1];
     }
 
+    // driver method
+    public static void main(String[] args) {
+        _instance.runTest("(**)(*", true);
+    }
+
+    public void runTest(final String s, final Boolean expectedOutput) {
+        List<Object> answers = runAll(getClass(), new Object[] { s });
+
+        for (Object answer : answers)
+            assertThat((Boolean) answer).isEqualTo(expectedOutput);
+
+        System.out.println("ok!");
+    }
 }
