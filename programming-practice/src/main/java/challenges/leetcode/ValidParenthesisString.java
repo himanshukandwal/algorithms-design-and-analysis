@@ -67,6 +67,7 @@ public class ValidParenthesisString extends AbstractCustomTestRunner {
          * considering all possible combinations)
          */
 
+        // substring dp example
         // bottom up dp
         for (int len = 2; len < n; len ++) {
             // starting, ending point
