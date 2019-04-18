@@ -1,11 +1,11 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.Arrays;
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 621. Task Scheduler
@@ -35,15 +35,13 @@ public class TaskScheduler extends AbstractCustomTestRunner {
 	private static TaskScheduler _instance = new TaskScheduler();
 
 	public int _leastIntervalMath(char[] tasks, int n) {
-		int [] map = new int[26];
-		for (char ch : tasks) map [ch - 'A'] ++;
-		
-		int max = 0;
-		for (int val : map) max = Math.max (max, val);
+		int [] arr = new int [26];
+		for (char c : tasks) arr [c - 'A'] ++;
+		Arrays.sort (arr);
 
-		int maxfrequency = 0;
-		for (int i : map)  if (i == max) maxfrequency ++;
-		return Math.max (tasks.length, (max - 1) * (n + 1) + maxfrequency);
+		int i = 25;
+		while (i >= 0 && arr [i] == arr [25]) i --;
+		return Math.max(tasks.length, (arr [25] - 1) * (n + 1) + (25 - i));
     }
 	
 	public int _leastIntervalBrilliant (char[] tasks, int n) {
