@@ -36,16 +36,22 @@ import challenges.AbstractCustomTestRunner;
 public class VerifyingAnAlienDictionary extends AbstractCustomTestRunner {
 
     public boolean _isAlienSorted(String[] words, String order) {
-        int [] meta = new int [256];
-        for (int idx = 0; idx < order.length(); idx ++) meta [order.charAt(idx)] = idx + 1;
-        for (int idx = 0; idx < words.length; idx ++) {
-            inner: for (int jdx = idx - 1; jdx >= 0; jdx --) {
-                for (int i = 0; i < Math.min(words [idx].length(), words [jdx].length()); i ++) {
-                    if (meta [words[idx].charAt(i)] < meta [words[jdx].charAt(i)]) return false;
-                    else if (meta [words[idx].charAt(i)] > meta [words[jdx].charAt(i)]) continue inner;
+        int[] arr = new int [26];
+        for (int idx = 0; idx < order.length(); idx ++)
+            arr [order.charAt(idx) - 'a'] = idx + 1;
+
+        for (int idx = 1; idx < words.length; idx ++) {
+            String a = words [idx - 1], b = words [idx];
+            int ai = 0, bi = 0;
+            while (ai < a.length() && bi < b.length()) {
+                if (a.charAt(ai) == b.charAt(bi)) {
+                    ai ++; bi ++;
                 }
-                if (words [idx].length() < words [jdx].length()) return false;
+                else if (arr [a.charAt(ai) - 'a'] > arr [b.charAt(bi) - 'a'])
+                    return false;
+                else break;
             }
+            if (ai < a.length() && bi == b.length()) return false;
         }
         return true;
     }
