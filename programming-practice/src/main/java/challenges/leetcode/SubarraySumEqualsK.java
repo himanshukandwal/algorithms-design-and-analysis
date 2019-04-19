@@ -1,9 +1,9 @@
 package challenges.leetcode;
 
+import challenges.AbstractCustomTestRunner;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import challenges.AbstractCustomTestRunner;
 
 /**
  * 560. Subarray Sum Equals K
@@ -23,16 +23,18 @@ import challenges.AbstractCustomTestRunner;
  */
 public class SubarraySumEqualsK extends AbstractCustomTestRunner {
 
-	public int subarraySum(int[] nums, int k) {
+	public int _subarraySum(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         map.put (0, 1);
-        int count = 0;
-        for (int idx = 0, sum = 0; idx < nums.length; idx ++) {
+        int ans = 0, sum = 0;
+        for (int idx = 0; idx < nums.length; idx ++) {
             sum += nums [idx];
-            count += map.getOrDefault (sum - k, 0);
-            map.put (sum, map.getOrDefault (sum, 0) + 1);
+            if (!map.containsKey(sum)) map.put(sum, 0);
+
+            ans += map.getOrDefault(sum - k, 0);
+            map.put(sum, map.get(sum) + 1);
         }
-        return count;
+        return ans;
     }
 	
 }
