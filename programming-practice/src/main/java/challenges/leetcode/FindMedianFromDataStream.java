@@ -1,8 +1,8 @@
 package challenges.leetcode;
 
-import java.util.PriorityQueue;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.PriorityQueue;
 
 /**
  * 295. Find Median from Data Stream
@@ -31,8 +31,8 @@ import challenges.AbstractCustomTestRunner;
  */
 public class FindMedianFromDataStream extends AbstractCustomTestRunner {
 
-	PriorityQueue<Long> large = new PriorityQueue<>();
-	PriorityQueue<Long> small = new PriorityQueue<>();
+	PriorityQueue<Long> min = new PriorityQueue<>();
+	PriorityQueue<Long> max = new PriorityQueue<>();
 
 	/** initialize your data structure here. */
 	public FindMedianFromDataStream() {
@@ -40,14 +40,14 @@ public class FindMedianFromDataStream extends AbstractCustomTestRunner {
 	}
 
 	public void addNum(int num) {
-		large.offer((long) num);
-		small.offer(-large.poll());
-		if (large.size() < small.size())
-			large.offer(-small.poll());
+		min.offer((long) num);
+		max.offer(-min.poll());
+		if (min.size() < max.size())
+			min.offer(-max.poll());
 	}
 
 	public double findMedian() {
-		return large.size() > small.size() ? large.peek() : (large.peek() - small.peek()) / 2.0;
+		return min.size() > max.size() ? min.peek() : (min.peek() - max.peek()) / 2.0;
 	}
 
 }
