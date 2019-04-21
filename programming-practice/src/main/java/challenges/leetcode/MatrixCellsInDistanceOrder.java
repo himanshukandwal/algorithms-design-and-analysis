@@ -2,6 +2,7 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -68,5 +69,23 @@ public class MatrixCellsInDistanceOrder extends AbstractCustomTestRunner {
             distance ++;
         }
         return ans;
+    }
+
+    // uwi's solution
+    public int[][] _allCellsDistOrderBetter(int R, int C, int r0, int c0) {
+        int[][] ret = new int [R * C][];
+        int p = 0;
+        for (int i = 0; i < R; i ++) {
+            for (int j = 0; j < C; j ++) {
+                ret [p ++] = new int [] { i, j, Math.abs(r0 - i) + Math.abs(c0 - j) };
+            }
+        }
+
+        Arrays.sort(ret, (a, b) -> a[2] - b[2]);
+
+        for (int i = 0; i < R * C; i ++)
+            ret [i] = Arrays.copyOf(ret[i], 2);
+
+        return ret;
     }
 }
