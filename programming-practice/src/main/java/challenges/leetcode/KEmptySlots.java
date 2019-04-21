@@ -40,7 +40,7 @@ public class KEmptySlots extends AbstractCustomTestRunner {
         public Node (int val) { this.val = val; }
     }
 
-    public int kEmptySlots(int[] flowers, int k) {
+    public int _kEmptySlots(int[] flowers, int k) {
         Node root = null;
 
         for (int idx = 0; idx < flowers.length; idx ++) {
@@ -69,7 +69,7 @@ public class KEmptySlots extends AbstractCustomTestRunner {
     }
 
     // Better approach
-    public int kEmptySlotsBetter(int[] flowers, int k) {
+    public int _kEmptySlotsBetter(int[] flowers, int k) {
         int[] days = new int[flowers.length];
         for (int i = 0; i < flowers.length; i++) {
             days[flowers[i] - 1] = i + 1;
@@ -92,5 +92,53 @@ public class KEmptySlots extends AbstractCustomTestRunner {
         }
 
         return ans < Integer.MAX_VALUE ? ans : -1;
+    }
+
+    // using counting (fenwick tree)
+    public class FenwickTree {
+        int [] arr;
+        int size;
+
+        public FenwickTree(int size) {
+            this.size = size + 1;
+            this.arr = new int [this.size];
+        }
+
+        public boolean isPresent (int pos) {
+            return count (pos) - count (pos - 1) != 0;
+        }
+
+        public void add (int pos) {
+            while (pos < size) {
+                arr [pos] += 1;
+                pos += (pos & (~pos + 1));
+            }
+        }
+
+        public int count (int pos) {
+            int sum = 0;
+            while (pos > 0) {
+                sum += arr [pos];
+                pos -= (pos & (~pos + 1));
+            }
+            return sum;
+        }
+
+        public int count (int from, int to) {
+            return count (to) - count (from - 1);
+        }
+    }
+
+    public int _kEmptySlotsFenwickTree(int[] flowers, int k) {
+        int n = flowers.length;
+        FenwickTree ft = new FenwickTree(n);
+
+        for (int idx = 0; idx < n; idx ++) {
+            int pos = flowers [idx];
+            if (pos - k - 1 > 0 && ft.isPresent(pos - k - 1) && ft.count(pos - k, pos) == 0) return idx + 1;
+            if (pos + k + 1 <= n && ft.isPresent(pos + k + 1) && ft.count(pos, pos + k) == 0) return idx + 1;
+            ft.add (pos);
+        }
+        return -1;
     }
 }
