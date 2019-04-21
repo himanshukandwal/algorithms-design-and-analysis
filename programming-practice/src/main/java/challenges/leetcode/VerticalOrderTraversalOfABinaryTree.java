@@ -94,7 +94,7 @@ public class VerticalOrderTraversalOfABinaryTree extends AbstractCustomTestRunne
         List<Location> locations = new ArrayList<>();
 
         dfs(locations, root, 0, 0);
-        Collections.sort(V);
+        Collections.sort(locations);
 
         List<List<Integer>> ans = new ArrayList();
         ans.add(new ArrayList<Integer>());
