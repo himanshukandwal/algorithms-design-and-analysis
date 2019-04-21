@@ -40,4 +40,20 @@ public class TwoCityScheduling extends AbstractCustomTestRunner {
         }
         return ans;
     }
+
+    public int _twoCitySchedCostBetter(int[][] costs) {
+        int base = 0;
+        int n = costs.length;
+        int[] cs = new int[n];
+        int p = 0;
+        for(int[] c : costs){
+            base += c[0];
+            cs[p++] = c[1] - c[0];
+        }
+        Arrays.sort(cs);
+        for(int i = 0;i < n/2;i++){
+            base += cs[i];
+        }
+        return base;
+    }
 }
