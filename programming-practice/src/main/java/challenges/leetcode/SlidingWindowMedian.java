@@ -70,4 +70,57 @@ public class SlidingWindowMedian extends AbstractCustomTestRunner {
             return maxHeap.remove(n) || minHeap.remove(n);
         }
     }
+
+    // other solution (faster)
+    class Node {
+        int val, leftCount, dup;
+        Node left, right;
+
+        public Node (int val) {
+            this.val = val;
+            this.dup = 1;
+        }
+    }
+
+    private Node add (Node n, int val) {
+        if (n == null) return new Node (val);
+
+        if (n.val > val) {
+            n.leftCount ++;
+            n.left = add (n.left, val);
+        } else if (n.val < val) n.right = add (n.right, val);
+        else n.dup ++;
+        return n;
+    }
+
+    private void remove (Node n, int val) {
+        if (n.val == val) n.dup --;
+        else if (n.val > val) {
+            n.leftCount --;
+            remove(n.left, val);
+        } else remove(n.right, val);
+    }
+
+    private int queryKth(Node n, int k) {
+        if (k > n.leftCount && k <= n.leftCount + n.dup) return n.val;
+        else if (k <= n.leftCount) return queryKth(n.left, k);
+        else return queryKth(n.right, k - n.leftCount - n.dup);
+    }
+
+    public double[] _medianSlidingWindowFaster(int[] nums, int k) {
+        Node root = null;
+        double[] ans = new double[nums.length - k + 1];
+        for (int idx = 0; idx < nums.length; idx ++) {
+            root = add (root, nums [idx]);
+
+            if (idx >= k) remove (root, nums [idx - k]);
+
+            if (idx + 1 - k >= 0) {
+                ans [idx + 1 - k] = (k % 2 != 0) ?
+                        queryKth (root, k/2 + 1) :
+                        (queryKth (root, k/2) * 1l + queryKth (root, k/2 + 1))/2.0;
+            }
+        }
+        return ans;
+    }
 }
