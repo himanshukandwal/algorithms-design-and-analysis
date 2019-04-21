@@ -2,6 +2,10 @@ package challenges.leetcode;
 
 import challenges.AbstractCustomTestRunner;
 
+import java.util.List;
+
+import static com.google.common.truth.Truth.assertThat;
+
 /**
  * 683. K Empty Slots
  *
@@ -33,6 +37,8 @@ import challenges.AbstractCustomTestRunner;
  * @author hxkandwal
  */
 public class KEmptySlots extends AbstractCustomTestRunner {
+
+    private static KEmptySlots _instance = new KEmptySlots();
 
     class Node {
         public int val;
@@ -72,11 +78,11 @@ public class KEmptySlots extends AbstractCustomTestRunner {
     public int _kEmptySlotsBetter(int[] flowers, int k) {
         int[] days = new int[flowers.length];
         for (int i = 0; i < flowers.length; i++) {
-            days[flowers[i] - 1] = i + 1;
+            days[flowers[i] - 1] = i + 1;               // similar to our initial approach of using sorted Integer[] indexes array.
         }
 
         int ans = Integer.MAX_VALUE;
-        int left = 0, right = k+1;
+        int left = 0, right = k+1;      // sliding window boundaries [l, k + 1] and search between [l + 1, k]
 
         search: while (right < days.length) {
             for (int i = left+1; i < right; ++i) {
@@ -140,5 +146,19 @@ public class KEmptySlots extends AbstractCustomTestRunner {
             ft.add (pos);
         }
         return -1;
+    }
+
+    // driver method
+    public static void main(String[] args) {
+        _instance.runTest(new int [] { 1, 3, 2 }, 1, 2);
+    }
+
+    public void runTest(final int [] flowers, final int k, final int expectedOutput) {
+        List<Object> answers = runAll(getClass(), new Object[] { flowers, k });
+
+        for (Object answer : answers)
+            assertThat((Integer) answer).isEqualTo(expectedOutput);
+
+        System.out.println("ok!");
     }
 }
