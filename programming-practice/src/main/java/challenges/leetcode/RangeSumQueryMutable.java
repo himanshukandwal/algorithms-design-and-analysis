@@ -107,6 +107,11 @@ public class RangeSumQueryMutable extends AbstractCustomTestRunner {
             if (l == r)
                 return IntStream.rangeClosed(i, j).map (idx -> nums [idx]).sum();
 
+            // Start-points of the blocks:  0 * size, 1 * size, 2 * size, ......, i * size.
+            // As l is in middle of a block so, to manually computed the sum it should be less than starting of next block. i.e. (l + 1) * size
+            //          [..., l * size --- l ---- , (l + 1) * size ---- ...]
+            // same for r, the beginning of block, where r is in the middle, starts from r * size. so we should manually compute sum from  r * size - to - r
+            //          [..., r * size --- r ---- , (r + 1) * size ---- ...]
             int ans = 0;
             for (int idx = i; idx < (l + 1) * size; idx ++) ans += nums [idx];
             for (int idx = l + 1; idx < r; idx ++) ans += arr [idx];
