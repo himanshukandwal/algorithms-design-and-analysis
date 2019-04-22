@@ -33,6 +33,7 @@ import challenges.AbstractCustomTestRunner;
  */
 public class MaxAreaOfIsland extends AbstractCustomTestRunner {
 
+    // better do it using boolean[][] seen array, so that we don't change the provided input (read-only)
     public int _maxAreaOfIsland(int[][] grid) {
         int ans = 0;
         for (int r = 0; r < grid.length; r ++)
