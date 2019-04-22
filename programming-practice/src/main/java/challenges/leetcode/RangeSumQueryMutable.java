@@ -81,78 +81,78 @@ public class RangeSumQueryMutable extends AbstractCustomTestRunner {
     // Using Square-root decomposition.
     class NumArraySqrt {
 
-        private int len;
-        private int [] b;
-        private int [] nums;
+        int [] arr;
+        int [] nums;
+        int size;
 
         public NumArraySqrt(int[] nums) {
-            this.nums = nums;
-            double sqrt = Math.sqrt (nums.length);
-            this.len = (int) Math.ceil (nums.length / sqrt);
-            this.b = new int [len];
+            int len = nums.length;
+            this.size = (int) Math.ceil(Math.sqrt(len));
 
-            for (int idx = 0; idx < nums.length; idx ++) b [idx / len] += nums [idx];
+            this.nums = nums;
+            this.arr = new int [size];
+
+            for (int idx = 0; idx < len; idx ++) {
+                arr [idx/size] += nums [idx];
+            }
         }
 
         public void update(int i, int val) {
-            b [i / len] += (-nums [i] + val);
+            arr [i / size] += (-nums [i] + val);
             nums [i] = val;
         }
 
         public int sumRange(int i, int j) {
-            int start = i / len, end = j / len;
-            if (start == end)
+            int l = i / size, r = j / size;
+            if (l == r)
                 return IntStream.rangeClosed(i, j).map (idx -> nums [idx]).sum();
-            int sum = 0;
-            for (int k = i; k <= (start + 1) * len - 1; k ++) sum += nums [k];
-            for (int k = start + 1; k <= end - 1; k ++) sum += b [k];
-            for (int k = end * len ; k <= j; k ++) sum += nums [k];
-            return sum;
+
+            int ans = 0;
+            for (int idx = i; idx < (l + 1) * size; idx ++) ans += nums [idx];
+            for (int idx = l + 1; idx < r; idx ++) ans += arr [idx];
+            for (int idx = r * size; idx <= j; idx ++) ans += nums [idx];
+            return ans;
         }
     }
 
     // Using Segment tree.
-    class NumArraySegmentTree {
+    public class SegmentTree {
+        int [] arr;
+        int size, len;
 
-        private int [] tree;
-        private int len;
-
-        public NumArraySegmentTree(int[] nums) {
+        public SegmentTree(int[] nums) {
             this.len = nums.length;
-            tree = new int [2 * len];
-            for (int idx = 0, j = len; idx < len; idx ++, j ++) tree [j]= nums [idx];
+            this.size = 2 * len;
+            this.arr = new int [size];
+
+            for (int idx = len; idx < size; idx ++) arr [idx] = nums [idx - len];
 
             for (int idx = len - 1; idx > 0; idx --)
-                tree [idx] = tree [2 * idx] + tree [2 * idx + 1];
+                arr [idx] = arr [2 * idx] +  arr [2 * idx + 1];
         }
 
-        public void update(int i, int val) {
-            i += len;
-            tree [i] = val;
-            i /= 2;
-            while (i > 0) {
-                tree [i] = tree [2 * i] + tree [2 * i + 1];
-                i /= 2;
+        public void update (int pos, int val) {
+            pos += len;
+            arr [pos] = val;
+
+            pos /= 2;
+            while (pos > 0) {
+                arr [pos] = arr [2 * pos] + arr [2 * pos + 1];
+                pos /= 2;
             }
         }
 
-        public int sumRange(int i, int j) {
-            i += len;
-            j += len;
-            int sum = 0;
-            while (i <= j) {
-                if (i % 2 == 1) {
-                    sum += tree [i];
-                    i ++;
-                }
-                if (j % 2 == 0) {
-                    sum += tree [j];
-                    j --;
-                }
-                i /= 2;
-                j /= 2;
+        public int sum (int from, int to) {
+            from += len;
+            to += len;
+            int ans = 0;
+            while (from <= to) {
+                if (from % 2 != 0) ans += arr [from ++];
+                if (to % 2 == 0) ans += arr [to --];
+                from /= 2;
+                to /= 2;
             }
-            return sum;
+            return ans;
         }
     }
 }

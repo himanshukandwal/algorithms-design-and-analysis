@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author hxkandwal
  */
-public class NextClosestTime extends AbstractCustomTestRunner {
+public class RNextClosestTime extends AbstractCustomTestRunner {
 
     public String nextClosestTimeBetter(String time) {
         char[] arr = time.toCharArray();
