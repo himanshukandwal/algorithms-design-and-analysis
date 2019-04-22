@@ -30,6 +30,16 @@ import challenges.AbstractCustomTestRunner;
 public class GameOfLife extends AbstractCustomTestRunner {
 
 	/**
+	 * Using parallel bit space (next MSB), to get to next state.
+	 * while counting, we are anyways using last LSB (& 1), so we are safe that way.
+	 * Also, by default, all the cells are dying in next state.
+	 * as 1 -> 01  -> 01 >> 1 -> 0
+	 *    0 -> 00  -> 00 >> 1 -> 0
+	 *
+	 * So, we focus only on the scenario where next state is 1.
+	 * 00 -> 10
+	 * 01 -> 11
+	 *
 	 * To solve it in place, we use 2 bits to store 2 states:
 	 * 		[2nd bit, 1st bit] = [next state, current state]
 	 * 			- 00  dead (next) <- dead (current)
@@ -50,7 +60,7 @@ public class GameOfLife extends AbstractCustomTestRunner {
 	 * To get the current state, simply do : board[i][j] & 1
 	 * To get the next state, simply do : board[i][j] >> 1
 	 */
-	public void gameOfLife(int[][] board) {
+	public void _gameOfLife(int[][] board) {
 	    if (board == null || board.length == 0) return;
 	    int m = board.length, n = board[0].length;
 

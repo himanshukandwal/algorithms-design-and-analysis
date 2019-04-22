@@ -110,7 +110,7 @@ public class AddBoldTagInString extends AbstractCustomTestRunner {
                 char c = s.charAt(idx);
                 if (n.children [c] == null) break;
                 n = n.children [c];
-                if (n.terminal) ans = idx;
+                if (n.terminal) ans = idx;                  // don't break here, find the largest matching one.
             }
             return ans;
         }
