@@ -1,10 +1,10 @@
 package challenges.leetcode;
 
-import static com.google.common.truth.Truth.assertThat;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * 482. License Key Formatting
@@ -44,36 +44,11 @@ public class LicenseKeyFormatting extends AbstractCustomTestRunner {
 	private static LicenseKeyFormatting _instance = new LicenseKeyFormatting();
 
 	public String _licenseKeyFormattingOnePass(String S, int K) {
-		StringBuilder ans = new StringBuilder();
-		for (int idx = S.length() - 1, k = 0; idx >= 0; idx --) {
-			if (S.charAt(idx) == '-') continue;
-			ans.append(String.valueOf(S.charAt(idx)).toUpperCase());
-			k ++;
-			if (k % K == 0) ans.append('-');
+		StringBuilder sb = new StringBuilder(S.toUpperCase().replaceAll("-", ""));
+		for (int idx = sb.length() - 1, j = 1; idx >= 0; idx--, j++) {
+			if (j > 0 && j % K == 0 && idx != 0) sb.insert(idx, '-');
 		}
-		if (ans.length() > 0 && ans.charAt(ans.length() - 1) == '-') ans.deleteCharAt(ans.length() - 1);
-		return ans.reverse().toString();
-	}
-
-	public String _licenseKeyFormatting(String S, int K) {
-		StringBuilder ans = new StringBuilder();
-		for (int idx = 0; idx < S.length(); idx ++) if (S.charAt(idx) != '-') ans.append(S.charAt(idx));
-
-		int idx = ans.length();
-		while (idx >= 0) {
-			idx -= K;
-			if (idx >= 0) ans.insert(idx, '-');
-		}
-		if (ans.length() > 0 && ans.charAt(0) == '-') ans.deleteCharAt(0);
-		return ans.toString().toUpperCase();
-	}
-
-	public static String _licenseKeyFormatting2(String s, int k) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = s.length() - 1; i >= 0; i--)
-			if (s.charAt(i) != '-')
-				sb.append(sb.length() % (k + 1) == k ? '-' : "").append(s.charAt(i));
-		return sb.reverse().toString().toUpperCase();
+		return sb.toString();
 	}
 	 
 	// driver method
