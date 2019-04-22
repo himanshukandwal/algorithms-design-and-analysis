@@ -1,11 +1,8 @@
 package challenges.leetcode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import challenges.AbstractCustomTestRunner;
+
+import java.util.*;
 
 /**
  * 207. Course Schedule
@@ -39,7 +36,7 @@ public class CourseSchedule extends AbstractCustomTestRunner {
         public Node (int label) { this.label = label; }
     }
     
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    public boolean _canFinish(int numCourses, int[][] prerequisites) {
         Node [] nodes = new Node [numCourses];
         for (int idx = 0; idx < numCourses; idx ++) nodes [idx] = new Node (idx);
         for (int [] prerequisite : prerequisites) {
@@ -63,6 +60,36 @@ public class CourseSchedule extends AbstractCustomTestRunner {
             
         chained.remove (node);
         return node.seen = true;
+    }
+
+    // Iterative version of topological sort.
+    public boolean _canFinishIterative(int numCourses, int[][] prerequisites) {
+        int [] indeg = new int [numCourses];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int [] p : prerequisites) {
+            map.computeIfAbsent(p [0], k -> new ArrayList<>()).add (p [1]);
+            indeg [p [1]] ++;
+        }
+
+        // better way of doing topological sort (Iterative version)
+        Queue<Integer> queue = new LinkedList<>();
+        for (int idx = 0; idx < indeg.length; idx ++)
+            if (indeg [idx] == 0) queue.offer (idx);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size -- > 0) {
+                int courseId = queue.poll();
+
+                if (map.containsKey(courseId))
+                    for (int pre : map.get(courseId))
+                        if (-- indeg [pre] == 0) queue.offer (pre);
+
+                numCourses --; // all the elemets in the queue were already resolved.
+            }
+        }
+
+        return numCourses == 0;
     }
     
 }
