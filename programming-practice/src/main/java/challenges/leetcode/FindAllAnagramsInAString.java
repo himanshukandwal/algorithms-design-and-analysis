@@ -1,11 +1,11 @@
 package challenges.leetcode;
 
-import static org.junit.Assert.assertEquals;
+import challenges.AbstractCustomTestRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import challenges.AbstractCustomTestRunner;
+import static org.junit.Assert.assertEquals;
 
 /**
  * 438. Find All Anagrams in a String
@@ -63,6 +63,24 @@ public class FindAllAnagramsInAString extends AbstractCustomTestRunner {
 	    }
 	    
 	    return list;
+	}
+
+	public List<Integer> _findAnagrams3(String s, String p) {
+		List<Integer> ans = new ArrayList<>();
+		int [] arr = new int [256];
+		for (char c : p.toCharArray()) arr [c] ++;
+
+		int counter = 0;
+		for (int idx = 0, start = 0; idx < s.length(); idx ++) {
+			if (-- arr [s.charAt(idx)] >= 0) counter ++;
+
+			if (counter == p.length()) ans.add (start);
+
+			if (idx - start + 1 == p.length()) {
+				if (++ arr[s.charAt(start++)] > 0) counter --;
+			}
+		}
+		return ans;
 	}
 	
 	// driver method
