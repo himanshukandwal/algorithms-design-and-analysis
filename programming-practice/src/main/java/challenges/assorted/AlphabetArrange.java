@@ -8,6 +8,7 @@ import java.util.Scanner;
  * Alphabet Soup (Beginner/Novice)
  *
  * "eLEPhAnt" -> "AEehLnPt"
+ * "eLEPhAnttttttTTTTT" -> "AEehLnPTTTTTtttttt"
  */
 public class AlphabetArrange extends AbstractCustomTestRunner {
 
