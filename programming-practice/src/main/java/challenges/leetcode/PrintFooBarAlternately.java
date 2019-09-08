@@ -45,7 +45,7 @@ public class PrintFooBarAlternately extends AbstractCustomTestRunner {
     private Semaphore fooSemaphore;
     private Semaphore barSemaphore;
 
-    public FooBar(int n) {
+    public PrintFooBarAlternately(int n) {
         this.n = n;
         fooSemaphore = new Semaphore(1);
         barSemaphore = new Semaphore(0);
