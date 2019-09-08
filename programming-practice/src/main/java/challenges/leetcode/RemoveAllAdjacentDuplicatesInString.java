@@ -26,8 +26,8 @@ import java.util.Stack;
 public class RemoveAllAdjacentDuplicatesInString extends AbstractCustomTestRunner {
 
     public String _removeDuplicatesFastest(String S) {
-        char [] stack = S.toCharArray();
         int udx = 0;
+        char [] stack = S.toCharArray();
         for (int idx = 1; idx < stack.length; idx ++) {
             if (udx >= 0 && stack [udx] == stack [idx]) udx --;
             else stack [++ udx] = stack [idx];
