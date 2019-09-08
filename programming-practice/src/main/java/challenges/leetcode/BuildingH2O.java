@@ -40,26 +40,54 @@ import java.util.concurrent.Semaphore;
  */
 public class BuildingH2O extends AbstractCustomTestRunner {
 
-    private Semaphore hydrogenSemaphore;
-    private Semaphore oxygenSemaphore;
+    class H2OCheckRelease {
 
-    public BuildingH2O() {
-        hydrogenSemaphore = new Semaphore(2);
-        oxygenSemaphore = new Semaphore(0);
+        private Semaphore hydrogenSemaphore;
+        private Semaphore oxygenSemaphore;
+
+        public H2OCheckRelease() {
+            hydrogenSemaphore = new Semaphore(2);
+            oxygenSemaphore = new Semaphore(0);
+        }
+
+        public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
+            hydrogenSemaphore.acquire();
+            // releaseHydrogen.run() outputs "H". Do not change or remove this line.
+            releaseHydrogen.run();
+
+            if (hydrogenSemaphore.availablePermits() == 0) oxygenSemaphore.release();
+        }
+
+        public void oxygen(Runnable releaseOxygen) throws InterruptedException {
+            oxygenSemaphore.acquire();
+            // releaseOxygen.run() outputs "O". Do not change or remove this line.
+            releaseOxygen.run();
+            hydrogenSemaphore.release(2);
+        }
     }
 
-    public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
-        hydrogenSemaphore.acquire();
-        // releaseHydrogen.run() outputs "H". Do not change or remove this line.
-        releaseHydrogen.run();
+    class H2OMultiAcquireRelease {
 
-        if (hydrogenSemaphore.availablePermits() == 0) oxygenSemaphore.release();
-    }
+        private Semaphore hydrogenSemaphore;
+        private Semaphore oxygenSemaphore;
 
-    public void oxygen(Runnable releaseOxygen) throws InterruptedException {
-        oxygenSemaphore.acquire();
-        // releaseOxygen.run() outputs "O". Do not change or remove this line.
-        releaseOxygen.run();
-        hydrogenSemaphore.release(2);
+        public H2OMultiAcquireRelease() {
+            hydrogenSemaphore = new Semaphore(2);
+            oxygenSemaphore = new Semaphore(0);
+        }
+
+        public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
+            hydrogenSemaphore.acquire();
+            // releaseHydrogen.run() outputs "H". Do not change or remove this line.
+            releaseHydrogen.run();
+            oxygenSemaphore.release();
+        }
+
+        public void oxygen(Runnable releaseOxygen) throws InterruptedException {
+            oxygenSemaphore.acquire(2);
+            // releaseOxygen.run() outputs "O". Do not change or remove this line.
+            releaseOxygen.run();
+            hydrogenSemaphore.release(2);
+        }
     }
 }
