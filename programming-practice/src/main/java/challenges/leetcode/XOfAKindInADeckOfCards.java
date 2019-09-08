@@ -46,7 +46,7 @@ import java.util.Map;
  */
 public class XOfAKindInADeckOfCards extends AbstractCustomTestRunner {
 
-    public boolean hasGroupsSizeX(int[] deck) {
+    public boolean _hasGroupsSizeX(int[] deck) {
         if (deck == null || deck.length <= 1) return false;
         Map<Integer, Integer> map = new HashMap<>();
         for (int d : deck) map.put (d, map.getOrDefault(d, 0) + 1);
