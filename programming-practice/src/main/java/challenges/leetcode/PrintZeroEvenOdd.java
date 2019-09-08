@@ -61,7 +61,6 @@ public class PrintZeroEvenOdd extends AbstractCustomTestRunner {
                 return;
             }
 
-            System.out.println(idx);
             printNumber.accept(0);
 
             if (idx % 2 == 0) {
@@ -77,7 +76,6 @@ public class PrintZeroEvenOdd extends AbstractCustomTestRunner {
             evenSemaphore.acquire();
             if (idx == n) return;
             ++ idx;
-            System.out.println(idx);
             printNumber.accept(idx);
             zeroSemaphore.release();
         }
@@ -88,7 +86,6 @@ public class PrintZeroEvenOdd extends AbstractCustomTestRunner {
             oddSemaphore.acquire();
             if (idx == n) return;
             ++ idx;
-            System.out.println(idx);
             printNumber.accept(idx);
             zeroSemaphore.release();
         }
