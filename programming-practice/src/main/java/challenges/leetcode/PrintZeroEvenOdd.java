@@ -38,56 +38,104 @@ import java.util.function.IntConsumer;
  */
 public class PrintZeroEvenOdd extends AbstractCustomTestRunner {
 
-    private int n;
-    private volatile int idx = 0;
-    private Semaphore zeroSemaphore;
-    private Semaphore evenSemaphore;
-    private Semaphore oddSemaphore;
+    class ZeroEvenOddVolatile {
 
-    public PrintZeroEvenOdd (int n) {
-        this.n = n;
-        zeroSemaphore = new Semaphore(1);
-        evenSemaphore = new Semaphore(0);
-        oddSemaphore = new Semaphore(0);
-    }
+        private int n;
+        private volatile int idx = 0;
+        private Semaphore zeroSemaphore;
+        private Semaphore evenSemaphore;
+        private Semaphore oddSemaphore;
 
-    // printNumber.accept(x) outputs "x", where x is an integer.
-    public void zero(IntConsumer printNumber) throws InterruptedException {
-        while (true) {
-            zeroSemaphore.acquire();
-            if (idx == n) {
-                oddSemaphore.release();
-                evenSemaphore.release();
-                return;
+        public ZeroEvenOddVolatile(int n) {
+            this.n = n;
+            zeroSemaphore = new Semaphore(1);
+            evenSemaphore = new Semaphore(0);
+            oddSemaphore = new Semaphore(0);
+        }
+
+        // printNumber.accept(x) outputs "x", where x is an integer.
+        public void zero(IntConsumer printNumber) throws InterruptedException {
+            while (true) {
+                zeroSemaphore.acquire();
+                if (idx == n) {
+                    oddSemaphore.release();
+                    evenSemaphore.release();
+                    return;
+                }
+
+                printNumber.accept(0);
+
+                if (idx % 2 == 0) {
+                    oddSemaphore.release();
+                } else {
+                    evenSemaphore.release();
+                }
             }
+        }
 
-            printNumber.accept(0);
+        public void even(IntConsumer printNumber) throws InterruptedException {
+            while (true) {
+                evenSemaphore.acquire();
+                if (idx == n) return;
+                ++idx;
+                printNumber.accept(idx);
+                zeroSemaphore.release();
+            }
+        }
 
-            if (idx % 2 == 0) {
-                oddSemaphore.release();
-            } else {
-                evenSemaphore.release();
+        public void odd(IntConsumer printNumber) throws InterruptedException {
+            while (true) {
+                oddSemaphore.acquire();
+                if (idx == n) return;
+                ++idx;
+                printNumber.accept(idx);
+                zeroSemaphore.release();
             }
         }
     }
 
-    public void even(IntConsumer printNumber) throws InterruptedException {
-        while (true) {
-            evenSemaphore.acquire();
-            if (idx == n) return;
-            ++ idx;
-            printNumber.accept(idx);
-            zeroSemaphore.release();
-        }
-    }
+    class ZeroEvenOddSimple {
 
-    public void odd(IntConsumer printNumber) throws InterruptedException {
-        while (true) {
-            oddSemaphore.acquire();
-            if (idx == n) return;
-            ++ idx;
-            printNumber.accept(idx);
-            zeroSemaphore.release();
+        private int n;
+        private Semaphore zeroSemaphore;
+        private Semaphore evenSemaphore;
+        private Semaphore oddSemaphore;
+
+        public ZeroEvenOddSimple(int n) {
+            this.n = n;
+            zeroSemaphore = new Semaphore(1);
+            evenSemaphore = new Semaphore(0);
+            oddSemaphore = new Semaphore(0);
+        }
+
+        // printNumber.accept(x) outputs "x", where x is an integer.
+        public void zero(IntConsumer printNumber) throws InterruptedException {
+            for (int idx = 0; idx < n; idx ++) {
+                zeroSemaphore.acquire();
+                printNumber.accept(0);
+
+                if (idx % 2 == 0) {
+                    oddSemaphore.release();
+                } else {
+                    evenSemaphore.release();
+                }
+            }
+        }
+
+        public void even(IntConsumer printNumber) throws InterruptedException {
+            for (int idx = 2; idx <= n; idx += 2) {
+                evenSemaphore.acquire();
+                printNumber.accept(idx);
+                zeroSemaphore.release();
+            }
+        }
+
+        public void odd(IntConsumer printNumber) throws InterruptedException {
+            for (int idx = 1; idx <= n; idx += 2) {
+                oddSemaphore.acquire();
+                printNumber.accept(idx);
+                zeroSemaphore.release();
+            }
         }
     }
 }
