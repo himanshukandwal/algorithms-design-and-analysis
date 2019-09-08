@@ -47,19 +47,15 @@ import java.util.Map;
 public class XOfAKindInADeckOfCards extends AbstractCustomTestRunner {
 
     public boolean _hasGroupsSizeX(int[] deck) {
-        if (deck == null || deck.length <= 1) return false;
         Map<Integer, Integer> map = new HashMap<>();
         for (int d : deck) map.put (d, map.getOrDefault(d, 0) + 1);
-
         int gcd = -1;
         for (Integer v : map.values()) gcd = gcd < 0 ? v : gcd (gcd, v);
-        for (Integer v : map.values()) if (v % gcd != 0) return false;
         return gcd >= 2;
     }
 
     private int gcd (int a, int b) {
-        if (b == 0) return a;
-        return gcd (b, a % b);
+        return (b == 0) ? a : gcd (b, a % b);
     }
 
 }
