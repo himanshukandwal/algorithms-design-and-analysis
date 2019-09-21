@@ -13,6 +13,7 @@ import java.util.Map;
  * 
  * Example 1:
  * 		Input:	nums = [1,1,1], k = 2
+ * 	                 [0,1,2,3]
  * 		Output: 2
  * 
  * Note:

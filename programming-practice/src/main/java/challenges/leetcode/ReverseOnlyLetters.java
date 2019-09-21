@@ -29,20 +29,18 @@ import challenges.AbstractCustomTestRunner;
 public class ReverseOnlyLetters extends AbstractCustomTestRunner {
 
     public String _reverseOnlyLetters(String S) {
-        char [] arr = S.toCharArray();
-        int i = 0, j = arr.length - 1;
-        while (i < j) {
-            while (i < j && !Character.isLetter(arr [i])) i ++;
-            while (i < j && !Character.isLetter(arr [j])) j --;
-            if (i < j) {
-                char c = arr [i];
-                arr [i] = arr [j];
-                arr [j] = c;
-                i ++;
-                j --;
-            }
+        char[] ans = S.toCharArray();
+        int l = 0, r = ans.length - 1;
+        while (l < r) {
+            while (l < r && !Character.isLetter(ans [l])) l ++;
+            while (l < r && !Character.isLetter(ans [r])) r --;
+            char c = ans [l];
+            ans [l] = ans [r];
+            ans [r] = c;
+            l ++;
+            r --;
         }
-        return String.valueOf(arr);
+        return String.valueOf(ans);
     }
 
 }
